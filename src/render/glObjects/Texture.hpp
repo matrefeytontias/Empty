@@ -42,11 +42,6 @@ namespace render::gl
 	};
 
 	/**
-	 * Find dimensionality of texture based on its target.
-	 */
-	int dimensionsFromTarget(TextureTarget target);
-
-	/**
 	 * Internal formats that a texture can adopt. This is different
 	 * from the format of the pixel data that is fed to it.
 	 * `Dynamic` is not a real format and is only present for templating purposes.
@@ -217,20 +212,24 @@ namespace render::gl
 	 * General-purpose texture class. Does not map one-to-one with OpenGL texture objects, but holds a shared reference
 	 * to one. It is possible to instantiate textures with targets and formats both known and unknown at compile-time.
 	 */
-	template <TextureTarget target = TextureTarget::Dynamic, TextureFormat format = TextureFormat::Dynamic>
+	template <TextureTarget CTTarget = TextureTarget::Dynamic, TextureFormat CTFormat = TextureFormat::Dynamic>
 	struct Texture : public GLObject<TextureId>
 	{
-		template <typename = typename std::enable_if<target == TextureTarget::Dynamic && format == TextureFormat::Dynamic>::type>
+		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+			std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
 		Texture(TextureTarget target, TextureFormat format) : _target(target), _format(format) {}
 
-		template <typename = typename std::enable_if<target != TextureTarget::Dynamic && format == TextureFormat::Dynamic>::type>
-		Texture(TextureFormat format) : _target(target), _format(format) {}
+		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+			std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
+		Texture(TextureFormat format) : _target(t), _format(format) {}
 
-		template <typename = typename std::enable_if<target == TextureTarget::Dynamic && format != TextureFormat::Dynamic>::type>
-		Texture(TextureTarget target) : _target(target), _format(format) {}
+		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+			std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
+		Texture(TextureTarget target) : _target(target), _format(f) {}
 
-		template <typename = typename std::enable_if<target != TextureTarget::Dynamic && format != TextureFormat::Dynamic>::type>
-		Texture() : _target(target), _format(format) {}
+		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+			std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
+		Texture() : _target(t), _format(f) {}
 
 		/**
 		 * Binds the texture. This is necessary before any operation on the texture is performed.

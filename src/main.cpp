@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "render/glObjects/Texture.hpp"
 #include "utils/macros.h"
 #include "utils/utils.hpp"
 
@@ -22,6 +23,8 @@ void keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods
 void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
 {
 }
+
+using namespace render::gl;
 
 int _main(int, char *argv[])
 {
@@ -51,6 +54,11 @@ int _main(int, char *argv[])
     
     TRACE("Entering drawing loop");
     
+    Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
+    tex.setParameter<TextureParam::BaseLevel>(0);
+    auto p = tex.getParameter<TextureParam::MinFilter>();
+    TRACE("Texture has default min filter " << utils::value(p));
+
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

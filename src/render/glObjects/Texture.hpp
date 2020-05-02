@@ -126,18 +126,18 @@ namespace render::gl
 		SRGBComp = GL_COMPRESSED_SRGB,
 		SRGBAComp = GL_COMPRESSED_SRGB_ALPHA,
 	};
-	
+
 	/**
 	 * Represents each of the six faces of a cube map.
 	 */
 	enum struct CubeMapFace : GLenum
 	{
-		TextureCubeMapPlusX = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
-		TextureCubeMapMinusX = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-		TextureCubeMapPlusY = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
-		TextureCubeMapMinusY = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-		TextureCubeMapPlusZ = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
-		TextureCubeMapMinusZ = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+		PlusX = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		MinusX = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+		PlusY = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		MinusY = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+		PlusZ = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+		MinusZ = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
 	};
 
 	/**
@@ -194,7 +194,78 @@ namespace render::gl
 		UIntAAA2 = GL_UNSIGNED_INT_10_10_10_2,
 		UIntAAA2Rev = GL_UNSIGNED_INT_2_10_10_10_REV,
 	};
-	
+
+	enum struct TextureParam : GLenum
+	{
+		DepthStencilMode = GL_DEPTH_STENCIL_TEXTURE_MODE,
+		BaseLevel = GL_TEXTURE_BASE_LEVEL,
+		BorderColor = GL_TEXTURE_BORDER_COLOR,
+		CompareFunc = GL_TEXTURE_COMPARE_FUNC,
+		CompareMode = GL_TEXTURE_COMPARE_MODE,
+		LODBias = GL_TEXTURE_LOD_BIAS,
+		MinFilter = GL_TEXTURE_MIN_FILTER,
+		MagFilter = GL_TEXTURE_MAG_FILTER,
+		MinLOD = GL_TEXTURE_MIN_LOD,
+		MaxLOD = GL_TEXTURE_MAX_LOD,
+		MaxLevel = GL_TEXTURE_MAX_LEVEL,
+		SwizzleR = GL_TEXTURE_SWIZZLE_R,
+		SwizzleG = GL_TEXTURE_SWIZZLE_G,
+		SwizzleB = GL_TEXTURE_SWIZZLE_B,
+		SwizzleA = GL_TEXTURE_SWIZZLE_A,
+		SwizzleRGBA = GL_TEXTURE_SWIZZLE_RGBA,
+		WrapS = GL_TEXTURE_WRAP_S,
+		WrapT = GL_TEXTURE_WRAP_T,
+		WrapR = GL_TEXTURE_WRAP_R,
+		// Read-only parameters
+		ViewImmutableLevels = GL_TEXTURE_IMMUTABLE_LEVELS,
+		ViewMinLayer = GL_TEXTURE_VIEW_MIN_LAYER,
+		ViewNumLayers = GL_TEXTURE_VIEW_NUM_LAYERS,
+		ViewMinLevel = GL_TEXTURE_VIEW_MIN_LEVEL,
+		ViewNumLevels = GL_TEXTURE_VIEW_NUM_LEVELS,
+		ImageFormatCompatibilityType = GL_IMAGE_FORMAT_COMPATIBILITY_TYPE,
+		HasImmutableFormat = GL_TEXTURE_IMMUTABLE_FORMAT,
+	};
+
+	enum struct TextureParamValue : GLenum
+	{
+		Invalid = GL_INVALID_ENUM,
+		// DepthStencilMode
+		DepthMode = GL_DEPTH_COMPONENT,
+		StencilMode = GL_STENCIL_INDEX,
+		// CompareFunc
+		FuncLEqual = GL_LEQUAL,
+		FuncGEqual = GL_GEQUAL,
+		FuncLess = GL_LESS,
+		FuncGreater = GL_GREATER,
+		FuncEqual = GL_EQUAL,
+		FuncNotEqual = GL_NOTEQUAL,
+		FuncAlways = GL_ALWAYS,
+		FuncNever = GL_NEVER,
+		// CompareMode
+		CompareRefToTexture = GL_COMPARE_REF_TO_TEXTURE,
+		NoCompare = GL_NONE,
+		// Min & MagFilter
+		FilterNearest = GL_NEAREST,
+		FilterLinear = GL_LINEAR,
+		FilterNearestMipmapNearest = GL_NEAREST_MIPMAP_NEAREST,
+		FilterNearestMipmapLinear = GL_NEAREST_MIPMAP_LINEAR,
+		FilterLinearMipmapNearest = GL_LINEAR_MIPMAP_NEAREST,
+		FilterLinearMipmapLinear = GL_LINEAR_MIPMAP_LINEAR,
+		// Swizzling
+		SwizzleRed = GL_RED,
+		SwizzleGreen = GL_GREEN,
+		SwizzleBlue = GL_BLUE,
+		SwizzleAlpha = GL_ALPHA,
+		SwizzleZero = GL_ZERO,
+		SwizzleOne = GL_ONE,
+		// Wrapping
+		ClampToEdge = GL_CLAMP_TO_EDGE,
+		ClampToBorder = GL_CLAMP_TO_BORDER,
+		MirrorRepeat = GL_MIRRORED_REPEAT,
+		Repeat = GL_REPEAT,
+		MirrorClampToEdge = GL_MIRROR_CLAMP_TO_EDGE,
+	};
+
 	/**
 	 * This struct holds everything one needs to bind a texture. Useful in case
 	 * one wants to bind the texture without having access to the entire Texture object.
@@ -217,19 +288,19 @@ namespace render::gl
 	{
 		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
 			std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
-		Texture(TextureTarget target, TextureFormat format) : _target(target), _format(format) {}
+			Texture(TextureTarget target, TextureFormat format) : _target(target), _format(format) {}
 
 		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
 			std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
-		Texture(TextureFormat format) : _target(t), _format(format) {}
+			Texture(TextureFormat format) : _target(t), _format(format) {}
 
 		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
 			std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
-		Texture(TextureTarget target) : _target(target), _format(f) {}
+			Texture(TextureTarget target) : _target(target), _format(f) {}
 
 		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
 			std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
-		Texture() : _target(t), _format(f) {}
+			Texture() : _target(t), _format(f) {}
 
 		/**
 		 * Binds the texture. This is necessary before any operation on the texture is performed.
@@ -275,6 +346,87 @@ namespace render::gl
 		void uploadSubData(int level, int xoffset, int yoffset, int width, int height, PixelFormat format, PixelType type, const void* data) const;
 		void uploadSubData(CubeMapFace face, int level, int xoffset, int yoffset, int width, int height, PixelFormat format, PixelType type, const void* data) const;
 		void uploadSubData(int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, PixelFormat format, PixelType type, const void* data) const;
+
+		/**
+		 * Gets value of integer-valued texture parameters.
+		 */
+		template <TextureParam CTParam, std::enable_if_t<
+			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
+			|| CTParam == TextureParam::ViewMinLayer || CTParam == TextureParam::ViewNumLayers
+			|| CTParam == TextureParam::ViewMinLevel || CTParam == TextureParam::ViewNumLevels
+			|| CTParam == TextureParam::ViewImmutableLevels || CTParam == TextureParam::HasImmutableFormat
+			, int> = 0>
+			int getParameter() const
+		{
+			int p;
+			glGetTexParameteriv(utils::value(_target), utils::value(CTParam), &p);
+			return p;
+		}
+
+		/**
+		 * Gets value of symbolic-valued texture parameter.
+		 */
+		template <TextureParam CTParam, std::enable_if_t<
+			CTParam == TextureParam::DepthStencilMode
+			|| CTParam == TextureParam::CompareFunc || CTParam == TextureParam::CompareMode
+			|| CTParam == TextureParam::MinFilter || CTParam == TextureParam::MagFilter
+			|| CTParam == TextureParam::SwizzleR || CTParam == TextureParam::SwizzleG
+			|| CTParam == TextureParam::SwizzleB || CTParam == TextureParam::SwizzleA
+			|| CTParam == TextureParam::WrapS || CTParam == TextureParam::WrapT
+			|| CTParam == TextureParam::WrapR || CTParam == TextureParam::ImageFormatCompatibilityType
+			, int> = 0>
+			TextureParamValue getParameter() const
+		{
+			int p;
+			glGetTexParameteriv(utils::value(_target), utils::value(CTParam), &p);
+			return static_cast<TextureParamValue>(p);
+		}
+
+		/**
+		 * Gets value of float-valued texture parameter.
+		 */
+		template <TextureParam CTParam, std::enable_if_t<
+			CTParam == TextureParam::LODBias
+			|| CTParam == TextureParam::MinLOD || CTParam == TextureParam::MaxLOD
+			, int> = 0>
+			float getParameter() const
+		{
+			float v;
+			glGetTexParameterfv(utils::value(_target), utils::value(CTParam), &v);
+			return v;
+		}
+
+		/**
+		 * Sets integer-valued texture parameter.
+		 */
+		template <TextureParam CTParam, std::enable_if_t<
+			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
+			, int> = 0>
+			void setParameter(int v) const { glTexParameteri(utils::value(_target), utils::value(CTParam), v); }
+
+		/**
+		 * Sets float-valued texture parameter.
+		 */
+		template <TextureParam CTParam, std::enable_if_t<
+			CTParam == TextureParam::LODBias
+			|| CTParam == TextureParam::MinLOD || CTParam == TextureParam::MaxLOD
+			, int> = 0>
+			void setParameter(float v) const { glTexParameterf(utils::value(_target), utils::value(CTParam), v); }
+
+		/**
+		 * Sets symbolic-valued texture parameter.
+		 */
+		template <TextureParam CTParam, std::enable_if_t<
+			CTParam == TextureParam::DepthStencilMode
+			|| CTParam == TextureParam::CompareFunc || CTParam == TextureParam::CompareMode
+			|| CTParam == TextureParam::MinFilter || CTParam == TextureParam::MagFilter
+			|| CTParam == TextureParam::SwizzleR || CTParam == TextureParam::SwizzleG
+			|| CTParam == TextureParam::SwizzleB || CTParam == TextureParam::SwizzleA
+			|| CTParam == TextureParam::WrapS || CTParam == TextureParam::WrapT
+			|| CTParam == TextureParam::WrapR
+			, int> = 0>
+			void setParameter(TextureParamValue v) const { glTexParameteri(utils::value(_target), utils::value(CTParam), utils::value(v)); }
+
 
 		operator GLuint() const { return *_id; }
 

@@ -180,7 +180,7 @@ void utils::displayTexture(GLint texture, float dx, float dy)
     glDeleteVertexArrays(1, &vao);
 }
 
-int render::gl::dimensionsFromTarget(TextureTarget target)
+constexpr int render::gl::dimensionsFromTarget(TextureTarget target)
 {
     ASSERT(target != TextureTarget::Dynamic && "TextureTarget::Dynamic is not a real texture target");
 

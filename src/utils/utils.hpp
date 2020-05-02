@@ -94,5 +94,5 @@ namespace render::gl
 {
 	enum struct TextureTarget : GLenum;
 
-	int dimensionsFromTarget(TextureTarget target);
+	constexpr int dimensionsFromTarget(TextureTarget target);
 }

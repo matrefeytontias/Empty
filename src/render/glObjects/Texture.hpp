@@ -195,6 +195,9 @@ namespace render::gl
 		UIntAAA2Rev = GL_UNSIGNED_INT_2_10_10_10_REV,
 	};
 
+	/**
+	 * Names for a texture's internal parameters.
+	 */
 	enum struct TextureParam : GLenum
 	{
 		DepthStencilMode = GL_DEPTH_STENCIL_TEXTURE_MODE,
@@ -226,6 +229,9 @@ namespace render::gl
 		HasImmutableFormat = GL_TEXTURE_IMMUTABLE_FORMAT,
 	};
 
+	/**
+	 * Possible values of texture parameters that accept symbolic constants as values.
+	 */
 	enum struct TextureParamValue : GLenum
 	{
 		Invalid = GL_INVALID_ENUM,
@@ -275,7 +281,12 @@ namespace render::gl
 		const TextureTarget target;
 		const std::shared_ptr<TextureId> id;
 
-		void bind() const { glBindTexture(utils::value(target), *id); }
+		void bind(int unit = -1) const
+		{
+			if (unit >= 0)
+				glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(utils::value(target), *id);
+		}
 		void unbind() const { glBindTexture(utils::value(target), 0); }
 	};
 
@@ -303,9 +314,16 @@ namespace render::gl
 			Texture() : _target(t), _format(f) {}
 
 		/**
-		 * Binds the texture. This is necessary before any operation on the texture is performed.
+		 * Binds the texture to a given texture unit. This is necessary before
+		 * any operation on the texture is performed. If no texture unit is given,
+		 * whichever one is currently active is used.
 		 */
-		void bind() const { glBindTexture(utils::value(_target), *_id); }
+		void bind(int unit = -1) const
+		{
+			if (unit >= 0)
+				glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(utils::value(_target), *_id);
+		}
 
 		/**
 		 * Unbinds the texture, making sure it will not be modified by any further operation.

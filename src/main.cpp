@@ -55,9 +55,11 @@ int _main(int, char *argv[])
     TRACE("Entering drawing loop");
     
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
-    tex.setParameter<TextureParam::BaseLevel>(0);
+    tex.bind();
+    tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     auto p = tex.getParameter<TextureParam::MinFilter>();
-    TRACE("Texture has default min filter " << utils::value(p));
+    TRACE("Texture now has min filter " << utils::value(p));
+    tex.unbind();
 
     while (!glfwWindowShouldClose(window))
     {

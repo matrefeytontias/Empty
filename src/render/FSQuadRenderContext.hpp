@@ -1,7 +1,7 @@
 #pragma once
 
 #include "render/RenderContext.hpp"
-#include "render/glObjects/ShaderProgram.hpp"
+#include "render/gl/ShaderProgram.hpp"
 #include "utils/utils.hpp"
 
 /**

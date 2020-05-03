@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "render/glObjects/ShaderProgram.hpp"
+#include "render/gl/ShaderProgram.hpp"
 #include "utils/utils.hpp"
 
 using namespace std;

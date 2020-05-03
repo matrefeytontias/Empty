@@ -4,7 +4,7 @@
 
 #include <glad/glad.h>
 
-#include "render/glObjects/GLObject.h"
+#include "render/gl/GLObject.h"
 #include "utils/macros.h"
 
 namespace render::gl
@@ -444,9 +444,6 @@ namespace render::gl
 			|| CTParam == TextureParam::WrapR
 			, int> = 0>
 			void setParameter(TextureParamValue v) const { glTexParameteri(utils::value(_target), utils::value(CTParam), utils::value(v)); }
-
-
-		operator GLuint() const { return *_id; }
 
 		TextureBinding getBindingInfo() const { return TextureBinding{_target, _id}; }
 		TextureTarget target() const { return _target; }

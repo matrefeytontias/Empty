@@ -1,6 +1,6 @@
 #pragma once
 
-#include "render/glObjects/ShaderProgram.hpp"
+#include "render/gl/ShaderProgram.hpp"
 
 class RenderContext
 {

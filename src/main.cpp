@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "render/gl/Texture.hpp"
+#include "render/gl/Texture.h"
 #include "utils/macros.h"
 #include "utils/utils.hpp"
 

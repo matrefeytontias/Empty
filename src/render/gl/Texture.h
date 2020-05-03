@@ -278,16 +278,26 @@ namespace render::gl
 	 */
 	struct TextureBinding
 	{
-		const TextureTarget target;
+		const TextureTarget target = TextureTarget::Dynamic;
 		const std::shared_ptr<TextureId> id;
+		// Texture unit to which the texture is to be bound. -1 means whatever
+		// the current active unit is.
+		const int unit = -1;
 
-		void bind(int unit = -1) const
+		inline void bind() const
 		{
+			ASSERT(target != TextureTarget::Dynamic && id && "Invalid texture binding");
 			if (unit >= 0)
 				glActiveTexture(GL_TEXTURE0 + unit);
 			glBindTexture(utils::value(target), *id);
 		}
-		void unbind() const { glBindTexture(utils::value(target), 0); }
+		inline void unbind() const
+		{
+			ASSERT(target != TextureTarget::Dynamic && "Invalid texture binding");
+			if (unit >= 0)
+				glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(utils::value(target), 0);
+		}
 	};
 
 	/**
@@ -318,17 +328,22 @@ namespace render::gl
 		 * any operation on the texture is performed. If no texture unit is given,
 		 * whichever one is currently active is used.
 		 */
-		void bind(int unit = -1) const
+		inline void bind(int unit = -1) const
 		{
 			if (unit >= 0)
 				glActiveTexture(GL_TEXTURE0 + unit);
 			glBindTexture(utils::value(_target), *_id);
 		}
-
+		
 		/**
 		 * Unbinds the texture, making sure it will not be modified by any further operation.
 		 */
-		void unbind() const { glBindTexture(utils::value(_target), 0); }
+		inline void unbind(int unit = -1) const
+		{
+			if (unit >= 0)
+				glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(utils::value(_target), 0);
+		}
 
 		void uploadData(int level, int width, PixelFormat format, PixelType type, const void* data) const
 		{
@@ -450,7 +465,13 @@ namespace render::gl
 		TextureFormat format() const { return _format; }
 
 	protected:
+		/**
+		 * Registered target of the texture object.
+		 */
 		const TextureTarget _target;
+		/**
+		 * Registered internal format of the texture object.
+		 */
 		const TextureFormat _format;
 	};
 }

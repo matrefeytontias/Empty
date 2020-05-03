@@ -19,7 +19,7 @@
 
 #include "math/Matrix.hpp"
 #include "math/Vector.hpp"
-#include "render/gl/Texture.hpp"
+#include "render/gl/Texture.h"
 #include "utils/macros.h"
 
 static constexpr const float M_PI = 3.14159258536f;

@@ -6,7 +6,7 @@
 
 #include <glad/glad.h>
 
-#include "render/gl/Texture.hpp"
+#include "render/gl/Texture.h"
 #include "utils/utils.hpp"
 
 namespace render::gl

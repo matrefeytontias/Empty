@@ -57,8 +57,7 @@ int _main(int, char *argv[])
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
-    auto p = tex.getParameter<TextureParam::MinFilter>();
-    TRACE("Texture now has min filter " << utils::value(p));
+    tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
 
     while (!glfwWindowShouldClose(window))

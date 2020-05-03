@@ -42,6 +42,38 @@ namespace render::gl
 	};
 
 	/**
+	 * Returns the dimensionality of a texture with a given texture target.
+	 */
+	constexpr int dimensionsFromTarget(TextureTarget target)
+	{
+		if (target == TextureTarget::Dynamic)
+			return 0;
+		else if (target == TextureTarget::Texture1D
+				 || target == TextureTarget::Proxy1D
+				 || target == TextureTarget::TextureBuffer)
+			return 1;
+		else if (target == TextureTarget::Texture3D
+				 || target == TextureTarget::Texture2DArray
+				 || target == TextureTarget::Texture2DMultisampleArray
+				 || target == TextureTarget::TextureCubeMapArray
+				 || target == TextureTarget::Proxy3D
+				 || target == TextureTarget::Proxy2DArray
+				 || target == TextureTarget::Proxy2DMultisampleArray
+				 || target == TextureTarget::ProxyCubeMapArray)
+			return 3;
+		else
+			return 2;
+	}
+
+	/**
+	 * Returns whether a given texture target references a cubemap texture target.
+	 */
+	constexpr bool isTargetCubeMap(TextureTarget target)
+	{
+		return target == TextureTarget::TextureCubeMap || target == TextureTarget::ProxyCubeMap;
+	}
+
+	/**
 	 * Internal formats that a texture can adopt. This is different
 	 * from the format of the pixel data that is fed to it.
 	 * `Dynamic` is not a real format and is only present for templating purposes.
@@ -160,8 +192,8 @@ namespace render::gl
 		BGRInt = GL_BGR_INTEGER,
 		RGBAInt = GL_RGBA_INTEGER,
 		BGRAInt = GL_BGRA_INTEGER,
-		Stencil = GL_STENCIL_INDEX,
 		Depth = GL_DEPTH_COMPONENT,
+		Stencil = GL_STENCIL_INDEX,
 		DepthStencil = GL_DEPTH_STENCIL,
 	};
 
@@ -307,22 +339,24 @@ namespace render::gl
 	template <TextureTarget CTTarget = TextureTarget::Dynamic, TextureFormat CTFormat = TextureFormat::Dynamic>
 	struct Texture : public GLObject<TextureId>
 	{
-		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+#define COPY_CTPARAMS TextureTarget t = CTTarget, TextureFormat f = CTFormat
+
+		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
 			Texture(TextureTarget target, TextureFormat format) : _target(target), _format(format) {}
 
-		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+		template <COPY_CTPARAMS,
 			std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
 			Texture(TextureFormat format) : _target(t), _format(format) {}
 
-		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
 			Texture(TextureTarget target) : _target(target), _format(f) {}
 
-		template <TextureTarget t = CTTarget, TextureFormat f = CTFormat,
+		template <COPY_CTPARAMS,
 			std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
 			Texture() : _target(t), _format(f) {}
-
+#undef COPY_CTPARAMS
 		/**
 		 * Binds the texture to a given texture unit. This is necessary before
 		 * any operation on the texture is performed. If no texture unit is given,
@@ -334,7 +368,7 @@ namespace render::gl
 				glActiveTexture(GL_TEXTURE0 + unit);
 			glBindTexture(utils::value(_target), *_id);
 		}
-		
+
 		/**
 		 * Unbinds the texture, making sure it will not be modified by any further operation.
 		 */
@@ -345,40 +379,78 @@ namespace render::gl
 			glBindTexture(utils::value(_target), 0);
 		}
 
-		void uploadData(int level, int width, PixelFormat format, PixelType type, const void* data) const
-		{
-			ASSERT(dimensionsFromTarget(_target) == 1 && "cannot upload 1-dimensional data to a non-1-dimensional texture");
+#define COPY_CTPARAMS TextureTarget t = CTTarget
 
+		/**
+		 * Allocate storage for and upload data to a 1-dimensional texture.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<dimensionsFromTarget(t) == 1, int> = 0>
+			inline void uploadData(int level, int width, PixelFormat format, PixelType type, const void* data = nullptr) const
+		{
 			glTexImage1D(utils::value(_target), level, utils::value(_format), width, 0, utils::value(format), utils::value(type), data);
 		}
 
-		void uploadData(int level, int width, int height, PixelFormat format, PixelType type, const void* data) const
+		/**
+		 * Allocate storage for and upload data to a 2-dimensional texture that is not a cubemap.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubeMap(t), int> = 0>
+			inline void uploadData(int level, int width, int height, PixelFormat format, PixelType type, const void* data = nullptr) const
 		{
-			ASSERT(_target != TextureTarget::TextureCubeMap && "cannot upload 2-dimensional data directly to cube map ; upload to faces instead");
-			ASSERT(dimensionsFromTarget(_target) == 2 && "cannot upload 2-dimensional data to a non-2-dimensional texture");
-
 			glTexImage2D(utils::value(_target), level, utils::value(_format), width, height, 0, utils::value(format), utils::value(type), data);
 		}
 
-		void uploadData(int level, int width, int height, int depth, PixelFormat format, PixelType type, const void* data) const
+		/**
+		 * Allocate storage for and upload data to a 3-dimensional texture.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<dimensionsFromTarget(t) == 3, int> = 0>
+			inline void uploadData(int level, int width, int height, int depth, PixelFormat format, PixelType type, const void* data = nullptr) const
 		{
-			ASSERT(dimensionsFromTarget(_target) == 3 && "cannot upload 3-dimensional data to a non-3-dimensional texture");
-
 			glTexImage3D(utils::value(_target), level, utils::value(_format), width, height, depth, 0, utils::value(format), utils::value(type), data);
 		}
 
-		void uploadData(CubeMapFace face, int level, int width, int height, PixelFormat format, PixelType type, const void* data) const
+		/**
+		 * Allocate storage for and upload data to a cubemap texture.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<isTargetCubeMap(t), int> = 0>
+			inline void uploadData(CubeMapFace face, int level, int width, int height, PixelFormat format, PixelType type, const void* data = nullptr) const
 		{
-			ASSERT(_target == TextureTarget::TextureCubeMap);
-
 			glTexImage2D(utils::value(face), level, utils::value(_format), width, height, 0, utils::value(format), utils::value(type), data);
 		}
 
+		/**
+		 * Allocate storage for and upload data to a texture with target unknown at compile-time. Parameters
+		 * that are not relevant to the actual texture target are ignored.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
+			void uploadData(int level, int width, int height, int depth, PixelFormat format, PixelType type, const void* data = nullptr) const
+		{
+			ASSERT(!isTargetCubeMap(_target) && "cannot upload 2D data directly to a cubemap ; use dedicated method instead");
 
-		void uploadSubData(int level, int xoffset, int width, PixelFormat format, PixelType type, const void* data) const;
-		void uploadSubData(int level, int xoffset, int yoffset, int width, int height, PixelFormat format, PixelType type, const void* data) const;
-		void uploadSubData(CubeMapFace face, int level, int xoffset, int yoffset, int width, int height, PixelFormat format, PixelType type, const void* data) const;
-		void uploadSubData(int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, PixelFormat format, PixelType type, const void* data) const;
+			int dims = dimensionsFromTarget(_target);
+			if (dims == 1)
+				glTexImage1D(utils::value(_target), level, utils::value(_format), width, 0, utils::value(format), utils::value(type), data);
+			else if (dims == 2)
+				glTexImage2D(utils::value(_target), level, utils::value(_format), width, height, 0, utils::value(format), utils::value(type), data);
+			else // if(dims == 3)
+				glTexImage3D(utils::value(_target), level, utils::value(_format), width, height, depth, 0, utils::value(format), utils::value(type), data);
+		}
+
+		/**
+		 * Allocate storage for and upload data to a cubemap texture with target unknown at compile-time.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
+			inline void uploadData(CubeMapFace face, int level, int width, int height, PixelFormat format, PixelType type, const void* data = nullptr) const
+		{
+			ASSERT(isTargetCubeMap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");
+
+			glTexImage2D(utils::value(face), level, utils::value(_format), width, height, 0, utils::value(format), utils::value(type), data);
+		}
 
 		/**
 		 * Gets value of integer-valued texture parameters.
@@ -461,8 +533,8 @@ namespace render::gl
 			void setParameter(TextureParamValue v) const { glTexParameteri(utils::value(_target), utils::value(CTParam), utils::value(v)); }
 
 		TextureBinding getBindingInfo() const { return TextureBinding{_target, _id}; }
-		TextureTarget target() const { return _target; }
-		TextureFormat format() const { return _format; }
+		TextureTarget getTarget() const { return _target; }
+		TextureFormat getFormat() const { return _format; }
 
 	protected:
 		/**

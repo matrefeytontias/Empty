@@ -9,6 +9,11 @@
 #include "math/Matrix.hpp"
 #include <glad/glad.h>
 
+namespace render::gl
+{
+	enum struct CubeMapFace : GLenum;
+}
+
 namespace utils
 {
 	/**
@@ -88,11 +93,9 @@ namespace utils
 	{
 		return static_cast<typename std::underlying_type<Enum>::type>(e);
 	}
-}
 
-namespace render::gl
-{
-	enum struct TextureTarget : GLenum;
-
-	constexpr int dimensionsFromTarget(TextureTarget target);
+	/**
+	 * Utility function to get the enum value corresponding to a cubemap face index.
+	 */
+	render::gl::CubeMapFace getCubeMapFaceFromIndex(int i);
 }

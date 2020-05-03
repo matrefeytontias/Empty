@@ -180,21 +180,17 @@ void utils::displayTexture(GLint texture, float dx, float dy)
     glDeleteVertexArrays(1, &vao);
 }
 
-constexpr int render::gl::dimensionsFromTarget(TextureTarget target)
+render::gl::CubeMapFace utils::getCubeMapFaceFromIndex(int i)
 {
-    ASSERT(target != TextureTarget::Dynamic && "TextureTarget::Dynamic is not a real texture target");
-
-    if (target == TextureTarget::Texture1D
-        || target == TextureTarget::Proxy1D
-        || target == TextureTarget::TextureBuffer)
-        return 1;
-    else if (target == TextureTarget::Texture3D
-             || target == TextureTarget::Texture2DArray
-             || target == TextureTarget::TextureCubeMapArray
-             || target == TextureTarget::Proxy3D
-             || target == TextureTarget::Proxy2DArray
-             || target == TextureTarget::ProxyCubeMapArray)
-        return 3;
-    else
-        return 2;
+    using namespace render::gl;
+    static constexpr const CubeMapFace faces[6] = {
+        CubeMapFace::PlusX,
+        CubeMapFace::MinusX,
+        CubeMapFace::PlusY,
+        CubeMapFace::MinusY,
+        CubeMapFace::PlusZ,
+        CubeMapFace::MinusZ
+    };
+    ASSERT(i >= 0 && i < 6 && "requested invalid cubemap face index");
+    return faces[i];
 }

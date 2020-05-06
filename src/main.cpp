@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "render/gl/Texture.h"
+#include "render/gl/Buffer.h"
 #include "utils/macros.h"
 #include "utils/utils.hpp"
 
@@ -59,6 +60,10 @@ int _main(int, char *argv[])
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
+
+    Buffer<BufferTarget::Texture> buffer;
+    buffer.bind();
+    buffer.unbind();
 
     while (!glfwWindowShouldClose(window))
     {

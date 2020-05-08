@@ -3,6 +3,27 @@ cmake_minimum_required(VERSION 3.12)
 # Set your project name here
 set(PROJECT_NAME Empty)
 
+# Generate enum struct headers from def files
+find_package(Python3 REQUIRED)
+
+file(GLOB_RECURSE ENUM_STRUCTS CONFIGURE_DEPENDS
+	src/*.def
+)
+
+foreach(ENUM ${ENUM_STRUCTS})
+	string(REPLACE ".def" ".cpp" ENUM_CPP ${ENUM})
+	string(REPLACE ".def" ".hpp" ENUM_HPP ${ENUM})
+	add_custom_command(OUTPUT ${ENUM_CPP} ${ENUM_HPP}
+		DEPENDS ${ENUM}
+		COMMAND ${Python3_EXECUTABLE} autogen.py ${CMAKE_CURRENT_SOURCE_DIR}/src ${ENUM} utils
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	)
+	execute_process(COMMAND ${Python3_EXECUTABLE} autogen.py ${CMAKE_CURRENT_SOURCE_DIR}/src ${ENUM} utils
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endforeach()
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Enum Definition Files" FILES ${ENUM_STRUCTS})
+
 # Executable setup
 project(${PROJECT_NAME} VERSION 1.0)
 
@@ -15,7 +36,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source Files" FILES ${SOURCES})
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${ENUM_STRUCTS})
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 ### Third-party libraries

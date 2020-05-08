@@ -5,8 +5,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "render/gl/Texture.h"
 #include "render/gl/Buffer.h"
+#include "render/gl/Texture.h"
 #include "utils/macros.h"
 #include "utils/utils.hpp"
 
@@ -61,8 +61,11 @@ int _main(int, char *argv[])
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
 
-    Buffer<BufferTarget::Texture> buffer;
+    Buffer<BufferTarget::Array> buffer;
     buffer.bind();
+    buffer.uploadData(0, BufferUsage::DynamicRead);
+    int size = buffer.getParameter<BufferParam::Size>();
+    std::cerr << size << std::endl;
     buffer.unbind();
 
     while (!glfwWindowShouldClose(window))

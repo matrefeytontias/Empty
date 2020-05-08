@@ -2,89 +2,12 @@
 
 #include <glad/glad.h>
 
+#include "render/gl/GLEnums.hpp"
 #include "render/gl/GLObject.h"
 #include "utils/macros.h"
 
 namespace render::gl
 {
-	/**
-	 * Valid targets that a buffer can be bound to and adopt the type of.
-	 * `Dynamic` is not a real target and is only present for templating purposes.
-	 */
-	enum struct BufferTarget : GLenum
-	{
-		Dynamic = GL_INVALID_ENUM,
-		// Buffers
-		Array = GL_ARRAY_BUFFER,
-		AtomicCounter = GL_ATOMIC_COUNTER_BUFFER,
-		CopyRead = GL_COPY_READ_BUFFER,
-		CopyWrite = GL_COPY_WRITE_BUFFER,
-		DispatchIndirect = GL_DISPATCH_INDIRECT_BUFFER,
-		DrawIndirect = GL_DRAW_INDIRECT_BUFFER,
-		ElementArray = GL_ELEMENT_ARRAY_BUFFER,
-		PixelPack = GL_PIXEL_PACK_BUFFER,
-		PixelUnpack = GL_PIXEL_UNPACK_BUFFER,
-		Query = GL_QUERY_BUFFER,
-		ShaderStorage = GL_SHADER_STORAGE_BUFFER,
-		Texture = GL_TEXTURE_BUFFER,
-		TransformFeedback = GL_TRANSFORM_FEEDBACK_BUFFER,
-		Uniform = GL_UNIFORM_BUFFER
-	};
-
-	/**
-	 * Names for a buffer's usage when uploading data.
-	 */
-	enum struct BufferUsage : GLenum
-	{
-		StreamDraw = GL_STREAM_DRAW,
-		StreamRead = GL_STREAM_READ,
-		StreamCopy = GL_STREAM_COPY,
-		StaticDraw = GL_STATIC_DRAW,
-		StaticRead = GL_STATIC_READ,
-		StaticCopy = GL_STATIC_COPY,
-		DynamicDraw = GL_DYNAMIC_DRAW,
-		DynamicRead = GL_DYNAMIC_READ,
-		DynamicCopy = GL_DYNAMIC_COPY
-	};
-
-	/**
-	 * Names for a buffer's internal parameters.
-	 */
-	enum struct BufferParam : GLenum
-	{
-		Access = GL_BUFFER_ACCESS,
-		AccessFlags = GL_BUFFER_ACCESS_FLAGS,
-		ImmutableStorage = GL_BUFFER_IMMUTABLE_STORAGE,
-		Mapped = GL_BUFFER_MAPPED,
-		MapLength = GL_BUFFER_MAP_LENGTH,
-		MapOffset = GL_BUFFER_MAP_OFFSET,
-		Size = GL_BUFFER_SIZE,
-		StorageFlags = GL_BUFFER_STORAGE_FLAGS,
-		Usage = GL_BUFFER_USAGE
-	};
-
-	/**
-	 * Possible values of buffer parameters that accept symbolic constants as values.
-	 */
-	enum struct BufferParamValue : GLenum
-	{
-		Invalid = GL_INVALID_ENUM,
-		// Access & AccessFlags
-		ReadOnly = GL_READ_ONLY,
-		WriteOnly = GL_WRITE_ONLY,
-		ReadWrite = GL_READ_WRITE,
-		// Usage
-		StreamDraw = GL_STREAM_DRAW,
-		StreamRead = GL_STREAM_READ,
-		StreamCopy = GL_STREAM_COPY,
-		StaticDraw = GL_STATIC_DRAW,
-		StaticRead = GL_STATIC_READ,
-		StaticCopy = GL_STATIC_COPY,
-		DynamicDraw = GL_DYNAMIC_DRAW,
-		DynamicRead = GL_DYNAMIC_READ,
-		DynamicCopy = GL_DYNAMIC_COPY
-	};
-
 	/**
 	 * This struct holds everything one needs to bind a buffer. Useful in case
 	 * one wants to bind the buffer without having access to the entire Buffer object.

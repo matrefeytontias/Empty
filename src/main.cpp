@@ -58,6 +58,7 @@ int _main(int, char *argv[])
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
+    TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
 

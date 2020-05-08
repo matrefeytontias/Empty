@@ -63,8 +63,8 @@ int _main(int, char *argv[])
 
     Buffer<BufferTarget::Array> buffer;
     buffer.bind();
-    buffer.uploadData(0, BufferUsage::DynamicRead);
-    int size = buffer.getParameter<BufferParam::Size>();
+    buffer.uploadData(10, BufferUsage::DynamicRead);
+    int64_t size = buffer.getParameter<BufferParam::Size>();
     std::cerr << size << std::endl;
     buffer.unbind();
 

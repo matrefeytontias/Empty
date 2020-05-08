@@ -73,15 +73,6 @@ namespace render::gl
 		ReadOnly = GL_READ_ONLY,
 		WriteOnly = GL_WRITE_ONLY,
 		ReadWrite = GL_READ_WRITE,
-		// StorageFlags from glBufferStorage
-		StorageDynamic = GL_DYNAMIC_STORAGE_BIT,
-		StorageMapRead = GL_MAP_READ_BIT,
-		StorageMapWrite = GL_MAP_WRITE_BIT,
-		StorageMapPersistent = GL_MAP_PERSISTENT_BIT,
-		StorageMapCoherent = GL_MAP_COHERENT_BIT,
-		StorageClient = GL_CLIENT_STORAGE_BIT,
-		// StorageFlags from glBufferData
-		Data = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT | GL_DYNAMIC_STORAGE_BIT | GL_MAP_WRITE_BIT,
 		// Usage
 		StreamDraw = GL_STREAM_DRAW,
 		StreamRead = GL_STREAM_READ,
@@ -150,18 +141,16 @@ namespace render::gl
 		/**
 		 * Allocate storage for and upload data to a buffer.
 		 */
-		inline void uploadData(int size, BufferUsage usage, const void* data = nullptr) const
+		inline void uploadData(size_t size, BufferUsage usage, const void* data = nullptr) const
 		{
 			glBufferData(utils::value(_target), size, data, utils::value(usage));
 		}
 
 		template <BufferParam CTParam, std::enable_if_t <
 			CTParam == BufferParam::ImmutableStorage
-			|| CTParam == BufferParam::Mapped || CTParam == BufferParam::MapLength
-			|| CTParam == BufferParam::MapOffset
-			|| CTParam == BufferParam::Size
+			|| CTParam == BufferParam::Mapped
 			, int> = 0>
-			int getParameter() const
+			bool getParameter() const
 		{
 			int p;
 			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
@@ -169,9 +158,18 @@ namespace render::gl
 		}
 
 		template <BufferParam CTParam, std::enable_if_t <
-			CTParam == BufferParam::Access || CTParam == BufferParam::AccessFlags
-			|| CTParam == BufferParam::StorageFlags
-			|| CTParam == BufferParam::Usage
+			CTParam == BufferParam::MapLength || CTParam == BufferParam::MapOffset
+			|| CTParam == BufferParam::Size
+			, int> = 0>
+			int64_t getParameter() const
+		{
+			int64_t p;
+			glGetBufferParameteri64v(utils::value(_target), utils::value(CTParam), &p);
+			return p;
+		}
+
+		template <BufferParam CTParam, std::enable_if_t <
+			CTParam == BufferParam::Access || CTParam == BufferParam::Usage
 			, int> = 0>
 			BufferParamValue getParameter() const
 		{

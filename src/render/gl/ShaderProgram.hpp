@@ -6,18 +6,22 @@
 
 #include <glad/glad.h>
 
+#include "render/gl/GLObject.h"
 #include "render/gl/Texture.h"
 #include "utils/utils.hpp"
 
 namespace render::gl
 {
-    struct ShaderProgram
+    struct ShaderProgram : public GLObject<ProgramId>
     {
     public:
-        ShaderProgram();
+        ShaderProgram() {}
         ~ShaderProgram();
-        void attach(GLenum type, const char* path);
-        void attachFromSource(GLenum type, const char* src);
+        void attachSource(ShaderType type, const std::string& src);
+        inline void attachFile(ShaderType type, const std::string& path)
+        {
+            attachSource(type, utils::getFileContents(path));
+        }
         void use();
         void uniform1f(const std::string& name, float v);
         void uniform2f(const std::string& name, float v1, float v2);
@@ -28,18 +32,16 @@ namespace render::gl
         void uniformMatrix4fv(const std::string& name, GLuint count, const GLfloat* v);
         void uniformMatrix3fv(const std::string& name, GLuint count, const GLfloat* v);
         void vertexAttribPointer(const std::string& name, GLuint size, GLenum type, GLsizei stride, const size_t offset);
-        template <TextureTarget target, TextureFormat format>
-        void registerTexture(const std::string& name, const Texture<target, format>& tex);
+        void registerTexture(const std::string& name, const TextureBinding& tex);
         size_t getTexturesAmount() const { return _textures.size(); }
         GLint ensureUniform(const std::string& name);
         GLint ensureAttrib(const std::string& name);
     private:
-        bool _dirty;
-        GLuint _vao, _program;
-        std::vector<GLenum> _shaders;
+        bool _dirty = true;
+        std::vector<std::shared_ptr<ShaderId>> _shaders;
         std::unordered_map<std::string, GLint> _uniforms;
         std::unordered_map<std::string, GLint> _attributes;
         std::unordered_map<std::string, TextureBinding> _textures;
-        static GLuint _currentProgram;
+        static ShaderProgram* _currentProgram;
     };
 }

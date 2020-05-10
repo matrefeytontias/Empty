@@ -4,65 +4,38 @@
 #include "render/gl/ShaderProgram.hpp"
 #include "utils/utils.hpp"
 
-using namespace std;
-
 using namespace render::gl;
 
-GLuint ShaderProgram::_currentProgram = 0;
-
-ShaderProgram::ShaderProgram()
-{
-    glGenVertexArrays(1, &_vao);
-    glBindVertexArray(_vao);
-    
-    _program = glCreateProgram();
-    _dirty = true;
-}
+ShaderProgram* render::gl::ShaderProgram::_currentProgram = nullptr;
 
 ShaderProgram::~ShaderProgram()
 {
-    glBindVertexArray(_vao);
-    
     for(auto cpl : _attributes)
         glDisableVertexAttribArray(cpl.second);
     
-    for(GLenum i : _shaders)
-    {
-        glDetachShader(_program, i);
-        glDeleteShader(i);
-    }
-    glDeleteProgram(_program);
-    glDeleteVertexArrays(1, &_vao);
+    for(auto& shader : _shaders)
+        glDetachShader(*_id, *shader);
 }
 
-void ShaderProgram::attachFromSource(GLenum type, const char *src)
+void ShaderProgram::attachSource(ShaderType type, const std::string& src)
 {
-    GLenum i = glCreateShader(type);
-    glShaderSource(i, 1, &src, NULL);
-    glCompileShader(i);
-    utils::printShaderLog(i);
-    glAttachShader(_program, i);
-    _shaders.push_back(i);
-    _dirty = true;
-}
-
-void ShaderProgram::attach(GLenum type, const char *path)
-{
-    GLenum i = utils::createShaderFromSource(type, path);
-    utils::printShaderLog(i);
-    glAttachShader(_program, i);
-    _shaders.push_back(i);
+    auto shader = std::make_shared<ShaderId>(type);
+    auto ind = src.c_str();
+    glShaderSource(*shader, 1, &ind, NULL);
+    glCompileShader(*shader);
+    utils::printShaderLog(*shader);
+    glAttachShader(*_id, *shader);
+    _shaders.push_back(shader);
     _dirty = true;
 }
 
 void ShaderProgram::use()
 {
     if(_dirty)
-        glLinkProgram(_program);
-    glBindVertexArray(_vao);
-    if(_currentProgram != _program)
-        glUseProgram(_program);
-    if(_dirty || _currentProgram != _program)
+        glLinkProgram(*_id);
+    if(_currentProgram != this)
+        glUseProgram(*_id);
+    if(_dirty || _currentProgram != this)
     {
         int i = 0;
         for(auto tex : _textures)
@@ -73,72 +46,71 @@ void ShaderProgram::use()
         }
     }
     _dirty = false;
-    _currentProgram = _program;
+    _currentProgram = this;
 }
 
-void ShaderProgram::uniform1f(const string &name, float v)
+void ShaderProgram::uniform1f(const std::string &name, float v)
 {
     glUniform1f(ensureUniform(name), v);
 }
 
-void ShaderProgram::uniform2f(const string &name, float v1, float v2)
+void ShaderProgram::uniform2f(const std::string &name, float v1, float v2)
 {
     glUniform2f(ensureUniform(name), v1, v2);
 }
 
-void ShaderProgram::uniform3f(const string &name, float v1, float v2, float v3)
+void ShaderProgram::uniform3f(const std::string &name, float v1, float v2, float v3)
 {
     glUniform3f(ensureUniform(name), v1, v2, v3);
 }
 
-void ShaderProgram::uniform4f(const string &name, float v1, float v2, float v3, float v4)
+void ShaderProgram::uniform4f(const std::string &name, float v1, float v2, float v3, float v4)
 {
     glUniform4f(ensureUniform(name), v1, v2, v3, v4);
 }
 
-void ShaderProgram::uniform1i(const string &name, int i)
+void ShaderProgram::uniform1i(const std::string &name, int i)
 {
     glUniform1i(ensureUniform(name), i);
 }
 
-void ShaderProgram::uniform2i(const string &name, int i1, int i2)
+void ShaderProgram::uniform2i(const std::string &name, int i1, int i2)
 {
     glUniform2i(ensureUniform(name), i1, i2);
 }
 
-void ShaderProgram::uniformMatrix4fv(const string &name, GLuint count, const GLfloat *v)
+void ShaderProgram::uniformMatrix4fv(const std::string &name, GLuint count, const GLfloat *v)
 {
     glUniformMatrix4fv(ensureUniform(name), count, GL_FALSE, v);
 }
 
-void ShaderProgram::uniformMatrix3fv(const string &name, GLuint count, const GLfloat *v)
+void ShaderProgram::uniformMatrix3fv(const std::string &name, GLuint count, const GLfloat *v)
 {
     glUniformMatrix3fv(ensureUniform(name), count, GL_FALSE, v);
 }
 
-void ShaderProgram::vertexAttribPointer(const string &name, GLuint size, GLenum type, GLsizei stride, const size_t offset)
+void ShaderProgram::vertexAttribPointer(const std::string &name, GLuint size, GLenum type, GLsizei stride, const size_t offset)
 {
     glEnableVertexAttribArray(ensureAttrib(name));
     glVertexAttribPointer(_attributes[name], size, type, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 }
 
-template <TextureTarget target, TextureFormat format>
-void ShaderProgram::registerTexture(const string &name, const Texture<target, format> &tex)
+void ShaderProgram::registerTexture(const std::string &name, const TextureBinding& tex)
 {
     _dirty = true;
-    return _textures[name] = tex.getBindingInfo();
+    _textures[name] = tex;
 }
 
-GLint ShaderProgram::ensureUniform(const string &name)
+GLint ShaderProgram::ensureUniform(const std::string &name)
 {
     if(_uniforms.find(name) == _uniforms.end())
-        _uniforms[name] = glGetUniformLocation(_program, name.c_str());
+        _uniforms[name] = glGetUniformLocation(*_id, name.c_str());
     return _uniforms[name];
 }
 
-GLint ShaderProgram::ensureAttrib(const string &name)
+GLint ShaderProgram::ensureAttrib(const std::string &name)
 {
     if(_attributes.find(name) == _attributes.end())
-        _attributes[name] = glGetAttribLocation(_program, name.c_str());
+        _attributes[name] = glGetAttribLocation(*_id, name.c_str());
     return _attributes[name];
 }

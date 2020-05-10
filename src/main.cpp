@@ -60,14 +60,13 @@ int _main(int, char *argv[])
 
     VertexArray vao;
     vao.bind();
-    
+
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
-    auto texBinding = tex.getBindingInfo();
-    texBinding.bind();
+    tex.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
-    texBinding.unbind();
+    tex.unbind();
 
     Buffer<BufferTarget::Array> buffer;
     buffer.bind();

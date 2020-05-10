@@ -14,20 +14,28 @@ namespace render::gl
 	 */
 	struct BufferBinding
 	{
-		const BufferTarget target = BufferTarget::Dynamic;
-		const std::shared_ptr<BufferId> id;
+		BufferBinding() = default;
+		BufferBinding(BufferTarget target, std::shared_ptr<BufferId> id)
+			: _target(target), _id(id)
+		{}
+
+		BufferTarget target() const { return _target; }
+		std::shared_ptr<BufferId> id() const { return _id; }
 
 		inline void bind() const
 		{
 			ASSERT(target != BufferTarget::Dynamic && id && "Invalid buffer binding");
-			glBindBuffer(utils::value(target), *id);
+			glBindBuffer(utils::value(_target), *_id);
 		}
 
 		inline void unbind() const
 		{
 			ASSERT(target != BufferTarget::Dynamic && "Invalid buffer binding");
-			glBindBuffer(utils::value(target), 0);
+			glBindBuffer(utils::value(_target), 0);
 		}
+	private:
+		BufferTarget _target = BufferTarget::Dynamic;
+		std::shared_ptr<BufferId> _id;
 	};
 
 	/**
@@ -105,7 +113,7 @@ namespace render::gl
 			return static_cast<BufferParamValue>(p);
 		}
 
-		BufferBinding getBindingInfo() const { return BufferBinding{ _target, _id}; }
+		BufferBinding getBindingInfo() const { return BufferBinding(_target, _id); }
 		BufferTarget getTarget() const { return _target; }
 
 	protected:

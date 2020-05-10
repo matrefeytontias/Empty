@@ -48,26 +48,31 @@ namespace render::gl
 	 */
 	struct TextureBinding
 	{
-		const TextureTarget target = TextureTarget::Dynamic;
-		const std::shared_ptr<TextureId> id;
-		// Texture unit to which the texture is to be bound. -1 means whatever
-		// the current active unit is.
-		const int unit = -1;
+		TextureBinding() = default;
+		TextureBinding(TextureTarget target, std::shared_ptr<TextureId> id)
+			: _target(target), _id(id)
+		{}
 
-		inline void bind() const
+		TextureTarget target() const { return _target; }
+		std::shared_ptr<TextureId> id() const { return _id; }
+
+		inline void bind(int unit = -1) const
 		{
 			ASSERT(target != TextureTarget::Dynamic && id && "Invalid texture binding");
 			if (unit >= 0)
 				glActiveTexture(GL_TEXTURE0 + unit);
-			glBindTexture(utils::value(target), *id);
+			glBindTexture(utils::value(_target), *_id);
 		}
-		inline void unbind() const
+		inline void unbind(int unit = -1) const
 		{
 			ASSERT(target != TextureTarget::Dynamic && "Invalid texture binding");
 			if (unit >= 0)
 				glActiveTexture(GL_TEXTURE0 + unit);
-			glBindTexture(utils::value(target), 0);
+			glBindTexture(utils::value(_target), 0);
 		}
+	private:
+		TextureTarget _target = TextureTarget::Dynamic;
+		std::shared_ptr<TextureId> _id;
 	};
 
 	/**
@@ -270,7 +275,7 @@ namespace render::gl
 			, int> = 0>
 			void setParameter(TextureParamValue v) const { glTexParameteri(utils::value(_target), utils::value(CTParam), utils::value(v)); }
 
-		TextureBinding getBindingInfo() const { return TextureBinding{_target, _id}; }
+		TextureBinding getBindingInfo() const { return TextureBinding(_target, _id); }
 		TextureTarget getTarget() const { return _target; }
 		TextureFormat getFormat() const { return _format; }
 

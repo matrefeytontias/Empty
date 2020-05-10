@@ -23,10 +23,15 @@ namespace render::gl
 
 	struct VertexArrayBinding
 	{
-		const std::shared_ptr<VertexArrayId> id;
+		VertexArrayBinding() = default;
+		VertexArrayBinding(std::shared_ptr<VertexArrayId> id) : _id(id) {}
 
-		void bind() { glBindVertexArray(*id); }
+		std::shared_ptr<VertexArrayId> id() const { return _id; }
+
+		void bind() { glBindVertexArray(*_id); }
 		void unbind() { glBindVertexArray(0); }
+	private:
+		std::shared_ptr<VertexArrayId> _id;
 	};
 
 	struct VertexArray : public GLObject<VertexArrayId>
@@ -43,6 +48,6 @@ namespace render::gl
 		void enableArray(int index) const { glEnableVertexAttribArray(index); }
 		void disableArray(int index) const { glDisableVertexAttribArray(index); }
 
-		VertexArrayBinding getBindingInfo() const { return VertexArrayBinding{_id}; }
+		const VertexArrayBinding getBindingInfo() const { return VertexArrayBinding(_id); }
 	};
 }

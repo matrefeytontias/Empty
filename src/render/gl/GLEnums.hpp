@@ -6,6 +6,27 @@
 
 namespace render::gl
 {
+	// #####################################
+	// # Vertex array-related enum structs #
+	// #####################################
+
+	enum struct VertexAttribType : GLenum
+	{
+		UByte = GL_UNSIGNED_BYTE,
+		Byte = GL_BYTE,
+		UShort = GL_UNSIGNED_SHORT,
+		Short = GL_SHORT,
+		UInt = GL_UNSIGNED_INT,
+		Int = GL_INT,
+		Half = GL_HALF_FLOAT,
+		Float = GL_FLOAT,
+		Double = GL_DOUBLE,
+		Fixed = GL_FIXED,
+		UIntAAA2Rev = GL_UNSIGNED_INT_2_10_10_10_REV,
+		IntAAA2Rev = GL_INT_2_10_10_10_REV,
+		UIntBfBfAfRev = GL_UNSIGNED_INT_10F_11F_11F_REV,
+	};
+
 	// ###############################
 	// # Buffer-related enum structs #
 	// ###############################
@@ -263,7 +284,7 @@ namespace render::gl
 		UInt = GL_UNSIGNED_INT,
 		Int = GL_INT,
 		Half = GL_HALF_FLOAT,
-		Single = GL_FLOAT,
+		Float = GL_FLOAT,
 		UByte332 = GL_UNSIGNED_BYTE_3_3_2,
 		UByte332Rev = GL_UNSIGNED_BYTE_2_3_3_REV,
 		UShort565 = GL_UNSIGNED_SHORT_5_6_5,
@@ -354,6 +375,23 @@ namespace render::gl
 		Repeat = GL_REPEAT,
 		MirrorClampToEdge = GL_MIRROR_CLAMP_TO_EDGE,
 	};
+	
+	// ###############################
+	// # Shader-related enum structs #
+	// ###############################
+
+	/**
+     * Lists all valid shader types.
+     */
+    enum struct ShaderType : GLenum
+    {
+        Compute = GL_COMPUTE_SHADER,
+        Fragment = GL_FRAGMENT_SHADER,
+        Geometry = GL_GEOMETRY_SHADER,
+        TessControl = GL_TESS_CONTROL_SHADER,
+        TessEvaluation = GL_TESS_EVALUATION_SHADER,
+        Vertex = GL_VERTEX_SHADER,
+    };
 }
 namespace utils
 {
@@ -361,6 +399,7 @@ namespace utils
 	 * Extract the name of a scoped enum value.
 	 */
 	template <typename Enum> const char* name(Enum e);
+	template <> const char* name<render::gl::VertexAttribType>(render::gl::VertexAttribType e);
 	template <> const char* name<render::gl::BufferTarget>(render::gl::BufferTarget e);
 	template <> const char* name<render::gl::BufferUsage>(render::gl::BufferUsage e);
 	template <> const char* name<render::gl::BufferParam>(render::gl::BufferParam e);
@@ -372,4 +411,5 @@ namespace utils
 	template <> const char* name<render::gl::PixelType>(render::gl::PixelType e);
 	template <> const char* name<render::gl::TextureParam>(render::gl::TextureParam e);
 	template <> const char* name<render::gl::TextureParamValue>(render::gl::TextureParamValue e);
+	template <> const char* name<render::gl::ShaderType>(render::gl::ShaderType e);
 }

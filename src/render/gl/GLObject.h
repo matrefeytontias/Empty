@@ -4,6 +4,7 @@
 
 #include <glad/glad.h>
 
+#include "render/gl/GLEnums.hpp"
 #include "utils/noncopyable.h"
 #include "utils/utils.hpp"
 
@@ -37,19 +38,6 @@ namespace render::gl
 	GL_ID_STRUCT_CREATE(ProgramId, Program);
 	GL_ID_STRUCT_GEN(TextureId, Textures);
     GL_ID_STRUCT_GEN(VertexArrayId, VertexArrays);
-    
-    /**
-     * Lists all valid shader types.
-     */
-    enum struct ShaderType : GLenum
-    {
-        Compute = GL_COMPUTE_SHADER,
-        Fragment = GL_FRAGMENT_SHADER,
-        Geometry = GL_GEOMETRY_SHADER,
-        TessControl = GL_TESS_CONTROL_SHADER,
-        TessEvaluation = GL_TESS_EVALUATION_SHADER,
-        Vertex = GL_VERTEX_SHADER,
-    };
 
     struct ShaderId : public utils::noncopyable
     {

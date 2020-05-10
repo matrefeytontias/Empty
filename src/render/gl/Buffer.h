@@ -47,6 +47,8 @@ namespace render::gl
 
 		/**
 		 * Binds the buffer. This is necessary before any operation on the buffer is performed.
+		 * Binding a buffer modifies the currently bound VAO (and thus requires one), except for
+		 * the `Array` target.
 		 */
 		inline void bind() const
 		{
@@ -55,6 +57,8 @@ namespace render::gl
 
 		/**
 		 * Unbinds the buffer, making sure it will not be modified by any further operation.
+		 * Binding a buffer modifies the currently bound VAO (and thus requires one), except for
+		 * the `Array` target.
 		 */
 		inline void unbind() const
 		{

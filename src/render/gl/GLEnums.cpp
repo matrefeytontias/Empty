@@ -4,6 +4,23 @@
 
 #include <unordered_map>
 
+static const std::unordered_map<render::gl::VertexAttribType, const char*> VertexAttribType_names = {
+	{render::gl::VertexAttribType::UByte, "VertexAttribType::UByte"},
+	{render::gl::VertexAttribType::Byte, "VertexAttribType::Byte"},
+	{render::gl::VertexAttribType::UShort, "VertexAttribType::UShort"},
+	{render::gl::VertexAttribType::Short, "VertexAttribType::Short"},
+	{render::gl::VertexAttribType::UInt, "VertexAttribType::UInt"},
+	{render::gl::VertexAttribType::Int, "VertexAttribType::Int"},
+	{render::gl::VertexAttribType::Half, "VertexAttribType::Half"},
+	{render::gl::VertexAttribType::Float, "VertexAttribType::Float"},
+	{render::gl::VertexAttribType::Double, "VertexAttribType::Double"},
+	{render::gl::VertexAttribType::Fixed, "VertexAttribType::Fixed"},
+	{render::gl::VertexAttribType::UIntAAA2Rev, "VertexAttribType::UIntAAA2Rev"},
+	{render::gl::VertexAttribType::IntAAA2Rev, "VertexAttribType::IntAAA2Rev"},
+	{render::gl::VertexAttribType::UIntBfBfAfRev, "VertexAttribType::UIntBfBfAfRev"},
+};
+template <> const char* utils::name<render::gl::VertexAttribType>(render::gl::VertexAttribType e) { return VertexAttribType_names.find(e)->second; }
+
 static const std::unordered_map<render::gl::BufferTarget, const char*> BufferTarget_names = {
 	{render::gl::BufferTarget::Dynamic, "BufferTarget::Dynamic"},
 	{render::gl::BufferTarget::Array, "BufferTarget::Array"},
@@ -207,7 +224,7 @@ static const std::unordered_map<render::gl::PixelType, const char*> PixelType_na
 	{render::gl::PixelType::UInt, "PixelType::UInt"},
 	{render::gl::PixelType::Int, "PixelType::Int"},
 	{render::gl::PixelType::Half, "PixelType::Half"},
-	{render::gl::PixelType::Single, "PixelType::Single"},
+	{render::gl::PixelType::Float, "PixelType::Float"},
 	{render::gl::PixelType::UByte332, "PixelType::UByte332"},
 	{render::gl::PixelType::UByte332Rev, "PixelType::UByte332Rev"},
 	{render::gl::PixelType::UShort565, "PixelType::UShort565"},
@@ -286,4 +303,14 @@ static const std::unordered_map<render::gl::TextureParamValue, const char*> Text
 	{render::gl::TextureParamValue::MirrorClampToEdge, "TextureParamValue::MirrorClampToEdge"},
 };
 template <> const char* utils::name<render::gl::TextureParamValue>(render::gl::TextureParamValue e) { return TextureParamValue_names.find(e)->second; }
+
+static const std::unordered_map<render::gl::ShaderType, const char*> ShaderType_names = {
+	{render::gl::ShaderType::Compute, "ShaderType::Compute"},
+	{render::gl::ShaderType::Fragment, "ShaderType::Fragment"},
+	{render::gl::ShaderType::Geometry, "ShaderType::Geometry"},
+	{render::gl::ShaderType::TessControl, "ShaderType::TessControl"},
+	{render::gl::ShaderType::TessEvaluation, "ShaderType::TessEvaluation"},
+	{render::gl::ShaderType::Vertex, "ShaderType::Vertex"},
+};
+template <> const char* utils::name<render::gl::ShaderType>(render::gl::ShaderType e) { return ShaderType_names.find(e)->second; }
 

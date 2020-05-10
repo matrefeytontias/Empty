@@ -7,6 +7,7 @@
 
 #include "render/gl/Buffer.h"
 #include "render/gl/Texture.h"
+#include "render/gl/VertexArray.h"
 #include "utils/macros.h"
 #include "utils/utils.hpp"
 
@@ -54,6 +55,9 @@ int _main(int, char *argv[])
     glViewport(0, 0, display_w, display_h);
     
     TRACE("Entering drawing loop");
+
+    VertexArray vao;
+    vao.bind();
     
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
@@ -66,7 +70,7 @@ int _main(int, char *argv[])
     buffer.bind();
     buffer.uploadData(10, BufferUsage::DynamicRead);
     int64_t size = buffer.getParameter<BufferParam::Size>();
-    std::cerr << size << std::endl;
+    TRACE("Successfully reserved " << size << " bytes for buffer");
     buffer.unbind();
 
     while (!glfwWindowShouldClose(window))
@@ -79,6 +83,8 @@ int _main(int, char *argv[])
     
     TRACE("Exiting drawing loop");
     
+    vao.unbind();
+
     // Cleanup
     glfwTerminate();
     

@@ -96,7 +96,7 @@ namespace math
         {
             return this = this * a;
         }
-    private:
+    protected:
         T _data[n * n];
     };
 

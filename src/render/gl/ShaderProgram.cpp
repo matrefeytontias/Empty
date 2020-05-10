@@ -40,53 +40,12 @@ void ShaderProgram::use()
         int i = 0;
         for(auto tex : _textures)
         {
-            glActiveTexture(GL_TEXTURE0 + i);
-            tex.second.bind();
+            tex.second.bind(i);
             glUniform1i(ensureUniform(tex.first), i++);
         }
     }
     _dirty = false;
     _currentProgram = this;
-}
-
-void ShaderProgram::uniform1f(const std::string &name, float v)
-{
-    glUniform1f(ensureUniform(name), v);
-}
-
-void ShaderProgram::uniform2f(const std::string &name, float v1, float v2)
-{
-    glUniform2f(ensureUniform(name), v1, v2);
-}
-
-void ShaderProgram::uniform3f(const std::string &name, float v1, float v2, float v3)
-{
-    glUniform3f(ensureUniform(name), v1, v2, v3);
-}
-
-void ShaderProgram::uniform4f(const std::string &name, float v1, float v2, float v3, float v4)
-{
-    glUniform4f(ensureUniform(name), v1, v2, v3, v4);
-}
-
-void ShaderProgram::uniform1i(const std::string &name, int i)
-{
-    glUniform1i(ensureUniform(name), i);
-}
-
-void ShaderProgram::uniform2i(const std::string &name, int i1, int i2)
-{
-    glUniform2i(ensureUniform(name), i1, i2);
-}
-
-void ShaderProgram::uniformMatrix4fv(const std::string &name, GLuint count, const GLfloat *v)
-{
-    glUniformMatrix4fv(ensureUniform(name), count, GL_FALSE, v);
-}
-
-void ShaderProgram::uniformMatrix3fv(const std::string &name, GLuint count, const GLfloat *v)
-{
-    glUniformMatrix3fv(ensureUniform(name), count, GL_FALSE, v);
 }
 
 void ShaderProgram::vertexAttribPointer(const std::string &name, GLuint size, GLenum type, GLsizei stride, const size_t offset)

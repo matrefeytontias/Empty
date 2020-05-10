@@ -8,6 +8,7 @@
 
 #include "render/gl/GLObject.h"
 #include "render/gl/Texture.h"
+#include "render/gl/Uniform.h"
 #include "utils/utils.hpp"
 
 namespace render::gl
@@ -23,14 +24,8 @@ namespace render::gl
             attachSource(type, utils::getFileContents(path));
         }
         void use();
-        void uniform1f(const std::string& name, float v);
-        void uniform2f(const std::string& name, float v1, float v2);
-        void uniform3f(const std::string& name, float v1, float v2, float v3);
-        void uniform4f(const std::string& name, float v1, float v2, float v3, float v4);
-        void uniform1i(const std::string& name, int i);
-        void uniform2i(const std::string& name, int i1, int i2);
-        void uniformMatrix4fv(const std::string& name, GLuint count, const GLfloat* v);
-        void uniformMatrix3fv(const std::string& name, GLuint count, const GLfloat* v);
+        template <typename T>
+        void uniform(const std::string& name, const T& value) { Uniform<T>(name, value).upload(ensureUniform(name)); }
         void vertexAttribPointer(const std::string& name, GLuint size, GLenum type, GLsizei stride, const size_t offset);
         void registerTexture(const std::string& name, const TextureBinding& tex);
         size_t getTexturesAmount() const { return _textures.size(); }

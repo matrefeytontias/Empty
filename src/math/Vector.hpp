@@ -81,7 +81,7 @@ namespace math
         void normalize() { *this /= norm(); }
         Vector normalized() const { return *this / norm(); }
 
-    private:
+    protected:
         T _data[n];
     };
 
@@ -154,6 +154,10 @@ namespace math
     //
     // Few-element aliases
     //
+
+    using Vector2i = Vector2<int>;
+    using Vector3i = Vector3<int>;
+    using Vector4i = Vector4<int>;
 
     using Vector2f = Vector2<float>;
     using Vector3f = Vector3<float>;

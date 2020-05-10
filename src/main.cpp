@@ -5,7 +5,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "math/Vector.hpp"
 #include "render/gl/Buffer.h"
+#include "render/gl/ShaderProgram.hpp"
 #include "render/gl/Texture.h"
 #include "render/gl/VertexArray.h"
 #include "utils/macros.h"
@@ -60,11 +62,12 @@ int _main(int, char *argv[])
     vao.bind();
     
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
-    tex.bind();
+    auto texBinding = tex.getBindingInfo();
+    texBinding.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
-    tex.unbind();
+    texBinding.unbind();
 
     Buffer<BufferTarget::Array> buffer;
     buffer.bind();
@@ -72,6 +75,8 @@ int _main(int, char *argv[])
     int64_t size = buffer.getParameter<BufferParam::Size>();
     TRACE("Successfully reserved " << size << " bytes for buffer");
     buffer.unbind();
+
+    ShaderProgram program;
 
     while (!glfwWindowShouldClose(window))
     {

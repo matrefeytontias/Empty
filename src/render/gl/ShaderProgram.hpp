@@ -17,8 +17,6 @@
 
 namespace render::gl
 {
-	typedef GLint location;
-
 	struct ShaderProgram : public GLObject<ProgramId>
 	{
 	public:
@@ -73,7 +71,7 @@ namespace render::gl
 
 		template <ProgramParam CTParam,
 			std::enable_if_t<CTParam == ProgramParam::ComputeWorkGroupSize, int> = 0>
-			inline math::Vector3i getParameter() const
+			inline math::ivec3 getParameter() const
 		{
 			math::Vector3i p;
 			glGetProgramiv(*_id, utils::value(CTParam), p);

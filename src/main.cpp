@@ -58,6 +58,13 @@ int _main(int, char *argv[])
     
     TRACE("Entering drawing loop");
 
+    math::vec2 mee(1.4f, 7.4f);
+    math::vec2 moo(0.5f, 5.8f);
+    mee += moo;
+
+    math::Matrix2f mat = math::Matrix2f::Constant(1);
+    mat *= 2;
+
     VertexArray vao;
     vao.bind();
 

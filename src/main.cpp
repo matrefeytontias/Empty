@@ -76,6 +76,11 @@ int _main(int, char *argv[])
     buffer.unbind();
 
     ShaderProgram program;
+    program.attachSource(ShaderType::Fragment, "uniform float uTime; void main() { gl_FragColor = vec4(fract(uTime), 0, 0, 1); }");
+    program.use();
+    program.uniform("uTime", 0.1f);
+
+    utils::checkGLerror(CALL_SITE);
 
     while (!glfwWindowShouldClose(window))
     {

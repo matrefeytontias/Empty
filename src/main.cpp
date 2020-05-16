@@ -73,6 +73,10 @@ int _main(int, char *argv[])
     buffer.uploadData(10, BufferUsage::DynamicRead);
     int64_t size = buffer.getParameter<BufferParam::Size>();
     TRACE("Successfully reserved " << size << " bytes for buffer");
+
+    BufferMapping mapping = buffer.map(BufferAccess::ReadOnly);
+    mapping.unmap();
+
     buffer.unbind();
 
     ShaderProgram program;

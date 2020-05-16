@@ -88,25 +88,14 @@ namespace render::gl
 	};
 
 	/**
-	 * Possible values of buffer parameters that accept symbolic constants as values.
+	 * Names for a mapped buffer's access parameter.
 	 */
-	enum struct BufferParamValue : GLenum
+	enum struct BufferAccess : GLenum
 	{
 		Invalid = GL_INVALID_ENUM,
-		// Access & AccessFlags
 		ReadOnly = GL_READ_ONLY,
 		WriteOnly = GL_WRITE_ONLY,
 		ReadWrite = GL_READ_WRITE,
-		// Usage
-		StreamDraw = GL_STREAM_DRAW,
-		StreamRead = GL_STREAM_READ,
-		StreamCopy = GL_STREAM_COPY,
-		StaticDraw = GL_STATIC_DRAW,
-		StaticRead = GL_STATIC_READ,
-		StaticCopy = GL_STATIC_COPY,
-		DynamicDraw = GL_DYNAMIC_DRAW,
-		DynamicRead = GL_DYNAMIC_READ,
-		DynamicCopy = GL_DYNAMIC_COPY
 	};
 
 	// ################################
@@ -443,7 +432,7 @@ namespace utils
 	template <> const char* name<render::gl::BufferTarget>(render::gl::BufferTarget e);
 	template <> const char* name<render::gl::BufferUsage>(render::gl::BufferUsage e);
 	template <> const char* name<render::gl::BufferParam>(render::gl::BufferParam e);
-	template <> const char* name<render::gl::BufferParamValue>(render::gl::BufferParamValue e);
+	template <> const char* name<render::gl::BufferAccess>(render::gl::BufferAccess e);
 	template <> const char* name<render::gl::TextureTarget>(render::gl::TextureTarget e);
 	template <> const char* name<render::gl::TextureFormat>(render::gl::TextureFormat e);
 	template <> const char* name<render::gl::CubeMapFace>(render::gl::CubeMapFace e);

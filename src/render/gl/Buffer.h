@@ -38,6 +38,41 @@ namespace render::gl
 		std::shared_ptr<BufferId> _id;
 	};
 
+	template<BufferTarget> struct Buffer;
+	/**
+	 * This struct is used when mapping a buffer.
+	 */
+	struct BufferMapping
+	{
+		BufferMapping() {}
+
+		/**
+		 * Unmaps the buffer and deletes the access to the pointer.
+		 */
+		inline bool unmap()
+		{
+			_data = nullptr;
+			_binding.bind();
+			return glUnmapBuffer(utils::value(_binding.target()));
+		}
+
+		inline bool isMapped() const { return _data != nullptr; }
+
+	private:
+		template<BufferTarget> friend struct Buffer;
+		void* _data = nullptr;
+		BufferBinding _binding;
+
+		/**
+		 * Maps the buffer.
+		 */
+		inline void map(BufferBinding binding, BufferAccess access)
+		{
+			_binding = binding;
+			_data = glMapBuffer(utils::value(_binding.target()), utils::value(access));
+		}
+	};
+
 	/**
 	 * General-purpose buffer class. Does not map one-to-one with OpenGL buffer objects, but holds a shared reference
 	 * to one. It is possible to instantiate buffers with target known or unknown at compile-time.
@@ -74,10 +109,21 @@ namespace render::gl
 		}
 
 		/**
+		 * Maps the buffer to a pointer that contains the buffer's data.
+		 */
+		inline BufferMapping map(BufferAccess access)
+		{
+			ASSERT(!mapping.isMapped());
+			mapping.map(getBindingInfo(), access);
+			return mapping;
+		}
+
+		/**
 		 * Allocate storage for and upload data to a buffer.
 		 */
 		inline void uploadData(size_t size, BufferUsage usage, const void* data = nullptr) const
 		{
+			ASSERT(!mapping.isMapped());
 			glBufferData(utils::value(_target), size, data, utils::value(usage));
 		}
 
@@ -87,6 +133,7 @@ namespace render::gl
 			, int> = 0>
 			bool getParameter() const
 		{
+			ASSERT(!mapping.isMapped());
 			int p;
 			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
 			return p;
@@ -98,19 +145,30 @@ namespace render::gl
 			, int> = 0>
 			int64_t getParameter() const
 		{
+			ASSERT(!mapping.isMapped());
 			int64_t p;
 			glGetBufferParameteri64v(utils::value(_target), utils::value(CTParam), &p);
 			return p;
 		}
 
 		template <BufferParam CTParam, std::enable_if_t <
-			CTParam == BufferParam::Access || CTParam == BufferParam::Usage
-			, int> = 0>
-			BufferParamValue getParameter() const
+			CTParam == BufferParam::Access, int> = 0>
+			BufferAccess getParameter() const
 		{
+			ASSERT(!mapping.isMapped());
 			int p;
 			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
-			return static_cast<BufferParamValue>(p);
+			return static_cast<BufferAccess>(p);
+		}
+
+		template <BufferParam CTParam, std::enable_if_t <
+			CTParam == BufferParam::Usage, int> = 0>
+			BufferUsage getParameter() const
+		{
+			ASSERT(!mapping.isMapped());
+			int p;
+			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
+			return static_cast<BufferUsage>(p);
 		}
 
 		BufferBinding getBindingInfo() const { return BufferBinding(_target, _id); }
@@ -121,5 +179,6 @@ namespace render::gl
 		 * Registered target of the buffer object.
 		 */
 		const BufferTarget _target;
+		BufferMapping mapping;
 	};
 }

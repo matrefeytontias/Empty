@@ -66,22 +66,13 @@ static const std::unordered_map<render::gl::BufferParam, const char*> BufferPara
 };
 template <> const char* utils::name<render::gl::BufferParam>(render::gl::BufferParam e) { return BufferParam_names.find(e)->second; }
 
-static const std::unordered_map<render::gl::BufferParamValue, const char*> BufferParamValue_names = {
-	{render::gl::BufferParamValue::Invalid, "BufferParamValue::Invalid"},
-	{render::gl::BufferParamValue::ReadOnly, "BufferParamValue::ReadOnly"},
-	{render::gl::BufferParamValue::WriteOnly, "BufferParamValue::WriteOnly"},
-	{render::gl::BufferParamValue::ReadWrite, "BufferParamValue::ReadWrite"},
-	{render::gl::BufferParamValue::StreamDraw, "BufferParamValue::StreamDraw"},
-	{render::gl::BufferParamValue::StreamRead, "BufferParamValue::StreamRead"},
-	{render::gl::BufferParamValue::StreamCopy, "BufferParamValue::StreamCopy"},
-	{render::gl::BufferParamValue::StaticDraw, "BufferParamValue::StaticDraw"},
-	{render::gl::BufferParamValue::StaticRead, "BufferParamValue::StaticRead"},
-	{render::gl::BufferParamValue::StaticCopy, "BufferParamValue::StaticCopy"},
-	{render::gl::BufferParamValue::DynamicDraw, "BufferParamValue::DynamicDraw"},
-	{render::gl::BufferParamValue::DynamicRead, "BufferParamValue::DynamicRead"},
-	{render::gl::BufferParamValue::DynamicCopy, "BufferParamValue::DynamicCopy"},
+static const std::unordered_map<render::gl::BufferAccess, const char*> BufferAccess_names = {
+	{render::gl::BufferAccess::Invalid, "BufferAccess::Invalid"},
+	{render::gl::BufferAccess::ReadOnly, "BufferAccess::ReadOnly"},
+	{render::gl::BufferAccess::WriteOnly, "BufferAccess::WriteOnly"},
+	{render::gl::BufferAccess::ReadWrite, "BufferAccess::ReadWrite"},
 };
-template <> const char* utils::name<render::gl::BufferParamValue>(render::gl::BufferParamValue e) { return BufferParamValue_names.find(e)->second; }
+template <> const char* utils::name<render::gl::BufferAccess>(render::gl::BufferAccess e) { return BufferAccess_names.find(e)->second; }
 
 static const std::unordered_map<render::gl::TextureTarget, const char*> TextureTarget_names = {
 	{render::gl::TextureTarget::Dynamic, "TextureTarget::Dynamic"},

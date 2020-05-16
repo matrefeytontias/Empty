@@ -28,7 +28,7 @@ namespace render::gl
 	{                                                                                       \
 		Uniform(const std::string& n, const type& v) : UniformBase(n), value(v) {}          \
 		type value;                                                                         \
-		void upload(int location) override { exp; }                                         \
+		void upload(int location) override { if(location > -1) exp; }                                         \
 	}
 
 	GEN_UNIFORM_STRUCT(int, glUniform1i(location, value));

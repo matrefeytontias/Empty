@@ -392,6 +392,46 @@ namespace render::gl
         TessEvaluation = GL_TESS_EVALUATION_SHADER,
         Vertex = GL_VERTEX_SHADER,
     };
+
+	/**
+	 * Lists all shader parameter names.
+	 */
+	enum struct ShaderParam : GLenum
+	{
+	    Type = GL_SHADER_TYPE,
+		DeleteStatus = GL_DELETE_STATUS,
+		CompileStatus = GL_COMPILE_STATUS,
+		InfoLogLength = GL_INFO_LOG_LENGTH,
+		SourceLength = GL_SHADER_SOURCE_LENGTH,
+	};
+
+	// #######################################
+	// # Shader program-related enum structs #
+	// #######################################
+
+	enum struct ProgramParam : GLenum
+	{
+		DeleteStatus = GL_DELETE_STATUS,
+		LinkStatus = GL_LINK_STATUS,
+		ValidateStatus = GL_VALIDATE_STATUS,
+		InfoLogLength = GL_INFO_LOG_LENGTH,
+		AttachedShaders = GL_ATTACHED_SHADERS,
+		ActiveAtomicCounterBuffers = GL_ACTIVE_ATOMIC_COUNTER_BUFFERS,
+		ActiveAttributes = GL_ACTIVE_ATTRIBUTES,
+		ActiveAttributeMaxNameLength = GL_ACTIVE_ATTRIBUTE_MAX_LENGTH,
+		ActiveUniforms = GL_ACTIVE_UNIFORMS,
+		ActiveUniformMaxNameLength = GL_ACTIVE_UNIFORM_MAX_LENGTH,
+		BinaryLength = GL_PROGRAM_BINARY_LENGTH,
+		ComputeWorkGroupSize = GL_COMPUTE_WORK_GROUP_SIZE,
+		TransformFeedbackBufferMode = GL_TRANSFORM_FEEDBACK_BUFFER_MODE,
+		TransformFeedbackVaryings = GL_TRANSFORM_FEEDBACK_VARYINGS,
+		TransformFeedbackVaryingMaxNameLength = GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH,
+		GeometryVerticesOut = GL_GEOMETRY_VERTICES_OUT,
+		GeometryInputType = GL_GEOMETRY_INPUT_TYPE,
+		GeometryOutputType = GL_GEOMETRY_OUTPUT_TYPE,
+		RetrievableBinaryHint = GL_PROGRAM_BINARY_RETRIEVABLE_HINT,
+		Separable = GL_PROGRAM_SEPARABLE,
+	};
 }
 namespace utils
 {
@@ -412,4 +452,6 @@ namespace utils
 	template <> const char* name<render::gl::TextureParam>(render::gl::TextureParam e);
 	template <> const char* name<render::gl::TextureParamValue>(render::gl::TextureParamValue e);
 	template <> const char* name<render::gl::ShaderType>(render::gl::ShaderType e);
+	template <> const char* name<render::gl::ShaderParam>(render::gl::ShaderParam e);
+	template <> const char* name<render::gl::ProgramParam>(render::gl::ProgramParam e);
 }

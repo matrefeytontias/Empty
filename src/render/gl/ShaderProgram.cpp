@@ -10,23 +10,19 @@ ShaderProgram* render::gl::ShaderProgram::_currentProgram = nullptr;
 
 ShaderProgram::~ShaderProgram()
 {
-    for(auto cpl : _attributes)
-        glDisableVertexAttribArray(cpl.second);
-    
     for(auto& shader : _shaders)
-        glDetachShader(*_id, *shader);
+        glDetachShader(*_id, shader);
 }
 
-void ShaderProgram::attachSource(ShaderType type, const std::string& src)
+bool ShaderProgram::attachSource(ShaderType type, const std::string& src)
 {
-    auto shader = std::make_shared<ShaderId>(type);
-    auto ind = src.c_str();
-    glShaderSource(*shader, 1, &ind, NULL);
-    glCompileShader(*shader);
-    utils::printShaderLog(*shader);
-    glAttachShader(*_id, *shader);
+    Shader shader(type);
+    if (!shader.setSource(src))
+        return false;
+    glAttachShader(*_id, shader);
     _shaders.push_back(shader);
     _dirty = true;
+    return true;
 }
 
 void ShaderProgram::use()
@@ -41,17 +37,20 @@ void ShaderProgram::use()
         for(auto tex : _textures)
         {
             tex.second.bind(i);
-            glUniform1i(ensureUniform(tex.first), i++);
+            glUniform1i(findUniform(tex.first), i++);
         }
     }
     _dirty = false;
     _currentProgram = this;
 }
 
-void ShaderProgram::vertexAttribPointer(const std::string &name, GLuint size, GLenum type, GLsizei stride, const size_t offset)
+std::vector<std::shared_ptr<UniformBase>> ShaderProgram::dumpUniforms() const
 {
-    glEnableVertexAttribArray(ensureAttrib(name));
-    glVertexAttribPointer(_attributes[name], size, type, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+    std::vector<std::shared_ptr<UniformBase>> r;
+    r.reserve(_uniforms.size());
+    for (auto& u : _uniforms)
+        r.push_back(u.second);
+    return r;
 }
 
 void ShaderProgram::registerTexture(const std::string &name, const TextureBinding& tex)
@@ -60,14 +59,14 @@ void ShaderProgram::registerTexture(const std::string &name, const TextureBindin
     _textures[name] = tex;
 }
 
-GLint ShaderProgram::ensureUniform(const std::string &name)
+GLint ShaderProgram::findUniform(const std::string &name)
 {
-    if(_uniforms.find(name) == _uniforms.end())
-        _uniforms[name] = glGetUniformLocation(*_id, name.c_str());
-    return _uniforms[name];
+    if(_uniformLocations.find(name) == _uniformLocations.end())
+        _uniformLocations[name] = glGetUniformLocation(*_id, name.c_str());
+    return _uniformLocations[name];
 }
 
-GLint ShaderProgram::ensureAttrib(const std::string &name)
+GLint ShaderProgram::findAttribute(const std::string &name)
 {
     if(_attributes.find(name) == _attributes.end())
         _attributes[name] = glGetAttribLocation(*_id, name.c_str());

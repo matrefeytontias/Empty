@@ -314,3 +314,36 @@ static const std::unordered_map<render::gl::ShaderType, const char*> ShaderType_
 };
 template <> const char* utils::name<render::gl::ShaderType>(render::gl::ShaderType e) { return ShaderType_names.find(e)->second; }
 
+static const std::unordered_map<render::gl::ShaderParam, const char*> ShaderParam_names = {
+	{render::gl::ShaderParam::Type, "ShaderParam::Type"},
+	{render::gl::ShaderParam::DeleteStatus, "ShaderParam::DeleteStatus"},
+	{render::gl::ShaderParam::CompileStatus, "ShaderParam::CompileStatus"},
+	{render::gl::ShaderParam::InfoLogLength, "ShaderParam::InfoLogLength"},
+	{render::gl::ShaderParam::SourceLength, "ShaderParam::SourceLength"},
+};
+template <> const char* utils::name<render::gl::ShaderParam>(render::gl::ShaderParam e) { return ShaderParam_names.find(e)->second; }
+
+static const std::unordered_map<render::gl::ProgramParam, const char*> ProgramParam_names = {
+	{render::gl::ProgramParam::DeleteStatus, "ProgramParam::DeleteStatus"},
+	{render::gl::ProgramParam::LinkStatus, "ProgramParam::LinkStatus"},
+	{render::gl::ProgramParam::ValidateStatus, "ProgramParam::ValidateStatus"},
+	{render::gl::ProgramParam::InfoLogLength, "ProgramParam::InfoLogLength"},
+	{render::gl::ProgramParam::AttachedShaders, "ProgramParam::AttachedShaders"},
+	{render::gl::ProgramParam::ActiveAtomicCounterBuffers, "ProgramParam::ActiveAtomicCounterBuffers"},
+	{render::gl::ProgramParam::ActiveAttributes, "ProgramParam::ActiveAttributes"},
+	{render::gl::ProgramParam::ActiveAttributeMaxNameLength, "ProgramParam::ActiveAttributeMaxNameLength"},
+	{render::gl::ProgramParam::ActiveUniforms, "ProgramParam::ActiveUniforms"},
+	{render::gl::ProgramParam::ActiveUniformMaxNameLength, "ProgramParam::ActiveUniformMaxNameLength"},
+	{render::gl::ProgramParam::BinaryLength, "ProgramParam::BinaryLength"},
+	{render::gl::ProgramParam::ComputeWorkGroupSize, "ProgramParam::ComputeWorkGroupSize"},
+	{render::gl::ProgramParam::TransformFeedbackBufferMode, "ProgramParam::TransformFeedbackBufferMode"},
+	{render::gl::ProgramParam::TransformFeedbackVaryings, "ProgramParam::TransformFeedbackVaryings"},
+	{render::gl::ProgramParam::TransformFeedbackVaryingMaxNameLength, "ProgramParam::TransformFeedbackVaryingMaxNameLength"},
+	{render::gl::ProgramParam::GeometryVerticesOut, "ProgramParam::GeometryVerticesOut"},
+	{render::gl::ProgramParam::GeometryInputType, "ProgramParam::GeometryInputType"},
+	{render::gl::ProgramParam::GeometryOutputType, "ProgramParam::GeometryOutputType"},
+	{render::gl::ProgramParam::RetrievableBinaryHint, "ProgramParam::RetrievableBinaryHint"},
+	{render::gl::ProgramParam::Separable, "ProgramParam::Separable"},
+};
+template <> const char* utils::name<render::gl::ProgramParam>(render::gl::ProgramParam e) { return ProgramParam_names.find(e)->second; }
+

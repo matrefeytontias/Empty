@@ -54,7 +54,8 @@ namespace render::gl
      */
 	template <typename Id> struct GLObject
 	{
-		GLObject() : _id(std::make_shared<Id>()) {}
+        template <typename ...Ts>
+		GLObject(const Ts& ...args) : _id(std::make_shared<Id>(args...)) {}
 		bool operator==(const GLObject& a) { return _id == a._id; }
 	protected:
 		std::shared_ptr<Id> _id;

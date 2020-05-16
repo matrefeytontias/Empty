@@ -31,18 +31,6 @@ namespace utils
 	 * meaning the input string is split by either of the characters in the delimiter string.
 	 */
 	std::vector<std::string> split(const std::string& s, const std::string& delim);
-	/**
-	 * Creates an OpenGL shader from the path of its source file.
-	 * @param   type    the OpenGL type of the shader (eg vertex, fragment ...)
-	 * @param   path    the path of the source file
-	 * @return  a valid OpenGL shader name
-	 */
-	GLuint createShaderFromSource(GLenum type, const std::string& path);
-
-	/**
-	 * Print the shader log associated with a shader name.
-	 */
-	void printShaderLog(GLuint shader);
 
 	/**
 	 * Prints all available OpenGL error codes.
@@ -78,11 +66,6 @@ namespace utils
 	 * Shorthand function to modify the aspect ratio of a perspective matrix.
 	 */
 	void setAspectRatio(math::Matrix4f& p, float ratio);
-
-	/**
-	 * Shorthand function to display an OpenGL texture as a quarter of the screen.
-	 */
-	void displayTexture(GLint texture, float dx = 0.f, float dy = 0.f);
 
 	/**
 	 * Extract the underlying value of a scoped enum value

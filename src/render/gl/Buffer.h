@@ -24,13 +24,13 @@ namespace render::gl
 
 		inline void bind() const
 		{
-			ASSERT(target != BufferTarget::Dynamic && id && "Invalid buffer binding");
+			ASSERT(_target != BufferTarget::Dynamic && _id && "Invalid buffer binding");
 			glBindBuffer(utils::value(_target), *_id);
 		}
 
 		inline void unbind() const
 		{
-			ASSERT(target != BufferTarget::Dynamic && "Invalid buffer binding");
+			ASSERT(_target != BufferTarget::Dynamic && "Invalid buffer binding");
 			glBindBuffer(utils::value(_target), 0);
 		}
 	private:
@@ -40,37 +40,43 @@ namespace render::gl
 
 	template<BufferTarget> struct Buffer;
 	/**
-	 * This struct is used when mapping a buffer.
+	 * Structure used when mapping a buffer. Unmapping is done via
+	 * destruction of this object ; as such, its usage should be encapsulated
+	 * in a scope so the buffer is unmapped when this object goes out of scope.
 	 */
-	struct BufferMapping
+	struct BufferMapping : public utils::noncopyable
 	{
-
 		/**
-		 * Unmaps the buffer and deletes the access to the pointer.
+		 * Unmaps the buffer. Use this object in a scope to make sure this is called.
 		 */
-		inline bool unmap()
+		~BufferMapping()
 		{
-			_data = nullptr;
+			TRACE("Buffer unmapped !");
 			_binding.bind();
-			return glUnmapBuffer(utils::value(_binding.target()));
+			glUnmapBuffer(utils::value(_binding.target()));
+			*_mapped = false;
 		}
 
-		inline bool isMapped() const { return _data != nullptr; }
+		void doThings()
+		{
+			TRACE("Things have been done");
+		}
 
 	private:
 		template<BufferTarget> friend struct Buffer;
-		void* _data = nullptr;
-		BufferBinding _binding;
 
-		BufferMapping() {}
+		void* _data;
+		BufferBinding _binding;
+		bool* _mapped;
 
 		/**
-		 * Maps the buffer.
+		 * Maps the buffer. Use this object in a scope to make sure the buffer is unmapped
+		 * when this object goes out of scope.
 		 */
-		inline void map(const BufferBinding& binding, BufferAccess access)
+		BufferMapping(const BufferBinding& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
 		{
-			_binding = binding;
 			_data = glMapBuffer(utils::value(_binding.target()), utils::value(access));
+			*_mapped = true;
 		}
 	};
 
@@ -112,11 +118,10 @@ namespace render::gl
 		/**
 		 * Maps the buffer to a pointer that contains the buffer's data.
 		 */
-		inline BufferMapping map(BufferAccess access)
+		BufferMapping map(BufferAccess access)
 		{
-			ASSERT(!mapping.isMapped());
-			mapping.map(getBindingInfo(), access);
-			return mapping;
+			ASSERT(!_mapped);
+			return BufferMapping(getBindingInfo(), access, &_mapped);
 		}
 
 		/**
@@ -124,7 +129,7 @@ namespace render::gl
 		 */
 		inline void uploadData(size_t size, BufferUsage usage, const void* data = nullptr) const
 		{
-			ASSERT(!mapping.isMapped());
+			ASSERT(!_mapped);
 			glBufferData(utils::value(_target), size, data, utils::value(usage));
 		}
 
@@ -134,7 +139,7 @@ namespace render::gl
 			, int> = 0>
 			bool getParameter() const
 		{
-			ASSERT(!mapping.isMapped());
+			ASSERT(!_mapped);
 			int p;
 			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
 			return p;
@@ -146,7 +151,7 @@ namespace render::gl
 			, int> = 0>
 			int64_t getParameter() const
 		{
-			ASSERT(!mapping.isMapped());
+			ASSERT(!_mapped);
 			int64_t p;
 			glGetBufferParameteri64v(utils::value(_target), utils::value(CTParam), &p);
 			return p;
@@ -156,7 +161,7 @@ namespace render::gl
 			CTParam == BufferParam::Access, int> = 0>
 			BufferAccess getParameter() const
 		{
-			ASSERT(!mapping.isMapped());
+			ASSERT(!_mapped);
 			int p;
 			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
 			return static_cast<BufferAccess>(p);
@@ -166,7 +171,7 @@ namespace render::gl
 			CTParam == BufferParam::Usage, int> = 0>
 			BufferUsage getParameter() const
 		{
-			ASSERT(!mapping.isMapped());
+			ASSERT(!_mapped);
 			int p;
 			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
 			return static_cast<BufferUsage>(p);
@@ -180,6 +185,6 @@ namespace render::gl
 		 * Registered target of the buffer object.
 		 */
 		const BufferTarget _target;
-		BufferMapping mapping;
+		bool _mapped = false;
 	};
 }

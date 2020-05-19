@@ -58,14 +58,14 @@ namespace render::gl
 
 		inline void bind(int unit = -1) const
 		{
-			ASSERT(target != TextureTarget::Dynamic && id && "Invalid texture binding");
+			ASSERT(_target != TextureTarget::Dynamic && _id && "Invalid texture binding");
 			if (unit >= 0)
 				glActiveTexture(GL_TEXTURE0 + unit);
 			glBindTexture(utils::value(_target), *_id);
 		}
 		inline void unbind(int unit = -1) const
 		{
-			ASSERT(target != TextureTarget::Dynamic && "Invalid texture binding");
+			ASSERT(_target != TextureTarget::Dynamic && "Invalid texture binding");
 			if (unit >= 0)
 				glActiveTexture(GL_TEXTURE0 + unit);
 			glBindTexture(utils::value(_target), 0);

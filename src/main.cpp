@@ -81,16 +81,18 @@ int _main(int, char *argv[])
     int64_t size = buffer.getParameter<BufferParam::Size>();
     TRACE("Successfully reserved " << size << " bytes for buffer");
 
-    BufferMapping mapping = buffer.map(BufferAccess::ReadOnly);
-    mapping.unmap();
+    {
+        auto mapping = buffer.map(BufferAccess::ReadOnly);
+        mapping.doThings();
+    }
+    buffer.uploadData(64, BufferUsage::StaticDraw);
 
     buffer.unbind();
 
     ShaderProgram program;
-    program.attachSource(ShaderType::Fragment, "uniform float uTime; void main() { gl_FragColor = vec4(fract(uTime), 0, 0, 1); }");
+    program.attachSource(ShaderType::Vertex, "in vec3 position; uniform float uTime; void main() { gl_Position = vec4(position * cos(uTime), 1.); }");
     program.use();
     program.uniform("uTime", 0.1f);
-
 
     VertexStructure vstruct;
     vstruct.add("position", VertexAttribType::Float, 3);

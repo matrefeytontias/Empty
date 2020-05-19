@@ -67,7 +67,7 @@ namespace render::gl
 		/**
 		 * Maps the buffer.
 		 */
-		inline void map(BufferBinding binding, BufferAccess access)
+		inline void map(const BufferBinding& binding, BufferAccess access)
 		{
 			_binding = binding;
 			_data = glMapBuffer(utils::value(_binding.target()), utils::value(access));

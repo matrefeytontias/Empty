@@ -94,7 +94,7 @@ int _main(int, char *argv[])
 
     VertexStructure vstruct;
     vstruct.add("position", VertexAttribType::Float, 3);
-    vao.bindVertexAttribs(program, buffer.getBindingInfo(), vstruct);
+    vao.bindVertexAttribs(vstruct, program);
 
     utils::checkGLerror(CALL_SITE);
 

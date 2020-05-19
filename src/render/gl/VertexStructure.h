@@ -20,7 +20,7 @@ namespace render::gl
 		 * Number of vertices in the buffer when the attributes are separate. If the buffer attributes are interleaved, separateVertices is set to 0.
 		 */
 		size_t separateVertices = 0;
-		bool isInterleaved() { return separateVertices <= 0; }
+		bool isInterleaved() const { return separateVertices <= 0; }
 
 		void add(const std::string name, VertexAttribType type, int elems)
 		{

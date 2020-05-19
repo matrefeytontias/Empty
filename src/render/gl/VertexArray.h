@@ -50,45 +50,43 @@ namespace render::gl
 		void disableArray(int index) const { glDisableVertexAttribArray(index); }
 
 		/**
-		 * Sets the vertex attributes structure of the buffer.
+		 * Sets the vertex attributes structure of the currently bound buffer.
 		 */
-		void bindVertexAttribs(ShaderProgram program, BufferBinding buffer, VertexStructure attribs)
+		void bindVertexAttribs(const VertexStructure& attribs, ShaderProgram& program)
 		{
-			buffer.bind();
 			size_t offset = 0;
 			if (attribs.isInterleaved())
 			{
-				size_t stride = 0;
-				for (VertexAttribDescriptor attrib : attribs.descriptor)
+				int stride = 0;
+				for (auto& attrib : attribs.descriptor)
 				{
-					stride += static_cast<size_t>(attrib.elems) * vertexElementSize(attrib.type);
+					stride += attrib.elems * vertexElementSize(attrib.type);
 				}
 
-				for (VertexAttribDescriptor attrib : attribs.descriptor)
+				for (auto& attrib : attribs.descriptor)
 				{
 					int index = program.findAttribute(attrib.name);
 					if (index >= 0)
 					{
 						enableArray(index);
-						glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), GL_FALSE, stride, reinterpret_cast<void*>(offset));
+						glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), false, stride, reinterpret_cast<void*>(offset));
 					}
 					offset += static_cast<size_t>(attrib.elems) * vertexElementSize(attrib.type);
 				}
 			}
 
 			else {
-				for (VertexAttribDescriptor attrib : attribs.descriptor)
+				for (auto& attrib : attribs.descriptor)
 				{
 					int index = program.findAttribute(attrib.name);
 					if (index >= 0)
 					{
 						enableArray(index);
-						glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), GL_FALSE, vertexElementSize(attrib.type), reinterpret_cast<void*>(offset));
+						glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), false, 0, reinterpret_cast<void*>(offset));
 					}
 					offset += attribs.separateVertices * attrib.elems * vertexElementSize(attrib.type);
 				}
 			}
-			buffer.unbind();
 		}
 
 		const VertexArrayBinding getBindingInfo() const { return VertexArrayBinding(_id); }

@@ -44,7 +44,6 @@ namespace render::gl
 	 */
 	struct BufferMapping
 	{
-		BufferMapping() {}
 
 		/**
 		 * Unmaps the buffer and deletes the access to the pointer.
@@ -62,6 +61,8 @@ namespace render::gl
 		template<BufferTarget> friend struct Buffer;
 		void* _data = nullptr;
 		BufferBinding _binding;
+
+		BufferMapping() {}
 
 		/**
 		 * Maps the buffer.

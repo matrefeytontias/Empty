@@ -84,6 +84,11 @@ int _main(int, char *argv[])
     program.use();
     program.uniform("uTime", 0.1f);
 
+
+    VertexStructure vstruct;
+    vstruct.add("position", VertexAttribType::Float, 3);
+    vao.bindVertexAttribs(program, buffer.getBindingInfo(), vstruct);
+
     utils::checkGLerror(CALL_SITE);
 
     while (!glfwWindowShouldClose(window))

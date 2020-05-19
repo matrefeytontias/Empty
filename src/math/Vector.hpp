@@ -4,166 +4,115 @@
 
 namespace math
 {
-    template <unsigned int n, typename T = float>
-    struct Vector
+#define DEFINE_ACCESSORS T operator()(int k) const { return data[k]; } \
+    T& operator()(int k) { return data[k]; } \
+    T operator[](int k) const { return data[k]; } \
+    T& operator[](int k) { return data[k]; } \
+    operator const T* () const { return data; } \
+    operator T* () { return data; }
+
+    template <typename T>
+    struct _vec2
     {
+        union
+        {
+            struct { T x; T y; };
+            T data[2];
+        };
+        // Constructors
+        _vec2() = default;
+        _vec2(T x, T y) : x(x), y(y) {}
+        template <typename U>
+        _vec2(U x, U y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
         // Access
-        T operator()(int k) const { return _data[k]; }
-        T& operator()(int k) { return _data[k]; }
-        T operator[](int k) const { return _data[k]; }
-        T& operator[](int k) { return _data[k]; }
-        operator const T* () const { return _data; }
-        operator T* () { return _data; }
-        // Infix operators
-        Vector operator+(const Vector& a) const
-        {
-            Vector r;
-            for (int k = 0; k < n; k++)
-                r(k) = _data[k] + a(k);
-            return r;
-        }
-        Vector operator-(const Vector& a) const
-        {
-            Vector r;
-            for (int k = 0; k < n; k++)
-                r(k) = _data[k] - a(k);
-            return r;
-        }
-        Vector operator*(T v) const
-        {
-            Vector r;
-            for (int k = 0; k < n; k++)
-                r(k) = _data[k] * v;
-            return r;
-        }
-        Vector operator/(T v) const
-        {
-            Vector r;
-            for (int k = 0; k < n; k++)
-                r(k) = _data[k] / v;
-            return r;
-        }
-        // Assignment operators
-        Vector& operator+=(const Vector& a)
-        {
-            for (int k = 0; k < n; k++)
-                _data[k] += a(k);
-            return *this;
-        }
-        Vector& operator-=(const Vector& a)
-        {
-            for (int k = 0; k < n; k++)
-                _data[k] -= a(k);
-            return *this;
-        }
-        Vector& operator*=(T v)
-        {
-            for (int k = 0; k < n; k++)
-                _data[k] *= v;
-            return *this;
-        }
-        Vector& operator/=(T v)
-        {
-            for (int k = 0; k < n; k++)
-                _data[k] /= v;
-            return *this;
-        }
-        // More math
-        T dot(const Vector& a) const
-        {
-            T r = _data[0] * a(0);
-            for (int k = 1; k < n; k++)
-                r += _data[k] * a(k);
-            return r;
-        }
-        T squaredNorm() const { return dot(*this); }
-        T norm() const { return std::sqrt(squaredNorm()); }
-        void normalize() { *this /= norm(); }
-        Vector normalized() const { return *this / norm(); }
-
-    protected:
-        T _data[n];
+        DEFINE_ACCESSORS;
+        // Infix and assignment operators
+#define OP(op) inline _vec2 operator##op(const _vec2& v) const { return _vec2(x op v.x, y op v.y); } \
+               inline _vec2 operator##op(T v) const { return _vec2(x op v, y op v); } \
+               inline _vec2& operator##op##=(const _vec2& v) { x op##= v.x; y op##= v.y; return *this; } \
+               inline _vec2& operator##op##=(T v) { x op##= v; y op##= v; return *this; }
+        OP(+);
+        OP(-);
+        OP(*);
+        OP(/ );
+#undef OP
     };
 
-    //
-    // Template specializations for few-element vectors
-    //
-    template <typename T> struct Vector2 : public Vector<2, T>
+    template <typename T>
+    struct _vec3
     {
-        Vector2(T x, T y)
+        union
         {
-            _data[0] = x;
-            _data[1] = y;
-        }
-        Vector2(const Vector<2, T>& a) { std::memcpy(_data, a._data, sizeof(_data)); }
-
-        T x() const { return _data[0]; }
-        T& x() { return _data[0]; }
-        T y() const { return _data[1]; }
-        T& y() { return _data[1]; }
+            struct { T x; T y; T z; };
+            T data[3];
+        };
+        // Constructors
+        _vec3() = default;
+        _vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+        template <typename U>
+        _vec3(U x, U y, U z) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)) {}
+        // Access
+        DEFINE_ACCESSORS;
+        // Infix and assignment operators
+#define OP(op) inline _vec3 operator##op(const _vec3& v) const { return _vec3(x op v.x, y op v.y, z op v.z); } \
+               inline _vec3 operator##op(T v) const { return _vec3(x op v, y op v, z op v); } \
+               inline _vec3& operator##op##=(const _vec3& v) { x op##= v.x; y op##= v.y; z op##= v.z; return *this; } \
+               inline _vec3& operator##op##=(T v) { x op##= v; y op##= v; z op##= v; return *this; }
+        OP(+);
+        OP(-);
+        OP(*);
+        OP(/ );
+#undef OP
     };
 
-    template <typename T> struct Vector3 : public Vector<3, T>
+    template <typename T>
+    struct _vec4
     {
-        Vector3(T x, T y, T z)
+        union
         {
-            _data[0] = x;
-            _data[1] = y;
-            _data[2] = z;
-        }
-        Vector3(const Vector<3, T>& a) { std::memcpy(_data, a._data, sizeof(_data)); }
-
-        T x() const { return _data[0]; }
-        T& x() { return _data[0]; }
-        T y() const { return _data[1]; }
-        T& y() { return _data[1]; }
-        T z() const { return _data[2]; }
-        T& z() { return _data[2]; }
-
-        Vector3 cross(const Vector3& a) const
-        {
-            Vector3 r;
-            r(0) = _data[1] * a(2) - _data[2] * a(1);
-            r(1) = _data[2] * a(0) - _data[0] * a(2);
-            r(2) = _data[0] * a(1) - _data[1] * a(0);
-            return r;
-        }
-    };
-
-    template <typename T> struct Vector4 : public Vector<4, T>
-    {
-        Vector4(T x, T y, T z, T w)
-        {
-            _data[0] = x;
-            _data[1] = y;
-            _data[2] = z;
-            _data[3] = w;
-        }
-        Vector4(const Vector<4, T>& a) { std::memcpy(_data, a._data, sizeof(_data)); }
-
-        T x() const { return _data[0]; }
-        T& x() { return _data[0]; }
-        T y() const { return _data[1]; }
-        T& y() { return _data[1]; }
-        T z() const { return _data[2]; }
-        T& z() { return _data[2]; }
-        T w() const { return _data[3]; }
-        T& w() { return _data[3]; }
+            struct { T x; T y; T z; T w; };
+            T data[4];
+        };
+        // Constructors
+        _vec4() = default;
+        _vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+        template <typename U>
+        _vec4(U x, U y, U z, U w) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
+        // Access
+        DEFINE_ACCESSORS;
+        // Infix and assignment operators
+#define OP(op) inline _vec4 operator##op(const _vec4& v) const { return _vec4(x op v.x, y op v.y, z op v.z, w op v.w); } \
+               inline _vec4 operator##op(T v) const { return _vec4(x op v, y op v, z op v, w op v); } \
+               inline _vec4& operator##op##=(const _vec4& v) { x op##= v.x; y op##= v.y; z op##= v.z; w op##= v.w; return *this; } \
+               inline _vec4& operator##op##=(T v) { x op##= v; y op##= v; z op##= v; w op##= v; return *this; }
+        OP(+);
+        OP(-);
+        OP(*);
+        OP(/ );
+#undef OP
     };
 
     //
-    // Few-element aliases
+    // Type aliases
     //
 
-    using Vector2i = Vector2<int>;
-    using Vector3i = Vector3<int>;
-    using Vector4i = Vector4<int>;
+    using bvec2 = _vec2<bool>;
+    using bvec3 = _vec3<bool>;
+    using bvec4 = _vec4<bool>;
 
-    using Vector2f = Vector2<float>;
-    using Vector3f = Vector3<float>;
-    using Vector4f = Vector4<float>;
+    using ivec2 = _vec2<int>;
+    using ivec3 = _vec3<int>;
+    using ivec4 = _vec4<int>;
 
-    using Vector2d = Vector2<double>;
-    using Vector3d = Vector3<double>;
-    using Vector4d = Vector4<double>;
+    using uvec2 = _vec2<unsigned int>;
+    using uvec3 = _vec3<unsigned int>;
+    using uvec4 = _vec4<unsigned int>;
+
+    using vec2 = _vec2<float>;
+    using vec3 = _vec3<float>;
+    using vec4 = _vec4<float>;
+
+    using dvec2 = _vec2<double>;
+    using dvec3 = _vec3<double>;
+    using dvec4 = _vec4<double>;
 }

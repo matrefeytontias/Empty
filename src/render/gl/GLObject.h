@@ -10,6 +10,8 @@
 
 namespace render::gl
 {
+    using location = GLint;
+
 	// Generate a non-copyable ID struct for OpenGL resources created with glGen-type functions.
 #define GL_ID_STRUCT_GEN(name, suffix)                          \
     struct name : public utils::noncopyable                     \

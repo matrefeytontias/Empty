@@ -9,19 +9,6 @@
 
 namespace render::gl
 {
-	constexpr int vertexElementSize(VertexAttribType type)
-	{
-		if (type == VertexAttribType::UByte || type == VertexAttribType::Byte)
-			return 1;
-		else if (type == VertexAttribType::UShort || type == VertexAttribType::Short
-				 || type == VertexAttribType::Half)
-			return 2;
-		else if (type == VertexAttribType::Double)
-			return 8;
-		else
-			return 4;
-	}
-
 	struct VertexArrayBinding
 	{
 		VertexArrayBinding() = default;
@@ -54,37 +41,13 @@ namespace render::gl
 		 */
 		void bindVertexAttribs(const VertexStructure& attribs, ShaderProgram& program)
 		{
-			size_t offset = 0;
-			if (attribs.isInterleaved())
+			for (auto& attrib : attribs.descriptor)
 			{
-				int stride = 0;
-				for (auto& attrib : attribs.descriptor)
+				int index = program.findAttribute(attrib.name);
+				if (index >= 0)
 				{
-					stride += attrib.elems * vertexElementSize(attrib.type);
-				}
-
-				for (auto& attrib : attribs.descriptor)
-				{
-					int index = program.findAttribute(attrib.name);
-					if (index >= 0)
-					{
-						enableArray(index);
-						glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), false, stride, reinterpret_cast<void*>(offset));
-					}
-					offset += static_cast<size_t>(attrib.elems) * vertexElementSize(attrib.type);
-				}
-			}
-
-			else {
-				for (auto& attrib : attribs.descriptor)
-				{
-					int index = program.findAttribute(attrib.name);
-					if (index >= 0)
-					{
-						enableArray(index);
-						glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), false, 0, reinterpret_cast<void*>(offset));
-					}
-					offset += attribs.separateVertices * attrib.elems * vertexElementSize(attrib.type);
+					enableArray(index);
+					glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), false, attrib.stride, reinterpret_cast<void*>(attrib.offset));
 				}
 			}
 		}

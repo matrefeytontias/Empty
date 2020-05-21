@@ -21,7 +21,7 @@ namespace render::gl
 
 	struct VertexAttribDescriptor
 	{
-		const std::string name;
+		std::string name;
 		VertexAttribType type;
 		int elems;
 		int stride;
@@ -30,19 +30,18 @@ namespace render::gl
 
 	struct VertexStructure
 	{
-		std::vector<VertexAttribDescriptor> descriptor = {};
+		std::vector<VertexAttribDescriptor> descriptor;
 		
 		/**
 		 * separateVertices is the number of vertices in the buffer when the attributes are separate.
 		 * If the buffer attributes are interleaved, separateVertices should be set to 0.
 		 */
-		VertexStructure(size_t separateVertices = 0) : _separateVertices(separateVertices)
-		{}
+		VertexStructure(size_t separateVertices = 0) : _separateVertices(separateVertices) {}
 
 		/**
 		 * Adds a new attribute to the structure.
 		 */
-		void add(std::string name, VertexAttribType type, int elems)
+		void add(const std::string& name, VertexAttribType type, int elems)
 		{
 			int stride = 0;
 			size_t offset = 0;
@@ -53,14 +52,9 @@ namespace render::gl
 				{
 					stride = elems * vertexElementSize(type) + descriptor.front().stride;
 					offset = static_cast<size_t>(descriptor.back().elems) * vertexElementSize(descriptor.back().type) + descriptor.back().offset;
-					for (auto& attrib : descriptor)
-					{
-						attrib.stride = stride;
-					}
+					for (auto& attrib : descriptor)	attrib.stride = stride;
 				}
-				else {
-					offset = _separateVertices * descriptor.back().elems * vertexElementSize(descriptor.back().type) + descriptor.back().offset;
-				}
+				else offset = _separateVertices * descriptor.back().elems * vertexElementSize(descriptor.back().type) + descriptor.back().offset;
 			}
 
 			descriptor.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset });

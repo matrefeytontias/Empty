@@ -41,7 +41,7 @@ namespace render::gl
 		 */
 		void bindVertexAttribs(const VertexStructure& attribs, ShaderProgram& program)
 		{
-			for (auto& attrib : attribs.descriptor)
+			for (const auto& attrib : attribs.descriptor)
 			{
 				int index = program.findAttribute(attrib.name);
 				if (index >= 0)

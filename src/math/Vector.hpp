@@ -40,6 +40,12 @@ namespace math
     };
 
     template <typename T>
+    std::ostream& operator<<(std::ostream& s, const _vec2<T>& v)
+    {
+        return s << "(" << v.x << ", " << v.y << ")";
+    }
+
+    template <typename T>
     struct _vec3
     {
         using ElementType = T;
@@ -68,6 +74,12 @@ namespace math
     };
 
     template <typename T>
+    std::ostream& operator<<(std::ostream& s, const _vec3<T>& v)
+    {
+        return s << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+    }
+
+    template <typename T>
     struct _vec4
     {
         using ElementType = T;
@@ -94,6 +106,12 @@ namespace math
         OP(/ );
 #undef OP
     };
+
+    template <typename T>
+    std::ostream& operator<<(std::ostream& s, const _vec4<T>& v)
+    {
+        return s << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
+    }
 
     //
     // Type aliases

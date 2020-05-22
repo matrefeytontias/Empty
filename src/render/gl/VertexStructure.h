@@ -6,7 +6,7 @@
 
 namespace render::gl
 {
-	constexpr int vertexElementSize(VertexAttribType type)
+	constexpr size_t vertexElementSize(VertexAttribType type)
 	{
 		if (type == VertexAttribType::UByte || type == VertexAttribType::Byte)
 			return 1;
@@ -60,6 +60,14 @@ namespace render::gl
 			}
 
 			descriptors.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset });
+		}
+
+		size_t bytesPerVertex() const
+		{
+			size_t result = 0;
+			for (const auto& d : descriptors)
+				result += vertexElementSize(d.type) * d.elems;
+			return result;
 		}
 
 	private:

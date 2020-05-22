@@ -30,7 +30,7 @@ namespace render::gl
 
 	struct VertexStructure
 	{
-		std::vector<VertexAttribDescriptor> descriptor;
+		std::vector<VertexAttribDescriptor> descriptors;
 		
 		/**
 		 * separateVertices is the number of vertices in the buffer when the attributes are separate.
@@ -46,18 +46,20 @@ namespace render::gl
 			int stride = 0;
 			size_t offset = 0;
 
-			if (!descriptor.empty())
+			if (!descriptors.empty())
 			{
 				if (isInterleaved())
 				{
-					stride = elems * vertexElementSize(type) + descriptor.front().stride;
-					offset = static_cast<size_t>(descriptor.back().elems) * vertexElementSize(descriptor.back().type) + descriptor.back().offset;
-					for (auto& attrib : descriptor)	attrib.stride = stride;
+					stride = elems * vertexElementSize(type) + descriptors.front().stride;
+					offset = static_cast<size_t>(descriptors.back().elems) * vertexElementSize(descriptors.back().type) + descriptors.back().offset;
+					for (auto& attrib : descriptors)
+						attrib.stride = stride;
 				}
-				else offset = _separateVertices * descriptor.back().elems * vertexElementSize(descriptor.back().type) + descriptor.back().offset;
+				else
+					offset = _separateVertices * descriptors.back().elems * vertexElementSize(descriptors.back().type) + descriptors.back().offset;
 			}
 
-			descriptor.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset });
+			descriptors.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset });
 		}
 
 	private:

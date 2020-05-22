@@ -57,15 +57,19 @@ namespace render::gl
 			*_mapped = false;
 		}
 
-		void doThings()
+		uint8_t* data;
+
+		/**
+		 * Returns a reference to the i-th byte of the mapping, casted to the requested type.
+		 */
+		template <typename T>
+		T& get(size_t i) const
 		{
-			TRACE("Things have been done");
+			return *reinterpret_cast<T*>(data + i);
 		}
 
 	private:
 		template<BufferTarget> friend struct Buffer;
-
-		void* _data;
 		BufferBinding _binding;
 		bool* _mapped;
 
@@ -75,7 +79,7 @@ namespace render::gl
 		 */
 		BufferMapping(const BufferBinding& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
 		{
-			_data = glMapBuffer(utils::value(_binding.target()), utils::value(access));
+			data = reinterpret_cast<uint8_t*>(glMapBuffer(utils::value(_binding.target()), utils::value(access)));
 			*_mapped = true;
 		}
 	};

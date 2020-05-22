@@ -14,6 +14,7 @@ namespace math
     template <typename T>
     struct _vec2
     {
+        using ElementType = T;
         union
         {
             struct { T x; T y; };
@@ -41,6 +42,7 @@ namespace math
     template <typename T>
     struct _vec3
     {
+        using ElementType = T;
         union
         {
             struct { T x; T y; T z; };
@@ -68,6 +70,7 @@ namespace math
     template <typename T>
     struct _vec4
     {
+        using ElementType = T;
         union
         {
             struct { T x; T y; T z; T w; };

@@ -68,6 +68,12 @@ int _main(int, char *argv[])
     VertexArray vao;
     vao.bind();
 
+    VertexStructure vstruct;
+    vstruct.add("position", VertexAttribType::Float, 3);
+    vstruct.add("id", VertexAttribType::Int, 1);
+    vstruct.add("color", VertexAttribType::Byte, 4);
+    size_t mockVertices = 8;
+
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
@@ -77,26 +83,26 @@ int _main(int, char *argv[])
 
     Buffer<BufferTarget::Array> buffer;
     buffer.bind();
-    buffer.uploadData(10, BufferUsage::DynamicRead);
+    {
+        std::vector<uint8_t> data(mockVertices * vstruct.bytesPerVertex(), 0);
+        buffer.uploadData(data.size(), BufferUsage::DynamicRead, data.data());
+    }
     int64_t size = buffer.getParameter<BufferParam::Size>();
     TRACE("Successfully reserved " << size << " bytes for buffer");
-
-    {
-        auto mapping = buffer.map(BufferAccess::ReadOnly);
-        mapping.doThings();
-    }
-    buffer.uploadData(64, BufferUsage::StaticDraw);
-
-    buffer.unbind();
 
     ShaderProgram program;
     program.attachSource(ShaderType::Vertex, "in vec3 position; uniform float uTime; void main() { gl_Position = vec4(position * cos(uTime), 1.); }");
     program.use();
     program.uniform("uTime", 0.1f);
 
-    VertexStructure vstruct;
-    vstruct.add("position", VertexAttribType::Float, 3);
     vao.bindVertexAttribs(vstruct, program);
+
+    {
+        BufferMapping mapping = buffer.map(BufferAccess::ReadOnly);
+        std::cout << "First position is " << mapping.get<math::vec3>(0) << std::endl;
+        std::cout << "First id is " << mapping.get<int>(12) << std::endl;
+        std::cout << "First color is " << mapping.get<int>(16) << std::endl;
+    }
 
     utils::checkGLerror(CALL_SITE);
 

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
-# Set your project name here
+option(EMPTY_BUILD_EXAMPLE "Build the Empty example program" False)
+
 set(PROJECT_NAME Empty)
 
 # Generate enum struct headers from def files
@@ -36,8 +37,14 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source Files" FILES ${SOURCES})
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${ENUM_STRUCTS})
+add_library(${PROJECT_NAME} ${SOURCES} ${ENUM_STRUCTS})
 target_include_directories(${PROJECT_NAME} PUBLIC src)
+
+### Build examples if requested
+
+if(EMPTY_BUILD_EXAMPLE)
+	add_subdirectory("example")
+endif()
 
 ### Third-party libraries
 

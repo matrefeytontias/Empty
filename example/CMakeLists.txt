@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.12)
+
+set(PROJECT_NAME Empty_Sample)
+
+# Executable setup
+
+add_executable(${PROJECT_NAME} main.cpp)
+
+### Third-party libraries
+
+# Empty
+target_link_libraries(${PROJECT_NAME} Empty)

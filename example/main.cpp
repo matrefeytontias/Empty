@@ -4,7 +4,6 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include "math/Vector.hpp"
 #include "render/gl/Buffer.h"
 #include "render/gl/ShaderProgram.hpp"
@@ -12,6 +11,8 @@
 #include "render/gl/VertexArray.h"
 #include "utils/macros.h"
 #include "utils/utils.hpp"
+
+#include "Mesh.h"
 
 static void glfw_error_callback(int error, const char *description)
 {
@@ -32,6 +33,10 @@ using namespace render::gl;
 
 int _main(int, char *argv[])
 {
+    Mesh mesh;
+    if (mesh.load("../../example/mctet.off"))
+        TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
+
     utils::setwd(argv);
     
     // Setup window

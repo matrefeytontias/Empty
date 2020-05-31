@@ -4,7 +4,7 @@ set(PROJECT_NAME Empty_Sample)
 
 # Executable setup
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp Mesh.h)
 
 ### Third-party libraries
 

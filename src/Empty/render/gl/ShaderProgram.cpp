@@ -1,8 +1,8 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "render/gl/ShaderProgram.hpp"
-#include "utils/utils.hpp"
+#include "Empty/render/gl/ShaderProgram.hpp"
+#include "Empty/utils/utils.hpp"
 
 using namespace render::gl;
 

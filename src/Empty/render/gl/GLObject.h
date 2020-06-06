@@ -2,11 +2,10 @@
 
 #include <memory>
 
-#include <glad/glad.h>
-
-#include "render/gl/GLEnums.hpp"
-#include "utils/noncopyable.h"
-#include "utils/utils.hpp"
+#include "Empty/glad/glad.h"
+#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/utils/noncopyable.h"
+#include "Empty/utils/utils.hpp"
 
 namespace render::gl
 {

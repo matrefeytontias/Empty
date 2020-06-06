@@ -2,11 +2,10 @@
 
 #include <type_traits>
 
-#include <glad/glad.h>
-
-#include "render/gl/GLEnums.hpp"
-#include "render/gl/GLObject.h"
-#include "utils/macros.h"
+#include "Empty/glad/glad.h"
+#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/render/gl/GLObject.h"
+#include "Empty/utils/macros.h"
 
 namespace render::gl
 {

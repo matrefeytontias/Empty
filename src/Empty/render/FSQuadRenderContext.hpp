@@ -1,8 +1,8 @@
 #pragma once
 
-#include "render/RenderContext.hpp"
-#include "render/gl/ShaderProgram.hpp"
-#include "utils/utils.hpp"
+#include "Empty/render/RenderContext.hpp"
+#include "Empty/render/gl/ShaderProgram.hpp"
+#include "Empty/utils/utils.hpp"
 
 /**
  * Full-screen quad render context. Used to render a full-screen quad to the

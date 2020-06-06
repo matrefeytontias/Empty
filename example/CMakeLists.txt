@@ -6,6 +6,8 @@ set(PROJECT_NAME Empty_Sample)
 
 add_executable(${PROJECT_NAME} main.cpp Mesh.h)
 
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
 ### Third-party libraries
 
 # Empty

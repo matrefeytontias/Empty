@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "render/gl/Buffer.h"
-#include "render/gl/GLObject.h"
-#include "render/gl/VertexStructure.h"
-#include "utils/utils.hpp"
+#include "Empty/render/gl/Buffer.h"
+#include "Empty/render/gl/GLObject.h"
+#include "Empty/render/gl/VertexStructure.h"
+#include "Empty/utils/utils.hpp"
 
 namespace render::gl
 {

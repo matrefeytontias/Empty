@@ -6,9 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "math/Matrix.hpp"
-#include <glad/glad.h>
-
+#include "Empty/math/Matrix.hpp"
+#include "Empty/glad/glad.h"
 namespace render::gl
 {
 	enum struct CubeMapFace : GLenum;

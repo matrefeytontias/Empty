@@ -1,4 +1,4 @@
-#include "utils/utils.hpp"
+#include "Empty/utils/utils.hpp"
 
 #include <algorithm>
 #include <cstring>
@@ -17,10 +17,10 @@
 #include <unistd.h>
 #endif
 
-#include "math/Matrix.hpp"
-#include "math/Vector.hpp"
-#include "render/gl/Texture.h"
-#include "utils/macros.h"
+#include "Empty/math/Matrix.hpp"
+#include "Empty/math/Vector.hpp"
+#include "Empty/render/gl/Texture.h"
+#include "Empty/utils/macros.h"
 
 static constexpr const float M_PI = 3.14159258536f;
 

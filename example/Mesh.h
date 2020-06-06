@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "math/Vector.hpp"
-#include "utils/macros.h"
+#include "Empty/math/Vector.hpp"
+#include "Empty/utils/macros.h"
 
 /**
 * Structure to load vertices and faces from a OFF file.

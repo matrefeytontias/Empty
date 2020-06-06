@@ -2,11 +2,10 @@
 
 #include <string>
 
-#include <glad/glad.h>
-
-#include "math/Vector.hpp"
-#include "math/Matrix.hpp"
-#include "render/gl/ShaderProgram.hpp"
+#include "Empty/glad/glad.h"
+#include "Empty/math/Vector.hpp"
+#include "Empty/math/Matrix.hpp"
+#include "Empty/render/gl/ShaderProgram.hpp"
 
 namespace render::gl
 {

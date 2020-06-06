@@ -3,8 +3,8 @@
 #include <string>
 #include <type_traits>
 
-#include "render/gl/GLObject.h"
-#include "utils/utils.hpp"
+#include "Empty/render/gl/GLObject.h"
+#include "Empty/utils/utils.hpp"
 
 namespace render::gl
 {

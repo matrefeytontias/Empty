@@ -2,15 +2,12 @@
 #include <stdexcept>
 #include <string>
 
-#include <glad/glad.h>
+#include "Empty/render/gl/ShaderProgram.hpp"
+#include "Empty/render/gl/Texture.h"
+#include "Empty/render/gl/VertexArray.h"
+#include "Empty/utils/macros.h"
+#include "Empty/utils/utils.hpp"
 #include <GLFW/glfw3.h>
-#include "math/Vector.hpp"
-#include "render/gl/Buffer.h"
-#include "render/gl/ShaderProgram.hpp"
-#include "render/gl/Texture.h"
-#include "render/gl/VertexArray.h"
-#include "utils/macros.h"
-#include "utils/utils.hpp"
 
 #include "Mesh.h"
 

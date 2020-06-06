@@ -6,14 +6,13 @@
 #include <vector>
 #include <type_traits>
 
-#include <glad/glad.h>
-
-#include "math/Vector.hpp"
-#include "render/gl/GLObject.h"
-#include "render/gl/Shader.h"
-#include "render/gl/Texture.h"
-#include "render/gl/Uniform.h"
-#include "utils/utils.hpp"
+#include "Empty/glad/glad.h"
+#include "Empty/math/Vector.hpp"
+#include "Empty/render/gl/GLObject.h"
+#include "Empty/render/gl/Shader.h"
+#include "Empty/render/gl/Texture.h"
+#include "Empty/render/gl/Uniform.h"
+#include "Empty/utils/utils.hpp"
 
 namespace render::gl
 {

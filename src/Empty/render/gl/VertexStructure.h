@@ -1,8 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
-
-#include "render/gl/GLEnums.hpp"
+#include "Empty/glad/glad.h"
+#include "Empty/render/gl/GLEnums.hpp"
 
 namespace render::gl
 {
@@ -50,7 +49,7 @@ namespace render::gl
 			{
 				if (isInterleaved())
 				{
-					stride = elems * vertexElementSize(type) + descriptors.front().stride;
+					stride = static_cast<int>(elems * vertexElementSize(type) + descriptors.front().stride);
 					offset = static_cast<size_t>(descriptors.back().elems) * vertexElementSize(descriptors.back().type) + descriptors.back().offset;
 					for (auto& attrib : descriptors)
 						attrib.stride = stride;

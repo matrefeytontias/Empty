@@ -4,6 +4,29 @@
 
 #include <unordered_map>
 
+static const std::unordered_map<render::gl::PrimitiveType, const char*> PrimitiveType_names = {
+	{render::gl::PrimitiveType::Points, "PrimitiveType::Points"},
+	{render::gl::PrimitiveType::LineStrip, "PrimitiveType::LineStrip"},
+	{render::gl::PrimitiveType::LineLoop, "PrimitiveType::LineLoop"},
+	{render::gl::PrimitiveType::Lines, "PrimitiveType::Lines"},
+	{render::gl::PrimitiveType::LineStripAdjacency, "PrimitiveType::LineStripAdjacency"},
+	{render::gl::PrimitiveType::LinesAdjacency, "PrimitiveType::LinesAdjacency"},
+	{render::gl::PrimitiveType::TriangleStrip, "PrimitiveType::TriangleStrip"},
+	{render::gl::PrimitiveType::TriangleFan, "PrimitiveType::TriangleFan"},
+	{render::gl::PrimitiveType::Triangles, "PrimitiveType::Triangles"},
+	{render::gl::PrimitiveType::TriangleStripAdjacency, "PrimitiveType::TriangleStripAdjacency"},
+	{render::gl::PrimitiveType::TrianglesAdjacency, "PrimitiveType::TrianglesAdjacency"},
+	{render::gl::PrimitiveType::Patches, "PrimitiveType::Patches"},
+};
+template <> const char* utils::name<render::gl::PrimitiveType>(render::gl::PrimitiveType e) { return PrimitiveType_names.find(e)->second; }
+
+static const std::unordered_map<render::gl::ElementType, const char*> ElementType_names = {
+	{render::gl::ElementType::Byte, "ElementType::Byte"},
+	{render::gl::ElementType::Short, "ElementType::Short"},
+	{render::gl::ElementType::Int, "ElementType::Int"},
+};
+template <> const char* utils::name<render::gl::ElementType>(render::gl::ElementType e) { return ElementType_names.find(e)->second; }
+
 static const std::unordered_map<render::gl::VertexAttribType, const char*> VertexAttribType_names = {
 	{render::gl::VertexAttribType::UByte, "VertexAttribType::UByte"},
 	{render::gl::VertexAttribType::Byte, "VertexAttribType::Byte"},

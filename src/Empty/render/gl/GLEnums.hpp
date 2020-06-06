@@ -5,6 +5,33 @@
 #include "Empty/glad/glad.h"
 namespace render::gl
 {
+	// ########################
+	// # General enum structs #
+	// ########################
+
+	enum struct PrimitiveType : GLenum
+	{
+		Points = GL_POINTS,
+		LineStrip = GL_LINE_STRIP,
+		LineLoop = GL_LINE_LOOP,
+		Lines = GL_LINES,
+		LineStripAdjacency = GL_LINE_STRIP_ADJACENCY,
+		LinesAdjacency = GL_LINES_ADJACENCY,
+		TriangleStrip = GL_TRIANGLE_STRIP,
+		TriangleFan = GL_TRIANGLE_FAN,
+		Triangles = GL_TRIANGLES,
+		TriangleStripAdjacency = GL_TRIANGLE_STRIP_ADJACENCY,
+		TrianglesAdjacency = GL_TRIANGLES_ADJACENCY,
+		Patches = GL_PATCHES,
+	};
+
+	enum struct ElementType : GLenum
+	{
+		Byte = GL_UNSIGNED_BYTE,
+		Short = GL_UNSIGNED_SHORT,
+		Int = GL_UNSIGNED_INT,
+	};
+
 	// #####################################
 	// # Vertex array-related enum structs #
 	// #####################################
@@ -427,6 +454,8 @@ namespace utils
 	 * Extract the name of a scoped enum value.
 	 */
 	template <typename Enum> const char* name(Enum e);
+	template <> const char* name<render::gl::PrimitiveType>(render::gl::PrimitiveType e);
+	template <> const char* name<render::gl::ElementType>(render::gl::ElementType e);
 	template <> const char* name<render::gl::VertexAttribType>(render::gl::VertexAttribType e);
 	template <> const char* name<render::gl::BufferTarget>(render::gl::BufferTarget e);
 	template <> const char* name<render::gl::BufferUsage>(render::gl::BufferUsage e);

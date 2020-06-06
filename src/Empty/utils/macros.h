@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <sstream>
 
 #define CALL_SITE __FILE__, __LINE__

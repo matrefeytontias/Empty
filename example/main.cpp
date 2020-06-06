@@ -2,29 +2,16 @@
 #include <stdexcept>
 #include <string>
 
+#include "Empty/render/Context.hpp"
 #include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/render/gl/Texture.h"
 #include "Empty/render/gl/VertexArray.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
+
 #include <GLFW/glfw3.h>
 
 #include "Mesh.h"
-
-static void glfw_error_callback(int error, const char *description)
-{
-    TRACE("Error " << error << " : " << description);
-}
-
-void keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods)
-{
-    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-
-void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
-{
-}
 
 using namespace render::gl;
 
@@ -36,29 +23,8 @@ int _main(int, char *argv[])
 
     utils::setwd(argv);
     
-    // Setup window
-    glfwSetErrorCallback(glfw_error_callback);
-    if (!glfwInit())
-    {
-        TRACE("Couldn't initialize GLFW");
-        return 1;
-    }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    GLFWwindow *window = glfwCreateWindow(1280, 720, "GLFW Window", NULL, NULL);
-    glfwMakeContextCurrent(window);
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    glfwSwapInterval(1); // Enable vsync
-    
-    glfwSetKeyCallback(window, keyCallback);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    
-    TRACE("Entering drawing loop");
+    render::Context context("Empty sample program", 1280, 720);
+    auto window = context.window;
 
     math::vec2 mee(1.4f, 7.4f);
     math::vec2 moo(0.5f, 5.8f);
@@ -108,11 +74,13 @@ int _main(int, char *argv[])
 
     utils::checkGLerror(CALL_SITE);
 
+    TRACE("Entering drawing loop");
+
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glfwSwapBuffers(window);
+        context.swap();
         glfwPollEvents();
     }
     

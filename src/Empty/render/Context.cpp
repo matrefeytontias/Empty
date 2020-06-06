@@ -1,6 +1,6 @@
 #include "Empty/render/Context.hpp"
 
-render::Context::Context(const char* title, int width, int height, int major, int minor) : frameWidth(width), frameHeight(height)
+render::Context::Context(const char* title, int width, int height, int major, int minor) : frameWidth(width), frameHeight(height), clearColor(0, 0, 0, 1), clearDepth(0.f), clearStencil(0)
 {
 	glfwSetErrorCallback(errorCallback);
 	if (!glfwInit())
@@ -15,4 +15,9 @@ render::Context::Context(const char* title, int width, int height, int major, in
 	glfwSwapInterval(1);
 
 	gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+}
+
+render::Context::~Context()
+{
+	glfwTerminate();
 }

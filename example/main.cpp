@@ -78,7 +78,7 @@ int _main(int, char *argv[])
 
     while (!glfwWindowShouldClose(window))
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        context.clearBuffers(true, true);
 
         context.swap();
         glfwPollEvents();
@@ -87,9 +87,6 @@ int _main(int, char *argv[])
     TRACE("Exiting drawing loop");
     
     vao.unbind();
-
-    // Cleanup
-    glfwTerminate();
     
     return 0;
 }

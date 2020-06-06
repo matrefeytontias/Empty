@@ -8,6 +8,12 @@
 
 #include "Empty/math/Matrix.hpp"
 #include "Empty/glad/glad.h"
+
+#ifdef WIN32
+#undef near
+#undef far
+#endif
+
 namespace render::gl
 {
 	enum struct CubeMapFace : GLenum;

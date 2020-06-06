@@ -15,13 +15,13 @@
 
 using namespace render::gl;
 
-int _main(int, char *argv[])
+int _main(int, char* argv[])
 {
     Mesh mesh;
     if (mesh.load("mctet.off"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
 
-    utils::setwd(argv);
+    //utils::setwd(argv);
     
     render::Context context("Empty sample program", 1280, 720);
     auto window = context.window;
@@ -36,11 +36,26 @@ int _main(int, char *argv[])
     VertexArray vao;
     vao.bind();
 
-    VertexStructure vstruct;
-    vstruct.add("position", VertexAttribType::Float, 3);
-    vstruct.add("id", VertexAttribType::Int, 1);
-    vstruct.add("color", VertexAttribType::Byte, 4);
-    size_t mockVertices = 8;
+    Buffer<BufferTarget::Array> vertexBuffer;
+    vertexBuffer.bind();
+    VertexStructure vertexStruct(0);
+    vertexStruct.add("position", VertexAttribType::Float, 3);
+    vertexBuffer.uploadData(vertexStruct.bytesPerVertex() * mesh.vertices.size(), BufferUsage::StaticDraw, mesh.vertices.data());
+
+    int64_t size = vertexBuffer.getParameter<BufferParam::Size>();
+    TRACE("Successfully reserved " << size << " bytes for buffer");
+
+    {
+        BufferMapping mapping = vertexBuffer.map(BufferAccess::ReadOnly);
+        std::cout << "First position is " << mapping.get<math::vec3>(0) << std::endl;
+    }
+
+    ShaderProgram program;
+    program.attachFile(ShaderType::Fragment, "Fragment.glsl");
+    program.attachFile(ShaderType::Vertex, "Vertex.glsl");
+    program.use();
+
+    vao.bindVertexAttribs(vertexStruct, program);
 
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
@@ -49,28 +64,9 @@ int _main(int, char *argv[])
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
 
-    Buffer<BufferTarget::Array> buffer;
-    buffer.bind();
-    {
-        std::vector<uint8_t> data(mockVertices * vstruct.bytesPerVertex(), 0);
-        buffer.uploadData(data.size(), BufferUsage::DynamicRead, data.data());
-    }
-    int64_t size = buffer.getParameter<BufferParam::Size>();
-    TRACE("Successfully reserved " << size << " bytes for buffer");
-
-    ShaderProgram program;
-    program.attachSource(ShaderType::Vertex, "in vec3 position; uniform float uTime; void main() { gl_Position = vec4(position * cos(uTime), 1.); }");
-    program.use();
-    program.uniform("uTime", 0.1f);
-
-    vao.bindVertexAttribs(vstruct, program);
-
-    {
-        BufferMapping mapping = buffer.map(BufferAccess::ReadOnly);
-        std::cout << "First position is " << mapping.get<math::vec3>(0) << std::endl;
-        std::cout << "First id is " << mapping.get<int>(12) << std::endl;
-        std::cout << "First color is " << mapping.get<int>(16) << std::endl;
-    }
+    Buffer<BufferTarget::ElementArray> triBuffer;
+    triBuffer.bind();
+    triBuffer.uploadData(sizeof(math::ivec3) * mesh.faces.size(), BufferUsage::StaticDraw, mesh.faces.data());
 
     utils::checkGLerror(CALL_SITE);
 
@@ -78,7 +74,10 @@ int _main(int, char *argv[])
 
     while (!glfwWindowShouldClose(window))
     {
+        program.uniform("uTime", (float)glfwGetTime());
+
         context.clearBuffers(true, true);
+        context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * mesh.faces.size());
 
         context.swap();
         glfwPollEvents();

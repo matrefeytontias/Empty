@@ -31,8 +31,7 @@ namespace render::gl
 		template <typename T>
 		void uniform(const std::string& name, const T& value)
 		{
-			if (_uniforms.find(name) == _uniforms.end())
-				_uniforms.emplace(name, std::make_shared<Uniform<T>>(name, value));
+			_uniforms[name] = std::make_shared<Uniform<T>>(name, value);
 			_uniforms[name]->upload(findUniform(name));
 		}
 		std::vector<std::shared_ptr<UniformBase>> dumpUniforms() const;

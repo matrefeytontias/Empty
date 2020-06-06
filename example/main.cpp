@@ -31,7 +31,7 @@ using namespace render::gl;
 int _main(int, char *argv[])
 {
     Mesh mesh;
-    if (mesh.load("../../example/mctet.off"))
+    if (mesh.load("mctet.off"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
 
     utils::setwd(argv);

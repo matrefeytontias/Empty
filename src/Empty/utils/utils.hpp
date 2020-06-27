@@ -62,15 +62,21 @@ namespace utils
 	}
 #endif
 
+	template <typename T>
+	inline T select(T val, bool s)
+	{
+		return s ? val : static_cast<T>(0);
+	}
+
 	/**
 	 * Constructs a 4x4 3D perspective matrix in the given matrix object based on FOV,
 	 * aspect ratio, near plane and far plane.
 	 */
-	void perspective(math::Matrix4f& p, float fov, float ratio, float near, float far);
+	void perspective(math::mat4& p, float fov, float ratio, float near, float far);
 	/**
 	 * Shorthand function to modify the aspect ratio of a perspective matrix.
 	 */
-	void setAspectRatio(math::Matrix4f& p, float ratio);
+	void setAspectRatio(math::mat4& p, float ratio);
 
 	/**
 	 * Extract the underlying value of a scoped enum value

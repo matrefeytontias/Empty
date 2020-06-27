@@ -81,20 +81,20 @@ void utils::checkGLerror(const char *file, int line)
 }
 
 // Expects an identity matrix as input
-void utils::perspective(math::Matrix4f &p, float fov, float ratio, float near, float far)
+void utils::perspective(math::mat4 &p, float fov, float ratio, float near, float far)
 {
     float d = 1 / tan(fov * M_PI / 180 / 2);
     float ir = 1.f / (near - far);
     
     p(0, 0) = d;
-    p(1, 1) = -d * ratio;
+    p(1, 1) = d * ratio;
     p(2, 2) = (near + far) * ir;
     p(3, 3) = 0;
     p(3, 2) = -1;
     p(2, 3) = 2 * near * far * ir;
 }
 
-void utils::setAspectRatio(math::Matrix4f &p, float ratio)
+void utils::setAspectRatio(math::mat4 &p, float ratio)
 {
     p(1, 1) = -p(0, 0) * ratio;
 }

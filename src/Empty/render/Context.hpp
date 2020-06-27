@@ -44,7 +44,7 @@ namespace render
 		 */
 		inline void clearBuffers(bool color = true, bool depth = false, bool stencil = false) const
 		{
-			glClear(GL_COLOR_BUFFER_BIT * color | GL_DEPTH_BUFFER_BIT * depth | GL_STENCIL_BUFFER_BIT * stencil);
+			glClear(utils::select(GL_COLOR_BUFFER_BIT, color) | utils::select(GL_DEPTH_BUFFER_BIT, depth) | utils::select(GL_STENCIL_BUFFER_BIT, stencil));
 		}
 
 		inline void swap() const { glfwSwapBuffers(window); }

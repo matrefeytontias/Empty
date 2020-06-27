@@ -4,6 +4,9 @@
 
 namespace math
 {
+    /**
+     * Template class for matrices. Storage is column-major, in compliance with OpenGL requirements.
+     */
     template <unsigned int n, typename T>
     struct Matrix
     {
@@ -16,11 +19,18 @@ namespace math
                 r._data[k] = v;
             return r;
         }
+        static Matrix Identity()
+        {
+            Matrix r;
+            for (int k = 0; k < n * n; k++)
+                r._data[k] = !(k % (n + 1));
+            return r;
+        }
         // Access
         T operator[](int k) const { return _data[k]; }
         T& operator[](int k) { return _data[k]; }
-        T operator()(int i, int j) const { return _data[i * n + j]; }
-        T& operator()(int i, int j) { return _data[i * n + j]; }
+        T operator()(int i, int j) const { return _data[i + j * n]; }
+        T& operator()(int i, int j) { return _data[i + j * n]; }
         operator const T* () const { return _data; }
         operator T* () { return _data; }
         // Infix operators
@@ -100,11 +110,24 @@ namespace math
         T _data[n * n];
     };
 
-    using Matrix2f = Matrix<2, float>;
-    using Matrix3f = Matrix<3, float>;
-    using Matrix4f = Matrix<4, float>;
+    template <unsigned int n, typename T>
+    std::ostream& operator<<(std::ostream& s, const Matrix<n, T>& m)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            s << "(";
+            for (int j = 0; j < n; j++)
+                s << m(i, j) << (j == n - 1 ? ")" : ", ");
+            s << std::endl;
+        }
+        return s;
+    }
 
-    using Matrix2d = Matrix<2, double>;
-    using Matrix3d = Matrix<3, double>;
-    using Matrix4d = Matrix<4, double>;
+    using mat2 = Matrix<2, float>;
+    using mat3 = Matrix<3, float>;
+    using mat4 = Matrix<4, float>;
+
+    using dmat2 = Matrix<2, double>;
+    using dmat3 = Matrix<3, double>;
+    using dmat4 = Matrix<4, double>;
 }

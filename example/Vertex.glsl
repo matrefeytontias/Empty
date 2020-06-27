@@ -1,8 +1,13 @@
 in vec3 position;
 
 uniform float uTime;
+uniform mat4 uCamera;
+uniform mat4 uP;
+
+out vec4 vPosition;
 
 void main()
 { 
-	gl_Position = vec4(position * cos(uTime), 1.);
+	vPosition = inverse(uCamera) * vec4(position, 1.);
+	gl_Position = uP * vPosition;
 }

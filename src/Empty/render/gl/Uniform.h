@@ -40,6 +40,6 @@ namespace render::gl
 	GEN_UNIFORM_STRUCT(math::vec3, glUniform3f(loc, value.x, value.y, value.z));
 	GEN_UNIFORM_STRUCT(math::vec4, glUniform4f(loc, value.x, value.y, value.z, value.w));
 
-	GEN_UNIFORM_STRUCT(math::Matrix3f, glUniformMatrix3fv(loc, 1, false, value));
-	GEN_UNIFORM_STRUCT(math::Matrix4f, glUniformMatrix4fv(loc, 1, false, value));
+	GEN_UNIFORM_STRUCT(math::mat3, glUniformMatrix3fv(loc, 1, false, value));
+	GEN_UNIFORM_STRUCT(math::mat4, glUniformMatrix4fv(loc, 1, false, value));
 }

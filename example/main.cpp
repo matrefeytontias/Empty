@@ -26,12 +26,12 @@ int _main(int, char* argv[])
     render::Context context("Empty sample program", 1280, 720);
     auto window = context.window;
 
-    math::vec2 mee(1.4f, 7.4f);
-    math::vec2 moo(0.5f, 5.8f);
-    mee += moo;
-
-    math::Matrix2f mat = math::Matrix2f::Constant(1);
-    mat *= 2;
+    math::mat4 camera = math::mat4::Identity();
+    camera(2, 3) = 10;
+    std::cout << camera;
+    math::mat4 P = math::mat4::Identity();
+    utils::perspective(P, 90, context.frameWidth / context.frameHeight, 0.001f, 100.f);
+    std::cout << P;
 
     VertexArray vao;
     vao.bind();
@@ -70,17 +70,26 @@ int _main(int, char* argv[])
 
     utils::checkGLerror(CALL_SITE);
 
+    glEnable(GL_DEPTH_TEST);
+
     TRACE("Entering drawing loop");
 
     while (!glfwWindowShouldClose(window))
     {
         program.uniform("uTime", (float)glfwGetTime());
+        program.uniform("uCamera", camera);
+        program.uniform("uP", P);
 
         context.clearBuffers(true, true);
         context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * mesh.faces.size());
 
         context.swap();
         glfwPollEvents();
+
+        camera(0, 3) += utils::select(0.05f, glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) - utils::select(0.05f, glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
+        camera(1, 3) += utils::select(0.05f, glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) - utils::select(0.05f, glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
+        camera(2, 3) += utils::select(0.05f, glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) - utils::select(0.05f, glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS);
+
     }
     
     TRACE("Exiting drawing loop");

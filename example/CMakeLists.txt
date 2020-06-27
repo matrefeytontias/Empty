@@ -6,14 +6,15 @@ add_executable(Empty_Sample main.cpp Mesh.h)
 
 target_compile_features(Empty_Sample PRIVATE cxx_std_17)
 
-target_sources(Empty_Sample PRIVATE Fragment.glsl Vertex.glsl)
+set(RESOURCES mctet.off Vertex.glsl Fragment.glsl)
+target_sources(Empty_Sample PRIVATE ${RESOURCES})
 
-add_custom_command(TARGET Empty_Sample POST_BUILD
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-	COMMAND ${CMAKE_COMMAND} -E copy mctet.off ${CMAKE_CURRENT_BINARY_DIR}
-	COMMAND ${CMAKE_COMMAND} -E copy Fragment.glsl ${CMAKE_CURRENT_BINARY_DIR}
-	COMMAND ${CMAKE_COMMAND} -E copy Vertex.glsl ${CMAKE_CURRENT_BINARY_DIR}
-)
+foreach(RES ${RESOURCES})
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${RES}
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${RES} ${CMAKE_CURRENT_BINARY_DIR}/${RES}
+        MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${RES})
+endforeach()
 
 ### Third-party libraries
 

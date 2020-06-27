@@ -18,8 +18,11 @@ using namespace render::gl;
 int _main(int, char* argv[])
 {
     Mesh mesh;
-    if (mesh.load("mctet.off"))
+    if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
+
+    //if (mesh.load("mctet.off"))
+    //    TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
 
     //utils::setwd(argv);
     
@@ -64,9 +67,12 @@ int _main(int, char* argv[])
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
 
-    Buffer<BufferTarget::ElementArray> triBuffer;
-    triBuffer.bind();
-    triBuffer.uploadData(sizeof(math::ivec3) * mesh.faces.size(), BufferUsage::StaticDraw, mesh.faces.data());
+    if (mesh.isIndexed())
+    {
+        Buffer<BufferTarget::ElementArray> triBuffer;
+        triBuffer.bind();
+        triBuffer.uploadData(sizeof(math::ivec3) * mesh.faces.size(), BufferUsage::StaticDraw, mesh.faces.data());
+    }
 
     utils::checkGLerror(CALL_SITE);
 
@@ -81,7 +87,10 @@ int _main(int, char* argv[])
         program.uniform("uP", P);
 
         context.clearBuffers(true, true);
-        context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * mesh.faces.size());
+        if (mesh.isIndexed())
+            context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * mesh.faces.size());
+        else
+            context.drawArrays(PrimitiveType::Triangles, 0, mesh.vertices.size());
 
         context.swap();
         glfwPollEvents();

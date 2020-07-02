@@ -113,3 +113,8 @@ render::gl::CubeMapFace utils::getCubeMapFaceFromIndex(int i)
     ASSERT(i >= 0 && i < 6 && "requested invalid cubemap face index");
     return faces[i];
 }
+
+bool utils::endsWith(const std::string& str, const std::string& suffix)
+{
+    return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
+}

@@ -6,7 +6,7 @@ add_executable(Empty_Sample main.cpp Mesh.h)
 
 target_compile_features(Empty_Sample PRIVATE cxx_std_17)
 
-set(RESOURCES mctet.off Vertex.glsl Fragment.glsl)
+set(RESOURCES cube.obj mctet.off Vertex.glsl Fragment.glsl)
 target_sources(Empty_Sample PRIVATE ${RESOURCES})
 
 foreach(RES ${RESOURCES})

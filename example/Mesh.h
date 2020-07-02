@@ -6,13 +6,9 @@
 #include "Empty/math/Vector.hpp"
 #include "Empty/render/gl/Buffer.h"
 #include "Empty/utils/macros.h"
+#include "Empty/utils/utils.hpp"
 
 using namespace render::gl;
-
-static bool endsWith(const std::string& str, const std::string& suffix)
-{
-	return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
-}
 
 /**
 * Structure to load vertices and faces from a OFF or OBJ file.
@@ -44,10 +40,10 @@ struct Mesh
 			return false;
 		}
 
-		if (endsWith(path, ".off"))
+		if (utils::endsWith(path, ".off"))
 			return loadOff(file);
 		
-		if (endsWith(path, ".obj"))
+		if (utils::endsWith(path, ".obj"))
 			return loadObj(file);
 		
 		TRACE("Wrong file extension: must be .off or .obj");
@@ -153,23 +149,25 @@ private:
 					return false;
 				}
 
+				auto upload = [&] (auto& vector, auto& src, int i) {
+					if (i > -1)
+						vector.push_back(src[i]);
+					else
+						FATAL("Invalid index in OBJ file");
+				};
+
 				for (int i = 0; i < 3; i++)
 				{
 					std::vector<std::string> attribs = utils::split(points[i], "/");
+					auto nbAttribs = attribs.size();
 
-					vertices.push_back(tempVertices[std::stoi(attribs[0]) - 1]);
+					int indices[3] = {-1, -1, -1};
+					for (int j = 0; j < nbAttribs; j++)
+						indices[j] = attribs[j] == "" ? -1 : std::stoi(attribs[j]) - 1;
 
-					if (attribs.size() == 2)
-						textureCoords.push_back(tempTextCoords[std::stoi(attribs[1]) - 1]);
-
-					if (attribs.size() == 3)
-					{
-						if (attribs[1] != "")
-						{
-							textureCoords.push_back(tempTextCoords[std::stoi(attribs[1]) - 1]);
-						}
-						normals.push_back(tempNormals[std::stoi(attribs[2]) - 1]);
-					}
+					upload(vertices, tempVertices, indices[0]);
+					upload(textureCoords, tempTextCoords, indices[1]);
+					upload(normals, tempNormals, indices[2]);
 				}
 			}
 			else if (firstWord == "l")

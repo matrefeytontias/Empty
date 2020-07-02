@@ -92,4 +92,9 @@ namespace utils
 	 * Utility function to get the enum value corresponding to a cubemap face index.
 	 */
 	render::gl::CubeMapFace getCubeMapFaceFromIndex(int i);
+
+	/**
+	 * Returns whether a string finishes with a given suffix.
+	 */
+	bool endsWith(const std::string& str, const std::string& suffix);
 }

@@ -33,7 +33,7 @@ int _main(int, char* argv[])
     camera(2, 3) = 10;
     std::cout << camera;
     math::mat4 P = math::mat4::Identity();
-    utils::perspective(P, 90, context.frameWidth / context.frameHeight, 0.001f, 100.f);
+    utils::perspective(P, 90, (float)context.frameWidth / context.frameHeight, 0.001f, 100.f);
     std::cout << P;
 
     VertexArray vao;

@@ -10,6 +10,7 @@
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
+
 using namespace render::gl;
 
 /**
@@ -62,15 +63,27 @@ private:
 	{
 		vertexBuffer.bind();
 		vStruct = VertexStructure(vertices.size());
-		vStruct.add("position", VertexAttribType::Float, 3);
+		vStruct.add("aPosition", VertexAttribType::Float, 3);
 
 		if (!textureCoords.empty())
-			vStruct.add("textureCoords", VertexAttribType::Float, 2);
+			vStruct.add("aTexCoords", VertexAttribType::Float, 2);
 
 		if (!normals.empty())
-			vStruct.add("normal", VertexAttribType::Float, 3);
+			vStruct.add("aNormal", VertexAttribType::Float, 3);
 
-		vertexBuffer.uploadData(vStruct.bytesPerVertex() * vertices.size(), usage, vertices.data());
+		vertexBuffer.uploadData(vStruct.bytesPerVertex() * vertices.size(), usage, nullptr);
+		vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3), 0, vertices.data());
+
+		if (!textureCoords.empty())
+		{
+			vertexBuffer.uploadSubData(textureCoords.size() * sizeof(math::vec2), vertices.size() * sizeof(math::vec3), textureCoords.data());
+
+			if (!normals.empty())
+				vertexBuffer.uploadSubData(normals.size() * sizeof(math::vec3), vertices.size() * sizeof(math::vec3) + textureCoords.size() * sizeof(math::vec2), normals.data());
+		}
+		else 
+			if (!normals.empty())
+				vertexBuffer.uploadSubData(normals.size() * sizeof(math::vec3), vertices.size() * sizeof(math::vec3), normals.data());
 	}
 
 	void loadElementBuffer(BufferUsage usage)

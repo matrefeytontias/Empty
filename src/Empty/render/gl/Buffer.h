@@ -136,6 +136,12 @@ namespace render::gl
 			glBufferData(utils::value(_target), size, data, utils::value(usage));
 		}
 
+		inline void uploadSubData(size_t size, int offset , const void* data = nullptr) const
+		{
+			ASSERT(!_mapped);
+			glBufferSubData(utils::value(_target), offset, size, data);
+		}
+
 		template <BufferParam CTParam, std::enable_if_t <
 			CTParam == BufferParam::ImmutableStorage
 			|| CTParam == BufferParam::Mapped

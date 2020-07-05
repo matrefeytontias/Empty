@@ -13,6 +13,8 @@
 
 #include "Camera.h"
 #include "Mesh.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 using namespace render::gl;
 
@@ -52,12 +54,21 @@ int _main(int, char* argv[])
 
     mesh.vao.bindVertexAttribs(mesh.vStruct, program);
 
+    int x, y, n;
+    unsigned char* img = stbi_load("texture.png", &x, &y, &n, 4);
+    if (!img)
+        FATAL("pas trouverrrrrr");
+
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
-    tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
+    tex.uploadData(0, x, y, PixelFormat::RGBA, PixelType::Byte, img);
+    stbi_image_free(img);
+    utils::checkGLerror(CALL_SITE);
     tex.unbind();
+
+    program.registerTexture("uTexture", tex.getBindingInfo());
 
     utils::checkGLerror(CALL_SITE);
 
@@ -94,9 +105,9 @@ int _main(int, char* argv[])
     }
     
     TRACE("Exiting drawing loop");
-    
+
     mesh.vao.unbind();
-    
+
     return 0;
 }
 

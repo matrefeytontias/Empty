@@ -53,6 +53,7 @@ namespace math
         {
             struct { T x; T y; T z; };
             T data[3];
+            struct { _vec2<T> xy; };
         };
         // Constructors
         _vec3() = default;
@@ -87,6 +88,8 @@ namespace math
         {
             struct { T x; T y; T z; T w; };
             T data[4];
+            struct { _vec2<T> xy, zw; };
+            struct { _vec3<T> xyz; };
         };
         // Constructors
         _vec4() = default;

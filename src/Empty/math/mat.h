@@ -48,6 +48,13 @@ namespace math
                 r(i, j) = dot(row(i), a.column(j)); \
         return r; \
     }
+#define VECTOR_MULT(n) _vec##n<T> operator*(const _vec##n<T>& a) const \
+    { \
+        _vec##n<T> r; \
+        for (int i = 0; i < n; i++) \
+            r(i) = dot(row(i), a); \
+        return r; \
+    }
     /**
      * Class for 2x2 matrices. Storage is column-major, in compliance with OpenGL requirements.
      */
@@ -69,6 +76,7 @@ namespace math
         SCALAR_OP(2, /, T, v, );
 
         MATRIX_MULT(2);
+        VECTOR_MULT(2);
 
         // Assignment operators
         SCALAR_OP_ASSIGN(2, +, T, v, );
@@ -80,7 +88,7 @@ namespace math
         
         _mat2& operator*=(const _mat2& a)
         {
-            return this = this * a;
+            return *this = *this * a;
         }
     protected:
         union
@@ -111,6 +119,7 @@ namespace math
         SCALAR_OP(3, / , T, v, );
 
         MATRIX_MULT(3);
+        VECTOR_MULT(3);
 
         // Assignment operators
         SCALAR_OP_ASSIGN(3, +, T, v, );
@@ -122,7 +131,7 @@ namespace math
 
         _mat3& operator*=(const _mat3& a)
         {
-            return this = this * a;
+            return *this = *this * a;
         }
     protected:
         union
@@ -153,6 +162,7 @@ namespace math
         SCALAR_OP(4, / , T, v, );
 
         MATRIX_MULT(4);
+        VECTOR_MULT(4);
 
         // Assignment operators
         SCALAR_OP_ASSIGN(4, +, T, v, );
@@ -164,7 +174,7 @@ namespace math
 
         _mat4& operator*=(const _mat4& a)
         {
-            return this = this * a;
+            return *this = *this * a;
         }
     protected:
         union

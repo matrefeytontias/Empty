@@ -7,7 +7,7 @@
 #include <type_traits>
 
 #include "Empty/glad/glad.h"
-#include "Empty/math/Vector.hpp"
+#include "Empty/math/vec.h"
 #include "Empty/render/gl/GLObject.h"
 #include "Empty/render/gl/Shader.h"
 #include "Empty/render/gl/Texture.h"

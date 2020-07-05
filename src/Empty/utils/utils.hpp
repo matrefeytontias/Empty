@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "Empty/math/Matrix.hpp"
 #include "Empty/glad/glad.h"
+#include "Empty/math/mat.h"
 
 #ifdef WIN32
 #undef near

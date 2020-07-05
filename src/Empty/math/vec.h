@@ -107,6 +107,8 @@ namespace math
 #undef OP
     };
 
+#undef DEFINE_ACCESSORS
+
     template <typename T>
     std::ostream& operator<<(std::ostream& s, const _vec4<T>& v)
     {

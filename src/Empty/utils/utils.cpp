@@ -17,8 +17,8 @@
 #include <unistd.h>
 #endif
 
-#include "Empty/math/Matrix.hpp"
-#include "Empty/math/Vector.hpp"
+#include "Empty/math/mat.h"
+#include "Empty/math/vec.h"
 #include "Empty/render/gl/Texture.h"
 #include "Empty/utils/macros.h"
 

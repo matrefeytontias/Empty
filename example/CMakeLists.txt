@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 # Executable setup
 
-add_executable(Empty_Sample main.cpp Mesh.h)
+add_executable(Empty_Sample main.cpp Mesh.h Camera.h)
 
 target_compile_features(Empty_Sample PRIVATE cxx_std_17)
 

@@ -11,6 +11,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Camera.h"
 #include "Mesh.h"
 
 using namespace render::gl;
@@ -19,6 +20,9 @@ int _main(int, char* argv[])
 {
     render::Context context("Empty sample program", 1280, 720);
     auto window = context.window;
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported())
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
     Mesh mesh;
     mesh.vao.bind();
@@ -30,12 +34,8 @@ int _main(int, char* argv[])
 
     //utils::setwd(argv);
 
-    math::mat4 camera = math::mat4::Identity();
-    camera(2, 3) = 10;
-    std::cout << camera;
-    math::mat4 P = math::mat4::Identity();
-    utils::perspective(P, 90, (float)context.frameWidth / context.frameHeight, 0.001f, 100.f);
-    std::cout << P;
+    Camera camera(90, (float)context.frameWidth / context.frameHeight, 0.01f, 100.f);
+    camera.setPosition(0, 0, 5);
 
     int64_t size = mesh.vertexBuffer.getParameter<BufferParam::Size>();
     TRACE("Successfully reserved " << size << " bytes for buffer");
@@ -65,11 +65,14 @@ int _main(int, char* argv[])
 
     TRACE("Entering drawing loop");
 
+    double prevX, prevY;
+    glfwGetCursorPos(window, &prevX, &prevY);
+
     while (!glfwWindowShouldClose(window))
     {
         program.uniform("uTime", (float)glfwGetTime());
-        program.uniform("uCamera", camera);
-        program.uniform("uP", P);
+        program.uniform("uCamera", camera.m);
+        program.uniform("uP", camera.p);
 
         context.clearBuffers(true, true);
         if (mesh.isIndexed())
@@ -80,10 +83,14 @@ int _main(int, char* argv[])
         context.swap();
         glfwPollEvents();
 
-        camera(0, 3) += utils::select(0.05f, glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) - utils::select(0.05f, glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
-        camera(1, 3) += utils::select(0.05f, glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) - utils::select(0.05f, glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
-        camera(2, 3) += utils::select(0.05f, glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) - utils::select(0.05f, glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS);
-
+        double x, y;
+        glfwGetCursorPos(window, &x, &y);
+        camera.processInput(glfwGetKey(window, GLFW_KEY_W), glfwGetKey(window, GLFW_KEY_S),
+                            glfwGetKey(window, GLFW_KEY_SPACE), glfwGetKey(window, GLFW_KEY_LEFT_SHIFT),
+                            glfwGetKey(window, GLFW_KEY_A), glfwGetKey(window, GLFW_KEY_D),
+                            x - prevX, y - prevY);
+        prevX = x;
+        prevY = y;
     }
     
     TRACE("Exiting drawing loop");

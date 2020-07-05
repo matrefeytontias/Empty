@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "Empty/math/Vector.hpp"
+#include "Empty/math/vec.h"
 #include "Empty/render/gl/Buffer.h"
 #include "Empty/render/gl/VertexArray.h"
 #include "Empty/render/gl/VertexStructure.h"

@@ -17,7 +17,11 @@ using namespace render::gl;
 
 int _main(int, char* argv[])
 {
+    render::Context context("Empty sample program", 1280, 720);
+    auto window = context.window;
+
     Mesh mesh;
+    mesh.vao.bind();
     if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
 
@@ -25,9 +29,6 @@ int _main(int, char* argv[])
     //    TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
 
     //utils::setwd(argv);
-    
-    render::Context context("Empty sample program", 1280, 720);
-    auto window = context.window;
 
     math::mat4 camera = math::mat4::Identity();
     camera(2, 3) = 10;
@@ -36,20 +37,11 @@ int _main(int, char* argv[])
     utils::perspective(P, 90, (float)context.frameWidth / context.frameHeight, 0.001f, 100.f);
     std::cout << P;
 
-    VertexArray vao;
-    vao.bind();
-
-    Buffer<BufferTarget::Array> vertexBuffer;
-    vertexBuffer.bind();
-    VertexStructure vertexStruct(0);
-    vertexStruct.add("position", VertexAttribType::Float, 3);
-    vertexBuffer.uploadData(vertexStruct.bytesPerVertex() * mesh.vertices.size(), BufferUsage::StaticDraw, mesh.vertices.data());
-
-    int64_t size = vertexBuffer.getParameter<BufferParam::Size>();
+    int64_t size = mesh.vertexBuffer.getParameter<BufferParam::Size>();
     TRACE("Successfully reserved " << size << " bytes for buffer");
 
     {
-        BufferMapping mapping = vertexBuffer.map(BufferAccess::ReadOnly);
+        BufferMapping mapping = mesh.vertexBuffer.map(BufferAccess::ReadOnly);
         std::cout << "First position is " << mapping.get<math::vec3>(0) << std::endl;
     }
 
@@ -58,7 +50,7 @@ int _main(int, char* argv[])
     program.attachFile(ShaderType::Vertex, "Vertex.glsl");
     program.use();
 
-    vao.bindVertexAttribs(vertexStruct, program);
+    mesh.vao.bindVertexAttribs(mesh.vStruct, program);
 
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
@@ -66,13 +58,6 @@ int _main(int, char* argv[])
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
     tex.uploadData(0, 64, 64, PixelFormat::RGBA, PixelType::Byte, nullptr);
     tex.unbind();
-
-    if (mesh.isIndexed())
-    {
-        Buffer<BufferTarget::ElementArray> triBuffer;
-        triBuffer.bind();
-        triBuffer.uploadData(sizeof(math::ivec3) * mesh.faces.size(), BufferUsage::StaticDraw, mesh.faces.data());
-    }
 
     utils::checkGLerror(CALL_SITE);
 
@@ -103,7 +88,7 @@ int _main(int, char* argv[])
     
     TRACE("Exiting drawing loop");
     
-    vao.unbind();
+    mesh.vao.unbind();
     
     return 0;
 }

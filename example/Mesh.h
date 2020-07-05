@@ -5,6 +5,8 @@
 
 #include "Empty/math/Vector.hpp"
 #include "Empty/render/gl/Buffer.h"
+#include "Empty/render/gl/VertexArray.h"
+#include "Empty/render/gl/VertexStructure.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
@@ -25,6 +27,11 @@ struct Mesh
 	 */
 	std::vector<math::vec2> textureCoords;
 	std::vector<math::vec3> normals;
+
+	VertexArray vao;
+	Buffer<BufferTarget::Array> vertexBuffer;
+	Buffer<BufferTarget::ElementArray> triBuffer;
+	VertexStructure vStruct;
 
 	inline bool isIndexed() const
 	{
@@ -51,6 +58,27 @@ struct Mesh
 	}
 
 private:
+	void loadVertexBuffer(BufferUsage usage)
+	{
+		vertexBuffer.bind();
+		vStruct = VertexStructure(vertices.size());
+		vStruct.add("position", VertexAttribType::Float, 3);
+
+		if (!textureCoords.empty())
+			vStruct.add("textureCoords", VertexAttribType::Float, 2);
+
+		if (!normals.empty())
+			vStruct.add("normal", VertexAttribType::Float, 3);
+
+		vertexBuffer.uploadData(vStruct.bytesPerVertex() * vertices.size(), usage, vertices.data());
+	}
+
+	void loadElementBuffer(BufferUsage usage)
+	{
+		triBuffer.bind();
+		triBuffer.uploadData(sizeof(math::ivec3) * faces.size(), usage, faces.data());
+	}
+	
 	bool loadObj(std::ifstream& file)
 	{
 		std::vector<math::vec3> tempVertices;
@@ -188,6 +216,20 @@ private:
 			TRACE("There was some error in the file");
 			return false;
 		}
+
+		if (!textureCoords.empty() && textureCoords.size() != vertices.size())
+		{
+			TRACE("There are not the same number of vertices and texture coordinates associated to them.");
+			return false;
+		}
+		if (!normals.empty() && normals.size() != vertices.size())
+		{
+			TRACE("There are not the same number of vertices and normals associated to them.");
+			return false;
+		}
+
+		loadVertexBuffer(BufferUsage::StaticDraw);
+
 		return true;
 	}
 
@@ -263,6 +305,9 @@ private:
 		faces = newFaces;
 		textureCoords.clear();
 		normals.clear();
+
+		loadVertexBuffer(BufferUsage::StaticDraw);
+		loadElementBuffer(BufferUsage::StaticDraw);
 
 		return true;
 	}

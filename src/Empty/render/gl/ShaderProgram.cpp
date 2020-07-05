@@ -31,15 +31,8 @@ void ShaderProgram::use()
         glLinkProgram(*_id);
     if(_currentProgram != this)
         glUseProgram(*_id);
-    if(_dirty || _currentProgram != this)
-    {
-        int i = 0;
-        for(auto tex : _textures)
-        {
-            tex.second.bind(i);
-            glUniform1i(findUniform(tex.first), i++);
-        }
-    }
+    if (_dirty || _currentProgram != this)
+        updateTextureUniforms();
     _dirty = false;
     _currentProgram = this;
 }
@@ -57,6 +50,9 @@ void ShaderProgram::registerTexture(const std::string &name, const TextureBindin
 {
     _dirty = true;
     _textures[name] = tex;
+    if (_currentProgram == this)
+        updateTextureUniforms();
+    // if not, this will be called by the next call of use()
 }
 
 GLint ShaderProgram::findUniform(const std::string &name)
@@ -71,4 +67,14 @@ GLint ShaderProgram::findAttribute(const std::string &name)
     if(_attributes.find(name) == _attributes.end())
         _attributes[name] = glGetAttribLocation(*_id, name.c_str());
     return _attributes[name];
+}
+
+void ShaderProgram::updateTextureUniforms()
+{
+    int i = 0;
+    for (auto tex : _textures)
+    {
+        tex.second.bind(i);
+        glUniform1i(findUniform(tex.first), i++);
+    }
 }

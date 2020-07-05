@@ -92,5 +92,7 @@ namespace render::gl
 		std::unordered_map<std::string, location> _attributes;
 		std::unordered_map<std::string, TextureBinding> _textures;
 		static ShaderProgram* _currentProgram;
+	private:
+		void updateTextureUniforms();
 	};
 }

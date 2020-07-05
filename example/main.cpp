@@ -55,24 +55,28 @@ int _main(int, char* argv[])
     mesh.vao.bindVertexAttribs(mesh.vStruct, program);
 
     int x, y, n;
+    stbi_set_flip_vertically_on_load(1);
     unsigned char* img = stbi_load("texture.png", &x, &y, &n, 4);
     if (!img)
         FATAL("pas trouverrrrrr");
+    TRACE("Successfully loaded " << x << "x" << y << "x" << n << " image");
 
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
     tex.bind();
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
-    tex.uploadData(0, x, y, PixelFormat::RGBA, PixelType::Byte, img);
+    tex.uploadData(0, x, y, PixelFormat::RGBA, PixelType::UByte, img);
     stbi_image_free(img);
     utils::checkGLerror(CALL_SITE);
     tex.unbind();
 
     program.registerTexture("uTexture", tex.getBindingInfo());
 
-    utils::checkGLerror(CALL_SITE);
-
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    utils::checkGLerror(CALL_SITE);
 
     TRACE("Entering drawing loop");
 

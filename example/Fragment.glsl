@@ -11,5 +11,4 @@ void main()
 {
 	// vec3 normal = normalize(cross(dFdx(vPosition.xyz), dFdy(vPosition.xyz)));
 	colorOut = vec4(dot(vNormal.xyz, -normalize(vPosition.xyz)).xxx, 1.) * texture(uTexture, vTexCoords);
-	//colorOut = vec4(vTexCoords, 0., 1.);
 }

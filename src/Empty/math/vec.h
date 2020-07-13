@@ -17,8 +17,8 @@ namespace math
         using ElementType = T;
         union
         {
-            struct { T x; T y; };
             T data[2];
+            struct { T x; T y; };
         };
         // Constructors
         _vec2() = default;
@@ -51,15 +51,21 @@ namespace math
         using ElementType = T;
         union
         {
-            struct { T x; T y; T z; };
             T data[3];
-            struct { _vec2<T> xy; };
+            struct { T x; T y; T z; };
+            struct { _vec2<T> xy; T z; };
+            struct { T x; _vec2<T> yz; };
         };
+
         // Constructors
         _vec3() = default;
         _vec3(T x, T y, T z) : x(x), y(y), z(z) {}
         template <typename U>
         _vec3(U x, U y, U z) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)) {}
+        template <typename U, typename V>
+        _vec3(const _vec2<U>& xy, V z) : xy(xy), z(z) {}
+        template <typename U, typename V>
+        _vec3(U x, const _vec2<V>& yz) : x(x), yz(yz) {}
         // Access
         DEFINE_ACCESSORS;
         // Infix and assignment operators
@@ -72,7 +78,18 @@ namespace math
         OP(*);
         OP(/ );
 #undef OP
+
+        static _vec3<T> right;
+        static _vec3<T> up;
+        static _vec3<T> forward;
     };
+
+    template <typename T>
+    _vec3<T> _vec3<T>::right = _vec3<T>(1, 0, 0);
+    template <typename T>
+    _vec3<T> _vec3<T>::up = _vec3<T>(0, 1, 0);
+    template <typename T>
+    _vec3<T> _vec3<T>::forward = _vec3<T>(0, 0, 1);
 
     template <typename T>
     std::ostream& operator<<(std::ostream& s, const _vec3<T>& v)
@@ -86,16 +103,19 @@ namespace math
         using ElementType = T;
         union
         {
-            struct { T x; T y; T z; T w; };
             T data[4];
+            struct { T x; T y; T z; T w; };
             struct { _vec2<T> xy, zw; };
-            struct { _vec3<T> xyz; };
+            struct { _vec3<T> xyz; T w; };
         };
+
         // Constructors
         _vec4() = default;
         _vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
         template <typename U>
         _vec4(U x, U y, U z, U w) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
+        template <typename U, typename V>
+        _vec4(const _vec3<U>& xyz, V w) : xyz(xyz), w(w) {}
         // Access
         DEFINE_ACCESSORS;
         // Infix and assignment operators
@@ -108,7 +128,18 @@ namespace math
         OP(*);
         OP(/ );
 #undef OP
+
+        static _vec4<T> right;
+        static _vec4<T> up;
+        static _vec4<T> forward;
     };
+
+    template <typename T>
+    _vec4<T> _vec4<T>::right = _vec4<T>(1, 0, 0);
+    template <typename T>
+    _vec4<T> _vec4<T>::up = _vec4<T>(0, 1, 0);
+    template <typename T>
+    _vec4<T> _vec4<T>::forward = _vec4<T>(0, 0, 1);
 
 #undef DEFINE_ACCESSORS
 

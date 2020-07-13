@@ -65,6 +65,7 @@ namespace math
         DEFINE_FIELDS(2);
 
         _vec2<T> column(int i) const { return _cols[i]; }
+        _vec2<T>& column(int i) { return _cols[i]; }
         _vec2<T> row(int i) const { return _vec2<T>(_data[i], _data[i + 2]); }
 
         // Infix operators
@@ -108,6 +109,7 @@ namespace math
         DEFINE_FIELDS(3);
 
         _vec3<T> column(int i) const { return _cols[i]; }
+        _vec3<T>& column(int i) { return _cols[i]; }
         _vec3<T> row(int i) const { return _vec3<T>(_data[i], _data[i + 3], _data[i + 6]); }
 
         // Infix operators
@@ -151,6 +153,7 @@ namespace math
         DEFINE_FIELDS(4);
 
         _vec4<T> column(int i) const { return _cols[i]; }
+        _vec4<T>& column(int i) { return _cols[i]; }
         _vec4<T> row(int i) const { return _vec4<T>(_data[i], _data[i + 4], _data[i + 8], _data[i + 12]); }
 
         // Infix operators

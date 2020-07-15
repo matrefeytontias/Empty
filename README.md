@@ -1,7 +1,20 @@
 # Empty
 Convenience wrapper classes for OpenGL things, geared towards type safety.
 
-## The library is not ready for use yet. Feel free to browse around the code to see how things are done, but that's about all you can do right now.
+## Requirements
+
+Right now the library is designed to be included as a git submodule. It should work out of the box with CMake (and Python 3 for generating a couple files). I personally use Visual Studio 2019 to work on it, so I know it works on that.
+
+## tl;dr
+
+- Wraps OpenGL constants in scoped enums for maximum type safety
+- Wraps OpenGL resources (VAOs, buffers, textures etc) in convenient classes for localized functionality
+- Provides top-level context class for general-purpose things and stuffs
+- Replicates GLSL on the CPU as much as it can for easy CPU debugging of your shaders
+- Does not overstep its boundaries and sticks to making using OpenGL easier and safer. Most functions are thus inlined one-liners with 0 runtime overhead compared to just using OpenGL.
+
+## ~~The library is not ready for use yet. Feel free to browse around the code to see how things are done, but that's about all you can do right now.~~
+## The library is usable but does not do much. We are currently working on an example package and adding things to it as usage demands them. You should do the same ! :D
 
 The idea for this library was initiated by me working with OpenGL and asking myself the following questions :
 - What format did I give that texture again ?

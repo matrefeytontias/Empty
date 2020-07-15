@@ -56,20 +56,31 @@ namespace render::gl
 			*_mapped = false;
 		}
 
-		uint8_t* data;
+		uint8_t& operator[](size_t i) { return _data[i]; }
+		uint8_t operator[](size_t i) const { return _data[i]; }
 
 		/**
-		 * Returns a reference to the i-th byte of the mapping, casted to the requested type.
+		 * Returns a reference to a value of the requested type situated at the i-th byte of the mapping.
 		 */
-		template <typename T>
-		T& get(size_t i) const
+		template <typename T = uint8_t>
+		T& get(size_t i)
 		{
-			return *reinterpret_cast<T*>(data + i);
+			return *reinterpret_cast<T*>(_data + i);
+		}
+
+		/**
+		 * Returns the value of the requested type situated at the i-th byte of the mapping.
+		 */
+		template <typename T = uint8_t>
+		T get(size_t i) const
+		{
+			return *reinterpret_cast<T*>(_data + i);
 		}
 
 	private:
 		template<BufferTarget> friend struct Buffer;
 		BufferBinding _binding;
+		uint8_t* _data;
 		bool* _mapped;
 
 		/**
@@ -78,7 +89,7 @@ namespace render::gl
 		 */
 		BufferMapping(const BufferBinding& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
 		{
-			data = reinterpret_cast<uint8_t*>(glMapBuffer(utils::value(_binding.target()), utils::value(access)));
+			_data = reinterpret_cast<uint8_t*>(glMapBuffer(utils::value(_binding.target()), utils::value(access)));
 			*_mapped = true;
 		}
 	};
@@ -136,7 +147,7 @@ namespace render::gl
 			glBufferData(utils::value(_target), size, data, utils::value(usage));
 		}
 
-		inline void uploadSubData(size_t size, int offset , const void* data = nullptr) const
+		inline void uploadSubData(size_t size, size_t offset , const void* data = nullptr) const
 		{
 			ASSERT(!_mapped);
 			glBufferSubData(utils::value(_target), offset, size, data);

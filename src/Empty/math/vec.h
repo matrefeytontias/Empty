@@ -115,7 +115,7 @@ namespace math
         template <typename U>
         _vec4(U x, U y, U z, U w) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
         template <typename U, typename V>
-        _vec4(const _vec3<U>& xyz, V w) : xyz(xyz), w(w) {}
+        _vec4(const _vec3<U>& xyz, V w) : xyz(xyz), w(static_cast<T>(w)) {}
         // Access
         DEFINE_ACCESSORS;
         // Infix and assignment operators

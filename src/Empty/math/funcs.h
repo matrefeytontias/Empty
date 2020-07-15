@@ -24,5 +24,5 @@ namespace math
 VEC_FUNC(name, f, 3) \
 VEC_FUNC(name, f, 4)
 
-	VEC_FUNCS(normalize, return a / sqrt(dot(a, a)));
+	VEC_FUNCS(normalize, return a / static_cast<T>(sqrt(dot(a, a))));
 }

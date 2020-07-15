@@ -91,9 +91,9 @@ int _main(int, char* argv[])
 
         context.clearBuffers(true, true);
         if (mesh.isIndexed())
-            context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * mesh.faces.size());
+            context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * (int)mesh.faces.size());
         else
-            context.drawArrays(PrimitiveType::Triangles, 0, mesh.vertices.size());
+            context.drawArrays(PrimitiveType::Triangles, 0, (int)mesh.vertices.size());
 
         context.swap();
         glfwPollEvents();
@@ -103,7 +103,7 @@ int _main(int, char* argv[])
         camera.processInput(glfwGetKey(window, GLFW_KEY_W), glfwGetKey(window, GLFW_KEY_S),
                             glfwGetKey(window, GLFW_KEY_SPACE), glfwGetKey(window, GLFW_KEY_LEFT_SHIFT),
                             glfwGetKey(window, GLFW_KEY_A), glfwGetKey(window, GLFW_KEY_D),
-                            x - prevX, y - prevY);
+                            static_cast<float>(x - prevX), static_cast<float>(y - prevY));
         prevX = x;
         prevY = y;
     }

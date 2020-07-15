@@ -49,6 +49,6 @@ auto math::lookAt(vec3 origin, vec3 target, vec3 up) -> mat4
 	r.column(0) = vec4(x, 0);
 	r.column(1) = vec4(y, 0);
 	r.column(2) = vec4(z, 0);
-	r.column(3) = vec4(0, 0, 0, 1);
+	r.column(3) = vec4(origin, 1);
 	return r;
 }

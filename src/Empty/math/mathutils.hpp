@@ -33,7 +33,7 @@ namespace math
 	/**
 	 * Returns a matrix that makes the Z axis look at a given target. This
 	 * makes it so that transforming a vector with this matrix makes it "look at"
-	 * a target.
+	 * a target, while standing at `origin`.
 	 */
 	mat4 lookAt(vec3 origin, vec3 target, vec3 up);
 }

@@ -43,4 +43,6 @@ namespace render::gl
 	GEN_UNIFORM_STRUCT(math::mat2, glUniformMatrix2fv(loc, 1, false, value));
 	GEN_UNIFORM_STRUCT(math::mat3, glUniformMatrix3fv(loc, 1, false, value));
 	GEN_UNIFORM_STRUCT(math::mat4, glUniformMatrix4fv(loc, 1, false, value));
+
+#undef GEN_UNIFORM_STRUCT
 }

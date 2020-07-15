@@ -25,4 +25,6 @@ VEC_FUNC(name, f, 3) \
 VEC_FUNC(name, f, 4)
 
 	VEC_FUNCS(normalize, return a / static_cast<T>(sqrt(dot(a, a))));
+#undef VEC_FUNCS
+#undef VEC_FUNC
 }

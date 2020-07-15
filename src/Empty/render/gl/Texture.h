@@ -194,6 +194,8 @@ namespace render::gl
 			glTexImage2D(utils::value(face), level, utils::value(_format), width, height, 0, utils::value(format), utils::value(type), data);
 		}
 
+#undef COPY_CTPARAMS
+
 		/**
 		 * Gets value of integer-valued texture parameters.
 		 */

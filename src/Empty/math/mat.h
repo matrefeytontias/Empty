@@ -187,6 +187,12 @@ namespace math
         };
     };
 
+#undef VECTOR_MULT
+#undef MATRIX_MULT
+#undef SCALAR_OP_ASSIGN
+#undef SCALAR_OP
+#undef DEFINE_FIELDS
+
 #define PRINT_OP(n) template <typename T> std::ostream& operator<<(std::ostream& s, const _mat##n<T>& m) \
     { \
         for (int i = 0; i < n; i++) \
@@ -202,6 +208,7 @@ namespace math
     PRINT_OP(2);
     PRINT_OP(3);
     PRINT_OP(4);
+#undef PRINT_OP
 
     using mat2 = _mat2<float>;
     using mat3 = _mat3<float>;

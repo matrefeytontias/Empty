@@ -40,6 +40,9 @@ namespace render::gl
 	GL_ID_STRUCT_GEN(TextureId, Textures);
     GL_ID_STRUCT_GEN(VertexArrayId, VertexArrays);
 
+#undef GL_ID_STRUCT_CREATE
+#undef GL_ID_STRUCT_GEN
+
     struct ShaderId : public utils::noncopyable
     {
         ShaderId(ShaderType type) { _id = glCreateShader(utils::value(type)); }

@@ -22,19 +22,16 @@ int _main(int, char* argv[])
 {
     render::Context context("Empty sample program", 1280, 720);
     auto window = context.window;
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     if (glfwRawMouseMotionSupported())
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
 
     Mesh mesh;
     mesh.vao.bind();
     if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
-
-    //if (mesh.load("mctet.off"))
-    //    TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
-
-    //utils::setwd(argv);
 
     Camera camera(90, (float)context.frameWidth / context.frameHeight, 0.01f, 100.f);
     camera.setPosition(0, 0, 5);
@@ -54,21 +51,20 @@ int _main(int, char* argv[])
 
     mesh.vao.bindVertexAttribs(mesh.vStruct, program);
 
-    int x, y, n;
+    int imgW, imgH, n;
     stbi_set_flip_vertically_on_load(1);
-    unsigned char* img = stbi_load("texture.png", &x, &y, &n, 4);
+    unsigned char* img = stbi_load("texture.png", &imgW, &imgH, &n, 4);
     if (!img)
-        FATAL("pas trouverrrrrr");
-    TRACE("Successfully loaded " << x << "x" << y << "x" << n << " image");
+        FATAL("pas trouveeeeeee");
+    TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
 
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
-    tex.bind();
+    tex.setStorage(1, imgW, imgH);
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
-    tex.uploadData(0, x, y, PixelFormat::RGBA, PixelType::UByte, img);
+    tex.uploadData(0, 0, 0, imgW, imgH, PixelFormat::RGBA, PixelType::UByte, img);
     stbi_image_free(img);
     utils::checkGLerror(CALL_SITE);
-    tex.unbind();
 
     program.registerTexture("uTexture", tex.getBindingInfo());
 

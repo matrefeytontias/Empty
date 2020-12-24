@@ -10,7 +10,7 @@ ShaderProgram* render::gl::ShaderProgram::_currentProgram = nullptr;
 
 ShaderProgram::~ShaderProgram()
 {
-    for(auto& shader : _shaders)
+    for (const auto& shader : _shaders)
         glDetachShader(*_id, shader);
 }
 
@@ -41,7 +41,7 @@ std::vector<std::shared_ptr<UniformBase>> ShaderProgram::dumpUniforms() const
 {
     std::vector<std::shared_ptr<UniformBase>> r;
     r.reserve(_uniforms.size());
-    for (auto& u : _uniforms)
+    for (const auto& u : _uniforms)
         r.push_back(u.second);
     return r;
 }
@@ -72,7 +72,7 @@ GLint ShaderProgram::findAttribute(const std::string &name)
 void ShaderProgram::updateTextureUniforms()
 {
     int i = 0;
-    for (auto tex : _textures)
+    for (const auto& tex : _textures)
     {
         tex.second.bind(i);
         glUniform1i(findUniform(tex.first), i++);

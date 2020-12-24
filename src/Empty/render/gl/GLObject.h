@@ -11,37 +11,45 @@ namespace render::gl
 {
     using location = GLint;
 
-	// Generate a non-copyable ID struct for OpenGL resources created with glGen-type functions.
-#define GL_ID_STRUCT_GEN(name, suffix)                          \
-    struct name : public utils::noncopyable                     \
-    {                                                           \
-        name() { glGen##suffix(1, &_id); }                      \
-        ~name() { glDelete##suffix(1, &_id); }                  \
-        operator GLuint() const { return _id; }                 \
-        bool operator==(const name& a) { return _id == a._id; } \
-    private:                                                    \
-        GLuint _id;                                             \
-    }
+    struct BufferId : public utils::noncopyable
+    {
+        BufferId() { glCreateBuffers(1, &_id); }
+        ~BufferId() { glDeleteBuffers(1, &_id); }
+        operator GLuint() const { return _id; }
+        bool operator==(const BufferId& a) const { return _id == a._id; }
+    private:
+        GLuint _id;
+    };
 
-	// Generate a non-copyable ID struct for OpenGL resources created with glCreate-type functions.
-#define GL_ID_STRUCT_CREATE(name, suffix)                       \
-    struct name : public utils::noncopyable                     \
-    {                                                           \
-        name() { _id = glCreate##suffix(); }                    \
-        ~name() { glDelete##suffix(_id); }                      \
-        operator GLuint() const { return _id; }                 \
-        bool operator==(const name& a) { return _id == a._id; } \
-    private:                                                    \
-        GLuint _id;                                             \
-    }
+    struct ProgramId : public utils::noncopyable
+    {
+        ProgramId() { _id = glCreateProgram(); }
+        ~ProgramId() { glDeleteProgram(_id); }
+        operator GLuint() const { return _id; }
+        bool operator==(const ProgramId& a) const { return _id == a._id; }
+    private:
+        GLuint _id;
+    };
 
-	GL_ID_STRUCT_GEN(BufferId, Buffers);
-	GL_ID_STRUCT_CREATE(ProgramId, Program);
-	GL_ID_STRUCT_GEN(TextureId, Textures);
-    GL_ID_STRUCT_GEN(VertexArrayId, VertexArrays);
+    struct TextureId : public utils::noncopyable
+    {
+        TextureId(TextureTarget t) { glCreateTextures(utils::value(t), 1, &_id); }
+        ~TextureId() { glDeleteTextures(1, &_id); }
+        operator GLuint() const { return _id; }
+        bool operator==(const TextureId& a) const { return _id == a._id; }
+    private:
+        GLuint _id;
+    };
 
-#undef GL_ID_STRUCT_CREATE
-#undef GL_ID_STRUCT_GEN
+    struct VertexArrayId : public utils::noncopyable
+    {
+        VertexArrayId() { glCreateVertexArrays(1, &_id); }
+        ~VertexArrayId() { glDeleteVertexArrays(1, &_id); }
+        operator GLuint() const { return _id; }
+        bool operator==(const VertexArrayId& a) const { return _id == a._id; }
+    private:
+        GLuint _id;
+    };
 
     struct ShaderId : public utils::noncopyable
     {

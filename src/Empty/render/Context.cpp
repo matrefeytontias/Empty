@@ -2,6 +2,7 @@
 
 render::Context::Context(const char* title, int width, int height, int major, int minor) : frameWidth(width), frameHeight(height), clearColor(0, 0, 0, 1), clearDepth(0.f), clearStencil(0)
 {
+	ASSERT(major * 100 + minor >= 405);
 	glfwSetErrorCallback(errorCallback);
 	if (!glfwInit())
 		FATAL("Could not initialize GLFW. Aborting");

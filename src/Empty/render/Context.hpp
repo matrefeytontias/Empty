@@ -23,7 +23,7 @@ namespace render
 		// Stencil value to clear stencil buffers with. Defaults to 0.
 		int clearStencil;
 
-		Context(const char* title, int width, int height, int major = 3, int minor = 3);
+		Context(const char* title, int width, int height, int major = 4, int minor = 5);
 		~Context();
 
 		/**

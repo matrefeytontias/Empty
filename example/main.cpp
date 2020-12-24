@@ -32,6 +32,8 @@ int _main(int, char* argv[])
     mesh.vao.bind();
     if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
+    mesh.vertexBuffer.bind();
+    mesh.triBuffer.bind();
 
     Camera camera(90, (float)context.frameWidth / context.frameHeight, 0.01f, 100.f);
     camera.setPosition(0, 0, 5);

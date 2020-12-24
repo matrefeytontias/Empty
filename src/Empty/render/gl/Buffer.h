@@ -51,8 +51,7 @@ namespace render::gl
 		~BufferMapping()
 		{
 			TRACE("Buffer unmapped !");
-			_binding.bind();
-			glUnmapBuffer(utils::value(_binding.target()));
+			glUnmapNamedBuffer(*_binding.id());
 			*_mapped = false;
 		}
 
@@ -89,7 +88,7 @@ namespace render::gl
 		 */
 		BufferMapping(const BufferBinding& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
 		{
-			_data = reinterpret_cast<uint8_t*>(glMapBuffer(utils::value(_binding.target()), utils::value(access)));
+			_data = reinterpret_cast<uint8_t*>(glMapNamedBuffer(*_binding.id(), utils::value(access)));
 			*_mapped = true;
 		}
 	};
@@ -110,7 +109,7 @@ namespace render::gl
 			Buffer() : _target(t) {}
 
 		/**
-		 * Binds the buffer. This is necessary before any operation on the buffer is performed.
+		 * Binds the buffer. This is necessary for drawing operations to access the buffer.
 		 * Binding a buffer modifies the currently bound VAO (and thus requires one), except for
 		 * the `Array` target.
 		 */
@@ -120,9 +119,8 @@ namespace render::gl
 		}
 
 		/**
-		 * Unbinds the buffer, making sure it will not be modified by any further operation.
-		 * Binding a buffer modifies the currently bound VAO (and thus requires one), except for
-		 * the `Array` target.
+		 * Unbinds the buffer. Binding a buffer modifies the currently bound VAO (and thus
+		 * requires one), except for the `Array` target.
 		 */
 		inline void unbind() const
 		{
@@ -139,18 +137,21 @@ namespace render::gl
 		}
 
 		/**
-		 * Allocate storage for and upload data to a buffer.
+		 * Allocate storage and optionally upload data to the buffer.
 		 */
-		inline void uploadData(size_t size, BufferUsage usage, const void* data = nullptr) const
+		inline void setStorage(size_t size, BufferUsage usage, const void* data = nullptr) const
 		{
 			ASSERT(!_mapped);
-			glBufferData(utils::value(_target), size, data, utils::value(usage));
+			glNamedBufferData(*_id, size, data, utils::value(usage));
 		}
 
-		inline void uploadSubData(size_t size, size_t offset , const void* data = nullptr) const
+		/**
+		 * Upload data to the buffer.
+		 */
+		inline void uploadSubData(size_t offset, size_t size, const void* data) const
 		{
 			ASSERT(!_mapped);
-			glBufferSubData(utils::value(_target), offset, size, data);
+			glNamedBufferSubData(*_id, offset, size, data);
 		}
 
 		template <BufferParam CTParam, std::enable_if_t <
@@ -161,7 +162,7 @@ namespace render::gl
 		{
 			ASSERT(!_mapped);
 			int p;
-			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
+			glGetNamedBufferParameteriv(*_id, utils::value(CTParam), &p);
 			return p;
 		}
 
@@ -173,7 +174,7 @@ namespace render::gl
 		{
 			ASSERT(!_mapped);
 			int64_t p;
-			glGetBufferParameteri64v(utils::value(_target), utils::value(CTParam), &p);
+			glGetNamedBufferParameteri64v(*_id, utils::value(CTParam), &p);
 			return p;
 		}
 
@@ -183,7 +184,7 @@ namespace render::gl
 		{
 			ASSERT(!_mapped);
 			int p;
-			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
+			glGetNamedBufferParameteriv(*_id, utils::value(CTParam), &p);
 			return static_cast<BufferAccess>(p);
 		}
 
@@ -193,7 +194,7 @@ namespace render::gl
 		{
 			ASSERT(!_mapped);
 			int p;
-			glGetBufferParameteriv(utils::value(_target), utils::value(CTParam), &p);
+			glGetNamedBufferParameteriv(*_id, utils::value(CTParam), &p);
 			return static_cast<BufferUsage>(p);
 		}
 

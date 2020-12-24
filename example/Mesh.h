@@ -61,7 +61,6 @@ struct Mesh
 private:
 	void loadVertexBuffer(BufferUsage usage)
 	{
-		vertexBuffer.bind();
 		vStruct = VertexStructure(vertices.size());
 		vStruct.add("aPosition", VertexAttribType::Float, 3);
 
@@ -71,25 +70,24 @@ private:
 		if (!normals.empty())
 			vStruct.add("aNormal", VertexAttribType::Float, 3);
 
-		vertexBuffer.uploadData(vStruct.bytesPerVertex() * vertices.size(), usage, nullptr);
-		vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3), 0, vertices.data());
+		vertexBuffer.setStorage(vStruct.bytesPerVertex() * vertices.size(), usage, nullptr);
+		vertexBuffer.uploadSubData(0, vertices.size() * sizeof(math::vec3), vertices.data());
 
 		if (!textureCoords.empty())
 		{
-			vertexBuffer.uploadSubData(textureCoords.size() * sizeof(math::vec2), vertices.size() * sizeof(math::vec3), textureCoords.data());
+			vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3), textureCoords.size() * sizeof(math::vec2), textureCoords.data());
 
 			if (!normals.empty())
-				vertexBuffer.uploadSubData(normals.size() * sizeof(math::vec3), vertices.size() * sizeof(math::vec3) + textureCoords.size() * sizeof(math::vec2), normals.data());
+				vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3) + textureCoords.size() * sizeof(math::vec2), normals.size() * sizeof(math::vec3), normals.data());
 		}
 		else 
 			if (!normals.empty())
-				vertexBuffer.uploadSubData(normals.size() * sizeof(math::vec3), vertices.size() * sizeof(math::vec3), normals.data());
+				vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3), normals.size() * sizeof(math::vec3), normals.data());
 	}
 
 	void loadElementBuffer(BufferUsage usage)
 	{
-		triBuffer.bind();
-		triBuffer.uploadData(sizeof(math::ivec3) * faces.size(), usage, faces.data());
+		triBuffer.setStorage(sizeof(math::ivec3) * faces.size(), usage, faces.data());
 	}
 	
 	bool loadObj(std::ifstream& file)

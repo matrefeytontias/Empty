@@ -71,18 +71,18 @@ private:
 			vStruct.add("aNormal", VertexAttribType::Float, 3);
 
 		vertexBuffer.setStorage(vStruct.bytesPerVertex() * vertices.size(), usage, nullptr);
-		vertexBuffer.uploadSubData(0, vertices.size() * sizeof(math::vec3), vertices.data());
+		vertexBuffer.uploadData(0, vertices.size() * sizeof(math::vec3), vertices.data());
 
 		if (!textureCoords.empty())
 		{
-			vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3), textureCoords.size() * sizeof(math::vec2), textureCoords.data());
+			vertexBuffer.uploadData(vertices.size() * sizeof(math::vec3), textureCoords.size() * sizeof(math::vec2), textureCoords.data());
 
 			if (!normals.empty())
-				vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3) + textureCoords.size() * sizeof(math::vec2), normals.size() * sizeof(math::vec3), normals.data());
+				vertexBuffer.uploadData(vertices.size() * sizeof(math::vec3) + textureCoords.size() * sizeof(math::vec2), normals.size() * sizeof(math::vec3), normals.data());
 		}
 		else 
 			if (!normals.empty())
-				vertexBuffer.uploadSubData(vertices.size() * sizeof(math::vec3), normals.size() * sizeof(math::vec3), normals.data());
+				vertexBuffer.uploadData(vertices.size() * sizeof(math::vec3), normals.size() * sizeof(math::vec3), normals.data());
 	}
 
 	void loadElementBuffer(BufferUsage usage)

@@ -96,6 +96,7 @@ namespace render::gl
 	/**
 	 * General-purpose buffer class. Does not map one-to-one with OpenGL buffer objects, but holds a shared reference
 	 * to one. It is possible to instantiate buffers with target known or unknown at compile-time.
+	 * Buffers have a mutable format, which means their storage requirements can be adjusted several times.
 	 */
 	template <BufferTarget CTTarget = BufferTarget::Dynamic>
 	struct Buffer : public GLObject<BufferId>
@@ -148,7 +149,7 @@ namespace render::gl
 		/**
 		 * Upload data to the buffer.
 		 */
-		inline void uploadSubData(size_t offset, size_t size, const void* data) const
+		inline void uploadData(size_t offset, size_t size, const void* data) const
 		{
 			ASSERT(!_mapped);
 			glNamedBufferSubData(*_id, offset, size, data);

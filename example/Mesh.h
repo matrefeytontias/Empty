@@ -30,8 +30,8 @@ struct Mesh
 	std::vector<math::vec3> normals;
 
 	VertexArray vao;
-	Buffer<BufferTarget::Array> vertexBuffer;
-	Buffer<BufferTarget::ElementArray> triBuffer;
+	Buffer vertexBuffer;
+	Buffer triBuffer;
 	VertexStructure vStruct;
 
 	inline bool isIndexed() const

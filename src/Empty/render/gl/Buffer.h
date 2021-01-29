@@ -14,30 +14,31 @@ namespace render::gl
 	struct BufferBinding
 	{
 		BufferBinding() = default;
-		BufferBinding(BufferTarget target, std::shared_ptr<BufferId> id)
-			: _target(target), _id(id)
+		BufferBinding(std::shared_ptr<BufferId> id)
+			: _id(id)
 		{}
 
-		BufferTarget target() const { return _target; }
 		std::shared_ptr<BufferId> id() const { return _id; }
 
-		inline void bind() const
+		inline void bind(BufferTarget target)
 		{
-			ASSERT(_target != BufferTarget::Dynamic && _id && "Invalid buffer binding");
+			ASSERT(target != BufferTarget::Dynamic && _id && "Invalid buffer binding");
+			_target = target;
 			glBindBuffer(utils::value(_target), *_id);
 		}
 
-		inline void unbind() const
+		inline void unbind()
 		{
 			ASSERT(_target != BufferTarget::Dynamic && "Invalid buffer binding");
 			glBindBuffer(utils::value(_target), 0);
+			_target = BufferTarget::Dynamic;
 		}
 	private:
 		BufferTarget _target = BufferTarget::Dynamic;
 		std::shared_ptr<BufferId> _id;
 	};
 
-	template<BufferTarget> struct Buffer;
+	struct Buffer;
 	/**
 	 * Structure used when mapping a buffer. Unmapping is done via
 	 * destruction of this object ; as such, its usage should be encapsulated
@@ -50,7 +51,6 @@ namespace render::gl
 		 */
 		~BufferMapping()
 		{
-			TRACE("Buffer unmapped !");
 			glUnmapNamedBuffer(*_binding.id());
 			*_mapped = false;
 		}
@@ -77,7 +77,7 @@ namespace render::gl
 		}
 
 	private:
-		template<BufferTarget> friend struct Buffer;
+		friend struct Buffer;
 		BufferBinding _binding;
 		uint8_t* _data;
 		bool* _mapped;
@@ -95,27 +95,19 @@ namespace render::gl
 
 	/**
 	 * General-purpose buffer class. Does not map one-to-one with OpenGL buffer objects, but holds a shared reference
-	 * to one. It is possible to instantiate buffers with target known or unknown at compile-time.
-	 * Buffers have a mutable format, which means their storage requirements can be adjusted several times.
+	 * to one. Buffers have a mutable format, which means their storage requirements can be adjusted several times.
 	 */
-	template <BufferTarget CTTarget = BufferTarget::Dynamic>
 	struct Buffer : public GLObject<BufferId>
 	{
-		template <BufferTarget t = CTTarget,
-			std::enable_if_t<t == BufferTarget::Dynamic, int> = 0>
-			Buffer(BufferTarget target) : _target(target) {}
-
-		template <BufferTarget t = CTTarget,
-			std::enable_if_t<t != BufferTarget::Dynamic, int> = 0>
-			Buffer() : _target(t) {}
-
 		/**
 		 * Binds the buffer. This is necessary for drawing operations to access the buffer.
 		 * Binding a buffer modifies the currently bound VAO (and thus requires one), except for
 		 * the `Array` target.
 		 */
-		inline void bind() const
+		inline void bind(BufferTarget target)
 		{
+			ASSERT(target != BufferTarget::Dynamic && "Invalid buffer target");
+			_target = target;
 			glBindBuffer(utils::value(_target), *_id);
 		}
 
@@ -123,9 +115,11 @@ namespace render::gl
 		 * Unbinds the buffer. Binding a buffer modifies the currently bound VAO (and thus
 		 * requires one), except for the `Array` target.
 		 */
-		inline void unbind() const
+		inline void unbind()
 		{
+			ASSERT(_target != BufferTarget::Dynamic && "Buffer was not previously bound");
 			glBindBuffer(utils::value(_target), 0);
+			_target = BufferTarget::Dynamic;
 		}
 
 		/**
@@ -199,14 +193,10 @@ namespace render::gl
 			return static_cast<BufferUsage>(p);
 		}
 
-		BufferBinding getBindingInfo() const { return BufferBinding(_target, _id); }
-		BufferTarget getTarget() const { return _target; }
+		BufferBinding getBindingInfo() const { return BufferBinding(_id); }
 
 	protected:
-		/**
-		 * Registered target of the buffer object.
-		 */
-		const BufferTarget _target;
 		bool _mapped = false;
+		BufferTarget _target = BufferTarget::Dynamic;
 	};
 }

@@ -25,6 +25,7 @@ namespace render::gl
 		int elems;
 		int stride;
 		size_t offset;
+		location index;
 	};
 
 	struct VertexStructure
@@ -40,7 +41,7 @@ namespace render::gl
 		/**
 		 * Adds a new attribute to the structure.
 		 */
-		void add(const std::string& name, VertexAttribType type, int elems)
+		void add(const std::string& name, VertexAttribType type, int elems, location loc = -1)
 		{
 			int stride = 0;
 			size_t offset = 0;
@@ -58,7 +59,7 @@ namespace render::gl
 					offset = _separateVertices * descriptors.back().elems * vertexElementSize(descriptors.back().type) + descriptors.back().offset;
 			}
 
-			descriptors.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset });
+			descriptors.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset, loc });
 		}
 
 		size_t bytesPerVertex() const

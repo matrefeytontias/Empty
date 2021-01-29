@@ -12,6 +12,7 @@
 #include "Empty/render/gl/Shader.h"
 #include "Empty/render/gl/Texture.h"
 #include "Empty/render/gl/Uniform.h"
+#include "Empty/render/gl/VertexStructure.h"
 #include "Empty/utils/utils.hpp"
 
 namespace render::gl
@@ -27,6 +28,11 @@ namespace render::gl
 			return attachSource(type, utils::getFileContents(path));
 		}
 		void use();
+
+		/**
+		 * Finds and stores attribute locations in the provided vertex structure in-place.
+		 */
+		void locateAttributes(VertexStructure& vStruct);
 
 		template <typename T>
 		void uniform(const std::string& name, const T& value)

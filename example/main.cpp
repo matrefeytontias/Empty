@@ -50,8 +50,9 @@ int _main(int, char* argv[])
     program.attachFile(ShaderType::Fragment, "Fragment.glsl");
     program.attachFile(ShaderType::Vertex, "Vertex.glsl");
     program.use();
+    program.locateAttributes(mesh.vStruct);
 
-    mesh.vao.bindVertexAttribs(mesh.vStruct, program);
+    mesh.vao.bindVertexAttribs(mesh.vStruct);
 
     int imgW, imgH, n;
     stbi_set_flip_vertically_on_load(1);

@@ -37,6 +37,12 @@ void ShaderProgram::use()
     _currentProgram = this;
 }
 
+void ShaderProgram::locateAttributes(VertexStructure& vStruct)
+{
+    for (auto& d : vStruct.descriptors)
+        d.index = findAttribute(d.name);
+}
+
 std::vector<std::shared_ptr<UniformBase>> ShaderProgram::dumpUniforms() const
 {
     std::vector<std::shared_ptr<UniformBase>> r;

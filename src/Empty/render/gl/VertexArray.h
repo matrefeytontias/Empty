@@ -40,15 +40,14 @@ namespace render::gl
 		/**
 		 * Sets the vertex attributes structure of the currently bound buffer.
 		 */
-		void bindVertexAttribs(const VertexStructure& attribs, ShaderProgram& program)
+		void bindVertexAttribs(const VertexStructure& attribs)
 		{
 			for (const auto& attrib : attribs.descriptors)
 			{
-				int index = program.findAttribute(attrib.name);
-				if (index >= 0)
+				if (attrib.index >= 0)
 				{
-					enableArray(index);
-					glVertexAttribPointer(index, attrib.elems, utils::value(attrib.type), false, attrib.stride, reinterpret_cast<void*>(attrib.offset));
+					enableArray(attrib.index);
+					glVertexAttribPointer(attrib.index, attrib.elems, utils::value(attrib.type), false, attrib.stride, reinterpret_cast<void*>(attrib.offset));
 				}
 			}
 		}

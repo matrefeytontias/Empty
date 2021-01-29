@@ -169,7 +169,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			void setStorage(int levels, int width, int height, int depth)
+			void setStorage(int levels, int width, int height = 1, int depth = 1)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 
@@ -232,7 +232,7 @@ namespace render::gl
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
 			void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
 		{
-			ASSERT(!isTargetCubeMap(_target) && "cannot upload 2D data directly to a cubemap ; use dedicated method instead");
+			ASSERT(!isTargetCubeMap(_target) && "cannot upload data directly to a cubemap ; use dedicated method instead");
 
 			int dims = dimensionsFromTarget(_target);
 			if (dims == 1)

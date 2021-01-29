@@ -21,7 +21,7 @@ using namespace render::gl;
 int _main(int, char* argv[])
 {
     render::Context context("Empty sample program", 1280, 720);
-    auto window = context.window;
+    auto *window = context.window;
     if (glfwRawMouseMotionSupported())
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

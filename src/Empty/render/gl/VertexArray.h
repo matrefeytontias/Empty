@@ -4,6 +4,7 @@
 
 #include "Empty/render/gl/Buffer.h"
 #include "Empty/render/gl/GLObject.h"
+#include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/render/gl/VertexStructure.h"
 #include "Empty/utils/utils.hpp"
 

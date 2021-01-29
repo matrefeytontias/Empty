@@ -71,18 +71,23 @@ private:
 			vStruct.add("aNormal", VertexAttribType::Float, 3);
 
 		vertexBuffer.setStorage(vStruct.bytesPerVertex() * vertices.size(), usage, nullptr);
-		vertexBuffer.uploadData(0, vertices.size() * sizeof(math::vec3), vertices.data());
 
-		if (!textureCoords.empty())
+		size_t offset = 0;
+		size_t size;
+
+		auto upload = [&](const auto& data)
 		{
-			vertexBuffer.uploadData(vertices.size() * sizeof(math::vec3), textureCoords.size() * sizeof(math::vec2), textureCoords.data());
+			if (!data.empty())
+			{
+				size = data.size() * sizeof(data[0]);
+				vertexBuffer.uploadData(offset, size, data.data());
+				offset += size;
+			}
+		};
 
-			if (!normals.empty())
-				vertexBuffer.uploadData(vertices.size() * sizeof(math::vec3) + textureCoords.size() * sizeof(math::vec2), normals.size() * sizeof(math::vec3), normals.data());
-		}
-		else 
-			if (!normals.empty())
-				vertexBuffer.uploadData(vertices.size() * sizeof(math::vec3), normals.size() * sizeof(math::vec3), normals.data());
+		upload(vertices);
+		upload(textureCoords);
+		upload(normals);
 	}
 
 	void loadElementBuffer(BufferUsage usage)
@@ -230,12 +235,12 @@ private:
 
 		if (!textureCoords.empty() && textureCoords.size() != vertices.size())
 		{
-			TRACE("There are not the same number of vertices and texture coordinates associated to them.");
+			TRACE("Different number of vertices and texture coordinates.");
 			return false;
 		}
 		if (!normals.empty() && normals.size() != vertices.size())
 		{
-			TRACE("There are not the same number of vertices and normals associated to them.");
+			TRACE("Different number of vertices and normals.");
 			return false;
 		}
 

@@ -28,30 +28,57 @@ namespace render::gl
 		/**
 		 * Binds the vertex array object.
 		 */
-		void bind() const { glBindVertexArray(*_id); }
+		inline void bind() const { glBindVertexArray(*_id); }
 		/**
 		 * Unbinds the vertex array object.
 		 */
-		void unbind() const { glBindVertexArray(0); }
+		inline void unbind() const { glBindVertexArray(0); }
 
-		void enableArray(int index) const { glEnableVertexAttribArray(index); }
-		void disableArray(int index) const { glDisableVertexAttribArray(index); }
+		inline void enableArray(int index) const { glEnableVertexArrayAttrib(*_id, index); }
+		inline void disableArray(int index) const { glDisableVertexArrayAttrib(*_id, index); }
 
 		/**
 		 * Sets the vertex attributes structure of the currently bound buffer.
 		 */
-		void bindVertexAttribs(const VertexStructure& attribs)
+		void attachVertexBuffer(const BufferBinding& vbo, const VertexStructure& attribs, size_t offset = 0, int bindingIndex = 0)
 		{
-			for (const auto& attrib : attribs.descriptors)
+			// If attributes are interleaved, one single buffer binding is enough to provide for all vertex attribs
+			if (attribs.isInterleaved())
 			{
-				if (attrib.index >= 0)
+				glVertexArrayVertexBuffer(*_id, bindingIndex, *vbo.id(), offset, attribs.bytesPerVertex());
+				for (const auto& attrib : attribs.descriptors)
 				{
-					enableArray(attrib.index);
-					glVertexAttribPointer(attrib.index, attrib.elems, utils::value(attrib.type), false, attrib.stride, reinterpret_cast<void*>(attrib.offset));
+					if (attrib.index >= 0)
+					{
+						enableArray(attrib.index);
+						glVertexArrayAttribFormat(*_id, attrib.index, attrib.elems, utils::value(attrib.type), false, attrib.offset);
+						glVertexArrayAttribBinding(*_id, attrib.index, bindingIndex);
+					}
+				}
+			}
+			// Otherwise, we'll need one buffer binding per vertex attrib
+			else
+			{
+				int bi = bindingIndex;
+				for (const auto& attrib : attribs.descriptors)
+				{
+					glVertexArrayVertexBuffer(*_id, bi, *vbo.id(), offset + attrib.offset, attrib.size());
+					if (attrib.index >= 0)
+					{
+						enableArray(attrib.index);
+						glVertexArrayAttribFormat(*_id, attrib.index, attrib.elems, utils::value(attrib.type), false, 0);
+						glVertexArrayAttribBinding(*_id, attrib.index, bi);
+						bi++;
+					}
 				}
 			}
 		}
 
-		const VertexArrayBinding getBindingInfo() const { return VertexArrayBinding(_id); }
+		inline void attachElementBuffer(const BufferBinding& ibo)
+		{
+			glVertexArrayElementBuffer(*_id, *ibo.id());
+		}
+
+		inline const VertexArrayBinding getBindingInfo() const { return VertexArrayBinding(_id); }
 	};
 }

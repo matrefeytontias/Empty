@@ -29,11 +29,8 @@ int _main(int, char* argv[])
     }
 
     Mesh mesh;
-    mesh.vao.bind();
     if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
-    mesh.vertexBuffer.bind(BufferTarget::Array);
-    mesh.triBuffer.bind(BufferTarget::ElementArray);
 
     Camera camera(90, (float)context.frameWidth / context.frameHeight, 0.01f, 100.f);
     camera.setPosition(0, 0, 5);
@@ -52,7 +49,8 @@ int _main(int, char* argv[])
     program.use();
     program.locateAttributes(mesh.vStruct);
 
-    mesh.vao.bindVertexAttribs(mesh.vStruct);
+    mesh.vao.attachVertexBuffer(mesh.vertexBuffer.getBindingInfo(), mesh.vStruct);
+    mesh.vao.attachElementBuffer(mesh.triBuffer.getBindingInfo());
 
     int imgW, imgH, n;
     stbi_set_flip_vertically_on_load(1);
@@ -81,6 +79,8 @@ int _main(int, char* argv[])
 
     double prevX, prevY;
     glfwGetCursorPos(window, &prevX, &prevY);
+
+    mesh.vao.bind();
 
     while (!glfwWindowShouldClose(window))
     {

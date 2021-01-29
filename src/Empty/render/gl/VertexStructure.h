@@ -23,9 +23,9 @@ namespace render::gl
 		std::string name;
 		VertexAttribType type;
 		int elems;
-		int stride;
 		size_t offset;
 		location index;
+		inline size_t size() const { return elems * vertexElementSize(type); }
 	};
 
 	struct VertexStructure
@@ -38,35 +38,32 @@ namespace render::gl
 		 */
 		VertexStructure(size_t separateVertices = 0) : _separateVertices(separateVertices) {}
 
+		inline bool isInterleaved() const { return _separateVertices == 0; }
+
 		/**
 		 * Adds a new attribute to the structure.
 		 */
 		void add(const std::string& name, VertexAttribType type, int elems, location loc = -1)
 		{
-			int stride = 0;
 			size_t offset = 0;
 
 			if (!descriptors.empty())
 			{
+				const auto& last = descriptors.back();
 				if (isInterleaved())
-				{
-					stride = static_cast<int>(elems * vertexElementSize(type) + descriptors.front().stride);
-					offset = static_cast<size_t>(descriptors.back().elems) * vertexElementSize(descriptors.back().type) + descriptors.back().offset;
-					for (auto& attrib : descriptors)
-						attrib.stride = stride;
-				}
+					offset = last.size() + last.offset;
 				else
-					offset = _separateVertices * descriptors.back().elems * vertexElementSize(descriptors.back().type) + descriptors.back().offset;
+					offset = _separateVertices * last.size() + last.offset;
 			}
 
-			descriptors.push_back(VertexAttribDescriptor{ name, type, elems, stride, offset, loc });
+			descriptors.push_back(VertexAttribDescriptor{ name, type, elems, offset, loc });
 		}
 
-		size_t bytesPerVertex() const
+		inline size_t bytesPerVertex() const
 		{
 			size_t result = 0;
 			for (const auto& d : descriptors)
-				result += vertexElementSize(d.type) * d.elems;
+				result += d.size();
 			return result;
 		}
 
@@ -75,7 +72,5 @@ namespace render::gl
 		 * Number of vertices in the buffer when the attributes are separate. If the buffer attributes are interleaved, separateVertices is set to 0.
 		 */
 		size_t _separateVertices = 0;
-
-		bool isInterleaved() const { return _separateVertices <= 0; }
 	};
 }

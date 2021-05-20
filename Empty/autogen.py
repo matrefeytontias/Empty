@@ -12,6 +12,7 @@ import sys
 def printUsage():
     print("Usage : autogen.py <source root> <input file> <namespace for name function>")
     print("Example : autogen.py C:\\dev\\myDopeProject\\src render\\enums.def render::utils")
+    print("\t<input file> can be either a relative or absolute path")
     quit()
 
 if len(sys.argv) != 4:

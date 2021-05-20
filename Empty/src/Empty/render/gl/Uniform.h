@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 #include "Empty/math/mat.h"
 #include "Empty/math/vec.h"
 #include "Empty/render/gl/ShaderProgram.hpp"

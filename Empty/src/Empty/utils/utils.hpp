@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 #include "Empty/math/mat.h"
 
 #ifdef WIN32

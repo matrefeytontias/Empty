@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 struct gladGLversionStruct GLVersion;
 
 #if defined(GL_ES_VERSION_3_0) || defined(GL_VERSION_3_0)

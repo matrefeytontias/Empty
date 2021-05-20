@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 #include "Empty/render/gl/GLEnums.hpp"
 #include "Empty/render/gl/GLObject.h"
 #include "Empty/utils/macros.h"

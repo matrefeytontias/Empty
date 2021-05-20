@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
+
 namespace render::gl
 {
 	// ########################

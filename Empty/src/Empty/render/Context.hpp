@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 #include <GLFW/glfw3.h> // GLFW needs to be included after glad
 
 #include "Empty/render/gl/GLEnums.hpp"

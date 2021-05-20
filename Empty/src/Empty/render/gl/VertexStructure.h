@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 #include "Empty/render/gl/GLEnums.hpp"
 
 namespace render::gl

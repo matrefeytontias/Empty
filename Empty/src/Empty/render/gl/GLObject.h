@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Empty/glad/glad.h"
+#include "glad/glad.h"
 #include "Empty/render/gl/GLEnums.hpp"
 #include "Empty/utils/noncopyable.h"
 #include "Empty/utils/utils.hpp"

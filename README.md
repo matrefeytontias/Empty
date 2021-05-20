@@ -1,5 +1,5 @@
 # Empty
-Convenience wrapper classes for OpenGL things, geared towards type safety.
+Convenience wrapper classes for OpenGL things, geared towards type safety. Also includes a few helpful things like GLSL-style math classes.
 
 ## Requirements
 
@@ -10,11 +10,12 @@ Right now the library is designed to be included as a git submodule. It should w
 - Wraps OpenGL constants in scoped enums for maximum type safety
 - Wraps OpenGL resources (VAOs, buffers, textures etc) in convenient classes for localized functionality
 - Provides top-level context class for general-purpose things and stuffs
-- Replicates GLSL on the CPU as much as it can for easy CPU debugging of your shaders
+- Replicates GLSL on the CPU as much as it can for easy CPU debugging of your shaders (and it's also a banging math API in my opinion so there's that)
 - Does not overstep its boundaries and sticks to making using OpenGL easier and safer. Most functions are thus inlined one-liners with 0 runtime overhead compared to just using OpenGL.
 
-## ~~The library is not ready for use yet. Feel free to browse around the code to see how things are done, but that's about all you can do right now.~~
-## The library is usable but does not do much. We are currently working on an example package and adding things to it as usage demands them. You should do the same ! :D
+## What Empty is and does
+
+The library is usable but does not do much. We are currently working on an example package and adding things to it as usage demands them. You should do the same ! :D
 
 The idea for this library was initiated by me working with OpenGL and asking myself the following questions :
 - What format did I give that texture again ?
@@ -22,7 +23,7 @@ The idea for this library was initiated by me working with OpenGL and asking mys
 - Is this a buffer or texture ID ..?
 - and many more like that.
 
-Empty leverages C++'s scoped enums, templating and [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) to wrap OpenGL resources and functions with type information for air-tight compile-time checks and type safety. It doesn't actually offer any runtime functionality outside of this, hence the name, "Empty".
+Empty leverages C++'s scoped enums, templating and [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) to wrap OpenGL resources and functions with type information for air-tight compile-time checks and type safety. It originally didn't actually offer any runtime functionality outside of this, hence the name, "Empty".
 
 ## Comparison
 

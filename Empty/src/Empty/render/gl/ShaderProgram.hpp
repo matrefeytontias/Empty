@@ -37,7 +37,13 @@ namespace render::gl
 		template <typename T>
 		void uniform(const std::string& name, const T& value)
 		{
-			_uniforms[name] = std::make_shared<Uniform<T>>(name, value);
+			auto entry = _uniforms.find(name);
+			if (entry == _uniforms.end())
+				_uniforms[name] = std::make_shared<Uniform<T>>(name, value);
+			else if (auto v = dynamic_cast<Uniform<T>*>(entry->second.get()))
+				v->value = value;
+			else
+				FATAL("Tried to set existing uniform " << name << " with value of the wrong type " << value);
 			_uniforms[name]->upload(findUniform(name));
 		}
 		std::vector<std::shared_ptr<UniformBase>> dumpUniforms() const;

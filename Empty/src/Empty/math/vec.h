@@ -1,32 +1,45 @@
 #pragma once
 
-#include <memory>
+#include <iostream>
 
 namespace math
 {
-#define DEFINE_ACCESSORS T operator()(int k) const { return data[k]; } \
-    T& operator()(int k) { return data[k]; } \
-    T operator[](int k) const { return data[k]; } \
-    T& operator[](int k) { return data[k]; } \
-    operator const T* () const { return data; } \
-    operator T* () { return data; }
+// Array accessors and pointer casts are the same for vectors with any amount of components
+#define DEFINE_ACCESSORS T operator()(int k) const { return (&x)[k]; } \
+    T& operator()(int k) { return (&x)[k]; } \
+    T operator[](int k) const { return (&x)[k]; } \
+    T& operator[](int k) { return (&x)[k]; } \
+    operator const T* () const { return &x; } \
+    operator T* () { return &x; }
 
+    /**
+    * 2-component vector
+    */
     template <typename T>
     struct _vec2
     {
         using ElementType = T;
         union
         {
-            T data[2];
             struct { T x; T y; };
+
+            struct { T r; T g; };
+
+            struct { T s; T t; };
         };
+        
         // Constructors
         _vec2() = default;
-        _vec2(T x, T y) : x(x), y(y) {}
+
         template <typename U>
         _vec2(U x, U y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
+        
+        template <typename U>
+        _vec2(const _vec2<U>& v) : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)) {}
+        
         // Access
         DEFINE_ACCESSORS;
+        
         // Infix and assignment operators
 #define OP(op) inline _vec2 operator##op(const _vec2& v) const { return _vec2(x op v.x, y op v.y); } \
                inline _vec2 operator##op(T v) const { return _vec2(x op v, y op v); } \
@@ -35,8 +48,9 @@ namespace math
         OP(+);
         OP(-);
         OP(*);
-        OP(/ );
+        OP(/);
 #undef OP
+
     };
 
     template <typename T>
@@ -51,23 +65,37 @@ namespace math
         using ElementType = T;
         union
         {
-            T data[3];
             struct { T x; T y; T z; };
             struct { _vec2<T> xy; T z; };
             struct { T x; _vec2<T> yz; };
+
+            struct { T r; T g; T b; };
+            struct { _vec2<T> rg; T b; };
+            struct { T r; _vec2<T> gb; };
+
+            struct { T s; T t; T p; };
+            struct { _vec2<T> st; T p; };
+            struct { T s; _vec2<T> tp; };
         };
 
         // Constructors
         _vec3() = default;
-        _vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+
         template <typename U>
         _vec3(U x, U y, U z) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)) {}
-        template <typename U, typename V>
-        _vec3(const _vec2<U>& xy, V z) : xy(xy), z(z) {}
-        template <typename U, typename V>
-        _vec3(U x, const _vec2<V>& yz) : x(x), yz(yz) {}
+        
+        template <typename U>
+        _vec3(const _vec2<U>& xy, U z) : xy(xy), z(static_cast<T>(z)) {}
+        
+        template <typename U>
+        _vec3(U x, const _vec2<U>& yz) : x(static_cast<T>(x)), yz(yz) {}
+        
+        template <typename U>
+        _vec3(const _vec3<U>& v) : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)), z(static_cast<T>(v.z)) {}
+        
         // Access
         DEFINE_ACCESSORS;
+
         // Infix and assignment operators
 #define OP(op) inline _vec3 operator##op(const _vec3& v) const { return _vec3(x op v.x, y op v.y, z op v.z); } \
                inline _vec3 operator##op(T v) const { return _vec3(x op v, y op v, z op v); } \
@@ -76,7 +104,7 @@ namespace math
         OP(+);
         OP(-);
         OP(*);
-        OP(/ );
+        OP(/);
 #undef OP
 
         static _vec3<T> right;
@@ -103,21 +131,52 @@ namespace math
         using ElementType = T;
         union
         {
-            T data[4];
             struct { T x; T y; T z; T w; };
-            struct { _vec2<T> xy, zw; };
+            struct { _vec2<T> xy; _vec2<T> zw; };
+            struct { T x; _vec2<T> yz; T w; };
+            struct { T x; _vec3<T> yzw; };
             struct { _vec3<T> xyz; T w; };
+
+            struct { T r; T g; T b; T a; };
+            struct { _vec2<T> rg; _vec2<T> ba; };
+            struct { T r; _vec2<T> gb; T a; };
+            struct { T r; _vec3<T> gba; };
+            struct { _vec3<T> rgb; T a; };
+
+            struct { T s; T t; T p; T q; };
+            struct { _vec2<T> st; _vec2<T> pq; };
+            struct { T s; _vec2<T> tp; T q; };
+            struct { T s; _vec3<T> tpq; };
+            struct { _vec3<T> stp; T q; };
         };
 
         // Constructors
         _vec4() = default;
-        _vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+
         template <typename U>
         _vec4(U x, U y, U z, U w) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
+
+        template <typename U>
+        _vec4(const _vec2<U>& xy, U z, U w) : xy(xy), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
+
+        template <typename U>
+        _vec4(U x, const _vec2<U>& yz, U w) : x(static_cast<T>(x)), yz(yz), w(static_cast<T>(w)) {}
+
+        template <typename U>
+        _vec4(U x, U y, const _vec2<U>& zw) : x(static_cast<T>(x)), y(static_cast<T>(y)), zw(zw) {}
+
+        template <typename U>
+        _vec4(const _vec2<U>& xy, const _vec2<U>& zw) : xy(xy), zw(zw) {}
+
         template <typename U, typename V>
         _vec4(const _vec3<U>& xyz, V w) : xyz(xyz), w(static_cast<T>(w)) {}
+
+        template <typename U, typename V>
+        _vec4(U x, const _vec3<U>& yzw) : x(static_cast<T>(x)), yzw(yzw) {}
+        
         // Access
         DEFINE_ACCESSORS;
+        
         // Infix and assignment operators
 #define OP(op) inline _vec4 operator##op(const _vec4& v) const { return _vec4(x op v.x, y op v.y, z op v.z, w op v.w); } \
                inline _vec4 operator##op(T v) const { return _vec4(x op v, y op v, z op v, w op v); } \
@@ -126,7 +185,7 @@ namespace math
         OP(+);
         OP(-);
         OP(*);
-        OP(/ );
+        OP(/);
 #undef OP
 
         static _vec4<T> right;
@@ -135,11 +194,11 @@ namespace math
     };
 
     template <typename T>
-    _vec4<T> _vec4<T>::right = _vec4<T>(1, 0, 0);
+    _vec4<T> _vec4<T>::right = _vec4<T>(1, 0, 0, 0);
     template <typename T>
-    _vec4<T> _vec4<T>::up = _vec4<T>(0, 1, 0);
+    _vec4<T> _vec4<T>::up = _vec4<T>(0, 1, 0, 0);
     template <typename T>
-    _vec4<T> _vec4<T>::forward = _vec4<T>(0, 0, 1);
+    _vec4<T> _vec4<T>::forward = _vec4<T>(0, 0, 1, 0);
 
 #undef DEFINE_ACCESSORS
 

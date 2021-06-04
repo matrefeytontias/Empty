@@ -1,2 +1,5 @@
 .vscode/
 Build/
+# Exclude def-generated sources
+Empty/src/Empty/render/gl/GLEnums.cpp
+Empty/src/Empty/render/gl/GLEnums.hpp

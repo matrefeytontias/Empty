@@ -444,4 +444,16 @@ namespace render::gl
 		RetrievableBinaryHint = GL_PROGRAM_BINARY_RETRIEVABLE_HINT,
 		Separable = GL_PROGRAM_SEPARABLE,
 	};
+
+	// ####################################
+	// # Framebuffer-related enum structs #
+	// ####################################
+
+	enum struct DrawBufferType : GLenum
+	{
+		Color = GL_COLOR,
+		Depth = GL_DEPTH,
+		Stencil = GL_STENCIL,
+		DepthStencil = GL_DEPTH_STENCIL,
+	};
 }

@@ -82,13 +82,18 @@ int _main(int, char* argv[])
 
     mesh.vao.bind();
 
+    context.clearColor = math::vec4(0, 0, 0, 1);
+    context.clearDepth = 1;
+
     while (!glfwWindowShouldClose(window))
     {
         program.uniform("uTime", (float)glfwGetTime());
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);
 
-        context.clearBuffers(true, true);
+        context.clearBuffers(DrawBufferType::Color);
+        context.clearBuffers(DrawBufferType::Depth);
+
         if (mesh.isIndexed())
             context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * (int)mesh.faces.size());
         else

@@ -21,7 +21,7 @@ namespace render
 		// Depth value to clear depth buffers with. Defaults to 0.f.
 		float clearDepth;
 		// Stencil value to clear stencil buffers with. Defaults to 0.
-		int clearStencil;
+		unsigned int clearStencil;
 
 		Context(const char* title, int width, int height, int major = 4, int minor = 5);
 		~Context();
@@ -42,9 +42,17 @@ namespace render
 		/**
 		 * Clear a variety of buffers with the corresponding colors.
 		 */
-		inline void clearBuffers(bool color = true, bool depth = false, bool stencil = false) const
+		inline void clearBuffers(gl::DrawBufferType buffer) const
 		{
-			glClear(utils::select(GL_COLOR_BUFFER_BIT, color) | utils::select(GL_DEPTH_BUFFER_BIT, depth) | utils::select(GL_STENCIL_BUFFER_BIT, stencil));
+			// glClear(utils::select(GL_COLOR_BUFFER_BIT, color) | utils::select(GL_DEPTH_BUFFER_BIT, depth) | utils::select(GL_STENCIL_BUFFER_BIT, stencil));
+			if (buffer == gl::DrawBufferType::Color)
+				glClearNamedFramebufferfv(0, GL_COLOR, 0, clearColor);
+			else if (buffer == gl::DrawBufferType::Depth)
+				glClearNamedFramebufferfv(0, GL_DEPTH, 0, &clearDepth);
+			else if (buffer == gl::DrawBufferType::Stencil)
+				glClearNamedFramebufferuiv(0, GL_STENCIL, 0, &clearStencil);
+			else // if (buffer == gl::DrawBufferType::DepthStencil)
+				glClearNamedFramebufferfi(0, GL_DEPTH_STENCIL, 0, clearDepth, clearStencil);
 		}
 
 		inline void swap() const { glfwSwapBuffers(window); }

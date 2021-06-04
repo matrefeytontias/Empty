@@ -61,6 +61,13 @@ namespace render::gl
         GLuint _id;
     };
 
+    struct FramebufferId : public utils::noncopyable
+    {
+        FramebufferId() { glCreateFramebuffers(1, &_id); }
+    private:
+        GLuint _id;
+    };
+
 	/**
      * Base class for GL objects ; just hold and construct an ID of a given type.
      */

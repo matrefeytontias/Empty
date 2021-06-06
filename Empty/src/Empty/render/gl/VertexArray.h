@@ -45,13 +45,13 @@ namespace render::gl
 			// If attributes are interleaved, one single buffer binding is enough to provide for all vertex attribs
 			if (attribs.isInterleaved())
 			{
-				glVertexArrayVertexBuffer(*_id, bindingIndex, *vbo.id(), offset, attribs.bytesPerVertex());
+				glVertexArrayVertexBuffer(*_id, bindingIndex, *vbo.id(), offset, static_cast<GLsizei>(attribs.bytesPerVertex()));
 				for (const auto& attrib : attribs.descriptors)
 				{
 					if (attrib.index >= 0)
 					{
 						enableArray(attrib.index);
-						glVertexArrayAttribFormat(*_id, attrib.index, attrib.elems, utils::value(attrib.type), false, attrib.offset);
+						glVertexArrayAttribFormat(*_id, attrib.index, attrib.elems, utils::value(attrib.type), false, static_cast<GLuint>(attrib.offset));
 						glVertexArrayAttribBinding(*_id, attrib.index, bindingIndex);
 					}
 				}
@@ -62,7 +62,7 @@ namespace render::gl
 				int bi = bindingIndex;
 				for (const auto& attrib : attribs.descriptors)
 				{
-					glVertexArrayVertexBuffer(*_id, bi, *vbo.id(), offset + attrib.offset, attrib.size());
+					glVertexArrayVertexBuffer(*_id, bi, *vbo.id(), offset + attrib.offset, static_cast<GLsizei>(attrib.size()));
 					if (attrib.index >= 0)
 					{
 						enableArray(attrib.index);

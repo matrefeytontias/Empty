@@ -1,5 +1,11 @@
 #include "Empty/render/Context.hpp"
 
+#include "Empty/render/gl/Buffer.h"
+#include "Empty/render/gl/Framebuffer.h"
+#include "Empty/render/gl/ShaderProgram.hpp"
+#include "Empty/render/gl/Texture.h"
+#include "Empty/render/gl/VertexArray.h"
+
 render::Context::Context(const char* title, int width, int height, int major, int minor) : frameWidth(width), frameHeight(height), clearColor(0, 0, 0, 1), clearDepth(0.f), clearStencil(0)
 {
 	ASSERT(major * 100 + minor >= 405);
@@ -21,4 +27,41 @@ render::Context::Context(const char* title, int width, int height, int major, in
 render::Context::~Context()
 {
 	glfwTerminate();
+}
+
+void render::Context::bind(const gl::BufferInfo& b, gl::BufferTarget target)
+{
+	glBindBuffer(utils::value(target), *b.id);
+}
+
+void render::Context::bind(const gl::FramebufferInfo& fb, gl::FramebufferTarget target)
+{
+	glBindFramebuffer(utils::value(target), *fb.id);
+}
+
+void render::Context::bind(const gl::TextureInfo& t, int unit)
+{
+	glBindTextureUnit(unit, *t.id);
+}
+
+void render::Context::bind(const gl::VertexArrayInfo& va)
+{
+	glBindVertexArray(*va.id);
+}
+
+void render::Context::setShaderProgram(const gl::ShaderProgram& sp)
+{
+	gl::ShaderProgramInfo spi = sp;
+
+	// Use program
+	if (_currentProgram.lock() != spi.id)
+	{
+		glUseProgram(*spi.id);
+		_currentProgram = spi.id;
+	}
+
+	// Bind textures
+	auto shaderTextures = sp.dumpTextures();
+	for (auto st : shaderTextures)
+		bind(st.textureInfo, st.unit);
 }

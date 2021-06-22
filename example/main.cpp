@@ -46,11 +46,12 @@ int _main(int, char* argv[])
     ShaderProgram program;
     program.attachFile(ShaderType::Fragment, "Fragment.glsl");
     program.attachFile(ShaderType::Vertex, "Vertex.glsl");
-    program.use();
+    program.build();
+
     program.locateAttributes(mesh.vStruct);
 
-    mesh.vao.attachVertexBuffer(mesh.vertexBuffer.getBindingInfo(), mesh.vStruct);
-    mesh.vao.attachElementBuffer(mesh.triBuffer.getBindingInfo());
+    mesh.vao.attachVertexBuffer(mesh.vertexBuffer, mesh.vStruct);
+    mesh.vao.attachElementBuffer(mesh.triBuffer);
 
     int imgW, imgH, n;
     stbi_set_flip_vertically_on_load(1);
@@ -59,7 +60,7 @@ int _main(int, char* argv[])
         FATAL("pas trouveeeeeee");
     TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
 
-    Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> tex;
+    Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
     tex.setStorage(1, imgW, imgH);
     tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
     TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
@@ -67,11 +68,12 @@ int _main(int, char* argv[])
     stbi_image_free(img);
     utils::checkGLerror(CALL_SITE);
 
-    program.registerTexture("uTexture", tex.getBindingInfo());
+    program.registerTexture("uTexture", tex);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_FRAMEBUFFER_SRGB);
 
     utils::checkGLerror(CALL_SITE);
 
@@ -80,10 +82,12 @@ int _main(int, char* argv[])
     double prevX, prevY;
     glfwGetCursorPos(window, &prevX, &prevY);
 
-    mesh.vao.bind();
+    context.bind(mesh.vao);
 
     context.clearColor = math::vec4(0, 0, 0, 1);
     context.clearDepth = 1;
+
+    context.setShaderProgram(program);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -113,8 +117,6 @@ int _main(int, char* argv[])
     }
     
     TRACE("Exiting drawing loop");
-
-    mesh.vao.unbind();
 
     return 0;
 }

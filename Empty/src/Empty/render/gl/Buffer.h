@@ -11,31 +11,9 @@ namespace render::gl
 	 * This struct holds everything one needs to bind a buffer. Useful in case
 	 * one wants to bind the buffer without having access to the entire Buffer object.
 	 */
-	struct BufferBinding
+	struct BufferInfo
 	{
-		BufferBinding() = default;
-		BufferBinding(std::shared_ptr<BufferId> id)
-			: _id(id)
-		{}
-
-		std::shared_ptr<BufferId> id() const { return _id; }
-
-		inline void bind(BufferTarget target)
-		{
-			ASSERT(target != BufferTarget::Dynamic && _id && "Invalid buffer binding");
-			_target = target;
-			glBindBuffer(utils::value(_target), *_id);
-		}
-
-		inline void unbind()
-		{
-			ASSERT(_target != BufferTarget::Dynamic && "Invalid buffer binding");
-			glBindBuffer(utils::value(_target), 0);
-			_target = BufferTarget::Dynamic;
-		}
-	private:
-		BufferTarget _target = BufferTarget::Dynamic;
-		std::shared_ptr<BufferId> _id;
+		std::shared_ptr<BufferId> id;
 	};
 
 	struct Buffer;
@@ -51,7 +29,7 @@ namespace render::gl
 		 */
 		~BufferMapping()
 		{
-			glUnmapNamedBuffer(*_binding.id());
+			glUnmapNamedBuffer(*_binding.id);
 			*_mapped = false;
 		}
 
@@ -78,7 +56,7 @@ namespace render::gl
 
 	private:
 		friend struct Buffer;
-		BufferBinding _binding;
+		BufferInfo _binding;
 		uint8_t* _data;
 		bool* _mapped;
 
@@ -86,9 +64,9 @@ namespace render::gl
 		 * Maps the buffer. Use this object in a scope to make sure the buffer is unmapped
 		 * when this object goes out of scope.
 		 */
-		BufferMapping(const BufferBinding& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
+		BufferMapping(const BufferInfo& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
 		{
-			_data = reinterpret_cast<uint8_t*>(glMapNamedBuffer(*_binding.id(), utils::value(access)));
+			_data = reinterpret_cast<uint8_t*>(glMapNamedBuffer(*_binding.id, utils::value(access)));
 			*_mapped = true;
 		}
 	};
@@ -100,35 +78,12 @@ namespace render::gl
 	struct Buffer : public GLObject<BufferId>
 	{
 		/**
-		 * Binds the buffer. This is necessary for drawing operations to access the buffer.
-		 * Binding a buffer modifies the currently bound VAO (and thus requires one), except for
-		 * the `Array` target.
-		 */
-		inline void bind(BufferTarget target)
-		{
-			ASSERT(target != BufferTarget::Dynamic && "Invalid buffer target");
-			_target = target;
-			glBindBuffer(utils::value(_target), *_id);
-		}
-
-		/**
-		 * Unbinds the buffer. Binding a buffer modifies the currently bound VAO (and thus
-		 * requires one), except for the `Array` target.
-		 */
-		inline void unbind()
-		{
-			ASSERT(_target != BufferTarget::Dynamic && "Buffer was not previously bound");
-			glBindBuffer(utils::value(_target), 0);
-			_target = BufferTarget::Dynamic;
-		}
-
-		/**
 		 * Maps the buffer to a pointer that contains the buffer's data.
 		 */
 		BufferMapping map(BufferAccess access)
 		{
 			ASSERT(!_mapped);
-			return BufferMapping(getBindingInfo(), access, &_mapped);
+			return BufferMapping(getInfo(), access, &_mapped);
 		}
 
 		/**
@@ -193,10 +148,10 @@ namespace render::gl
 			return static_cast<BufferUsage>(p);
 		}
 
-		BufferBinding getBindingInfo() const { return BufferBinding(_id); }
+		operator const BufferInfo() const { return BufferInfo{ _id }; }
+		const BufferInfo getInfo() const { return BufferInfo{ _id }; }
 
 	protected:
 		bool _mapped = false;
-		BufferTarget _target = BufferTarget::Dynamic;
 	};
 }

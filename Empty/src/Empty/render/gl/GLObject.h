@@ -17,6 +17,7 @@ namespace render::gl
         ~BufferId() { glDeleteBuffers(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const BufferId& a) const { return _id == a._id; }
+        bool operator!=(const BufferId& a) const { return _id != a._id; }
     private:
         GLuint _id;
     };
@@ -27,6 +28,7 @@ namespace render::gl
         ~ProgramId() { glDeleteProgram(_id); }
         operator GLuint() const { return _id; }
         bool operator==(const ProgramId& a) const { return _id == a._id; }
+        bool operator!=(const ProgramId& a) const { return _id != a._id; }
     private:
         GLuint _id;
     };
@@ -37,6 +39,7 @@ namespace render::gl
         ~TextureId() { glDeleteTextures(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const TextureId& a) const { return _id == a._id; }
+        bool operator!=(const TextureId& a) const { return _id != a._id; }
     private:
         GLuint _id;
     };
@@ -47,6 +50,7 @@ namespace render::gl
         ~VertexArrayId() { glDeleteVertexArrays(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const VertexArrayId& a) const { return _id == a._id; }
+        bool operator!=(const VertexArrayId& a) const { return _id != a._id; }
     private:
         GLuint _id;
     };
@@ -57,6 +61,7 @@ namespace render::gl
         ~ShaderId() { glDeleteShader(_id); }
         operator GLuint() const { return _id; }
         bool operator==(const ShaderId& a) { return _id == a._id; }
+        bool operator!=(const ShaderId& a) { return _id != a._id; }
     private:
         GLuint _id;
     };
@@ -64,6 +69,10 @@ namespace render::gl
     struct FramebufferId : public utils::noncopyable
     {
         FramebufferId() { glCreateFramebuffers(1, &_id); }
+        ~FramebufferId() { glDeleteFramebuffers(1, &_id); }
+        operator GLuint() const { return _id; }
+        bool operator==(const FramebufferId& a) const { return _id == a._id; }
+        bool operator!=(const FramebufferId& a) const { return _id != a._id; }
     private:
         GLuint _id;
     };
@@ -76,6 +85,7 @@ namespace render::gl
         template <typename ...Ts>
 		GLObject(const Ts& ...args) : _id(std::make_shared<Id>(args...)) {}
 		bool operator==(const GLObject& a) { return _id == a._id; }
+        bool operator!=(const GLObject& a) { return _id != a._id; }
 	protected:
 		std::shared_ptr<Id> _id;
 	};

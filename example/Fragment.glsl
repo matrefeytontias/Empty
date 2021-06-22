@@ -1,3 +1,5 @@
+#version 450
+
 out vec4 colorOut;
 
 uniform float uTime;

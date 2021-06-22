@@ -456,4 +456,22 @@ namespace render::gl
 		Stencil = GL_STENCIL,
 		DepthStencil = GL_DEPTH_STENCIL,
 	};
+
+	enum struct FramebufferTarget : GLenum
+	{
+		Dynamic = GL_INVALID_ENUM,
+		// Framebuffers
+		Draw = GL_DRAW_FRAMEBUFFER,
+		Read = GL_READ_FRAMEBUFFER,
+		DrawRead = GL_FRAMEBUFFER,
+	};
+
+	enum struct FramebufferParam : GLenum
+	{
+		DefaultWidth = GL_FRAMEBUFFER_DEFAULT_WIDTH,
+		DefaultHeight = GL_FRAMEBUFFER_DEFAULT_HEIGHT,
+		DefaultLayers = GL_FRAMEBUFFER_DEFAULT_LAYERS,
+		DefaultSamples = GL_FRAMEBUFFER_DEFAULT_SAMPLES,
+		DefaultFixedSampleLocations = GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS,
+	};
 }

@@ -53,30 +53,10 @@ namespace render::gl
 	 * This struct holds everything one needs to bind a texture. Useful in case
 	 * one wants to bind the texture without having access to the entire Texture object.
 	 */
-	struct TextureBinding
+	struct TextureInfo
 	{
-		TextureBinding() = default;
-		TextureBinding(TextureTarget target, std::shared_ptr<TextureId> id)
-			: _target(target), _id(id)
-		{}
-
-		TextureTarget target() const { return _target; }
-		std::shared_ptr<TextureId> id() const { return _id; }
-
-		inline void bind(int unit) const
-		{
-			ASSERT(_target != TextureTarget::Dynamic && _id && "Invalid texture binding");
-			glBindTextureUnit(unit, *_id);
-		}
-		inline void unbind(int unit) const
-		{
-			ASSERT(_target != TextureTarget::Dynamic && "Invalid texture binding");
-			glActiveTexture(GL_TEXTURE0 + unit);
-			glBindTexture(utils::value(_target), 0);
-		}
-	private:
-		TextureTarget _target = TextureTarget::Dynamic;
-		std::shared_ptr<TextureId> _id;
+		std::shared_ptr<TextureId> id;
+		TextureTarget target;
 	};
 
 	/**
@@ -105,25 +85,8 @@ namespace render::gl
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
 			Texture() : GLObject(t), _target(t), _format(f) {}
-#undef COPY_CTPARAMS
-		
-		/**
-		 * Binds the texture to a given texture unit. This is necessary for
-		 * drawing operations to access the texture.
-		 */
-		inline void bind(int unit) const
-		{
-			glBindTextureUnit(unit, *_id);
-		}
 
-		/**
-		 * Unbinds the texture from a given texture unit.
-		 */
-		inline void unbind(int unit) const
-		{
-			glActiveTexture(GL_TEXTURE0 + unit);
-			glBindTexture(utils::value(_target), 0);
-		}
+#undef COPY_CTPARAMS
 
 #define COPY_CTPARAMS TextureTarget t = CTTarget
 
@@ -136,7 +99,7 @@ namespace render::gl
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 			glTextureStorage1D(*_id, levels, utils::value(_format), width);
-			_requirementsSet = true;
+			DEBUG_ONLY(_requirementsSet = true);
 		}
 
 		/**
@@ -148,7 +111,7 @@ namespace render::gl
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 			glTextureStorage2D(*_id, levels, utils::value(_format), width, height);
-			_requirementsSet = true;
+			DEBUG_ONLY(_requirementsSet = true);
 		}
 
 		/**
@@ -160,7 +123,7 @@ namespace render::gl
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 			glTextureStorage3D(*_id, levels, utils::value(_format), width, height, depth);
-			_requirementsSet = true;
+			DEBUG_ONLY(_requirementsSet = true);
 		}
 
 		/**
@@ -181,7 +144,7 @@ namespace render::gl
 			else // if(dims == 3)
 				glTextureStorage3D(*_id, levels, utils::value(_format), width, height, depth);
 
-			_requirementsSet = true;
+			DEBUG_ONLY(_requirementsSet = true);
 		}
 
 		/**
@@ -191,6 +154,7 @@ namespace render::gl
 			std::enable_if_t<dimensionsFromTarget(t) == 1, int> = 0>
 			inline void uploadData(int level, int x, int w, PixelFormat format, PixelType type, const void* data) const
 		{
+			ASSERT(_requirementsSet);
 			glTextureSubImage1D(*_id, level, x, w, utils::value(format), utils::value(type), data);
 		}
 
@@ -201,6 +165,7 @@ namespace render::gl
 			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubeMap(t), int> = 0>
 			inline void uploadData(int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
 		{
+			ASSERT(_requirementsSet);
 			glTextureSubImage2D(*_id, level, x, y, w, h, utils::value(format), utils::value(type), data);
 		}
 
@@ -211,6 +176,7 @@ namespace render::gl
 			std::enable_if_t<dimensionsFromTarget(t) == 3, int> = 0>
 			inline void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
 		{
+			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, z, w, h, d, utils::value(format), utils::value(type), data);
 		}
 
@@ -221,6 +187,7 @@ namespace render::gl
 			std::enable_if_t<isTargetCubeMap(t), int> = 0>
 			inline void uploadData(CubeMapFace face, int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
 		{
+			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, 1, utils::value(format), utils::value(type), data);
 		}
 
@@ -232,6 +199,7 @@ namespace render::gl
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
 			void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
 		{
+			ASSERT(_requirementsSet);
 			ASSERT(!isTargetCubeMap(_target) && "cannot upload data directly to a cubemap ; use dedicated method instead");
 
 			int dims = dimensionsFromTarget(_target);
@@ -250,6 +218,7 @@ namespace render::gl
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
 			inline void uploadData(CubeMapFace face, int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
 		{
+			ASSERT(_requirementsSet);
 			ASSERT(isTargetCubeMap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");
 
 			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, 1, utils::value(format), utils::value(type), data);
@@ -337,7 +306,8 @@ namespace render::gl
 			, int> = 0>
 			void setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
 
-		TextureBinding getBindingInfo() const { return TextureBinding(_target, _id); }
+		operator const TextureInfo() const { return TextureInfo{ _id, _target }; }
+		const TextureInfo getInfo() const { return TextureInfo{ _id, _target }; }
 		TextureTarget getTarget() const { return _target; }
 		TextureFormat getFormat() const { return _format; }
 
@@ -353,6 +323,6 @@ namespace render::gl
 		/**
 		 * Whether storage requirements were set.
 		 */
-		bool _requirementsSet = false;
+		DEBUG_ONLY(bool _requirementsSet = false);
 	};
 }

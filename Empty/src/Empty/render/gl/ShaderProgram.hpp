@@ -6,7 +6,6 @@
 #include <vector>
 #include <type_traits>
 
-#include "glad/glad.h"
 #include "Empty/math/vec.h"
 #include "Empty/render/gl/GLObject.h"
 #include "Empty/render/gl/Shader.h"
@@ -17,42 +16,94 @@
 
 namespace render::gl
 {
+	struct ShaderProgramInfo
+	{
+		std::shared_ptr<ProgramId> id;
+	};
+
+	/**
+	 * Holds information about a uniform in the context of
+	 * a shader program.
+	 */
+	struct ProgramUniform
+	{
+		std::shared_ptr<UniformBase> uniform;
+		location loc = -1;
+	};
+
+	/**
+	 * Holds information about a texture in the context of
+	 * a shader program.
+	 */
+	struct ProgramTextureInfo
+	{
+		TextureInfo textureInfo;
+		int unit = -1;
+	};
+
 	struct ShaderProgram : public GLObject<ProgramId>
 	{
 	public:
 		ShaderProgram() {}
 		~ShaderProgram();
+
 		bool attachSource(ShaderType type, const std::string& src);
 		inline bool attachFile(ShaderType type, const std::string& path)
 		{
 			return attachSource(type, utils::getFileContents(path));
 		}
-		void use();
+
+		bool build()
+		{
+			glLinkProgram(*_id);
+			return DEBUG_ONLY(_built = ) getParameter<ProgramParam::LinkStatus>();
+		}
 
 		/**
 		 * Finds and stores attribute locations in the provided vertex structure in-place.
 		 */
 		void locateAttributes(VertexStructure& vStruct);
 
+		/**
+		 * Looks up or computes and caches an attribute's location.
+		 */
+		location findAttribute(const std::string& name);
+		/**
+		 * Looks up or computes and caches a uniform's location.
+		 */
+		location findUniform(const std::string& name);
+
+		/**
+		 * Sets a uniform's value. The type is deduced from the value's
+		 * type or given explicitely through templating.
+		 */
 		template <typename T>
 		void uniform(const std::string& name, const T& value)
 		{
+			ASSERT(_built);
+
+			// TODO : we don't need to look for the uniform in the map immediately after putting it there
+
 			auto entry = _uniforms.find(name);
 			if (entry == _uniforms.end())
-				_uniforms[name] = std::make_shared<Uniform<T>>(name, value);
-			else if (auto v = dynamic_cast<Uniform<T>*>(entry->second.get()))
+			{
+				auto& u = _uniforms[name] = ProgramUniform{ std::make_shared<Uniform<T>>(name, value), -1 };
+				u.uniform->upload(_id, findUniform(name));
+			}
+			else if (auto v = dynamic_cast<Uniform<T>*>(entry->second.uniform.get()))
+			{
 				v->value = value;
+				entry->second.uniform->upload(_id, entry->second.loc);
+			}
 			else
-				FATAL("Tried to set existing uniform " << name << " with value of the wrong type " << value);
-			_uniforms[name]->upload(findUniform(name));
+				FATAL("Tried to set existing uniform '" << name << "' with value of the wrong type " << value);
 		}
-		std::vector<std::shared_ptr<UniformBase>> dumpUniforms() const;
 
-		void registerTexture(const std::string& name, const TextureBinding& tex);
+		std::vector<ProgramUniform> dumpUniforms() const;
+		std::vector<ProgramTextureInfo> dumpTextures() const;
+
+		void registerTexture(const std::string& name, const TextureInfo& tex);
 		size_t getTexturesAmount() const { return _textures.size(); }
-
-		location findUniform(const std::string& name);
-		location findAttribute(const std::string& name);
 
 		template <ProgramParam CTParam,
 			std::enable_if_t<CTParam == ProgramParam::DeleteStatus || CTParam == ProgramParam::LinkStatus
@@ -95,16 +146,15 @@ namespace render::gl
 			glProgramParameteri(*_id, utils::value(CTParam), v);
 		}
 
-	protected:
+		operator const ShaderProgramInfo() const { return ShaderProgramInfo{ _id }; }
+		const ShaderProgramInfo getInfo() const { return ShaderProgramInfo{ _id }; }
 
-		bool _dirty = true;
+	protected:
 		std::vector<Shader> _shaders;
-		std::unordered_map<std::string, location> _uniformLocations;
-		std::unordered_map<std::string, std::shared_ptr<UniformBase>> _uniforms;
+		std::unordered_map<std::string, ProgramUniform> _uniforms;
 		std::unordered_map<std::string, location> _attributes;
-		std::unordered_map<std::string, TextureBinding> _textures;
-		static ShaderProgram* _currentProgram;
-	private:
-		void updateTextureUniforms();
+		std::unordered_map<std::string, ProgramTextureInfo> _textures;
+
+		DEBUG_ONLY(bool _built = false);
 	};
 }

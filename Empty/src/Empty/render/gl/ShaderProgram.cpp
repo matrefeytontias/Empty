@@ -6,8 +6,6 @@
 
 using namespace render::gl;
 
-ShaderProgram* render::gl::ShaderProgram::_currentProgram = nullptr;
-
 ShaderProgram::~ShaderProgram()
 {
     for (const auto& shader : _shaders)
@@ -17,70 +15,76 @@ ShaderProgram::~ShaderProgram()
 bool ShaderProgram::attachSource(ShaderType type, const std::string& src)
 {
     Shader shader(type);
+    
     if (!shader.setSource(src))
+    {
+        TRACE("Attaching of " << utils::name(type) << " failed :\n" << shader.getLog());
         return false;
+    }
     glAttachShader(*_id, shader);
     _shaders.push_back(shader);
-    _dirty = true;
-    return true;
-}
 
-void ShaderProgram::use()
-{
-    if(_dirty)
-        glLinkProgram(*_id);
-    if(_currentProgram != this)
-        glUseProgram(*_id);
-    if (_dirty || _currentProgram != this)
-        updateTextureUniforms();
-    _dirty = false;
-    _currentProgram = this;
+    DEBUG_ONLY(_built = false);
+
+    return true;
 }
 
 void ShaderProgram::locateAttributes(VertexStructure& vStruct)
 {
+    ASSERT(_built);
+
     for (auto& d : vStruct.descriptors)
         d.index = findAttribute(d.name);
 }
 
-std::vector<std::shared_ptr<UniformBase>> ShaderProgram::dumpUniforms() const
+std::vector<ProgramUniform> ShaderProgram::dumpUniforms() const
 {
-    std::vector<std::shared_ptr<UniformBase>> r;
+    ASSERT(_built);
+
+    std::vector<ProgramUniform> r;
     r.reserve(_uniforms.size());
     for (const auto& u : _uniforms)
         r.push_back(u.second);
     return r;
 }
 
-void ShaderProgram::registerTexture(const std::string &name, const TextureBinding& tex)
+std::vector<ProgramTextureInfo> ShaderProgram::dumpTextures() const
 {
-    _dirty = true;
-    _textures[name] = tex;
-    if (_currentProgram == this)
-        updateTextureUniforms();
-    // if not, this will be called by the next call of use()
+    ASSERT(_built);
+
+    std::vector<ProgramTextureInfo> r;
+    r.reserve(_textures.size());
+    for (const auto& t : _textures)
+        r.push_back(t.second);
+    return r;
 }
 
-GLint ShaderProgram::findUniform(const std::string &name)
+void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& tex)
 {
-    if(_uniformLocations.find(name) == _uniformLocations.end())
-        _uniformLocations[name] = glGetUniformLocation(*_id, name.c_str());
-    return _uniformLocations[name];
+    ASSERT(_built);
+
+    int unit = static_cast<int>(getTexturesAmount());
+    uniform(name, unit);
+    _textures[name] = ProgramTextureInfo{ tex, unit };
 }
 
-GLint ShaderProgram::findAttribute(const std::string &name)
+location ShaderProgram::findUniform(const std::string &name)
 {
+    ASSERT(_built);
+
+    auto uniform = _uniforms.find(name);
+    if (uniform == _uniforms.end())
+        return -1;
+    else if(uniform->second.loc < 0)
+        return uniform->second.loc = glGetUniformLocation(*_id, name.c_str());
+    return uniform->second.loc;
+}
+
+location ShaderProgram::findAttribute(const std::string &name)
+{
+    ASSERT(_built);
+
     if(_attributes.find(name) == _attributes.end())
         _attributes[name] = glGetAttribLocation(*_id, name.c_str());
     return _attributes[name];
-}
-
-void ShaderProgram::updateTextureUniforms()
-{
-    int i = 0;
-    for (const auto& tex : _textures)
-    {
-        tex.second.bind(i);
-        glUniform1i(findUniform(tex.first), i++);
-    }
 }

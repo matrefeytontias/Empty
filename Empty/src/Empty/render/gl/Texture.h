@@ -34,11 +34,33 @@ namespace render::gl
 	}
 
 	/**
-	 * Returns whether a given texture target references a cubemap texture target.
+	 * Returns whether a given texture target references a cubemap or cubemap array texture target.
 	 */
 	constexpr bool isTargetCubeMap(TextureTarget target)
 	{
-		return target == TextureTarget::TextureCubeMap || target == TextureTarget::ProxyCubeMap;
+		return target == TextureTarget::TextureCubeMap || target == TextureTarget::ProxyCubeMap
+			|| target == TextureTarget::TextureCubeMapArray || target == TextureTarget::ProxyCubeMapArray;
+	}
+
+	/**
+	 * Returns whether a given texture target references a layered texture type.
+	 */
+	constexpr bool isTargetLayered(TextureTarget target)
+	{
+		return target == TextureTarget::Texture1DArray || target == TextureTarget::Proxy1DArray
+			|| dimensionsFromTarget(target) == 3;
+	}
+
+	/**
+	 * Returns whether a given texture target references a proxy target.
+	 */
+	constexpr bool isTargetProxy(TextureTarget target)
+	{
+		return target == TextureTarget::Proxy1D || target == TextureTarget::Proxy1DArray
+			|| target == TextureTarget::Proxy2D || target == TextureTarget::Proxy2DArray
+			|| target == TextureTarget::Proxy2DMultisample || target == TextureTarget::Proxy2DMultisampleArray
+			|| target == TextureTarget::Proxy3D || target == TextureTarget::ProxyRectangle
+			|| target == TextureTarget::ProxyCubeMap || target == TextureTarget::ProxyCubeMapArray;
 	}
 
 	/**
@@ -103,10 +125,11 @@ namespace render::gl
 		}
 
 		/**
-		 * Allocate storage for a 2-dimensional texture that is not a cubemap.
+		 * Allocate storage for a 2-dimensional texture. For 1D array textures, `height` is the number
+		 * of layers.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubeMap(t), int> = 0>
+			std::enable_if_t<dimensionsFromTarget(t) == 2, int> = 0>
 			inline void setStorage(int levels, int width, int height)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
@@ -115,20 +138,26 @@ namespace render::gl
 		}
 
 		/**
-		 * Allocate storage for a 3-dimensional texture.
+		 * Allocate storage for a 3-dimensional texture. For array textures, `depth` is the number of
+		 * layers. For cubemap array textures, `depth` is also the number of layers and not layer-faces
+		 * (no need to multiply it by 6).
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<dimensionsFromTarget(t) == 3, int> = 0>
 			inline void setStorage(int levels, int width, int height, int depth)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
+			if constexpr (isTargetCubeMap(t))
+				depth *= 6;
 			glTextureStorage3D(*_id, levels, utils::value(_format), width, height, depth);
 			DEBUG_ONLY(_requirementsSet = true);
 		}
 
 		/**
 		 * Allocate storage for a texture with target unknown at compile-time. Parameters
-		 * that are not relevant to the actual texture target are ignored.
+		 * that are not relevant to the actual texture target are ignored. For cubemap array
+		 * textures, `depth` is the number of layers and not layer-faces (no need to
+		 * multiply it by 6).
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
@@ -142,7 +171,7 @@ namespace render::gl
 			else if (dims == 2)
 				glTextureStorage2D(*_id, levels, utils::value(_format), width, height);
 			else // if(dims == 3)
-				glTextureStorage3D(*_id, levels, utils::value(_format), width, height, depth);
+				glTextureStorage3D(*_id, levels, utils::value(_format), width, height, isTargetCubeMap(_target) ? depth * 6 : depth);
 
 			DEBUG_ONLY(_requirementsSet = true);
 		}
@@ -170,10 +199,10 @@ namespace render::gl
 		}
 
 		/**
-		 * Upload data to a 3-dimensional texture.
+		 * Upload data to a 3-dimensional texture that is not a cubemap array.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 3, int> = 0>
+			std::enable_if_t<dimensionsFromTarget(t) == 3 && !isTargetCubeMap(t), int> = 0>
 			inline void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
@@ -181,14 +210,30 @@ namespace render::gl
 		}
 
 		/**
-		 * Upload data to a cubemap texture.
+		 * Upload data to a cubemap texture. `face` is the starting face of the upload operation,
+		 * and `faces` how many should be filled.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<isTargetCubeMap(t), int> = 0>
-			inline void uploadData(CubeMapFace face, int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
+			std::enable_if_t<dimensionsFromTarget(t) == 2 && isTargetCubeMap(t), int> = 0>
+			inline void uploadData(CubeMapFace face, int level, int x, int y, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
-			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, 1, utils::value(format), utils::value(type), data);
+			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
+		}
+
+		/**
+		 * Upload data to a cubemap array texture. `face` and `layer` are the starting face and layer
+		 * of the upload operation, and `faces` is how many faces should be filled. If the number of
+		 * faces overflows the number of faces that a cubemap has, the filling operation continues
+		 * on the cubemap of the next layer. For example, using `CubeMapFace::PositiveX`, `0` and `12`
+		 * respectively will fill all 6 faces of the first two cubemaps.
+		 */
+		template <COPY_CTPARAMS,
+			std::enable_if_t<dimensionsFromTarget(t) == 3 && isTargetCubeMap(t), int> = 0>
+			inline void uploadData(CubeMapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+		{
+			ASSERT(_requirementsSet);
+			glTextureSubImage3D(*_id, level, x, y, layer * 6 + cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
 		}
 
 		/**
@@ -212,16 +257,20 @@ namespace render::gl
 		}
 
 		/**
-		 * Upload data to a cubemap texture with target unknown at compile-time.
+		 * Upload data to a cubemap or cubemap array texture with target unknown at compile-time. Parameters
+		 * that are not relevant to the actual texture target are ignored.
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			inline void uploadData(CubeMapFace face, int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(CubeMapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			ASSERT(isTargetCubeMap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");
 
-			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, 1, utils::value(format), utils::value(type), data);
+			if (dimensionsFromTarget(_target) == 2)
+				glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
+			else // if (dimensionsFromTarget(_target) == 3)
+				glTextureSubImage3D(*_id, level, x, y, layer * 6 + cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
 		}
 
 #undef COPY_CTPARAMS

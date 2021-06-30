@@ -459,8 +459,6 @@ namespace render::gl
 
 	enum struct FramebufferTarget : GLenum
 	{
-		Dynamic = GL_INVALID_ENUM,
-		// Framebuffers
 		Draw = GL_DRAW_FRAMEBUFFER,
 		Read = GL_READ_FRAMEBUFFER,
 		DrawRead = GL_FRAMEBUFFER,
@@ -473,5 +471,19 @@ namespace render::gl
 		DefaultLayers = GL_FRAMEBUFFER_DEFAULT_LAYERS,
 		DefaultSamples = GL_FRAMEBUFFER_DEFAULT_SAMPLES,
 		DefaultFixedSampleLocations = GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS,
+	};
+
+	enum struct FramebufferStatus : GLenum
+	{
+		Error = 0,
+		Complete = GL_FRAMEBUFFER_COMPLETE,
+		Undefined = GL_FRAMEBUFFER_UNDEFINED,
+		IncompleteAttachment = GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT,
+		IncompleteMissingAttachment = GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT,
+		IncompleteDrawBuffer = GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER,
+		IncompleteReadBuffer = GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER,
+		Unsupported = GL_FRAMEBUFFER_UNSUPPORTED,
+		IncompleteMultisample = GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE,
+		IncompleteLayerTargets = GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS,
 	};
 }

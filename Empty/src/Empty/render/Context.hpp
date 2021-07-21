@@ -55,7 +55,7 @@ namespace render
 		/**
 		 * Bind a framebuffer to the context and set the viewport.
 		 */
-		void setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int x, int y, int width, int height);
+		void setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x = 0, int y = 0);
 
 		/**
 		 * Set the active shader program.
@@ -65,7 +65,7 @@ namespace render
 		/**
 		 * Set the viewport dimensions.
 		 */
-		void setViewport(int x, int y, int width, int height) { glViewport(x, y, width, height); }
+		void setViewport(int width, int height, int x = 0, int y = 0) { glViewport(x, y, width, height); }
 
 		/**
 		 * Reset the viewport dimensions to cover the entire default framebuffer.

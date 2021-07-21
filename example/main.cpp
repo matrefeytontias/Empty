@@ -38,17 +38,19 @@ int _main(int, char* argv[])
         FATAL("pas trouveeeeeee");
     TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
 
-    Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
-    tex.setStorage(1, imgW, imgH);
-    tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
-    TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
-    tex.uploadData(0, 0, 0, imgW, imgH, PixelFormat::RGBA, PixelType::UByte, img);
-    stbi_image_free(img);
-    utils::checkGLerror(CALL_SITE);
-
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> fbtex;
     fbtex.setStorage(1, imgW, imgH);
     {
+        // Upload image to texture
+        Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
+        tex.setStorage(1, imgW, imgH);
+        tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
+        TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
+        tex.uploadData(0, 0, 0, imgW, imgH, PixelFormat::RGBA, PixelType::UByte, img);
+        stbi_image_free(img);
+        utils::checkGLerror(CALL_SITE);
+
+        // Create stuff for off-screen rendering
         Framebuffer fb;
         fb.attachTexture<FramebufferAttachment::Color>(0, fbtex, 0);
         Renderbuffer rb;
@@ -76,7 +78,7 @@ int _main(int, char* argv[])
         va.attachVertexBuffer(pointsBuf, vs);
 
         context.bind(va);
-        context.setFramebuffer(fb, FramebufferTarget::Draw, 0, 0, imgW, imgH);
+        context.setFramebuffer(fb, FramebufferTarget::Draw, imgW, imgH);
         context.setShaderProgram(fbprog);
 
         context.drawArrays(PrimitiveType::Triangles, 0, 6);

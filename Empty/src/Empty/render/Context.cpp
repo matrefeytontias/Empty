@@ -34,7 +34,7 @@ void render::Context::bind(const gl::BufferInfo& b, gl::BufferTarget target)
 	glBindBuffer(utils::value(target), *b.id);
 }
 
-void render::Context::setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int x, int y, int width, int height)
+void render::Context::setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x, int y)
 {
 	glBindFramebuffer(utils::value(target), *fb.id);
 	glViewport(x, y, width, height);

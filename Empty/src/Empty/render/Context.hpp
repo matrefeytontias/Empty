@@ -44,10 +44,6 @@ namespace render
 		 */
 		void bind(const gl::BufferInfo& b, gl::BufferTarget target);
 		/**
-		 * Bind a framebuffer to the context.
-		 */
-		void bind(const gl::FramebufferInfo& fb, gl::FramebufferTarget target);
-		/**
 		 * Bind a texture to the context.
 		 */
 		void bind(const gl::TextureInfo& t, int unit);
@@ -57,9 +53,24 @@ namespace render
 		void bind(const gl::VertexArrayInfo& va);
 
 		/**
+		 * Bind a framebuffer to the context and set the viewport.
+		 */
+		void setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int x, int y, int width, int height);
+
+		/**
 		 * Set the active shader program.
 		 */
 		void setShaderProgram(const gl::ShaderProgram& sp);
+
+		/**
+		 * Set the viewport dimensions.
+		 */
+		void setViewport(int x, int y, int width, int height) { glViewport(x, y, width, height); }
+
+		/**
+		 * Reset the viewport dimensions to cover the entire default framebuffer.
+		 */
+		void resetViewport() { glViewport(0, 0, frameWidth, frameHeight); }
 
 		/**
 		 * Draw a range of vertices from a bound array buffer, arranged in successive primitives.

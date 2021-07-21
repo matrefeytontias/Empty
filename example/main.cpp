@@ -3,6 +3,8 @@
 #include <string>
 
 #include "Empty/render/Context.hpp"
+#include "Empty/render/gl/Framebuffer.h"
+#include "Empty/render/gl/Renderbuffer.h"
 #include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/render/gl/Texture.h"
 #include "Empty/render/gl/VertexArray.h"
@@ -28,6 +30,64 @@ int _main(int, char* argv[])
         glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
     }
 
+    // Bake a texture with off-screen rendering because we can
+    int imgW, imgH, n;
+    stbi_set_flip_vertically_on_load(1);
+    unsigned char* img = stbi_load("texture.png", &imgW, &imgH, &n, 4);
+    if (!img)
+        FATAL("pas trouveeeeeee");
+    TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
+
+    Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
+    tex.setStorage(1, imgW, imgH);
+    tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
+    TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
+    tex.uploadData(0, 0, 0, imgW, imgH, PixelFormat::RGBA, PixelType::UByte, img);
+    stbi_image_free(img);
+    utils::checkGLerror(CALL_SITE);
+
+    Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> fbtex;
+    fbtex.setStorage(1, imgW, imgH);
+    {
+        Framebuffer fb;
+        fb.attachTexture<FramebufferAttachment::Color>(0, fbtex, 0);
+        Renderbuffer rb;
+        rb.setStorage(RenderbufferFormat::Depth, imgW, imgH);
+        fb.attachRenderbuffer<FramebufferAttachment::Depth>(rb);
+        TRACE(utils::name(fb.checkStatus(FramebufferTarget::Draw))); // FramebufferStatus::Complete
+
+        ShaderProgram fbprog;
+        fbprog.attachFile(ShaderType::Vertex, "DeferredVertex.glsl");
+        fbprog.attachFile(ShaderType::Fragment, "DeferredFragment.glsl");
+        fbprog.build();
+        fbprog.registerTexture("uTexture", tex);
+
+        VertexStructure vs;
+        vs.add("aPosition", VertexAttribType::Float, 2);
+
+        fbprog.locateAttributes(vs);
+
+        static const math::vec2 points[6] = { {0, 0}, {1, 0}, {1, 1}, {0, 0}, {1, 1}, {0, 1} };
+
+        Buffer pointsBuf;
+        pointsBuf.setStorage(sizeof(points), BufferUsage::StaticDraw, points);
+
+        VertexArray va;
+        va.attachVertexBuffer(pointsBuf, vs);
+
+        context.bind(va);
+        context.setFramebuffer(fb, FramebufferTarget::Draw, 0, 0, imgW, imgH);
+        context.setShaderProgram(fbprog);
+
+        context.drawArrays(PrimitiveType::Triangles, 0, 6);
+
+        // We've done it ; fbtex should contain the render
+
+        context.resetViewport();
+    }
+
+     // Set up the actual scene
+
     Mesh mesh;
     if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
@@ -49,26 +109,10 @@ int _main(int, char* argv[])
     program.build();
 
     program.locateAttributes(mesh.vStruct);
+    program.registerTexture("uTexture", fbtex);
 
     mesh.vao.attachVertexBuffer(mesh.vertexBuffer, mesh.vStruct);
     mesh.vao.attachElementBuffer(mesh.triBuffer);
-
-    int imgW, imgH, n;
-    stbi_set_flip_vertically_on_load(1);
-    unsigned char* img = stbi_load("texture.png", &imgW, &imgH, &n, 4);
-    if (!img)
-        FATAL("pas trouveeeeeee");
-    TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
-
-    Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
-    tex.setStorage(1, imgW, imgH);
-    tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
-    TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
-    tex.uploadData(0, 0, 0, imgW, imgH, PixelFormat::RGBA, PixelType::UByte, img);
-    stbi_image_free(img);
-    utils::checkGLerror(CALL_SITE);
-
-    program.registerTexture("uTexture", tex);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -91,7 +135,7 @@ int _main(int, char* argv[])
 
     while (!glfwWindowShouldClose(window))
     {
-        program.uniform("uTime", (float)glfwGetTime());
+        program.uniform("uTime", (float)glfwGetTime() * 10);
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);
 

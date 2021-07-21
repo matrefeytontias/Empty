@@ -2,6 +2,7 @@
 
 #include "Empty/render/gl/GLObject.h"
 #include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/render/gl/Renderbuffer.h"
 #include "Empty/render/gl/Texture.h"
 #include "Empty/utils/macros.h"
 
@@ -17,67 +18,79 @@ namespace render::gl
 	};
 
 	/**
-	 * General-purpose framebuffer class. Does not map one-to-one with OpenGL buffer objects, but holds a shared reference
+	 * General-purpose framebuffer class. Does not map one-to-one with OpenGL framebuffer objects, but holds a shared reference
 	 * to one.
 	 */
 	struct Framebuffer : public GLObject<FramebufferId>
 	{
-#define COPY_CTPARAMS DrawBufferType b, TextureTarget t, TextureFormat f
-#define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<b != DrawBufferType::Color && !isTargetProxy(t) && (c), int> = 0
+#define COPY_CTPARAMS FramebufferAttachment CTAttachment, TextureTarget CTTarget, TextureFormat CTFormat
+#define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<CTAttachment != FramebufferAttachment::Color && !isTargetProxy(CTTarget) && (c), int> = 0
 		
-		template <CTCONDITION(isTargetLayered(t) && t != TextureTarget::TextureCubeMapArray)>
-		void attachTexture(const Texture<t, f>& tex, int level, int layer)
+		template <CTCONDITION(isTargetLayered(CTTarget) && CTTarget != TextureTarget::TextureCubeMapArray)>
+		void attachTexture(const Texture<CTTarget, CTFormat>& tex, int level, int layer)
 		{
-			glNamedFramebufferTextureLayer(*_id, utils::value(b), *tex.getInfo().id, level, layer);
+			glNamedFramebufferTextureLayer(*_id, utils::value(CTAttachment), *tex.getInfo().id, level, layer);
 		}
 
-		template <CTCONDITION(!isTargetLayered(t) && t != TextureTarget::TextureCubeMap)>
-		void attachTexture(const Texture<t, f>& tex, int level)
+		template <CTCONDITION(!isTargetLayered(CTTarget) && CTTarget != TextureTarget::TextureCubeMap)>
+		void attachTexture(const Texture<CTTarget, CTFormat>& tex, int level)
 		{
-			glNamedFramebufferTexture(*_id, utils::value(b), *tex.getInfo().id, level);
+			glNamedFramebufferTexture(*_id, utils::value(CTAttachment), *tex.getInfo().id, level);
 		}
 
-		template <COPY_CTPARAMS, std::enable_if_t<t == TextureTarget::TextureCubeMap, int> = 0>
-		void attachTexture(const Texture<t, f>& tex, int level, CubeMapFace face)
+		template <COPY_CTPARAMS, std::enable_if_t<CTTarget == TextureTarget::TextureCubeMap, int> = 0>
+		void attachTexture(const Texture<CTTarget, CTFormat>& tex, int level, CubeMapFace face)
 		{
-			glNamedFramebufferTextureLayer(*_id, utils::value(b), *tex.getInfo().id, level, cubemapFaceIndex(face));
+			glNamedFramebufferTextureLayer(*_id, utils::value(CTAttachment), *tex.getInfo().id, level, cubemapFaceIndex(face));
 		}
 
-		template <COPY_CTPARAMS, std::enable_if_t<t == TextureTarget::TextureCubeMapArray, int> = 0>
-		void attachTexture(const Texture<t, f>& tex, int level, int layer, CubeMapFace face)
+		template <COPY_CTPARAMS, std::enable_if_t<CTTarget == TextureTarget::TextureCubeMapArray, int> = 0>
+		void attachTexture(const Texture<CTTarget, CTFormat>& tex, int level, int layer, CubeMapFace face)
 		{
-			glNamedFramebufferTextureLayer(*_id, utils::value(b), *tex.getInfo().id, level, layer * 6 + cubemapFaceIndex(face));
+			glNamedFramebufferTextureLayer(*_id, utils::value(CTAttachment), *tex.getInfo().id, level, layer * 6 + cubemapFaceIndex(face));
 		}
 
 #undef CTCONDITION
-#define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<b == DrawBufferType::Color && !isTargetProxy(t) && (c), int> = 0
+#define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<CTAttachment == FramebufferAttachment::Color && !isTargetProxy(CTTarget) && (c), int> = 0
 
-		template <CTCONDITION(isTargetLayered(t) && t != TextureTarget::TextureCubeMapArray)>
-		void attachTexture(int attachment, const Texture<t, f>& tex, int level, int layer)
+		template <CTCONDITION(isTargetLayered(CTTarget) && CTTarget != TextureTarget::TextureCubeMapArray)>
+		void attachTexture(int attachment, const Texture<CTTarget, CTFormat>& tex, int level, int layer)
 		{
-			glNamedFramebufferTextureLayer(*_id, utils::value(b) + attachment, *tex.getInfo().id, level, layer);
+			glNamedFramebufferTextureLayer(*_id, utils::value(CTAttachment) + attachment, *tex.getInfo().id, level, layer);
 		}
 
-		template <CTCONDITION(!isTargetLayered(t) && t != TextureTarget::TextureCubeMap)>
-		void attachTexture(int attachment, const Texture<t, f>& tex, int level)
+		template <CTCONDITION(!isTargetLayered(CTTarget) && CTTarget != TextureTarget::TextureCubeMap)>
+		void attachTexture(int attachment, const Texture<CTTarget, CTFormat>& tex, int level)
 		{
-			glNamedFramebufferTexture(*_id, utils::value(b) + attachment, *tex.getInfo().id, level);
+			glNamedFramebufferTexture(*_id, utils::value(CTAttachment) + attachment, *tex.getInfo().id, level);
 		}
 
-		template <COPY_CTPARAMS, std::enable_if_t<t == TextureTarget::TextureCubeMap, int> = 0>
-		void attachTexture(int attachment, const Texture<t, f>& tex, int level, CubeMapFace face)
+		template <COPY_CTPARAMS, std::enable_if_t<CTTarget == TextureTarget::TextureCubeMap, int> = 0>
+		void attachTexture(int attachment, const Texture<CTTarget, CTFormat>& tex, int level, CubeMapFace face)
 		{
-			glNamedFramebufferTextureLayer(*_id, utils::value(b) + attachment, *tex.getInfo().id, level, cubemapFaceIndex(face));
+			glNamedFramebufferTextureLayer(*_id, utils::value(CTAttachment) + attachment, *tex.getInfo().id, level, cubemapFaceIndex(face));
 		}
 
-		template <COPY_CTPARAMS, std::enable_if_t<t == TextureTarget::TextureCubeMapArray, int> = 0>
-		void attachTexture(int attachment, const Texture<t, f>& tex, int level, int layer, CubeMapFace face)
+		template <COPY_CTPARAMS, std::enable_if_t<CTTarget == TextureTarget::TextureCubeMapArray, int> = 0>
+		void attachTexture(int attachment, const Texture<CTTarget, CTFormat>& tex, int level, int layer, CubeMapFace face)
 		{
-			glNamedFramebufferTextureLayer(*_id, utils::value(b) + attachment, *tex.getInfo().id, level, layer * 6 + cubemapFaceIndex(face));
+			glNamedFramebufferTextureLayer(*_id, utils::value(CTAttachment) + attachment, *tex.getInfo().id, level, layer * 6 + cubemapFaceIndex(face));
 		}
 
 #undef CTCONDITION
 #undef COPY_CTPARAMS
+
+		template <FramebufferAttachment CTAttachment, std::enable_if_t<CTAttachment == FramebufferAttachment::Color, int> = 0>
+		void attachRenderbuffer(const RenderbufferInfo& rb, int attachment)
+		{
+			glNamedFramebufferRenderbuffer(*_id, utils::value(CTAttachment) + attachment, GL_RENDERBUFFER, *rb.id);
+		}
+
+		template <FramebufferAttachment CTAttachment, std::enable_if_t<CTAttachment != FramebufferAttachment::Color, int> = 0>
+		void attachRenderbuffer(const RenderbufferInfo& rb)
+		{
+			glNamedFramebufferRenderbuffer(*_id, utils::value(CTAttachment), GL_RENDERBUFFER, *rb.id);
+		}
 
 		template <FramebufferParam CTParam, std::enable_if_t <
 			CTParam == FramebufferParam::DefaultFixedSampleLocations

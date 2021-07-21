@@ -29,6 +29,14 @@ namespace render::gl
 		Int = GL_UNSIGNED_INT,
 	};
 
+	enum struct DrawBufferType : GLenum
+	{
+		Color = GL_COLOR,
+		Depth = GL_DEPTH,
+		Stencil = GL_STENCIL,
+		DepthStencil = GL_DEPTH_STENCIL,
+	};
+
 	// #####################################
 	// # Vertex array-related enum structs #
 	// #####################################
@@ -449,12 +457,12 @@ namespace render::gl
 	// # Framebuffer-related enum structs #
 	// ####################################
 
-	enum struct DrawBufferType : GLenum
+	enum struct FramebufferAttachment : GLenum
 	{
-		Color = GL_COLOR,
-		Depth = GL_DEPTH,
-		Stencil = GL_STENCIL,
-		DepthStencil = GL_DEPTH_STENCIL,
+		Color = GL_COLOR_ATTACHMENT0,
+		Depth = GL_DEPTH_ATTACHMENT,
+		Stencil = GL_STENCIL_ATTACHMENT,
+		DepthStencil = GL_DEPTH_STENCIL_ATTACHMENT,
 	};
 
 	enum struct FramebufferTarget : GLenum
@@ -485,5 +493,108 @@ namespace render::gl
 		Unsupported = GL_FRAMEBUFFER_UNSUPPORTED,
 		IncompleteMultisample = GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE,
 		IncompleteLayerTargets = GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS,
+	};
+
+	// #####################################
+	// # Renderbuffer-related enum structs #
+	// #####################################
+
+	enum struct RenderbufferFormat : GLenum
+	{
+		// Color
+		Red = GL_RED,
+		RG = GL_RG,
+		RGB = GL_RGB,
+		RGBA = GL_RGBA,
+		Red8 = GL_R8,
+		Red8s = GL_R8_SNORM,
+		Red16 = GL_R16,
+		Red16s = GL_R16_SNORM,
+		RG8 = GL_RG8,
+		RG8s = GL_RG8_SNORM,
+		RG16 = GL_RG16,
+		RG16s = GL_RG16_SNORM,
+		RGB332 = GL_R3_G3_B2,
+		RGB4 = GL_RGB4,
+		RGB5 = GL_RGB5,
+		RGB8 = GL_RGB8,
+		RGB8s = GL_RGB8_SNORM,
+		RGB10 = GL_RGB10,
+		RGB12 = GL_RGB12,
+		RGB16s = GL_RGB16_SNORM,
+		RGBA2 = GL_RGBA2,
+		RGBA4 = GL_RGBA4,
+		RGB5A1 = GL_RGB5_A1,
+		RGBA8 = GL_RGBA8,
+		RGBA8s = GL_RGBA8_SNORM,
+		RGB10A2 = GL_RGB10_A2,
+		RGB10A2ui = GL_RGB10_A2UI,
+		RGBA12 = GL_RGBA12,
+		RGBA16 = GL_RGBA16,
+		SRGB8 = GL_SRGB8,
+		SRGBA8 = GL_SRGB8_ALPHA8,
+		Red16f = GL_R16F,
+		RG16f = GL_RG16F,
+		RGB16f = GL_RGB16F,
+		RGBA16f = GL_RGBA16F,
+		Red32f = GL_R32F,
+		RG32f = GL_RG32F,
+		RGB32f = GL_RGB32F,
+		RGBA32f = GL_RGBA32F,
+		R11G11B10f = GL_R11F_G11F_B10F,
+		Red8i = GL_R8I,
+		Red8ui = GL_R8UI,
+		Red16i = GL_R16I,
+		Red16ui = GL_R16UI,
+		Red32i = GL_R32I,
+		Red32ui = GL_R32UI,
+		RG8i = GL_RG8I,
+		RG8ui = GL_RG8UI,
+		RG16i = GL_RG16I,
+		RG16ui = GL_RG16UI,
+		RG32i = GL_RG32I,
+		RG32ui = GL_RG32UI,
+		RGB8i = GL_RGB8I,
+		RGB8ui = GL_RGB8UI,
+		RGB16i = GL_RGB16I,
+		RGB16ui = GL_RGB16UI,
+		RGB32i = GL_RGB32I,
+		RGB32ui = GL_RGB32UI,
+		RGBA8i = GL_RGBA8I,
+		RGBA8ui = GL_RGBA8UI,
+		RGBA16i = GL_RGBA16I,
+		RGBA16ui = GL_RGBA16UI,
+		RGBA32i = GL_RGBA32I,
+		RGBA32ui = GL_RGBA32UI,
+		// Depth
+		Depth = GL_DEPTH_COMPONENT,
+		Depth16 = GL_DEPTH_COMPONENT16,
+		Depth24 = GL_DEPTH_COMPONENT24,
+		Depth32 = GL_DEPTH_COMPONENT32,
+		Depth32f = GL_DEPTH_COMPONENT32F,
+		// Stencil
+		Stencil = GL_STENCIL_INDEX,
+		Stencil1 = GL_STENCIL_INDEX1,
+		Stencil4 = GL_STENCIL_INDEX4,
+		Stencil8 = GL_STENCIL_INDEX8,
+		Stencil16 = GL_STENCIL_INDEX16,
+		// Depth-stencil
+		DepthStencil = GL_DEPTH_STENCIL,
+		Depth24Stencil8 = GL_DEPTH24_STENCIL8,
+		Depth32fStencil8 = GL_DEPTH32F_STENCIL8
+	};
+
+	enum struct RenderbufferParam : GLenum
+	{
+		Width = GL_RENDERBUFFER_WIDTH,
+		Height = GL_RENDERBUFFER_HEIGHT,
+		InternalFormat = GL_RENDERBUFFER_INTERNAL_FORMAT,
+		Samples = GL_RENDERBUFFER_SAMPLES,
+		RedSize = GL_RENDERBUFFER_RED_SIZE,
+		GreenSize = GL_RENDERBUFFER_GREEN_SIZE,
+		BlueSize = GL_RENDERBUFFER_BLUE_SIZE,
+		AlphaSize = GL_RENDERBUFFER_ALPHA_SIZE,
+		DepthSize = GL_RENDERBUFFER_DEPTH_SIZE,
+		StencilSize = GL_RENDERBUFFER_STENCIL_SIZE,
 	};
 }

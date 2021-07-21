@@ -1,3 +1,5 @@
+#version 450
+
 in vec3 aPosition;
 in vec2 aTexCoords;
 in vec3 aNormal;

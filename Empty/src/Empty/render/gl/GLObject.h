@@ -77,6 +77,17 @@ namespace render::gl
         GLuint _id;
     };
 
+    struct RenderbufferId : public utils::noncopyable
+    {
+        RenderbufferId() { glCreateRenderbuffers(1, &_id); }
+        ~RenderbufferId() { glDeleteRenderbuffers(1, &_id); }
+        operator GLuint() const { return _id; }
+        bool operator==(const RenderbufferId& a) const { return _id == a._id; }
+        bool operator!=(const RenderbufferId& a) const { return _id != a._id; }
+    private:
+        GLuint _id;
+    };
+
 	/**
      * Base class for GL objects ; just hold and construct an ID of a given type.
      */

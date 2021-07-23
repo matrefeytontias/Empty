@@ -9,5 +9,5 @@ in vec2 vTexCoords;
 void main()
 {
 	colorOut = texture(uTexture, vTexCoords);
-	// colorOut.rgb = 1. - colorOut.rgb;
+	colorOut.rgb = 1. - colorOut.rgb;
 }

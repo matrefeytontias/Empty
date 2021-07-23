@@ -5,6 +5,9 @@
 
 namespace render::gl
 {
+	/**
+	 * Tells how many bytes a single element of a given type occupies.
+	 */
 	constexpr size_t vertexElementSize(VertexAttribType type)
 	{
 		if (type == VertexAttribType::UByte || type == VertexAttribType::Byte)
@@ -18,6 +21,10 @@ namespace render::gl
 			return 4;
 	}
 
+	/**
+	 * Struct used to hold information about a vertex attribute in the context
+	 * of a vertex structure.
+	 */
 	struct VertexAttribDescriptor
 	{
 		std::string name;
@@ -28,6 +35,11 @@ namespace render::gl
 		inline size_t size() const { return elems * vertexElementSize(type); }
 	};
 
+	/**
+	 * Defines the structure of data held by vertex buffers when used through shaders.
+	 * This is essentially a collection of vertex attributes with their name, how many elements
+	 * they have and of what type.
+	 */
 	struct VertexStructure
 	{
 		std::vector<VertexAttribDescriptor> descriptors;
@@ -69,7 +81,8 @@ namespace render::gl
 
 	private:
 		/**
-		 * Number of vertices in the buffer when the attributes are separate. If the buffer attributes are interleaved, separateVertices is set to 0.
+		 * Number of vertices in the buffer when the attributes are separate. If the buffer
+		 * attributes are interleaved, separateVertices is set to 0.
 		 */
 		size_t _separateVertices = 0;
 	};

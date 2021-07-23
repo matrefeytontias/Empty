@@ -23,11 +23,11 @@ namespace render::gl
 		else if (target == TextureTarget::Texture3D
 				 || target == TextureTarget::Texture2DArray
 				 || target == TextureTarget::Texture2DMultisampleArray
-				 || target == TextureTarget::TextureCubeMapArray
+				 || target == TextureTarget::TextureCubemapArray
 				 || target == TextureTarget::Proxy3D
 				 || target == TextureTarget::Proxy2DArray
 				 || target == TextureTarget::Proxy2DMultisampleArray
-				 || target == TextureTarget::ProxyCubeMapArray)
+				 || target == TextureTarget::ProxyCubemapArray)
 			return 3;
 		else
 			return 2;
@@ -36,10 +36,10 @@ namespace render::gl
 	/**
 	 * Returns whether a given texture target references a cubemap or cubemap array texture target.
 	 */
-	constexpr bool isTargetCubeMap(TextureTarget target)
+	constexpr bool isTargetCubemap(TextureTarget target)
 	{
-		return target == TextureTarget::TextureCubeMap || target == TextureTarget::ProxyCubeMap
-			|| target == TextureTarget::TextureCubeMapArray || target == TextureTarget::ProxyCubeMapArray;
+		return target == TextureTarget::TextureCubemap || target == TextureTarget::ProxyCubemap
+			|| target == TextureTarget::TextureCubemapArray || target == TextureTarget::ProxyCubemapArray;
 	}
 
 	/**
@@ -60,20 +60,20 @@ namespace render::gl
 			|| target == TextureTarget::Proxy2D || target == TextureTarget::Proxy2DArray
 			|| target == TextureTarget::Proxy2DMultisample || target == TextureTarget::Proxy2DMultisampleArray
 			|| target == TextureTarget::Proxy3D || target == TextureTarget::ProxyRectangle
-			|| target == TextureTarget::ProxyCubeMap || target == TextureTarget::ProxyCubeMapArray;
+			|| target == TextureTarget::ProxyCubemap || target == TextureTarget::ProxyCubemapArray;
 	}
 
 	/**
 	 * Returns the index of a cubemap face.
 	 */
-	constexpr int cubemapFaceIndex(CubeMapFace face)
+	constexpr int cubemapFaceIndex(CubemapFace face)
 	{
-		return static_cast<int>(utils::value(face)) - static_cast<int>(utils::value(CubeMapFace::PlusX));
+		return static_cast<int>(utils::value(face)) - static_cast<int>(utils::value(CubemapFace::PlusX));
 	}
 
 	/**
-	 * This struct holds everything one needs to bind a texture. Useful in case
-	 * one wants to bind the texture without having access to the entire Texture object.
+	 * This struct holds everything one needs to bind a Texture. Useful in case
+	 * one wants to bind the Texture without having access to the entire object.
 	 */
 	struct TextureInfo
 	{
@@ -147,7 +147,7 @@ namespace render::gl
 			inline void setStorage(int levels, int width, int height, int depth)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
-			if constexpr (isTargetCubeMap(t))
+			if constexpr (isTargetCubemap(t))
 				depth *= 6;
 			glTextureStorage3D(*_id, levels, utils::value(_format), width, height, depth);
 			DEBUG_ONLY(_requirementsSet = true);
@@ -171,7 +171,7 @@ namespace render::gl
 			else if (dims == 2)
 				glTextureStorage2D(*_id, levels, utils::value(_format), width, height);
 			else // if(dims == 3)
-				glTextureStorage3D(*_id, levels, utils::value(_format), width, height, isTargetCubeMap(_target) ? depth * 6 : depth);
+				glTextureStorage3D(*_id, levels, utils::value(_format), width, height, isTargetCubemap(_target) ? depth * 6 : depth);
 
 			DEBUG_ONLY(_requirementsSet = true);
 		}
@@ -191,7 +191,7 @@ namespace render::gl
 		 * Upload data to a 2-dimensional texture that is not a cubemap.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubeMap(t), int> = 0>
+			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubemap(t), int> = 0>
 			inline void uploadData(int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
@@ -202,7 +202,7 @@ namespace render::gl
 		 * Upload data to a 3-dimensional texture that is not a cubemap array.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 3 && !isTargetCubeMap(t), int> = 0>
+			std::enable_if_t<dimensionsFromTarget(t) == 3 && !isTargetCubemap(t), int> = 0>
 			inline void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
@@ -214,8 +214,8 @@ namespace render::gl
 		 * and `faces` how many should be filled.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 2 && isTargetCubeMap(t), int> = 0>
-			inline void uploadData(CubeMapFace face, int level, int x, int y, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+			std::enable_if_t<dimensionsFromTarget(t) == 2 && isTargetCubemap(t), int> = 0>
+			inline void uploadData(CubemapFace face, int level, int x, int y, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -229,8 +229,8 @@ namespace render::gl
 		 * respectively will fill all 6 faces of the first two cubemaps.
 		 */
 		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 3 && isTargetCubeMap(t), int> = 0>
-			inline void uploadData(CubeMapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+			std::enable_if_t<dimensionsFromTarget(t) == 3 && isTargetCubemap(t), int> = 0>
+			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, layer * 6 + cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -245,7 +245,7 @@ namespace render::gl
 			void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
-			ASSERT(!isTargetCubeMap(_target) && "cannot upload data directly to a cubemap ; use dedicated method instead");
+			ASSERT(!isTargetCubemap(_target) && "cannot upload data directly to a cubemap ; use dedicated method instead");
 
 			int dims = dimensionsFromTarget(_target);
 			if (dims == 1)
@@ -262,10 +262,10 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			inline void uploadData(CubeMapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
-			ASSERT(isTargetCubeMap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");
+			ASSERT(isTargetCubemap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");
 
 			if (dimensionsFromTarget(_target) == 2)
 				glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -275,9 +275,6 @@ namespace render::gl
 
 #undef COPY_CTPARAMS
 
-		/**
-		 * Gets value of integer-valued texture parameters.
-		 */
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
 			|| CTParam == TextureParam::ViewMinLayer || CTParam == TextureParam::ViewNumLayers
@@ -291,9 +288,6 @@ namespace render::gl
 			return p;
 		}
 
-		/**
-		 * Gets value of symbolic-valued texture parameter.
-		 */
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::DepthStencilMode
 			|| CTParam == TextureParam::CompareFunc || CTParam == TextureParam::CompareMode
@@ -310,9 +304,6 @@ namespace render::gl
 			return static_cast<TextureParamValue>(p);
 		}
 
-		/**
-		 * Gets value of float-valued texture parameter.
-		 */
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::LODBias
 			|| CTParam == TextureParam::MinLOD || CTParam == TextureParam::MaxLOD
@@ -324,26 +315,17 @@ namespace render::gl
 			return v;
 		}
 
-		/**
-		 * Sets integer-valued texture parameter.
-		 */
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
 			, int> = 0>
 			void setParameter(int v) const { glTextureParameteri(*_id, utils::value(CTParam), v); }
 
-		/**
-		 * Sets float-valued texture parameter.
-		 */
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::LODBias
 			|| CTParam == TextureParam::MinLOD || CTParam == TextureParam::MaxLOD
 			, int> = 0>
 			void setParameter(float v) const { glTextureParameterf(*_id, utils::value(CTParam), v); }
 
-		/**
-		 * Sets symbolic-valued texture parameter.
-		 */
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::DepthStencilMode
 			|| CTParam == TextureParam::CompareFunc || CTParam == TextureParam::CompareMode

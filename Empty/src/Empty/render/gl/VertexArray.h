@@ -10,18 +10,35 @@
 
 namespace render::gl
 {
+	/**
+	 * This struct holds everything one needs to bind a VertexArray. Useful in case
+	 * one wants to bind the VertexArray without having access to the entire object.
+	 */
 	struct VertexArrayInfo
 	{
 		std::shared_ptr<VertexArrayId> id;
 	};
 
+	/**
+	 * General-purpose vertex array class. Does not map one-to-one with OpenGL vertey array objects,
+	 * but holds a shared reference to one.
+	 */
 	struct VertexArray : public GLObject<VertexArrayId>
 	{
+		/**
+		 * Enables a generic vertex attribute array.
+		 */
 		inline void enableArray(int index) const { glEnableVertexArrayAttrib(*_id, index); }
+		/**
+		 * Disables a generic vertex attribute array.
+		 */
 		inline void disableArray(int index) const { glDisableVertexArrayAttrib(*_id, index); }
 
 		/**
-		 * Sets the vertex attributes structure of the currently bound buffer.
+		 * Attaches a Buffer to the vertex array as a vertex buffer, using a given VertexStructure to
+		 * interpret the data starting `offset` bytes into the buffer. This process can use anywhere
+		 * from 1 to as many buffer bindings as there are attributes in the vertex structure, starting
+		 * at `bindingIndex`.
 		 */
 		void attachVertexBuffer(const BufferInfo& vbo, const VertexStructure& attribs, size_t offset = 0, int bindingIndex = 0)
 		{
@@ -57,6 +74,9 @@ namespace render::gl
 			}
 		}
 
+		/**
+		 * Attaches a Bufffer to the vertex array as an element buffer.
+		 */
 		inline void attachElementBuffer(const BufferInfo& ibo)
 		{
 			glVertexArrayElementBuffer(*_id, *ibo.id);

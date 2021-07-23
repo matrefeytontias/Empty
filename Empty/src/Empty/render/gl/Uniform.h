@@ -17,7 +17,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Helper class to facilitate uploading uniform data to a shader program.
+	 * Helper class to facilitate uploading uniform data to a ShaderProgram.
 	 */
 	template <typename T>
 	struct Uniform : public UniformBase {};

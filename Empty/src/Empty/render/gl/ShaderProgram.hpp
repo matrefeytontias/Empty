@@ -16,6 +16,10 @@
 
 namespace render::gl
 {
+	/**
+	 * This struct holds everything one needs to bind a ShaderProgram. Useful in case
+	 * one wants to bind the ShaderProgram without having access to the entire object.
+	 */
 	struct ShaderProgramInfo
 	{
 		std::shared_ptr<ProgramId> id;
@@ -23,7 +27,7 @@ namespace render::gl
 
 	/**
 	 * Holds information about a uniform in the context of
-	 * a shader program.
+	 * a ShaderProgram.
 	 */
 	struct ProgramUniform
 	{
@@ -33,7 +37,7 @@ namespace render::gl
 
 	/**
 	 * Holds information about a texture in the context of
-	 * a shader program.
+	 * a ShaderProgram.
 	 */
 	struct ProgramTextureInfo
 	{
@@ -41,18 +45,35 @@ namespace render::gl
 		int unit = -1;
 	};
 
+	/**
+	 * General-purpose shader program class. Does not map one-to-one with OpenGL shader
+	 * program objects, but holds a shared reference to one. This class offers extra
+	 * functionality to handle Shader objects, Uniform objects and vertex attributes.
+	 */
 	struct ShaderProgram : public GLObject<ProgramId>
 	{
 	public:
 		ShaderProgram() {}
 		~ShaderProgram();
 
+		/**
+		 * Shorthand for creating a Shader object of a given type,
+		 * setting its source string and compiling it, returning
+		 * whether it succeeded.
+		 */
 		bool attachSource(ShaderType type, const std::string& src);
+		/**
+		 * Same as `attachSource` but fetches the source string from
+		 * a given file.
+		 */
 		inline bool attachFile(ShaderType type, const std::string& path)
 		{
 			return attachSource(type, utils::getFileContents(path));
 		}
 
+		/**
+		 * Attemps to link the program, returning whether it succeeded or not.
+		 */
 		bool build()
 		{
 			glLinkProgram(*_id);
@@ -60,7 +81,7 @@ namespace render::gl
 		}
 
 		/**
-		 * Finds and stores attribute locations in the provided vertex structure in-place.
+		 * Finds and stores attribute locations in the provided VertexStructure in-place.
 		 */
 		void locateAttributes(VertexStructure& vStruct);
 
@@ -74,7 +95,7 @@ namespace render::gl
 		location findUniform(const std::string& name);
 
 		/**
-		 * Sets a uniform's value. The type is deduced from the value's
+		 * Sets a Uniform's value. The type is deduced from the value's
 		 * type or given explicitely through templating.
 		 */
 		template <typename T>
@@ -99,9 +120,20 @@ namespace render::gl
 				FATAL("Tried to set existing uniform '" << name << "' with value of the wrong type " << value);
 		}
 
+		/**
+		 * Returns an array of all known uniforms and their location (includes textures).
+		 */
 		std::vector<ProgramUniform> dumpUniforms() const;
+		/**
+		 * Returns an array of all registered textures and their location.
+		 */
 		std::vector<ProgramTextureInfo> dumpTextures() const;
 
+		/**
+		 * Registers a Texture to the shader pogram - this also creates a Uniform
+		 * for the sampler. Registered textures are automatically bound when
+		 * a shader program is set as active by the Context.
+		 */
 		void registerTexture(const std::string& name, const TextureInfo& tex);
 		size_t getTexturesAmount() const { return _textures.size(); }
 

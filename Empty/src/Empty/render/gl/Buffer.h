@@ -8,8 +8,8 @@
 namespace render::gl
 {
 	/**
-	 * This struct holds everything one needs to bind a buffer. Useful in case
-	 * one wants to bind the buffer without having access to the entire Buffer object.
+	 * This struct holds everything one needs to bind a Buffer. Useful in case
+	 * one wants to bind the Buffer without having access to the entire object.
 	 */
 	struct BufferInfo
 	{
@@ -18,14 +18,14 @@ namespace render::gl
 
 	struct Buffer;
 	/**
-	 * Structure used when mapping a buffer. Unmapping is done via
+	 * Structure used when mapping a Buffer. Unmapping is done via
 	 * destruction of this object ; as such, its usage should be encapsulated
 	 * in a scope so the buffer is unmapped when this object goes out of scope.
 	 */
 	struct BufferMapping : public utils::noncopyable
 	{
 		/**
-		 * Unmaps the buffer. Use this object in a scope to make sure this is called.
+		 * Unmaps the Buffer. Use this object in a scope to make sure this is called.
 		 */
 		~BufferMapping()
 		{
@@ -46,7 +46,7 @@ namespace render::gl
 		}
 
 		/**
-		 * Returns the value of the requested type situated at the i-th byte of the mapping.
+		 * Returns a value of the requested type situated at the i-th byte of the mapping.
 		 */
 		template <typename T = uint8_t>
 		T get(size_t i) const
@@ -61,7 +61,7 @@ namespace render::gl
 		bool* _mapped;
 
 		/**
-		 * Maps the buffer. Use this object in a scope to make sure the buffer is unmapped
+		 * Maps the Buffer. Use this object in a scope to make sure the buffer is unmapped
 		 * when this object goes out of scope.
 		 */
 		BufferMapping(const BufferInfo& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
@@ -78,7 +78,9 @@ namespace render::gl
 	struct Buffer : public GLObject<BufferId>
 	{
 		/**
-		 * Maps the buffer to a pointer that contains the buffer's data.
+		 * Maps the buffer to a pointer that contains the buffer's data. Returns a
+		 * BufferMapping object ; unmapping is performed when said object is destroyed,
+		 * usually by going out of scope.
 		 */
 		BufferMapping map(BufferAccess access)
 		{

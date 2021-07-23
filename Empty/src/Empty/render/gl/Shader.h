@@ -8,10 +8,21 @@
 
 namespace render::gl
 {
+	/**
+	 * General-purpose shader object class. Does not map one-to-one with OpenGL shader objects, but holds a shared reference
+	 * to one.
+	 */
 	struct Shader : public GLObject<ShaderId>
 	{
+		/**
+		 * Constructs a shader object for a given shader stage.
+		 */
 		Shader(ShaderType type) : GLObject(type) {}
 
+		/**
+		 * Sets the source string of a shader and attempts to compile it,
+		 * returning whether it succeeded.
+		 */
 		inline bool setSource(const std::string& src) const
 		{
 			auto ind = src.c_str();
@@ -20,11 +31,18 @@ namespace render::gl
 			return getParameter<ShaderParam::CompileStatus>();
 		}
 
+		/**
+		 * Same as `setSource`, but fetches the source string from
+		 * a given file.
+		 */
 		inline bool setSourceFromFile(const std::string& path) const
 		{
 			return setSource(utils::getFileContents(path));
 		}
 
+		/**
+		 * Returns the current information log for this shader.
+		 */
 		std::string getLog() const
 		{
 			int logSize = getParameter<ShaderParam::InfoLogLength>();

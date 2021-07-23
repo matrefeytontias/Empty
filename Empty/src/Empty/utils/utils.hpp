@@ -16,7 +16,7 @@
 
 namespace render::gl
 {
-	enum struct CubeMapFace : GLenum;
+	enum struct CubemapFace : GLenum;
 }
 
 namespace utils
@@ -91,7 +91,7 @@ namespace utils
 	/**
 	 * Utility function to get the enum value corresponding to a cubemap face index.
 	 */
-	render::gl::CubeMapFace getCubeMapFaceFromIndex(int i);
+	render::gl::CubemapFace getCubeMapFaceFromIndex(int i);
 
 	/**
 	 * Returns whether a string finishes with a given suffix.

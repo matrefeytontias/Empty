@@ -99,16 +99,16 @@ void utils::setAspectRatio(math::mat4 &p, float ratio)
     p(1, 1) = -p(0, 0) * ratio;
 }
 
-render::gl::CubeMapFace utils::getCubeMapFaceFromIndex(int i)
+render::gl::CubemapFace utils::getCubeMapFaceFromIndex(int i)
 {
     using namespace render::gl;
-    static constexpr const CubeMapFace faces[6] = {
-        CubeMapFace::PlusX,
-        CubeMapFace::MinusX,
-        CubeMapFace::PlusY,
-        CubeMapFace::MinusY,
-        CubeMapFace::PlusZ,
-        CubeMapFace::MinusZ
+    static constexpr const CubemapFace faces[6] = {
+        CubemapFace::PlusX,
+        CubemapFace::MinusX,
+        CubemapFace::PlusY,
+        CubemapFace::MinusY,
+        CubemapFace::PlusZ,
+        CubemapFace::MinusZ
     };
     ASSERT(i >= 0 && i < 6 && "requested invalid cubemap face index");
     return faces[i];

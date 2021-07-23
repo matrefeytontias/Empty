@@ -11,6 +11,9 @@ namespace render::gl
 {
     using location = GLint;
 
+    /**
+     * Encapsulates the ID of an OpenGL buffer object.
+     */
     struct BufferId : public utils::noncopyable
     {
         BufferId() { glCreateBuffers(1, &_id); }
@@ -22,6 +25,9 @@ namespace render::gl
         GLuint _id;
     };
 
+    /**
+     * Encapsulates the ID of an OpenGL shader program object.
+     */
     struct ProgramId : public utils::noncopyable
     {
         ProgramId() { _id = glCreateProgram(); }
@@ -33,6 +39,9 @@ namespace render::gl
         GLuint _id;
     };
 
+    /**
+     * Encapsulates the ID of an OpenGL texture object.
+     */
     struct TextureId : public utils::noncopyable
     {
         TextureId(TextureTarget t) { glCreateTextures(utils::value(t), 1, &_id); }
@@ -44,6 +53,9 @@ namespace render::gl
         GLuint _id;
     };
 
+    /**
+     * Encapsulates the ID of an OpenGL vertex array object.
+     */
     struct VertexArrayId : public utils::noncopyable
     {
         VertexArrayId() { glCreateVertexArrays(1, &_id); }
@@ -55,6 +67,9 @@ namespace render::gl
         GLuint _id;
     };
 
+    /**
+     * Encapsulates the ID of an OpenGL shader object.
+     */
     struct ShaderId : public utils::noncopyable
     {
         ShaderId(ShaderType type) { _id = glCreateShader(utils::value(type)); }
@@ -66,6 +81,9 @@ namespace render::gl
         GLuint _id;
     };
 
+    /**
+     * Encapsulates the ID of an OpenGL framebuffer object.
+     */
     struct FramebufferId : public utils::noncopyable
     {
         FramebufferId() { glCreateFramebuffers(1, &_id); }
@@ -77,6 +95,9 @@ namespace render::gl
         GLuint _id;
     };
 
+    /**
+     * Encapsulates the ID of an OpenGL renderbuffer object.
+     */
     struct RenderbufferId : public utils::noncopyable
     {
         RenderbufferId() { glCreateRenderbuffers(1, &_id); }

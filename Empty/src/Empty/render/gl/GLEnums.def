@@ -6,6 +6,9 @@ namespace render::gl
 	// # General enum structs #
 	// ########################
 
+	/**
+	 * Primitives accepted by drawing commands.
+	 */
 	enum struct PrimitiveType : GLenum
 	{
 		Points = GL_POINTS,
@@ -22,6 +25,9 @@ namespace render::gl
 		Patches = GL_PATCHES,
 	};
 
+	/**
+	 * Data type of element indices for drawing commands.
+	 */
 	enum struct ElementType : GLenum
 	{
 		Byte = GL_UNSIGNED_BYTE,
@@ -29,6 +35,9 @@ namespace render::gl
 		Int = GL_UNSIGNED_INT,
 	};
 
+	/**
+	 * Draw buffer names for commands on framebuffers.
+	 */
 	enum struct DrawBufferType : GLenum
 	{
 		Color = GL_COLOR,
@@ -41,6 +50,9 @@ namespace render::gl
 	// # Vertex array-related enum structs #
 	// #####################################
 
+	/**
+	 * Data type of vertex attributes.
+	 */
 	enum struct VertexAttribType : GLenum
 	{
 		UByte = GL_UNSIGNED_BYTE,
@@ -63,7 +75,7 @@ namespace render::gl
 	// ###############################
 
 	/**
-	 * Valid targets that a buffer can be bound to and adopt the type of.
+	 * Valid targets for buffer binding.
 	 * `Dynamic` is not a real target and is only present for templating purposes.
 	 */
 	enum struct BufferTarget : GLenum
@@ -87,7 +99,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Names for a buffer's usage when uploading data.
+	 * Buffer's usage for data upload.
 	 */
 	enum struct BufferUsage : GLenum
 	{
@@ -103,7 +115,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Names for a buffer's internal parameters.
+	 * Names for a buffer's parameters.
 	 */
 	enum struct BufferParam : GLenum
 	{
@@ -119,7 +131,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Names for a mapped buffer's access parameter.
+	 * Access specifiers for buffer mapping.
 	 */
 	enum struct BufferAccess : GLenum
 	{
@@ -134,7 +146,7 @@ namespace render::gl
 	// ################################
 
 	/**
-	 * Valid targets that a texture can be bound to and adopt the type of.
+	 * Valid targets for texture creation.
 	 * `Dynamic` is not a real target and is only present for templating purposes.
 	 */
 	enum struct TextureTarget : GLenum
@@ -147,8 +159,8 @@ namespace render::gl
 		Texture1DArray = GL_TEXTURE_1D_ARRAY,
 		Texture2DArray = GL_TEXTURE_2D_ARRAY,
 		TextureRectangle = GL_TEXTURE_RECTANGLE,
-		TextureCubeMap = GL_TEXTURE_CUBE_MAP,
-		TextureCubeMapArray = GL_TEXTURE_CUBE_MAP_ARRAY,
+		TextureCubemap = GL_TEXTURE_CUBE_MAP,
+		TextureCubemapArray = GL_TEXTURE_CUBE_MAP_ARRAY,
 		Texture2DMultisample = GL_TEXTURE_2D_MULTISAMPLE,
 		Texture2DMultisampleArray = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
 		TextureBuffer = GL_TEXTURE_BUFFER,
@@ -159,8 +171,8 @@ namespace render::gl
 		Proxy1DArray = GL_PROXY_TEXTURE_1D_ARRAY,
 		Proxy2DArray = GL_PROXY_TEXTURE_2D_ARRAY,
 		ProxyRectangle = GL_PROXY_TEXTURE_RECTANGLE,
-		ProxyCubeMap = GL_PROXY_TEXTURE_CUBE_MAP,
-		ProxyCubeMapArray = GL_PROXY_TEXTURE_CUBE_MAP_ARRAY,
+		ProxyCubemap = GL_PROXY_TEXTURE_CUBE_MAP,
+		ProxyCubemapArray = GL_PROXY_TEXTURE_CUBE_MAP_ARRAY,
 		Proxy2DMultisample = GL_PROXY_TEXTURE_2D_MULTISAMPLE,
 		Proxy2DMultisampleArray = GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY,
 	};
@@ -252,9 +264,9 @@ namespace render::gl
 	};
 
 	/**
-	 * Represents each of the six faces of a cube map.
+	 * Faces of a cubemap.
 	 */
-	enum struct CubeMapFace : GLenum
+	enum struct CubemapFace : GLenum
 	{
 		PlusX = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
 		MinusX = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
@@ -265,7 +277,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Format of pixel data that is fed to a texture. Different from the
+	 * Pixel data formats for texture feeding. Different from the
 	 * texture's own internal format. This is used in conjunction with
 	 * the `PixelType` enum and serves to identify what color components
 	 * are to be used and their meaning.
@@ -290,7 +302,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Type of pixel data that is fed to a texture. Different from the
+	 * Pixel data types for texture feeding. Different from the
 	 * texture's own internal format. This is used in conjunction with
 	 * the `PixelFormat` enum and serves to identify the data type and
 	 * size of the color components.
@@ -320,7 +332,7 @@ namespace render::gl
 	};
 
 	/**
-	 * Names for a texture's internal parameters.
+	 * Names for a texture's parameters.
 	 */
 	enum struct TextureParam : GLenum
 	{
@@ -401,7 +413,7 @@ namespace render::gl
 	// ###############################
 
 	/**
-     * Lists all valid shader types.
+     * Shader types for shader object creation.
      */
     enum struct ShaderType : GLenum
     {
@@ -414,7 +426,7 @@ namespace render::gl
     };
 
 	/**
-	 * Lists all shader parameter names.
+	 * Names for a shader object's parameters.
 	 */
 	enum struct ShaderParam : GLenum
 	{
@@ -429,6 +441,9 @@ namespace render::gl
 	// # Shader program-related enum structs #
 	// #######################################
 
+	/**
+	 * Names for a shader program's parameters.
+	 */
 	enum struct ProgramParam : GLenum
 	{
 		DeleteStatus = GL_DELETE_STATUS,
@@ -457,6 +472,9 @@ namespace render::gl
 	// # Framebuffer-related enum structs #
 	// ####################################
 
+	/**
+	 * Attachment points for a framebuffer.
+	 */
 	enum struct FramebufferAttachment : GLenum
 	{
 		Color = GL_COLOR_ATTACHMENT0,
@@ -465,6 +483,9 @@ namespace render::gl
 		DepthStencil = GL_DEPTH_STENCIL_ATTACHMENT,
 	};
 
+	/**
+	 * Valid targets for framebuffer binding.
+	 */
 	enum struct FramebufferTarget : GLenum
 	{
 		Draw = GL_DRAW_FRAMEBUFFER,
@@ -472,6 +493,9 @@ namespace render::gl
 		DrawRead = GL_FRAMEBUFFER,
 	};
 
+	/**
+	 * Names for a framebuffer's parameters.
+	 */
 	enum struct FramebufferParam : GLenum
 	{
 		DefaultWidth = GL_FRAMEBUFFER_DEFAULT_WIDTH,
@@ -481,6 +505,9 @@ namespace render::gl
 		DefaultFixedSampleLocations = GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS,
 	};
 
+	/**
+	 * Possible states that a framebuffer can be in.
+	 */
 	enum struct FramebufferStatus : GLenum
 	{
 		Error = 0,
@@ -499,6 +526,9 @@ namespace render::gl
 	// # Renderbuffer-related enum structs #
 	// #####################################
 
+	/**
+	 * Data format that a Renderbuffer can adopt.
+	 */
 	enum struct RenderbufferFormat : GLenum
 	{
 		// Color
@@ -584,6 +614,9 @@ namespace render::gl
 		Depth32fStencil8 = GL_DEPTH32F_STENCIL8
 	};
 
+	/**
+	 * Names for a Renderbuffer's parameters.
+	 */
 	enum struct RenderbufferParam : GLenum
 	{
 		Width = GL_RENDERBUFFER_WIDTH,

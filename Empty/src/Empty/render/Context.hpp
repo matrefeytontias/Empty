@@ -40,25 +40,25 @@ namespace render
 		~Context();
 
 		/**
-		 * Bind a buffer to the context.
+		 * Bind a Buffer to the context.
 		 */
 		void bind(const gl::BufferInfo& b, gl::BufferTarget target);
 		/**
-		 * Bind a texture to the context.
+		 * Bind a Texture to the context.
 		 */
 		void bind(const gl::TextureInfo& t, int unit);
 		/**
-		 * Bind a vertex array to the context.
+		 * Bind a VertexArray to the context.
 		 */
 		void bind(const gl::VertexArrayInfo& va);
 
 		/**
-		 * Bind a framebuffer to the context and set the viewport.
+		 * Bind a Framebuffer to the context and set the viewport.
 		 */
 		void setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x = 0, int y = 0);
 
 		/**
-		 * Set the active shader program.
+		 * Set the active ShaderProgram.
 		 */
 		void setShaderProgram(const gl::ShaderProgram& sp);
 
@@ -73,12 +73,13 @@ namespace render
 		void resetViewport() { glViewport(0, 0, frameWidth, frameHeight); }
 
 		/**
-		 * Draw a range of vertices from a bound array buffer, arranged in successive primitives.
+		 * Draw a range of vertices from a bound VertexArray, arranged in successive primitives.
 		 */
 		void drawArrays(gl::PrimitiveType type, int first, int count) const { glDrawArrays(utils::value(type), first, count); }
 
 		/**
-		 * Draw a range of vertices from a bound array buffer, arranged in primitives indexed by a range from a bound element array buffer.
+		 * Draw a range of vertices from a bound VertexArray, arranged in primitives indexed by a
+		 * the VertexArray's attached element buffer.
 		 */
 		void drawElements(gl::PrimitiveType type, gl::ElementType elemType, int first, int count) const
 		{
@@ -86,7 +87,7 @@ namespace render
 		}
 
 		/**
-		 * Clear a variety of buffers with the corresponding colors.
+		 * Clear a variety of drawing buffers with the corresponding colors.
 		 */
 		void clearBuffers(gl::DrawBufferType buffer) const
 		{
@@ -100,6 +101,9 @@ namespace render
 				glClearNamedFramebufferfi(0, GL_DEPTH_STENCIL, 0, clearDepth, clearStencil);
 		}
 
+		/**
+		 * Swaps drawing buffers, essentially refreshing the screen.
+		 */
 		void swap() const { glfwSwapBuffers(window); }
 
 	private:

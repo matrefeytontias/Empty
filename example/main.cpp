@@ -7,6 +7,7 @@
 #include "Empty/render/gl/Renderbuffer.h"
 #include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/render/gl/Texture.h"
+#include "Empty/render/gl/TextureView.h"
 #include "Empty/render/gl/VertexArray.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
@@ -38,8 +39,9 @@ int _main(int, char* argv[])
         FATAL("pas trouveeeeeee");
     TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
 
+    // We will later use the second mipmap level of fbtex to demonstrate texture views
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> fbtex;
-    fbtex.setStorage(1, imgW, imgH);
+    fbtex.setStorage(2, imgW, imgH);
     {
         // Upload image to texture
         Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
@@ -85,10 +87,15 @@ int _main(int, char* argv[])
 
         // We've done it ; fbtex should contain the render
 
+        fbtex.generateMipmaps();
+
         context.resetViewport();
     }
 
-     // Set up the actual scene
+    // Set up a texture view because we can
+    auto fbtexview = TextureView::make<TextureTarget::Texture2D, TextureFormat::RGBA8>(fbtex, 1, 1);
+
+    // Set up the actual scene
 
     Mesh mesh;
     if (mesh.load("cube.obj"))
@@ -111,7 +118,7 @@ int _main(int, char* argv[])
     program.build();
 
     program.locateAttributes(mesh.vStruct);
-    program.registerTexture("uTexture", fbtex);
+    program.registerTexture("uTexture", fbtexview);
 
     mesh.vao.attachVertexBuffer(mesh.vertexBuffer, mesh.vStruct);
     mesh.vao.attachElementBuffer(mesh.triBuffer);

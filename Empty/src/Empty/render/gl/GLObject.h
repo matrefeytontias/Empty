@@ -45,6 +45,7 @@ namespace render::gl
     struct TextureId : public utils::noncopyable
     {
         TextureId(TextureTarget t) { glCreateTextures(utils::value(t), 1, &_id); }
+        TextureId() { glGenTextures(1, &_id); }
         ~TextureId() { glDeleteTextures(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const TextureId& a) const { return _id == a._id; }

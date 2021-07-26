@@ -64,6 +64,41 @@ namespace render::gl
 	}
 
 	/**
+	 * Returns whether a given texture target is a special texture target. Those include
+	 * `TextureRectangle` and `TextureBuffer`, and behave differently from other textures
+	 * in some cases.
+	 */
+	constexpr bool isTargetSpecial(TextureTarget target)
+	{
+		return target == TextureTarget::TextureRectangle || target == TextureTarget::ProxyRectangle
+			|| target == TextureTarget::TextureBuffer;
+	}
+
+	/**
+	 * Returns whether a given texture target is multisampled.
+	 */
+	constexpr bool isTargetMultisampled(TextureTarget target)
+	{
+		return target == TextureTarget::Texture2DMultisample || target == TextureTarget::Proxy2DMultisample
+			|| target == TextureTarget::Texture2DMultisampleArray || target == TextureTarget::Proxy2DMultisampleArray;
+	}
+
+	/**
+	 * Returns whether a given texture target is the array equivalent of another texture target.
+	 */
+	constexpr bool isTargetArrayOf(TextureTarget test, TextureTarget src)
+	{
+		return src == TextureTarget::Texture1D && test == TextureTarget::Texture1DArray ||
+			src == TextureTarget::Texture2D && test == TextureTarget::Texture2DArray ||
+			src == TextureTarget::Texture2DMultisample && test == TextureTarget::Texture2DMultisampleArray ||
+			src == TextureTarget::TextureCubemap && test == TextureTarget::TextureCubemapArray ||
+			src == TextureTarget::Proxy1D && test == TextureTarget::Proxy1DArray ||
+			src == TextureTarget::Proxy2D && test == TextureTarget::Proxy2DArray ||
+			src == TextureTarget::Proxy2DMultisample && test == TextureTarget::Proxy2DMultisampleArray ||
+			src == TextureTarget::ProxyCubemap && test == TextureTarget::ProxyCubemapArray;
+	}
+
+	/**
 	 * Returns the index of a cubemap face.
 	 */
 	constexpr int cubemapFaceIndex(CubemapFace face)
@@ -275,6 +310,15 @@ namespace render::gl
 
 #undef COPY_CTPARAMS
 
+		/**
+		 * Populate the texture's levels with mipmaps. Only usable on texture targets that do have mipmaps.
+		 */
+		template <std::enable_if_t<!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) && !isTargetProxy(CTTarget), int> = 0>
+		void generateMipmaps()
+		{
+			glGenerateTextureMipmap(*_id);
+		}
+
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
 			|| CTParam == TextureParam::ViewMinLayer || CTParam == TextureParam::ViewNumLayers
@@ -355,5 +399,17 @@ namespace render::gl
 		 * Whether storage requirements were set.
 		 */
 		DEBUG_ONLY(bool _requirementsSet = false);
+
+		friend struct TextureView;
+
+		/**
+		 * Create a texture view of a different texture.
+		 */
+		template <TextureTarget CTorigTarget, TextureFormat CTorigFormat>
+		Texture(const Texture<CTorigTarget, CTorigFormat>& origTex, int minLevel, int numLevels, int minLayer, int numLayers) : GLObject(), _target(CTTarget), _format(CTFormat)
+		{
+			glTextureView(*_id, utils::value(_target), *origTex.getInfo().id, utils::value(_format), minLevel, numLevels, minLayer, numLayers);
+			DEBUG_ONLY(_requirementsSet = true);
+		}
 	};
 }

@@ -472,6 +472,86 @@ namespace render::gl
 			, int> = 0>
 			void setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
 
+		template <TextureLevelParam CTParam, std::enable_if_t<
+			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
+			(CTParam == TextureLevelParam::RedType || CTParam == TextureLevelParam::GreenType
+			 || CTParam == TextureLevelParam::BlueType || CTParam == TextureLevelParam::AlphaType
+			 || CTParam == TextureLevelParam::DepthType)
+			, int> = 0>
+			TextureComponentType getLevelParameter(int level) const
+		{
+			int v;
+			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
+			return static_cast<TextureComponentType>(v);
+		}
+
+		template <TextureLevelParam CTParam, std::enable_if_t<
+			(isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
+			(CTParam == TextureLevelParam::RedType || CTParam == TextureLevelParam::GreenType
+			 || CTParam == TextureLevelParam::BlueType || CTParam == TextureLevelParam::AlphaType
+			 || CTParam == TextureLevelParam::DepthType)
+			, int> = 0>
+			TextureComponentType getLevelParameter() const
+		{
+			int v;
+			glGetTextureLevelParameteriv(*_id, 0, utils::value(CTParam), &v);
+			return static_cast<TextureComponentType>(v);
+		}
+
+		template <TextureLevelParam CTParam, std::enable_if_t<
+			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
+			(CTParam == TextureLevelParam::Width || CTParam == TextureLevelParam::Height
+			 || CTParam == TextureLevelParam::Depth || CTParam == TextureLevelParam::RedSize
+			 || CTParam == TextureLevelParam::GreenSize || CTParam == TextureLevelParam::BlueSize
+			 || CTParam == TextureLevelParam::AlphaSize || CTParam == TextureLevelParam::DepthSize
+			 || CTParam == TextureLevelParam::CompressedSize)
+			, int> = 0>
+			int getLevelParameter(int level) const
+		{
+			int v;
+			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
+			return v;
+		}
+
+		template <TextureLevelParam CTParam, std::enable_if_t<
+			((isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
+			(CTParam == TextureLevelParam::Width || CTParam == TextureLevelParam::Height
+			 || CTParam == TextureLevelParam::Depth || CTParam == TextureLevelParam::RedSize
+			 || CTParam == TextureLevelParam::GreenSize || CTParam == TextureLevelParam::BlueSize
+			 || CTParam == TextureLevelParam::AlphaSize || CTParam == TextureLevelParam::DepthSize
+			 || CTParam == TextureLevelParam::CompressedSize))
+			|| (CTTarget == TextureTarget::TextureBuffer &&
+				(CTParam == TextureLevelParam::BufferOffset || CTParam == TextureLevelParam::BufferSize))
+			, int> = 0>
+			int getLevelParameter() const
+		{
+			int v;
+			glGetTextureLevelParameteriv(*_id, 0, utils::value(CTParam), &v);
+			return v;
+		}
+
+		template <TextureLevelParam CTParam, std::enable_if_t<
+			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
+			CTParam == TextureLevelParam::Compressed
+			, int> = 0>
+		bool getLevelParameter(int level) const
+		{
+			int v;
+			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
+			return v;
+		}
+
+		template <TextureLevelParam CTParam, std::enable_if_t<
+			(isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
+			CTParam == TextureLevelParam::Compressed
+			, int> = 0>
+			bool getLevelParameter(int level) const
+		{
+			int v;
+			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
+			return v;
+		}
+
 		operator const TextureInfo() const { return TextureInfo{ _id, _target }; }
 		const TextureInfo getInfo() const { return TextureInfo{ _id, _target }; }
 		TextureTarget getTarget() const { return _target; }

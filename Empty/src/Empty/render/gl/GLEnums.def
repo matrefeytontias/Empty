@@ -407,7 +407,44 @@ namespace render::gl
 		Repeat = GL_REPEAT,
 		MirrorClampToEdge = GL_MIRROR_CLAMP_TO_EDGE,
 	};
-	
+
+	/**
+	 * Names for a texture level's parameters.
+	 */
+	enum struct TextureLevelParam : GLenum
+	{
+		Width = GL_TEXTURE_WIDTH,
+		Height = GL_TEXTURE_HEIGHT,
+		Depth = GL_TEXTURE_DEPTH,
+		RedType = GL_TEXTURE_RED_TYPE,
+		GreenType = GL_TEXTURE_GREEN_TYPE,
+		BlueType = GL_TEXTURE_BLUE_TYPE,
+		AlphaType = GL_TEXTURE_ALPHA_TYPE,
+		DepthType = GL_TEXTURE_DEPTH_TYPE,
+		RedSize = GL_TEXTURE_RED_SIZE,
+		GreenSize = GL_TEXTURE_GREEN_SIZE,
+		BlueSize = GL_TEXTURE_BLUE_SIZE,
+		AlphaSize = GL_TEXTURE_ALPHA_SIZE,
+		DepthSize = GL_TEXTURE_DEPTH_SIZE,
+		Compressed = GL_TEXTURE_COMPRESSED,
+		CompressedSize = GL_TEXTURE_COMPRESSED_IMAGE_SIZE,
+		BufferOffset = GL_TEXTURE_BUFFER_OFFSET,
+		BufferSize = GL_TEXTURE_BUFFER_SIZE,
+	};
+
+	/**
+	 * Possible data types of the components of a texture.
+	 */
+	enum struct TextureComponentType : GLenum
+	{
+		None = GL_NONE,
+		Norm = GL_SIGNED_NORMALIZED,
+		UNorm = GL_UNSIGNED_NORMALIZED,
+		Float = GL_FLOAT,
+		Int = GL_INT,
+		Uint = GL_UNSIGNED_INT,
+	};
+
 	// ###############################
 	// # Shader-related enum structs #
 	// ###############################

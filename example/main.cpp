@@ -91,6 +91,8 @@ int _main(int, char* argv[])
         context.resetViewport();
     }
 
+    TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));
+
     // Set up a texture view because we can
     auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(1, 8);
 

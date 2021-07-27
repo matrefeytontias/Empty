@@ -48,7 +48,6 @@ set(SOURCES
 	src/Empty/render/gl/ShaderProgram.cpp
 	src/Empty/render/gl/ShaderProgram.hpp
 	src/Empty/render/gl/Texture.h
-	src/Empty/render/gl/TextureView.h
 	src/Empty/render/gl/Uniform.h
 	src/Empty/render/gl/VertexArray.h
 	src/Empty/render/gl/VertexStructure.h

@@ -7,7 +7,6 @@
 #include "Empty/render/gl/Renderbuffer.h"
 #include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/render/gl/Texture.h"
-#include "Empty/render/gl/TextureView.h"
 #include "Empty/render/gl/VertexArray.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
@@ -41,7 +40,7 @@ int _main(int, char* argv[])
 
     // We will later use the second mipmap level of fbtex to demonstrate texture views
     Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> fbtex;
-    fbtex.setStorage(2, imgW, imgH);
+    fbtex.setStorage(10, imgW, imgH);
     {
         // Upload image to texture
         Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
@@ -93,7 +92,7 @@ int _main(int, char* argv[])
     }
 
     // Set up a texture view because we can
-    auto fbtexview = TextureView::make<TextureTarget::Texture2D, TextureFormat::RGBA8>(fbtex, 1, 1);
+    auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(1, 8);
 
     // Set up the actual scene
 
@@ -144,7 +143,7 @@ int _main(int, char* argv[])
 
     while (!glfwWindowShouldClose(window))
     {
-        program.uniform("uTime", (float)glfwGetTime() * 10);
+        program.uniform("uTime", (float)glfwGetTime());
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);
 

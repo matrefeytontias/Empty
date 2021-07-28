@@ -94,7 +94,7 @@ int _main(int, char* argv[])
     TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));
 
     // Set up a texture view because we can
-    auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(1, 8);
+    auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(0, 10);
 
     // Set up the actual scene
 
@@ -143,8 +143,16 @@ int _main(int, char* argv[])
 
     context.setShaderProgram(program);
 
+    math::mat4 modelRotation;
+
     while (!glfwWindowShouldClose(window))
     {
+        // Sick zoom-in because hey look I do what I want
+        modelRotation = math::mat4::Identity() * (float)(1. + exp(-(1. + cos(glfwGetTime() * 15.5)) * 10.));
+        modelRotation(3, 3) = 1.;
+        modelRotation *= math::rotateZ((float)glfwGetTime() * 1.5f) * math::rotateY((float)glfwGetTime() * 2.f);
+
+        program.uniform("uModel", modelRotation);
         program.uniform("uTime", (float)glfwGetTime());
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);

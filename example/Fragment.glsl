@@ -11,7 +11,9 @@ in vec2 vTexCoords;
 
 void main()
 {
-	vec4 modifier = vec4(1.);
-	float lod = sin(uTime) * 4 + 4;
-	colorOut = vec4(dot(vNormal.xyz, -normalize(vPosition.xyz)).xxx, 1.) * texture(uTexture, vTexCoords, lod) * modifier;
+	float factor = max(0, dot(vNormal.xyz, -normalize(vPosition.xyz)));
+	float scaledTime = uTime * 15.5;
+	// Color modifier for optimal Camellia effect
+	vec4 modifier = vec4(cos(scaledTime), sin(scaledTime), sin(scaledTime * 1.5), 1.) * 0.5 + 0.5;
+	colorOut = vec4(factor.xxx, 1.) * texture(uTexture, vTexCoords, (1. - pow(factor, 1.5)) * 10.) * modifier;
 }

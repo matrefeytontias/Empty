@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h> // GLFW needs to be included after glad
 
 #include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/utils/EnumBitfield.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
@@ -99,17 +100,9 @@ namespace render
 		/**
 		 * Clear a variety of drawing buffers with the corresponding colors.
 		 */
-		void clearBuffers(gl::DrawBufferType buffer) const
-		{
-			if (buffer == gl::DrawBufferType::Color)
-				glClearNamedFramebufferfv(0, GL_COLOR, 0, clearColor);
-			else if (buffer == gl::DrawBufferType::Depth)
-				glClearNamedFramebufferfv(0, GL_DEPTH, 0, &clearDepth);
-			else if (buffer == gl::DrawBufferType::Stencil)
-				glClearNamedFramebufferuiv(0, GL_STENCIL, 0, &clearStencil);
-			else // if (buffer == gl::DrawBufferType::DepthStencil)
-				glClearNamedFramebufferfi(0, GL_DEPTH_STENCIL, 0, clearDepth, clearStencil);
-		}
+		void clearBuffer(gl::DrawBufferType buffer) const;
+
+		void memoryBarrier(utils::EnumBitfield<gl::MemoryBarrierType> barriers) { glMemoryBarrier(barriers); }
 
 		/**
 		 * Swaps drawing buffers, essentially refreshing the screen.
@@ -128,8 +121,7 @@ namespace render
 				glfwSetWindowShouldClose(window, true);
 		}
 
-		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
-		{}
+		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {}
 
 		/// State keeping
 		

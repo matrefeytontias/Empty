@@ -51,6 +51,7 @@ set(SOURCES
 	src/Empty/render/gl/Uniform.h
 	src/Empty/render/gl/VertexArray.h
 	src/Empty/render/gl/VertexStructure.h
+	src/Empty/utils/EnumBitfield.h
 	src/Empty/utils/macros.h
 	src/Empty/utils/noncopyable.h
 	src/Empty/utils/utils.cpp

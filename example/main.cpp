@@ -8,6 +8,7 @@
 #include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/render/gl/Texture.h"
 #include "Empty/render/gl/VertexArray.h"
+#include "Empty/utils/EnumBitfield.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
@@ -157,8 +158,8 @@ int _main(int, char* argv[])
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);
 
-        context.clearBuffers(DrawBufferType::Color);
-        context.clearBuffers(DrawBufferType::Depth);
+        context.clearBuffer(DrawBufferType::Color);
+        context.clearBuffer(DrawBufferType::Depth);
 
         if (mesh.isIndexed())
             context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * (int)mesh.faces.size());

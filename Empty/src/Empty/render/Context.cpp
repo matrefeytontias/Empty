@@ -34,6 +34,16 @@ void render::Context::bind(const gl::BufferInfo& b, gl::BufferTarget target)
 	glBindBuffer(utils::value(target), *b.id);
 }
 
+void render::Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index)
+{
+	glBindBufferBase(utils::value(target), index, *b.id);
+}
+
+void render::Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size)
+{
+	glBindBufferRange(utils::value(target), index, *b.id, offset, size);
+}
+
 void render::Context::setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x, int y)
 {
 	glBindFramebuffer(utils::value(target), *fb.id);

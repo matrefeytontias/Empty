@@ -44,6 +44,16 @@ namespace render
 		 */
 		void bind(const gl::BufferInfo& b, gl::BufferTarget target);
 		/**
+		 * Bind a Buffer to an indexed target. Note this also binds the buffer on the
+		 * generic binding point of the target, like the non-indexed `bind` method would.
+		 */
+		void bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index);
+		/**
+		 * Bind part of a Buffer to an indexed target. Note this also binds the buffer on
+		 * the generic binding point of the target, like the non-indexed `bind` method would.
+		 */
+		void bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size);
+		/**
 		 * Bind a Texture to the context.
 		 */
 		void bind(const gl::TextureInfo& t, int unit);

@@ -67,13 +67,3 @@ add_library(Empty ${SOURCES} ${ENUM_STRUCTS})
 target_include_directories(Empty PUBLIC src)
 
 target_compile_features(Empty PRIVATE cxx_std_17)
-
-### Third-party libraries
-
-# GLFW
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(ThirdParty/glfw)
-target_link_libraries(Empty PUBLIC glfw)
-

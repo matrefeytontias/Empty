@@ -21,9 +21,48 @@
 
 using namespace render::gl;
 
+struct GLFWContext : public render::Context
+{
+    GLFWwindow* window;
+
+    GLFWContext(const char* title, int width, int height, int major = 4, int minor = 5) : Context(width, height, major, minor)
+    {
+        ASSERT(major * 100 + minor >= 405);
+        glfwSetErrorCallback(errorCallback);
+        if (!glfwInit())
+            FATAL("Could not initialize GLFW. Aborting");
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        window = glfwCreateWindow(frameWidth, frameHeight, title, NULL, NULL);
+        glfwMakeContextCurrent(window);
+        glfwSetKeyCallback(window, keyCallback);
+        glfwSetMouseButtonCallback(window, mouseButtonCallback);
+        glfwSwapInterval(1);
+
+        gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    }
+
+    void swap() const override final { glfwSwapBuffers(window); }
+
+private:
+    static void errorCallback(int error, const char* description)
+    {
+        std::cerr << "GLFW error #" << error << " : " << description << std::endl;
+    }
+
+    static void keyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
+    {
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, true);
+    }
+
+    static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {}
+};
+
 int _main(int, char* argv[])
 {
-    render::Context context("Empty sample program", 1280, 720);
+    GLFWContext context("Empty sample program", 1280, 720);
     auto *window = context.window;
     if (glfwRawMouseMotionSupported())
     {

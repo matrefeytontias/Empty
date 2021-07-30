@@ -1,7 +1,6 @@
 #pragma once
 
 #include "glad/glad.h"
-#include <GLFW/glfw3.h> // GLFW needs to be included after glad
 
 #include "Empty/render/gl/GLEnums.hpp"
 #include "Empty/utils/EnumBitfield.h"
@@ -25,10 +24,11 @@ namespace render
 
 	/**
 	 * Structure used to carry general GL operations, not related to a specific GL object.
+	 * `Context` has to be inherited by a structure that implements the `swap` method to
+	 * be able to be instantiated, ideally also providing a window and GL context.
 	 */
 	struct Context
 	{
-		GLFWwindow* window;
 		int frameWidth, frameHeight;
 		// Color to clear color buffers with. Defaults to (0, 0, 0, 1).
 		math::vec4 clearColor;
@@ -37,8 +37,8 @@ namespace render
 		// Stencil value to clear stencil buffers with. Defaults to 0.
 		unsigned int clearStencil;
 
-		Context(const char* title, int width, int height, int major = 4, int minor = 5);
-		~Context();
+		Context(int width, int height, int major = 4, int minor = 5) : frameWidth(width), frameHeight(height), clearColor(0, 0, 0, 1), clearDepth(0.f), clearStencil(0) { }
+		~Context() = default;
 
 		/**
 		 * Bind a Buffer to the context.
@@ -107,22 +107,9 @@ namespace render
 		/**
 		 * Swaps drawing buffers, essentially refreshing the screen.
 		 */
-		void swap() const { glfwSwapBuffers(window); }
+		virtual void swap() const = 0;
 
 	private:
-		static void errorCallback(int error, const char* description)
-		{
-			std::cerr << "GLFW error #" << error << " : " << description << std::endl;
-		}
-
-		static void keyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
-		{
-			if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-				glfwSetWindowShouldClose(window, true);
-		}
-
-		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {}
-
 		/// State keeping
 		
 		// Currently bound shader program

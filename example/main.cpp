@@ -164,10 +164,10 @@ int _main(int, char* argv[])
     mesh.vao.attachVertexBuffer(mesh.vertexBuffer, mesh.vStruct);
     mesh.vao.attachElementBuffer(mesh.triBuffer);
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
+    context.enable<ContextCapability::DepthTest>();
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_FRAMEBUFFER_SRGB);
+    context.enable<ContextCapability::Blend>();
+    context.enable<ContextCapability::FramebufferSRGB>();
 
     utils::checkGLerror(CALL_SITE);
 

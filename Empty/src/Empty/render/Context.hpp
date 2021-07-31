@@ -41,6 +41,11 @@ namespace render
 		~Context() = default;
 
 		/**
+		 * Swaps drawing buffers, essentially refreshing the screen.
+		 */
+		virtual void swap() const = 0;
+
+		/**
 		 * Bind a Buffer to the context.
 		 */
 		void bind(const gl::BufferInfo& b, gl::BufferTarget target);
@@ -102,12 +107,47 @@ namespace render
 		 */
 		void clearBuffer(gl::DrawBufferType buffer) const;
 
+		/**
+		 * Sets up one or several memory barriers. The context will wait for operations of the given
+		 * types to complete before submitting more commands.
+		 */
 		void memoryBarrier(utils::EnumBitfield<gl::MemoryBarrierType> barriers) { glMemoryBarrier(barriers); }
 
-		/**
-		 * Swaps drawing buffers, essentially refreshing the screen.
-		 */
-		virtual void swap() const = 0;
+		template <gl::ContextCapability CTCap>
+		void enable()
+		{
+			glEnable(utils::value(CTCap));
+		}
+
+		template <gl::ContextCapability CTCap>
+		void disable()
+		{
+			glDisable(utils::value(CTCap));
+		}
+
+		template <gl::ContextCapability CTCap, std::enable_if_t<CTCap == gl::ContextCapability::ClipDistance
+			|| CTCap == gl::ContextCapability::Blend
+			|| CTCap == gl::ContextCapability::ScissorTest,
+			int> = 0>
+		void enable(int index)
+		{
+			if constexpr (CTCap == gl::ContextCapability::ClipDistance)
+				glEnable(utils::value(CTCap) + index);
+			else
+				glEnablei(utils::value(CTCap), i);
+		}
+
+		template <gl::ContextCapability CTCap, std::enable_if_t<CTCap == gl::ContextCapability::ClipDistance
+			|| CTCap == gl::ContextCapability::Blend
+			|| CTCap == gl::ContextCapability::ScissorTest,
+			int> = 0>
+		void disable(int index)
+		{
+			if constexpr (CTCap == gl::ContextCapability::ClipDistance)
+				glDisable(utils::value(CTCap) + index);
+			else
+				glDisablei(utils::value(CTCap), i);
+		}
 
 	private:
 		/// State keeping

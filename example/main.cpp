@@ -87,7 +87,7 @@ int _main(int, char* argv[])
         tex.setStorage(1, imgW, imgH);
         tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
         TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
-        tex.uploadData(0, 0, 0, imgW, imgH, PixelFormat::RGBA, PixelType::UByte, img);
+        tex.uploadData(0, 0, 0, imgW, imgH, DataFormat::RGBA, DataType::UByte, img);
         stbi_image_free(img);
         utils::checkGLerror(CALL_SITE);
 

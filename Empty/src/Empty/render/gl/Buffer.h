@@ -3,6 +3,7 @@
 #include "glad/glad.h"
 #include "Empty/render/gl/GLEnums.hpp"
 #include "Empty/render/gl/GLObject.h"
+#include "Empty/render/gl/GLEnumsUtils.h"
 #include "Empty/utils/macros.h"
 
 namespace render::gl
@@ -104,6 +105,16 @@ namespace render::gl
 		{
 			ASSERT(!_mapped);
 			glNamedBufferSubData(*_id, offset, size, data);
+		}
+
+		/**
+		 * Clear the contents of the buffer with a given value. The type of the
+		 * value depends on the provided DataType enum value.
+		 */
+		template <DataFormat CTFormat, DataType CTType>
+		inline void clearData(BufferDataFormat internalFormat, BaseType<CTType> value)
+		{
+			glClearNamedBufferData(*_id, utils::value(internalFormat), utils::value(CTFormat), utils::value(CTType), &value);
 		}
 
 		template <BufferParam CTParam, std::enable_if_t <

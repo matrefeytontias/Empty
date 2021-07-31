@@ -3,109 +3,12 @@
 #include <type_traits>
 
 #include "glad/glad.h"
-#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/render/gl/GLEnumsUtils.h"
 #include "Empty/render/gl/GLObject.h"
 #include "Empty/utils/macros.h"
 
 namespace render::gl
 {
-	/**
-	 * Returns the dimensionality of a texture with a given texture target.
-	 */
-	constexpr int dimensionsFromTarget(TextureTarget target)
-	{
-		if (target == TextureTarget::Dynamic)
-			return 0;
-		else if (target == TextureTarget::Texture1D
-				 || target == TextureTarget::Proxy1D
-				 || target == TextureTarget::TextureBuffer)
-			return 1;
-		else if (target == TextureTarget::Texture3D
-				 || target == TextureTarget::Texture2DArray
-				 || target == TextureTarget::Texture2DMultisampleArray
-				 || target == TextureTarget::TextureCubemapArray
-				 || target == TextureTarget::Proxy3D
-				 || target == TextureTarget::Proxy2DArray
-				 || target == TextureTarget::Proxy2DMultisampleArray
-				 || target == TextureTarget::ProxyCubemapArray)
-			return 3;
-		else
-			return 2;
-	}
-
-	/**
-	 * Returns whether a given texture target references a cubemap or cubemap array texture target.
-	 */
-	constexpr bool isTargetCubemap(TextureTarget target)
-	{
-		return target == TextureTarget::TextureCubemap || target == TextureTarget::ProxyCubemap
-			|| target == TextureTarget::TextureCubemapArray || target == TextureTarget::ProxyCubemapArray;
-	}
-
-	/**
-	 * Returns whether a given texture target references a layered texture type.
-	 */
-	constexpr bool isTargetLayered(TextureTarget target)
-	{
-		return target == TextureTarget::Texture1DArray || target == TextureTarget::Proxy1DArray
-			|| dimensionsFromTarget(target) == 3;
-	}
-
-	/**
-	 * Returns whether a given texture target references a proxy target.
-	 */
-	constexpr bool isTargetProxy(TextureTarget target)
-	{
-		return target == TextureTarget::Proxy1D || target == TextureTarget::Proxy1DArray
-			|| target == TextureTarget::Proxy2D || target == TextureTarget::Proxy2DArray
-			|| target == TextureTarget::Proxy2DMultisample || target == TextureTarget::Proxy2DMultisampleArray
-			|| target == TextureTarget::Proxy3D || target == TextureTarget::ProxyRectangle
-			|| target == TextureTarget::ProxyCubemap || target == TextureTarget::ProxyCubemapArray;
-	}
-
-	/**
-	 * Returns whether a given texture target is a special texture target. Those include
-	 * `TextureRectangle` and `TextureBuffer`, and behave differently from other textures
-	 * in some cases.
-	 */
-	constexpr bool isTargetSpecial(TextureTarget target)
-	{
-		return target == TextureTarget::TextureRectangle || target == TextureTarget::ProxyRectangle
-			|| target == TextureTarget::TextureBuffer;
-	}
-
-	/**
-	 * Returns whether a given texture target is multisampled.
-	 */
-	constexpr bool isTargetMultisampled(TextureTarget target)
-	{
-		return target == TextureTarget::Texture2DMultisample || target == TextureTarget::Proxy2DMultisample
-			|| target == TextureTarget::Texture2DMultisampleArray || target == TextureTarget::Proxy2DMultisampleArray;
-	}
-
-	/**
-	 * Returns whether a given texture target is the array equivalent of another texture target.
-	 */
-	constexpr bool isTargetArrayOf(TextureTarget test, TextureTarget src)
-	{
-		return src == TextureTarget::Texture1D && test == TextureTarget::Texture1DArray ||
-			src == TextureTarget::Texture2D && test == TextureTarget::Texture2DArray ||
-			src == TextureTarget::Texture2DMultisample && test == TextureTarget::Texture2DMultisampleArray ||
-			src == TextureTarget::TextureCubemap && test == TextureTarget::TextureCubemapArray ||
-			src == TextureTarget::Proxy1D && test == TextureTarget::Proxy1DArray ||
-			src == TextureTarget::Proxy2D && test == TextureTarget::Proxy2DArray ||
-			src == TextureTarget::Proxy2DMultisample && test == TextureTarget::Proxy2DMultisampleArray ||
-			src == TextureTarget::ProxyCubemap && test == TextureTarget::ProxyCubemapArray;
-	}
-
-	/**
-	 * Returns the index of a cubemap face.
-	 */
-	constexpr int cubemapFaceIndex(CubemapFace face)
-	{
-		return static_cast<int>(utils::value(face)) - static_cast<int>(utils::value(CubemapFace::PlusX));
-	}
-
 	/**
 	 * This struct holds everything one needs to bind a Texture. Useful in case
 	 * one wants to bind the Texture without having access to the entire object.
@@ -223,7 +126,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<dimensionsFromTarget(t) == 1, int> = 0>
-			inline void uploadData(int level, int x, int w, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(int level, int x, int w, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage1D(*_id, level, x, w, utils::value(format), utils::value(type), data);
@@ -234,7 +137,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubemap(t), int> = 0>
-			inline void uploadData(int level, int x, int y, int w, int h, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(int level, int x, int y, int w, int h, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage2D(*_id, level, x, y, w, h, utils::value(format), utils::value(type), data);
@@ -245,7 +148,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<dimensionsFromTarget(t) == 3 && !isTargetCubemap(t), int> = 0>
-			inline void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(int level, int x, int y, int z, int w, int h, int d, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, z, w, h, d, utils::value(format), utils::value(type), data);
@@ -257,7 +160,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<dimensionsFromTarget(t) == 2 && isTargetCubemap(t), int> = 0>
-			inline void uploadData(CubemapFace face, int level, int x, int y, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(CubemapFace face, int level, int x, int y, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -272,7 +175,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<dimensionsFromTarget(t) == 3 && isTargetCubemap(t), int> = 0>
-			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, layer * 6 + cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -284,7 +187,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			void uploadData(int level, int x, int y, int z, int w, int h, int d, PixelFormat format, PixelType type, const void* data) const
+			void uploadData(int level, int x, int y, int z, int w, int h, int d, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			ASSERT(!isTargetCubemap(_target) && "cannot upload data directly to a cubemap ; use dedicated method instead");
@@ -304,7 +207,7 @@ namespace render::gl
 		 */
 		template <COPY_CTPARAMS,
 			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, PixelFormat format, PixelType type, const void* data) const
+			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			ASSERT(isTargetCubemap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");

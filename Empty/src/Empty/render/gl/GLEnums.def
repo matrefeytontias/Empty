@@ -7,6 +7,61 @@ namespace render::gl
 	// ########################
 
 	/**
+	 * Available data formats. Different from the objects' own
+	 * internal format. This is used in conjunction with the
+	 * `DataType` enum and serves to identify what components
+	 * are to be used and their meaning.
+	 */
+	enum struct DataFormat : GLenum
+	{
+		Red = GL_RED,
+		RG = GL_RG,
+		RGB = GL_RGB,
+		BGR = GL_BGR,
+		RGBA = GL_RGBA,
+		BGRA = GL_BGRA,
+		RedInt = GL_RED_INTEGER,
+		RGInt = GL_RG_INTEGER,
+		RGBInt = GL_RGB_INTEGER,
+		BGRInt = GL_BGR_INTEGER,
+		RGBAInt = GL_RGBA_INTEGER,
+		BGRAInt = GL_BGRA_INTEGER,
+		Depth = GL_DEPTH_COMPONENT,
+		Stencil = GL_STENCIL_INDEX,
+		DepthStencil = GL_DEPTH_STENCIL,
+	};
+
+	/**
+	 * Available data types. Different from the objects' own
+	 * internal format. This is used in conjunction with the
+	 * `DataFormat` enum and serves to identify the type and
+	 * size of the components.
+	 */
+	enum struct DataType : GLenum
+	{
+		UByte = GL_UNSIGNED_BYTE,
+		Byte = GL_BYTE,
+		UShort = GL_UNSIGNED_SHORT,
+		Short = GL_SHORT,
+		UInt = GL_UNSIGNED_INT,
+		Int = GL_INT,
+		Half = GL_HALF_FLOAT,
+		Float = GL_FLOAT,
+		UByte332 = GL_UNSIGNED_BYTE_3_3_2,
+		UByte332Rev = GL_UNSIGNED_BYTE_2_3_3_REV,
+		UShort565 = GL_UNSIGNED_SHORT_5_6_5,
+		UShort565Rev = GL_UNSIGNED_SHORT_5_6_5_REV,
+		UShort4 = GL_UNSIGNED_SHORT_4_4_4_4,
+		UShort4Rev = GL_UNSIGNED_SHORT_4_4_4_4_REV,
+		UShort5551 = GL_UNSIGNED_SHORT_5_5_5_1,
+		UShort5551Rev = GL_UNSIGNED_SHORT_1_5_5_5_REV,
+		UInt8 = GL_UNSIGNED_INT_8_8_8_8,
+		UInt8Rev = GL_UNSIGNED_INT_8_8_8_8_REV,
+		UIntAAA2 = GL_UNSIGNED_INT_10_10_10_2,
+		UIntAAA2Rev = GL_UNSIGNED_INT_2_10_10_10_REV,
+	};
+
+	/**
 	 * Primitives accepted by drawing commands.
 	 */
 	enum struct PrimitiveType : GLenum
@@ -146,6 +201,46 @@ namespace render::gl
 		DynamicDraw = GL_DYNAMIC_DRAW,
 		DynamicRead = GL_DYNAMIC_READ,
 		DynamicCopy = GL_DYNAMIC_COPY
+	};
+
+	/**
+	 * Buffer data internal formats.
+	 */
+	enum struct BufferDataFormat : GLenum
+	{
+		Red8 = GL_R8,
+		Red16 = GL_R16,
+		Red16f = GL_R16F,
+		Red32f = GL_R32F,
+		Red8i = GL_R8I,
+		Red16i = GL_R16I,
+		Red32i = GL_R32I,
+		Red8ui = GL_R8UI,
+		Red16ui = GL_R16UI,
+		Red32ui = GL_R32UI,
+		RG8 = GL_RG8,
+		RG16 = GL_RG16,
+		RG16f = GL_RG16F,
+		RG32f = GL_RG32F,
+		RG8i = GL_RG8I,
+		RG16i = GL_RG16I,
+		RG32i = GL_RG32I,
+		RG8ui = GL_RG8UI,
+		RG16ui = GL_RG16UI,
+		RG32ui = GL_RG32UI,
+		RGB32f = GL_RGB32F,
+		RGB32i = GL_RGB32I,
+		RGB32ui = GL_RGB32UI,
+		RGBA8 = GL_RGBA8,
+		RGBA16 = GL_RGBA16,
+		RGBA16f = GL_RGBA16F,
+		RGBA32f = GL_RGBA32F,
+		RGBA8i = GL_RGBA8I,
+		RGBA16i = GL_RGBA16I,
+		RGBA32i = GL_RGBA32I,
+		RGBA8ui = GL_RGBA8UI,
+		RGBA16ui = GL_RGBA16UI,
+		RGBA32ui = GL_RGBA32UI,
 	};
 
 	/**
@@ -308,61 +403,6 @@ namespace render::gl
 		MinusY = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
 		PlusZ = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
 		MinusZ = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
-	};
-
-	/**
-	 * Pixel data formats for texture feeding. Different from the
-	 * texture's own internal format. This is used in conjunction with
-	 * the `PixelType` enum and serves to identify what color components
-	 * are to be used and their meaning.
-	 */
-	enum struct PixelFormat : GLenum
-	{
-		Red = GL_RED,
-		RG = GL_RG,
-		RGB = GL_RGB,
-		BGR = GL_BGR,
-		RGBA = GL_RGBA,
-		BGRA = GL_BGRA,
-		RedInt = GL_RED_INTEGER,
-		RGInt = GL_RG_INTEGER,
-		RGBInt = GL_RGB_INTEGER,
-		BGRInt = GL_BGR_INTEGER,
-		RGBAInt = GL_RGBA_INTEGER,
-		BGRAInt = GL_BGRA_INTEGER,
-		Depth = GL_DEPTH_COMPONENT,
-		Stencil = GL_STENCIL_INDEX,
-		DepthStencil = GL_DEPTH_STENCIL,
-	};
-
-	/**
-	 * Pixel data types for texture feeding. Different from the
-	 * texture's own internal format. This is used in conjunction with
-	 * the `PixelFormat` enum and serves to identify the data type and
-	 * size of the color components.
-	 */
-	enum struct PixelType : GLenum
-	{
-		UByte = GL_UNSIGNED_BYTE,
-		Byte = GL_BYTE,
-		UShort = GL_UNSIGNED_SHORT,
-		Short = GL_SHORT,
-		UInt = GL_UNSIGNED_INT,
-		Int = GL_INT,
-		Half = GL_HALF_FLOAT,
-		Float = GL_FLOAT,
-		UByte332 = GL_UNSIGNED_BYTE_3_3_2,
-		UByte332Rev = GL_UNSIGNED_BYTE_2_3_3_REV,
-		UShort565 = GL_UNSIGNED_SHORT_5_6_5,
-		UShort565Rev = GL_UNSIGNED_SHORT_5_6_5_REV,
-		UShort4 = GL_UNSIGNED_SHORT_4_4_4_4,
-		UShort4Rev = GL_UNSIGNED_SHORT_4_4_4_4_REV,
-		UShort5551 = GL_UNSIGNED_SHORT_5_5_5_1,
-		UShort5551Rev = GL_UNSIGNED_SHORT_1_5_5_5_REV,
-		UInt8 = GL_UNSIGNED_INT_8_8_8_8,
-		UInt8Rev = GL_UNSIGNED_INT_8_8_8_8_REV,
-		UIntAAA2 = GL_UNSIGNED_INT_10_10_10_2,
-		UIntAAA2Rev = GL_UNSIGNED_INT_2_10_10_10_REV,
 	};
 
 	/**

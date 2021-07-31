@@ -42,6 +42,7 @@ set(SOURCES
 	src/Empty/render/Context.hpp
 	src/Empty/render/gl/Buffer.h
 	src/Empty/render/gl/Framebuffer.h
+	src/Empty/render/gl/GLEnumsUtils.h
 	src/Empty/render/gl/GLObject.h
 	src/Empty/render/gl/Renderbuffer.h
 	src/Empty/render/gl/Shader.h

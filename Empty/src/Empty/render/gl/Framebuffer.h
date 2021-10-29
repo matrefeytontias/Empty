@@ -105,6 +105,18 @@ namespace render::gl
 #undef COPY_CTPARAMS
 
 		/**
+		 * Select color attachments for rendering.
+		 */
+		void enableColorAttachments(const std::vector<int>& attachments)
+		{
+			std::vector<GLenum> a;
+			a.reserve(attachments.size());
+			for (int i : attachments)
+				a.push_back(GL_COLOR_ATTACHMENT0 + i);
+			glNamedFramebufferDrawBuffers(*_id, a.size(), a.data());
+		}
+
+		/**
 		 * Attach a RenderBuffer to a color framebuffer attachment.
 		 */
 		template <FramebufferAttachment CTAttachment, std::enable_if_t<CTAttachment == FramebufferAttachment::Color, int> = 0>

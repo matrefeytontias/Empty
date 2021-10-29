@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/utils/utils.hpp"
 
 namespace render::gl
 {
@@ -49,6 +50,115 @@ namespace render::gl
 	template <DataType type>
 	using BaseType = typename _BaseType<type>::Type;
 
+	/**
+	 * Tells whether a state variable needs an index for its value to be queried.
+	 * Some state variables can be read with and without an index parameter, yielding true for both
+	 * `isStateVarIndexed` and `isStateVarNonIndexed`.
+	 */
+	constexpr bool isStateVarIndexed(ContextStateVar var)
+	{
+		return utils::isOneOf(var, ContextStateVar::DrawBuffer,
+			ContextStateVar::MaxComputeWorkGroupCount, ContextStateVar::MaxComputeWorkGroupInvocations,
+			ContextStateVar::MaxComputeWorkGroupSize, ContextStateVar::ShaderStorageBufferBinding,
+			ContextStateVar::ShaderStorageBufferStart, ContextStateVar::ShaderStorageBufferSize,
+			ContextStateVar::TransformFeedbackBufferBinding, ContextStateVar::TransformFeedbackBufferStart,
+			ContextStateVar::TransformFeedbackBufferSize, ContextStateVar::UniformBufferBinding,
+			ContextStateVar::UniformBufferSize, ContextStateVar::UniformBufferStart,
+			ContextStateVar::VertexBindingDivisor, ContextStateVar::VertexBindingOffset,
+			ContextStateVar::VertexBindingStride, ContextStateVar::VertexBindingBuffer,
+			ContextStateVar::Viewport);
+	}
+
+	/**
+	 * Tells whether a state variable needs an index for its value to be queried.
+	 * Some state variables can be read with and without an index parameter, yielding true for both
+	 * `isStateVarIndexed` and `isStateVarNonIndexed`.
+	 */
+	constexpr bool isStateVarNonIndexed(ContextStateVar var)
+	{
+		return !isStateVarIndexed(var) || utils::isOneOf(var, ContextStateVar::ShaderStorageBufferBinding,
+			ContextStateVar::TransformFeedbackBufferBinding, ContextStateVar::UniformBufferBinding,
+			ContextStateVar::Viewport);
+	}
+
+	/**
+	 * Tells whether a state variable holds float value(s).
+	 */
+	constexpr bool isStateVarFloatValued(ContextStateVar var)
+	{
+		return utils::isOneOf(
+			var, ContextStateVar::DepthClearValue,
+			ContextStateVar::LineWidth, ContextStateVar::PointSize,
+			ContextStateVar::PointSizeGranularity, ContextStateVar::PolygonOffsetFactor,
+			ContextStateVar::PolygonOffsetUnits, ContextStateVar::SampleCoverageValue,
+			ContextStateVar::SmoothLineWidthGranularity);
+	}
+
+	/**
+	 * Tells whether a state variable holds pair(s) of float values.
+	 */
+	constexpr bool isStateVarVec2Valued(ContextStateVar var)
+	{
+		return utils::isOneOf(
+			var, ContextStateVar::AliasedLineWidthRange,
+			ContextStateVar::DepthRange, ContextStateVar::PointSizeRange,
+			ContextStateVar::SmoothLineWidthRange
+		);
+	}
+
+	/**
+	 * Tells whether a state variable holds vec4 value(s).
+	 */
+	constexpr bool isStateVarVec4Valued(ContextStateVar var)
+	{
+		return utils::isOneOf(var, ContextStateVar::BlendColor, ContextStateVar::ColorClearValue);
+	}
+
+	/**
+	 * Tells whether a state variable holds pair(s) of integer value(s).
+	 */
+	constexpr bool isStateVarIvec2Valued(ContextStateVar var)
+	{
+		return utils::isOneOf(var, ContextStateVar::MaxViewportDims, ContextStateVar::ViewportBoundsRange);
+	}
+
+	/**
+	 * Tells whether a state variable holds vec4 value(s).
+	 */
+	constexpr bool isStateVarIvec4Valued(ContextStateVar var)
+	{
+		return utils::isOneOf(var, ContextStateVar::ScissorBox, ContextStateVar::Viewport);
+	}
+
+	/**
+	 * Tells whether a state variable holds boolean value(s).
+	 */
+	constexpr bool isStateVarBoolValued(ContextStateVar var)
+	{
+		return utils::isOneOf(
+			var, ContextStateVar::Blend,
+			ContextStateVar::ColorLogicOp, ContextStateVar::CullFace,
+			ContextStateVar::DepthTest, ContextStateVar::DepthWriteMask,
+			ContextStateVar::Dither, ContextStateVar::DoubleBuffer,
+			ContextStateVar::LineSmooth, ContextStateVar::PackLSBFirst,
+			ContextStateVar::PackSwapBytes, ContextStateVar::ProgramPointSize,
+			ContextStateVar::PolygonOffsetFill, ContextStateVar::PolygonOffsetLine,
+			ContextStateVar::PolygonOffsetPoint, ContextStateVar::PolygonSmooth,
+			ContextStateVar::SampleCoverageInvert, ContextStateVar::ScissorTest,
+			ContextStateVar::ShaderCompiler, ContextStateVar::StencilTest,
+			ContextStateVar::Stereo, ContextStateVar::UnpackLSBFirst,
+			ContextStateVar::UnpackSwapBytes);
+	}
+
+	/**
+	 * Tells whether a state variable holds integer value(s).
+	 */
+	constexpr bool isStateVarIntValued(ContextStateVar var)
+	{
+		return !isStateVarBoolValued(var) && !isStateVarFloatValued(var) && !isStateVarIvec2Valued(var)
+			&& !isStateVarIvec4Valued(var) && !isStateVarVec2Valued(var) && !isStateVarVec4Valued(var);
+	}
+
 	// ################################
 	// # Texture-related enum structs #
 	// ################################
@@ -60,18 +170,14 @@ namespace render::gl
 	{
 		if (target == TextureTarget::Dynamic)
 			return 0;
-		else if (target == TextureTarget::Texture1D
-				 || target == TextureTarget::Proxy1D
-				 || target == TextureTarget::TextureBuffer)
+		else if (utils::isOneOf(target, TextureTarget::Texture1D,
+				 TextureTarget::Proxy1D, TextureTarget::TextureBuffer))
 			return 1;
-		else if (target == TextureTarget::Texture3D
-				 || target == TextureTarget::Texture2DArray
-				 || target == TextureTarget::Texture2DMultisampleArray
-				 || target == TextureTarget::TextureCubemapArray
-				 || target == TextureTarget::Proxy3D
-				 || target == TextureTarget::Proxy2DArray
-				 || target == TextureTarget::Proxy2DMultisampleArray
-				 || target == TextureTarget::ProxyCubemapArray)
+		else if (utils::isOneOf(target, TextureTarget::Texture3D,
+				 TextureTarget::Texture2DArray, TextureTarget::Texture2DMultisampleArray,
+				 TextureTarget::TextureCubemapArray, TextureTarget::Proxy3D,
+				 TextureTarget::Proxy2DArray, TextureTarget::Proxy2DMultisampleArray,
+				 TextureTarget::ProxyCubemapArray))
 			return 3;
 		else
 			return 2;
@@ -82,8 +188,8 @@ namespace render::gl
 	 */
 	constexpr bool isTargetCubemap(TextureTarget target)
 	{
-		return target == TextureTarget::TextureCubemap || target == TextureTarget::ProxyCubemap
-			|| target == TextureTarget::TextureCubemapArray || target == TextureTarget::ProxyCubemapArray;
+		return utils::isOneOf(target, TextureTarget::TextureCubemap, TextureTarget::ProxyCubemap,
+			TextureTarget::TextureCubemapArray , TextureTarget::ProxyCubemapArray);
 	}
 
 	/**
@@ -91,7 +197,7 @@ namespace render::gl
 	 */
 	constexpr bool isTargetLayered(TextureTarget target)
 	{
-		return target == TextureTarget::Texture1DArray || target == TextureTarget::Proxy1DArray
+		return utils::isOneOf(target, TextureTarget::Texture1DArray, TextureTarget::Proxy1DArray)
 			|| dimensionsFromTarget(target) == 3;
 	}
 
@@ -100,11 +206,11 @@ namespace render::gl
 	 */
 	constexpr bool isTargetProxy(TextureTarget target)
 	{
-		return target == TextureTarget::Proxy1D || target == TextureTarget::Proxy1DArray
-			|| target == TextureTarget::Proxy2D || target == TextureTarget::Proxy2DArray
-			|| target == TextureTarget::Proxy2DMultisample || target == TextureTarget::Proxy2DMultisampleArray
-			|| target == TextureTarget::Proxy3D || target == TextureTarget::ProxyRectangle
-			|| target == TextureTarget::ProxyCubemap || target == TextureTarget::ProxyCubemapArray;
+		return utils::isOneOf(target, TextureTarget::Proxy1D, TextureTarget::Proxy1DArray,
+			TextureTarget::Proxy2D, TextureTarget::Proxy2DArray,
+			TextureTarget::Proxy2DMultisample, TextureTarget::Proxy2DMultisampleArray,
+			TextureTarget::Proxy3D, TextureTarget::ProxyRectangle,
+			TextureTarget::ProxyCubemap, TextureTarget::ProxyCubemapArray);
 	}
 
 	/**
@@ -114,8 +220,8 @@ namespace render::gl
 	 */
 	constexpr bool isTargetSpecial(TextureTarget target)
 	{
-		return target == TextureTarget::TextureRectangle || target == TextureTarget::ProxyRectangle
-			|| target == TextureTarget::TextureBuffer;
+		return utils::isOneOf(target, TextureTarget::TextureRectangle, TextureTarget::ProxyRectangle,
+			TextureTarget::TextureBuffer);
 	}
 
 	/**
@@ -123,8 +229,8 @@ namespace render::gl
 	 */
 	constexpr bool isTargetMultisampled(TextureTarget target)
 	{
-		return target == TextureTarget::Texture2DMultisample || target == TextureTarget::Proxy2DMultisample
-			|| target == TextureTarget::Texture2DMultisampleArray || target == TextureTarget::Proxy2DMultisampleArray;
+		return utils::isOneOf(target, TextureTarget::Texture2DMultisample, TextureTarget::Proxy2DMultisample,
+			TextureTarget::Texture2DMultisampleArray, TextureTarget::Proxy2DMultisampleArray);
 	}
 
 	/**

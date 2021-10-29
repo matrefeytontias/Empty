@@ -22,6 +22,26 @@ namespace render::gl
 namespace utils
 {
 	/**
+	 * Tells if a value is contained in a set of test values.
+	 * Only guaranteed to work when all values are of the same type.
+	 */
+	template <typename T, typename... U>
+	constexpr bool isOneOf(T val, T test, U... others)
+	{
+		return val == test || isOneOf(val, others...);
+	}
+
+	/**
+	 * Base case of telling if a value is contained in a set of values :
+	 * tell if two values are equal.
+	 */
+	template <typename T>
+	constexpr bool isOneOf(T val, T test)
+	{
+		return val == test;
+	}
+
+	/**
 	 * Sets the working directory.
 	 * @param   argv    the program's argv, retrieved through the main function
 	 */

@@ -2,7 +2,7 @@
 
 #include "glad/glad.h"
 
-#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/render/gl/GLEnumsUtils.h"
 #include "Empty/utils/EnumBitfield.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
@@ -113,21 +113,18 @@ namespace render
 		 */
 		void memoryBarrier(utils::EnumBitfield<gl::MemoryBarrierType> barriers) { glMemoryBarrier(barriers); }
 
-		template <gl::ContextCapability CTCap>
-		void enable()
+		void enable(gl::ContextCapability cap)
 		{
-			glEnable(utils::value(CTCap));
+			glEnable(utils::value(cap));
 		}
 
-		template <gl::ContextCapability CTCap>
-		void disable()
+		void disable(gl::ContextCapability cap)
 		{
-			glDisable(utils::value(CTCap));
+			glDisable(utils::value(cap));
 		}
 
-		template <gl::ContextCapability CTCap, std::enable_if_t<CTCap == gl::ContextCapability::ClipDistance
-			|| CTCap == gl::ContextCapability::Blend
-			|| CTCap == gl::ContextCapability::ScissorTest,
+		template <gl::ContextCapability CTCap, std::enable_if_t<utils::isOneOf(CTCap, gl::ContextCapability::ClipDistance,
+			CTCap == gl::ContextCapability::Blend, CTCap == gl::ContextCapability::ScissorTest),
 			int> = 0>
 		void enable(int index)
 		{
@@ -137,9 +134,8 @@ namespace render
 				glEnablei(utils::value(CTCap), i);
 		}
 
-		template <gl::ContextCapability CTCap, std::enable_if_t<CTCap == gl::ContextCapability::ClipDistance
-			|| CTCap == gl::ContextCapability::Blend
-			|| CTCap == gl::ContextCapability::ScissorTest,
+		template <gl::ContextCapability CTCap, std::enable_if_t<utils::isOneOf(CTCap, gl::ContextCapability::ClipDistance,
+			CTCap == gl::ContextCapability::Blend, CTCap == gl::ContextCapability::ScissorTest),
 			int> = 0>
 		void disable(int index)
 		{
@@ -148,6 +144,31 @@ namespace render
 			else
 				glDisablei(utils::value(CTCap), i);
 		}
+
+#define DEF_STATE_VAR_ACCESSORS(type, Type, func) \
+		template <gl::ContextStateVar CTVar, std::enable_if_t<gl::isStateVarNonIndexed(CTVar) && gl::isStateVar##Type##Valued(CTVar), int> = 0> \
+		type getStateVar() \
+		{ \
+			type v; \
+			func##v(utils::value(CTVar), &v); \
+			return v; \
+		} \
+		template <gl::ContextStateVar CTVar, std::enable_if_t<gl::isStateVarIndexed(CTVar) && gl::isStateVar##Type##Valued(CTVar), int> = 0> \
+		type getStateVar(int index) \
+		{ \
+			type v; \
+			func##i_v(utils::value(CTVar), index, &v); \
+			return v; \
+		}
+
+		DEF_STATE_VAR_ACCESSORS(int, Int, glGetInteger);
+		DEF_STATE_VAR_ACCESSORS(float, Float, glGetFloat);
+		DEF_STATE_VAR_ACCESSORS(math::vec2, Vec2, glGetFloat);
+		DEF_STATE_VAR_ACCESSORS(math::vec4, Vec4, glGetFloat);
+		DEF_STATE_VAR_ACCESSORS(math::ivec2, Ivec2, glGetInteger);
+		DEF_STATE_VAR_ACCESSORS(math::ivec4, Ivec4, glGetInteger);
+		DEF_STATE_VAR_ACCESSORS(bool, Bool, glGetBoolean);
+#undef DEF_STATE_VAR_ACCESSORS
 
 	private:
 		/// State keeping

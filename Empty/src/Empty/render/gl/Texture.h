@@ -424,7 +424,8 @@ namespace render::gl
 			 || CTParam == TextureLevelParam::AlphaSize || CTParam == TextureLevelParam::DepthSize
 			 || CTParam == TextureLevelParam::CompressedSize))
 			|| (CTTarget == TextureTarget::TextureBuffer &&
-				(CTParam == TextureLevelParam::BufferOffset || CTParam == TextureLevelParam::BufferSize))
+				(CTParam == TextureLevelParam::BufferDataStoreBinding || CTParam == TextureLevelParam::BufferOffset
+				 || CTParam == TextureLevelParam::BufferSize))
 			, int> = 0>
 			int getLevelParameter() const
 		{

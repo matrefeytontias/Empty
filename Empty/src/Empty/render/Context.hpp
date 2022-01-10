@@ -124,7 +124,7 @@ namespace render
 		}
 
 		template <gl::ContextCapability CTCap, std::enable_if_t<utils::isOneOf(CTCap, gl::ContextCapability::ClipDistance,
-			CTCap == gl::ContextCapability::Blend, CTCap == gl::ContextCapability::ScissorTest),
+			gl::ContextCapability::Blend, gl::ContextCapability::ScissorTest),
 			int> = 0>
 		void enable(int index)
 		{
@@ -135,7 +135,7 @@ namespace render
 		}
 
 		template <gl::ContextCapability CTCap, std::enable_if_t<utils::isOneOf(CTCap, gl::ContextCapability::ClipDistance,
-			CTCap == gl::ContextCapability::Blend, CTCap == gl::ContextCapability::ScissorTest),
+			gl::ContextCapability::Blend, gl::ContextCapability::ScissorTest),
 			int> = 0>
 		void disable(int index)
 		{

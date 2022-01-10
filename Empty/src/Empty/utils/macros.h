@@ -31,6 +31,6 @@
 #else // !defined(_DEBUG)
 
 #define ASSERT(t)
-#define DEBUG(x)
+#define DEBUG_ONLY(x)
 
 #endif // _DEBUG

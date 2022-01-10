@@ -103,7 +103,8 @@ int _main(int, char* argv[])
         fbprog.attachFile(ShaderType::Vertex, "DeferredVertex.glsl");
         fbprog.attachFile(ShaderType::Fragment, "DeferredFragment.glsl");
         fbprog.build();
-        fbprog.registerTexture("uTexture", tex);
+        // Don't use the auto-bind feature to show you don't have to
+        fbprog.registerTexture("uTexture", tex, false);
 
         VertexStructure vs;
         vs.add("aPosition", VertexAttribType::Float, 2);
@@ -121,6 +122,8 @@ int _main(int, char* argv[])
         context.bind(va);
         context.setFramebuffer(fb, FramebufferTarget::Draw, imgW, imgH);
         context.setShaderProgram(fbprog);
+        // The texture was not auto-bound, thus we bind it ourselves
+        context.bind(tex, fbprog.findUniform("uTexture"));
 
         context.drawArrays(PrimitiveType::Triangles, 0, 6);
 

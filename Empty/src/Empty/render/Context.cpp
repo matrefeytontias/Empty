@@ -48,10 +48,11 @@ void render::Context::setShaderProgram(const gl::ShaderProgram& sp)
 		_currentProgram = spi.id;
 	}
 
-	// Bind textures
+	// Bind autobind textures
 	auto shaderTextures = sp.dumpTextures();
-	for (auto st : shaderTextures)
-		bind(st.textureInfo, st.unit);
+	for (const auto& st : shaderTextures)
+		if(st.autobind)
+			bind(st.textureInfo, st.unit);
 }
 
 void render::Context::clearBuffer(gl::DrawBufferType buffer) const

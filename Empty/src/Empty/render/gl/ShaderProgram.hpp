@@ -43,6 +43,7 @@ namespace render::gl
 	{
 		TextureInfo textureInfo;
 		int unit = -1;
+		bool autobind = false;
 	};
 
 	/**
@@ -131,10 +132,10 @@ namespace render::gl
 
 		/**
 		 * Registers a Texture to the shader pogram - this also creates a Uniform
-		 * for the sampler. Registered textures are automatically bound when
-		 * a shader program is set as active by the Context.
+		 * for the sampler. Registered textures can be set to be automatically bound
+		 * when a shader program is set as active by the Context.
 		 */
-		void registerTexture(const std::string& name, const TextureInfo& tex);
+		void registerTexture(const std::string& name, const TextureInfo& tex, bool autobind = true);
 		size_t getTexturesAmount() const { return _textures.size(); }
 
 		template <ProgramParam CTParam,

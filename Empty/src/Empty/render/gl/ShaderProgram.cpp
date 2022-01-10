@@ -59,13 +59,13 @@ std::vector<ProgramTextureInfo> ShaderProgram::dumpTextures() const
     return r;
 }
 
-void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& tex)
+void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& tex, bool autobind)
 {
     ASSERT(_built);
 
-    int unit = static_cast<int>(getTexturesAmount());
+    location unit = glGetUniformLocation(*_id, name.c_str());
     uniform(name, unit);
-    _textures[name] = ProgramTextureInfo{ tex, unit };
+    _textures[name] = ProgramTextureInfo{ tex, unit, autobind };
 }
 
 location ShaderProgram::findUniform(const std::string &name)

@@ -2,7 +2,7 @@
 
 out vec4 colorOut;
 
-uniform sampler2D uTexture;
+layout(location = 1) uniform sampler2D uTexture;
 
 in vec2 vTexCoords;
 

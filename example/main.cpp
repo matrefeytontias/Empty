@@ -136,6 +136,27 @@ int _main(int, char* argv[])
 
     TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));
 
+    utils::checkGLerror(CALL_SITE);
+
+    // Generate a procedural mask texture with a compute shader, why not
+    Texture<TextureTarget::Texture2D, TextureFormat::Red8ui> proceduralMask;
+    {
+        proceduralMask.setStorage(1, 256, 256);
+        proceduralMask.setParameter<TextureParam::MagFilter>(TextureParamValue::FilterNearest);
+        proceduralMask.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterNearest);
+        ShaderProgram computeProg;
+        computeProg.attachFile(ShaderType::Compute, "Compute.glsl");
+        computeProg.build();
+        computeProg.registerTexture("uProcTex", proceduralMask, false);
+        computeProg.uniform("uResolution", 2u);
+        context.setShaderProgram(computeProg);
+        context.bind(proceduralMask.getLevel(0), 0, AccessPolicy::WriteOnly, TextureFormat::Red8ui);
+        context.dispatchCompute(64, 64, 1);
+        // Tada, that's it
+    }
+
+    utils::checkGLerror(CALL_SITE);
+
     // Set up a texture view because we can
     auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(0, 10);
 
@@ -152,7 +173,7 @@ int _main(int, char* argv[])
     TRACE("Successfully reserved " << size << " bytes for buffer");
 
     {
-        BufferMapping mapping = mesh.vertexBuffer.map(BufferAccess::ReadOnly);
+        BufferMapping mapping = mesh.vertexBuffer.map(AccessPolicy::ReadOnly);
         std::cout << "First position is " << mapping.get<math::vec3>(0) << std::endl;
     }
 
@@ -163,14 +184,16 @@ int _main(int, char* argv[])
 
     program.locateAttributes(mesh.vStruct);
     program.registerTexture("uTexture", fbtexview);
+    program.registerTexture("uProcTex", proceduralMask);
 
     mesh.vao.attachVertexBuffer(mesh.vertexBuffer, mesh.vStruct);
     mesh.vao.attachElementBuffer(mesh.triBuffer);
 
     context.enable(ContextCapability::DepthTest);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     context.enable(ContextCapability::Blend);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     context.enable(ContextCapability::FramebufferSRGB);
+    context.disable(ContextCapability::CullFace);
 
     utils::checkGLerror(CALL_SITE);
 
@@ -188,15 +211,20 @@ int _main(int, char* argv[])
 
     math::mat4 modelRotation;
 
+    float time = 0;
+
     while (!glfwWindowShouldClose(window))
     {
+        if (!glfwGetKey(window, GLFW_KEY_F))
+            time = (float)glfwGetTime();
+
         // Sick zoom-in because hey look I do what I want
-        modelRotation = math::mat4::Identity() * (float)(1. + exp(-(1. + cos(glfwGetTime() * 15.5)) * 10.));
+        modelRotation = math::mat4::Identity() * (float)(1. + exp(-(1. + cos(time * 15.5)) * 10.));
         modelRotation(3, 3) = 1.;
-        modelRotation *= math::rotateZ((float)glfwGetTime() * 1.5f) * math::rotateY((float)glfwGetTime() * 2.f);
+        modelRotation *= math::rotateZ(time * 1.5f) * math::rotateY(time * 2.f);
 
         program.uniform("uModel", modelRotation);
-        program.uniform("uTime", (float)glfwGetTime());
+        program.uniform("uTime", time);
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);
 

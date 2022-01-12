@@ -16,7 +16,14 @@ namespace render::gl
 	struct TextureInfo
 	{
 		std::shared_ptr<TextureId> id;
-		TextureTarget target;
+	};
+
+	struct TextureLevelInfo
+	{
+		std::shared_ptr<TextureId> id;
+		int level = -1;
+		bool layered = false;
+		int layer = -1;
 	};
 
 	/**
@@ -313,6 +320,41 @@ namespace render::gl
 			glGenerateTextureMipmap(*_id);
 		}
 
+#define COPY_CTPARAMS TextureTarget t = CTTarget
+
+		/**
+		 * Get information about one of a non-layered texture's levels.
+		 */
+		template <COPY_CTPARAMS, std::enable_if_t<!isTargetLayered(t), int> = 0>
+		TextureLevelInfo getLevel(int level)
+		{
+			ASSERT(_requirementsSet);
+			return TextureLevelInfo{ _id, level, false, 0 };
+		}
+
+		/**
+		 * Get information about one of a layered texture's levels. The whole
+		 * level is selected as opposed to a single layer of it.
+		 */
+		template <COPY_CTPARAMS, std::enable_if_t<isTargetLayered(t), int> = 0>
+		TextureLevelInfo getLevel(int level)
+		{
+			ASSERT(_requirementsSet);
+			return TextureLevelInfo{ _id, level, true, -1 };
+		}
+
+		/**
+		 * Get information about one layer of a layered texture's levels.
+		 */
+		template <COPY_CTPARAMS, std::enable_if_t<isTargetLayered(t), int> = 0>
+		TextureLevelInfo getLevel(int level, int layer)
+		{
+			ASSERT(_requirementsSet);
+			return TextureLevelInfo{ _id, level, false, layer };
+		}
+
+#undef COPY_CTPARAMS
+
 		template <TextureParam CTParam, std::enable_if_t<
 			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
 			|| CTParam == TextureParam::ViewMinLayer || CTParam == TextureParam::ViewNumLayers
@@ -456,8 +498,8 @@ namespace render::gl
 			return v;
 		}
 
-		operator const TextureInfo() const { return TextureInfo{ _id, _target }; }
-		const TextureInfo getInfo() const { return TextureInfo{ _id, _target }; }
+		operator const TextureInfo() const { return TextureInfo{ _id }; }
+		const TextureInfo getInfo() const { return TextureInfo{ _id }; }
 		TextureTarget getTarget() const { return _target; }
 		TextureFormat getFormat() const { return _format; }
 

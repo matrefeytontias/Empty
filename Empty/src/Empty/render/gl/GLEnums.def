@@ -329,6 +329,17 @@ namespace render::gl
 	};
 
 	/**
+	 * Policies for access of various data.
+	 */
+	enum struct AccessPolicy : GLenum
+	{
+		Invalid = GL_INVALID_ENUM,
+		ReadOnly = GL_READ_ONLY,
+		WriteOnly = GL_WRITE_ONLY,
+		ReadWrite = GL_READ_WRITE,
+	};
+
+	/**
 	 * Primitives accepted by drawing commands.
 	 */
 	enum struct PrimitiveType : GLenum
@@ -524,17 +535,6 @@ namespace render::gl
 		Size = GL_BUFFER_SIZE,
 		StorageFlags = GL_BUFFER_STORAGE_FLAGS,
 		Usage = GL_BUFFER_USAGE
-	};
-
-	/**
-	 * Access specifiers for buffer mapping.
-	 */
-	enum struct BufferAccess : GLenum
-	{
-		Invalid = GL_INVALID_ENUM,
-		ReadOnly = GL_READ_ONLY,
-		WriteOnly = GL_WRITE_ONLY,
-		ReadWrite = GL_READ_WRITE,
 	};
 
 	// ################################

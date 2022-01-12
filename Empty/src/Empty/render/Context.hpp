@@ -17,6 +17,7 @@ namespace render
 		struct BufferInfo;
 		struct FramebufferInfo;
 		struct TextureInfo;
+		struct TextureLevelInfo;
 		struct VertexArrayInfo;
 
 		struct ShaderProgram;
@@ -64,6 +65,10 @@ namespace render
 		 */
 		void bind(const gl::TextureInfo& t, int unit);
 		/**
+		 * Bind a specific level of a Texture to an image unit, with the given access policy and format for writes.
+		 */
+		void bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat);
+		/**
 		 * Bind a VertexArray to the context.
 		 */
 		void bind(const gl::VertexArrayInfo& va);
@@ -100,6 +105,14 @@ namespace render
 		void drawElements(gl::PrimitiveType type, gl::ElementType elemType, int first, int count) const
 		{
 			glDrawElements(utils::value(type), count, utils::value(elemType), reinterpret_cast<void*>(static_cast<size_t>(first)));
+		}
+
+		/**
+		 * Launches a number of work groups to be processed by the compute shader stage of the currently active program.
+		 */
+		void dispatchCompute(int num_x, int num_y, int num_z) const
+		{
+			glDispatchCompute(num_x, num_y, num_z);
 		}
 
 		/**

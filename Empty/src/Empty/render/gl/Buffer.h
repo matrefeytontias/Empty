@@ -65,7 +65,7 @@ namespace render::gl
 		 * Maps the Buffer. Use this object in a scope to make sure the buffer is unmapped
 		 * when this object goes out of scope.
 		 */
-		BufferMapping(const BufferInfo& binding, BufferAccess access, bool *mapped) : _binding(binding), _mapped(mapped)
+		BufferMapping(const BufferInfo& binding, AccessPolicy access, bool *mapped) : _binding(binding), _mapped(mapped)
 		{
 			_data = reinterpret_cast<uint8_t*>(glMapNamedBuffer(*_binding.id, utils::value(access)));
 			*_mapped = true;
@@ -83,7 +83,7 @@ namespace render::gl
 		 * BufferMapping object ; unmapping is performed when said object is destroyed,
 		 * usually by going out of scope.
 		 */
-		BufferMapping map(BufferAccess access)
+		BufferMapping map(AccessPolicy access)
 		{
 			ASSERT(!_mapped);
 			return BufferMapping(getInfo(), access, &_mapped);
@@ -143,12 +143,12 @@ namespace render::gl
 
 		template <BufferParam CTParam, std::enable_if_t <
 			CTParam == BufferParam::Access, int> = 0>
-			BufferAccess getParameter() const
+			AccessPolicy getParameter() const
 		{
 			ASSERT(!_mapped);
 			int p;
 			glGetNamedBufferParameteriv(*_id, utils::value(CTParam), &p);
-			return static_cast<BufferAccess>(p);
+			return static_cast<AccessPolicy>(p);
 		}
 
 		template <BufferParam CTParam, std::enable_if_t <

@@ -35,6 +35,10 @@ namespace render::gl
 	GEN_UNIFORM_STRUCT(math::ivec2, glProgramUniform2i(*id, loc, value.x, value.y));
 	GEN_UNIFORM_STRUCT(math::ivec3, glProgramUniform3i(*id, loc, value.x, value.y, value.z));
 	GEN_UNIFORM_STRUCT(math::ivec4, glProgramUniform4i(*id, loc, value.x, value.y, value.z, value.w));
+	GEN_UNIFORM_STRUCT(unsigned int, glProgramUniform1ui(*id, loc, value));
+	GEN_UNIFORM_STRUCT(math::uvec2, glProgramUniform2ui(*id, loc, value.x, value.y));
+	GEN_UNIFORM_STRUCT(math::uvec3, glProgramUniform3ui(*id, loc, value.x, value.y, value.z));
+	GEN_UNIFORM_STRUCT(math::uvec4, glProgramUniform4ui(*id, loc, value.x, value.y, value.z, value.w));
 	GEN_UNIFORM_STRUCT(float, glProgramUniform1f(*id, loc, value));
 	GEN_UNIFORM_STRUCT(math::vec2, glProgramUniform2f(*id, loc, value.x, value.y));
 	GEN_UNIFORM_STRUCT(math::vec3, glProgramUniform3f(*id, loc, value.x, value.y, value.z));

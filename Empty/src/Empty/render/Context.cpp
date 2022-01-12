@@ -32,6 +32,11 @@ void render::Context::bind(const gl::TextureInfo& t, int unit)
 	glBindTextureUnit(unit, *t.id);
 }
 
+void render::Context::bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat)
+{
+	glBindImageTexture(unit, *t.id, t.level, t.layered, t.layer, utils::value(access), utils::value(writeFormat));
+}
+
 void render::Context::bind(const gl::VertexArrayInfo& va)
 {
 	glBindVertexArray(*va.id);

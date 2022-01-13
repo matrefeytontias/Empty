@@ -369,17 +369,6 @@ namespace render::gl
 	};
 
 	/**
-	 * Draw buffer names for commands on framebuffers.
-	 */
-	enum struct DrawBufferType : GLenum
-	{
-		Color = GL_COLOR,
-		Depth = GL_DEPTH,
-		Stencil = GL_STENCIL,
-		DepthStencil = GL_DEPTH_STENCIL,
-	};
-
-	/**
 	 * Names for insertable memory barriers.
 	 */
 	 enum struct MemoryBarrierType : GLenum
@@ -401,6 +390,49 @@ namespace render::gl
 		ShaderStorage = GL_SHADER_STORAGE_BARRIER_BIT,
 		All = GL_ALL_BARRIER_BITS,
 	 };
+
+	/**
+	 * Possible sources for debug messages.
+	 */
+	enum struct DebugMessageSource : GLenum
+	{
+		DontCare = GL_DONT_CARE,
+		API = GL_DEBUG_SOURCE_API,
+		WindowSystem = GL_DEBUG_SOURCE_WINDOW_SYSTEM,
+		ShaderCompiler = GL_DEBUG_SOURCE_SHADER_COMPILER,
+		ThirdParty = GL_DEBUG_SOURCE_THIRD_PARTY,
+		Application = GL_DEBUG_SOURCE_APPLICATION,
+		Other = GL_DEBUG_SOURCE_OTHER,
+	};
+
+	/**
+	 * Possible types for debug messages.
+	 */
+	enum struct DebugMessageType : GLenum
+	{
+		DontCare = GL_DONT_CARE,
+		Error = GL_DEBUG_TYPE_ERROR,
+		DeprecatedBehavior = GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR,
+		UndefinedBehavior = GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR,
+		Portability = GL_DEBUG_TYPE_PORTABILITY,
+		Performance = GL_DEBUG_TYPE_PERFORMANCE,
+		Marker = GL_DEBUG_TYPE_MARKER,
+		PushGroup = GL_DEBUG_TYPE_PUSH_GROUP,
+		PopGroup = GL_DEBUG_TYPE_POP_GROUP,
+		Other = GL_DEBUG_TYPE_OTHER,
+	};
+
+	/**
+	 * Possible severity for debug messages.
+	 */
+	enum struct DebugMessageSeverity : GLenum
+	{
+		DontCare = GL_DONT_CARE,
+		Notification = GL_DEBUG_SEVERITY_NOTIFICATION,
+		Low = GL_DEBUG_SEVERITY_LOW,
+		Medium = GL_DEBUG_SEVERITY_MEDIUM,
+		High = GL_DEBUG_SEVERITY_HIGH,
+	};
 
 	// #####################################
 	// # Vertex array-related enum structs #
@@ -850,6 +882,17 @@ namespace render::gl
 	// ####################################
 	// # Framebuffer-related enum structs #
 	// ####################################
+
+	/**
+	 * Draw buffer names for commands on framebuffers.
+	 */
+	enum struct DrawBufferType : GLenum
+	{
+		Color = GL_COLOR,
+		Depth = GL_DEPTH,
+		Stencil = GL_STENCIL,
+		DepthStencil = GL_DEPTH_STENCIL,
+	};
 
 	/**
 	 * Attachment points for a framebuffer.

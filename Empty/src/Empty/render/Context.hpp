@@ -30,6 +30,8 @@ namespace render
 	 */
 	struct Context
 	{
+		using DebugCallback = void(*)(gl::DebugMessageSource, gl::DebugMessageType, gl::DebugMessageSeverity, int, const std::string&, const void*);
+
 		int frameWidth, frameHeight;
 		// Color to clear color buffers with. Defaults to (0, 0, 0, 1).
 		math::vec4 clearColor;
@@ -39,7 +41,23 @@ namespace render
 		unsigned int clearStencil;
 
 		Context(int width, int height, int major = 4, int minor = 5) : frameWidth(width), frameHeight(height), clearColor(0, 0, 0, 1), clearDepth(0.f), clearStencil(0) { }
-		~Context() = default;
+		virtual ~Context() = default;
+
+		/**
+		 * Sets a callback function to be called with incoming debug messages, with some optional user data
+		 * to be passed along with them.
+		 */
+		void debugMessageCallback(DebugCallback callback, const void* userData);
+
+		/**
+		 * Controls the reporting of debug messages by the context. Although debug messages may be enabled
+		 * in a non-debug context, it is not guaranteed that such a context will provide any amount of
+		 * debug messages.
+		 */
+		void debugMessageControl(gl::DebugMessageSource source, gl::DebugMessageType type, gl::DebugMessageSeverity severity, bool enabled)
+		{
+			glDebugMessageControl(utils::value(source), utils::value(type), utils::value(severity), 0, nullptr, enabled);
+		}
 
 		/**
 		 * Swaps drawing buffers, essentially refreshing the screen.
@@ -188,5 +206,22 @@ namespace render
 		
 		// Currently bound shader program
 		std::weak_ptr<gl::ProgramId> _currentProgram;
+
+		// Information on current debug message callback
+		struct DebugCallbackPayload
+		{
+			DebugCallback callback = nullptr;
+			const void* userData = nullptr;
+		} _debugCallbackPayload;
+		static void _bypassDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+										 GLsizei, const GLchar* message, const void* userData)
+		{
+			auto* p = (DebugCallbackPayload*)userData;
+
+			if(p->callback)
+				p->callback(static_cast<render::gl::DebugMessageSource>(source), static_cast<render::gl::DebugMessageType>(type),
+							static_cast<render::gl::DebugMessageSeverity>(severity), id, std::string(message), p->userData);
+		}
+
 	};
 }

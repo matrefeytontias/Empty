@@ -6,6 +6,13 @@
 #include "Empty/render/gl/Texture.h"
 #include "Empty/render/gl/VertexArray.h"
 
+void render::Context::debugMessageCallback(DebugCallback callback, const void* userData)
+{
+	_debugCallbackPayload.callback = callback;
+	_debugCallbackPayload.userData = userData;
+	glDebugMessageCallback(_bypassDebugCallback, &_debugCallbackPayload);
+}
+
 void render::Context::bind(const gl::BufferInfo& b, gl::BufferTarget target)
 {
 	glBindBuffer(utils::value(target), *b.id);

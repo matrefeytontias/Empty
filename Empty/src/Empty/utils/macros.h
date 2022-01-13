@@ -2,18 +2,25 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstring>
 
-#define CALL_SITE __FILE__, __LINE__
+#ifdef _WIN32
+#define __FILESTEM__ (strrchr(__FILE__, '\\') + 1)
+#else
+#define __FILESTEM__ (strrchr(__FILE__, '/') + 1)
+#endif
+
+#define CALL_SITE __FILESTEM__, __LINE__
 
 /**
  * Print data to std::cerr. Use the operator<< notation to print sequentially.
  */
-#define TRACE(s) std::cerr << __FILE__ << ":" << __LINE__ << " : " << s << std::endl
+#define TRACE(s) std::cerr << __FILESTEM__ << ":" << __LINE__ << " : " << s << std::endl
 
 /**
  * Raise a runtime_error exception with the given message. Use the operator<< notation to print sequentially.
  */
-#define FATAL(s) do { std::stringstream ss; ss << __FILE__ << ":" << __LINE__ << " : " << s << std::endl; throw std::runtime_error(ss.str()); } while(0)
+#define FATAL(s) do { std::stringstream ss; ss << __FILESTEM__ << ":" << __LINE__ << " : " << s << std::endl; throw std::runtime_error(ss.str()); } while(0)
 
 /**
  * Perform a test that kills the program if it fails, even outside of debug mode.

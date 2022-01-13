@@ -34,6 +34,9 @@ struct GLFWContext : public render::Context
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef _DEBUG
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
         window = glfwCreateWindow(frameWidth, frameHeight, title, NULL, NULL);
         glfwMakeContextCurrent(window);
         glfwSetKeyCallback(window, keyCallback);
@@ -60,9 +63,19 @@ private:
     static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {}
 };
 
+void printGLerror(DebugMessageSource source, DebugMessageType type, DebugMessageSeverity severity, int id, const std::string& msg, const void*)
+{
+    std::cerr << utils::name(source) << " (" << utils::name(severity) << ") : " << utils::name(type) << " - " << msg << std::endl;
+}
+
 int _main(int, char* argv[])
 {
     GLFWContext context("Empty sample program", 1280, 720);
+    
+    // Bit of debug things ye
+    context.debugMessageCallback(printGLerror, nullptr);
+    context.debugMessageControl(DebugMessageSource::DontCare, DebugMessageType::DontCare, DebugMessageSeverity::DontCare, true);
+
     auto *window = context.window;
     if (glfwRawMouseMotionSupported())
     {
@@ -89,7 +102,6 @@ int _main(int, char* argv[])
         TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
         tex.uploadData(0, 0, 0, imgW, imgH, DataFormat::RGBA, DataType::UByte, img);
         stbi_image_free(img);
-        utils::checkGLerror(CALL_SITE);
 
         // Create stuff for off-screen rendering
         Framebuffer fb;
@@ -136,8 +148,6 @@ int _main(int, char* argv[])
 
     TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));
 
-    utils::checkGLerror(CALL_SITE);
-
     // Generate a procedural mask texture with a compute shader, why not
     Texture<TextureTarget::Texture2D, TextureFormat::Red8ui> proceduralMask;
     {
@@ -154,8 +164,6 @@ int _main(int, char* argv[])
         context.dispatchCompute(64, 64, 1);
         // Tada, that's it
     }
-
-    utils::checkGLerror(CALL_SITE);
 
     // Set up a texture view because we can
     auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(0, 10);
@@ -194,8 +202,6 @@ int _main(int, char* argv[])
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     context.enable(ContextCapability::FramebufferSRGB);
     context.disable(ContextCapability::CullFace);
-
-    utils::checkGLerror(CALL_SITE);
 
     TRACE("Entering drawing loop");
 

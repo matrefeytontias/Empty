@@ -25,7 +25,7 @@
 /**
  * Perform a test that kills the program if it fails, even outside of debug mode.
  */
-#define ALWAYS_ASSERT(t) if(!(t)) FATAL(#t)
+#define ALWAYS_ASSERT(t) if(!(t)) FATAL("assertion failed: " #t)
 
 // Define a few macros that do different things based on the debug level
 #ifdef _DEBUG

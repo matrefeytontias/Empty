@@ -18,7 +18,7 @@ bool ShaderProgram::attachSource(ShaderType type, const std::string& src)
     
     if (!shader.setSource(src))
     {
-        TRACE("Attaching of " << utils::name(type) << " failed :\n" << shader.getLog());
+        TRACE("Attaching of " << utils::name(type) << " shader failed :\n" << shader.getLog());
         return false;
     }
     glAttachShader(*_id, shader);

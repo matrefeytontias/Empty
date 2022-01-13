@@ -65,7 +65,7 @@ private:
 
 void printGLerror(DebugMessageSource source, DebugMessageType type, DebugMessageSeverity severity, int id, const std::string& msg, const void*)
 {
-    std::cerr << utils::name(source) << " (" << utils::name(severity) << ") : " << utils::name(type) << " - " << msg << std::endl;
+    std::cerr << utils::name(source) << " reported " << utils::name(type) << " (severity " << utils::name(severity) << ") : " << msg << std::endl;
 }
 
 int _main(int, char* argv[])
@@ -109,7 +109,7 @@ int _main(int, char* argv[])
         Renderbuffer rb;
         rb.setStorage(RenderbufferFormat::Depth, imgW, imgH);
         fb.attachRenderbuffer<FramebufferAttachment::Depth>(rb);
-        TRACE(utils::name(fb.checkStatus(FramebufferTarget::Draw))); // FramebufferStatus::Complete
+        TRACE("Framebuffer has status " << utils::name(fb.checkStatus(FramebufferTarget::Draw)));
 
         ShaderProgram fbprog;
         fbprog.attachFile(ShaderType::Vertex, "DeferredVertex.glsl");

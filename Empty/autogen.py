@@ -82,7 +82,7 @@ with open(output + ".cpp", "w") as f:
         rawEnum = enum.split("::")[-1]
         f.write("static const std::unordered_map<" + enum + ", const char*> " + rawEnum + "_names = {\n")
         for name in enumValues[enum]:
-            f.write('\t{' + enum + '::' + name + ', "' + rawEnum + '::' + name + '"},\n')
+            f.write('\t{' + enum + '::' + name + ', "' + name + '"},\n')
         f.write("};\n")
 
         f.write("template <> const char* " + prefix + "::name<" + enum + ">(" + enum + " e) { return " + rawEnum + "_names.find(e)->second; }\n\n")

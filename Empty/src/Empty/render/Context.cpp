@@ -13,38 +13,38 @@ void render::Context::debugMessageCallback(DebugCallback callback, const void* u
 	glDebugMessageCallback(_bypassDebugCallback, &_debugCallbackPayload);
 }
 
-void render::Context::bind(const gl::BufferInfo& b, gl::BufferTarget target)
+void render::Context::bind(const gl::BufferInfo& b, gl::BufferTarget target) const
 {
 	glBindBuffer(utils::value(target), *b.id);
 }
 
-void render::Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index)
+void render::Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index) const
 {
 	glBindBufferBase(utils::value(target), index, *b.id);
 }
 
-void render::Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size)
+void render::Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size) const
 {
 	glBindBufferRange(utils::value(target), index, *b.id, offset, size);
 }
 
-void render::Context::setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x, int y)
+void render::Context::setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x, int y) const
 {
 	glBindFramebuffer(utils::value(target), *fb.id);
 	glViewport(x, y, width, height);
 }
 
-void render::Context::bind(const gl::TextureInfo& t, int unit)
+void render::Context::bind(const gl::TextureInfo& t, int unit) const
 {
 	glBindTextureUnit(unit, *t.id);
 }
 
-void render::Context::bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat)
+void render::Context::bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat) const
 {
 	glBindImageTexture(unit, *t.id, t.level, t.layered, t.layer, utils::value(access), utils::value(writeFormat));
 }
 
-void render::Context::bind(const gl::VertexArrayInfo& va)
+void render::Context::bind(const gl::VertexArrayInfo& va) const
 {
 	glBindVertexArray(*va.id);
 }

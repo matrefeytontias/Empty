@@ -30,9 +30,12 @@ namespace render
 	 */
 	struct Context
 	{
+		/**
+		 * Typedef for GL debug message processor callbacks.
+		 */
 		using DebugCallback = void(*)(gl::DebugMessageSource, gl::DebugMessageType, gl::DebugMessageSeverity, int, const std::string&, const void*);
 
-		int frameWidth, frameHeight;
+		const int frameWidth, frameHeight;
 		// Color to clear color buffers with. Defaults to (0, 0, 0, 1).
 		math::vec4 clearColor;
 		// Depth value to clear depth buffers with. Defaults to 0.f.
@@ -50,11 +53,12 @@ namespace render
 		void debugMessageCallback(DebugCallback callback, const void* userData);
 
 		/**
-		 * Controls the reporting of debug messages by the context. Although debug messages may be enabled
-		 * in a non-debug context, it is not guaranteed that such a context will provide any amount of
-		 * debug messages.
+		 * Controls the reporting of debug messages by the context by setting up filters. For any filter,
+		 * usage of the `DontCare` enum value selects every option of that filter. Although debug messages
+		 * may be enabled in a non-debug context, it is not guaranteed that such a context will provide any
+		 * amount of debug messages.
 		 */
-		void debugMessageControl(gl::DebugMessageSource source, gl::DebugMessageType type, gl::DebugMessageSeverity severity, bool enabled)
+		void debugMessageControl(gl::DebugMessageSource source, gl::DebugMessageType type, gl::DebugMessageSeverity severity, bool enabled) const
 		{
 			glDebugMessageControl(utils::value(source), utils::value(type), utils::value(severity), 0, nullptr, enabled);
 		}
@@ -67,34 +71,34 @@ namespace render
 		/**
 		 * Bind a Buffer to the context.
 		 */
-		void bind(const gl::BufferInfo& b, gl::BufferTarget target);
+		void bind(const gl::BufferInfo& b, gl::BufferTarget target) const;
 		/**
 		 * Bind a Buffer to an indexed target. Note this also binds the buffer on the
 		 * generic binding point of the target, like the non-indexed `bind` method would.
 		 */
-		void bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index);
+		void bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index) const;
 		/**
 		 * Bind part of a Buffer to an indexed target. Note this also binds the buffer on
 		 * the generic binding point of the target, like the non-indexed `bind` method would.
 		 */
-		void bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size);
+		void bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size) const;
 		/**
 		 * Bind a Texture to the context.
 		 */
-		void bind(const gl::TextureInfo& t, int unit);
+		void bind(const gl::TextureInfo& t, int unit) const;
 		/**
 		 * Bind a specific level of a Texture to an image unit, with the given access policy and format for writes.
 		 */
-		void bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat);
+		void bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat) const;
 		/**
 		 * Bind a VertexArray to the context.
 		 */
-		void bind(const gl::VertexArrayInfo& va);
+		void bind(const gl::VertexArrayInfo& va) const;
 
 		/**
 		 * Bind a Framebuffer to the context and set the viewport.
 		 */
-		void setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x = 0, int y = 0);
+		void setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x = 0, int y = 0) const;
 
 		/**
 		 * Set the active ShaderProgram.
@@ -104,12 +108,12 @@ namespace render
 		/**
 		 * Set the viewport dimensions.
 		 */
-		void setViewport(int width, int height, int x = 0, int y = 0) { glViewport(x, y, width, height); }
+		void setViewport(int width, int height, int x = 0, int y = 0) const { glViewport(x, y, width, height); }
 
 		/**
 		 * Reset the viewport dimensions to cover the entire default framebuffer.
 		 */
-		void resetViewport() { glViewport(0, 0, frameWidth, frameHeight); }
+		void resetViewport() const { glViewport(0, 0, frameWidth, frameHeight); }
 
 		/**
 		 * Draw a range of vertices from a bound VertexArray, arranged in successive primitives.
@@ -142,22 +146,31 @@ namespace render
 		 * Sets up one or several memory barriers. The context will wait for operations of the given
 		 * types to complete before submitting more commands.
 		 */
-		void memoryBarrier(utils::EnumBitfield<gl::MemoryBarrierType> barriers) { glMemoryBarrier(barriers); }
+		void memoryBarrier(utils::EnumBitfield<gl::MemoryBarrierType> barriers) const { glMemoryBarrier(barriers); }
 
-		void enable(gl::ContextCapability cap)
+		/**
+		 * Enables a context capability.
+		 */
+		void enable(gl::ContextCapability cap) const
 		{
 			glEnable(utils::value(cap));
 		}
 
-		void disable(gl::ContextCapability cap)
+		/**
+		 * Disables a context capability.
+		 */
+		void disable(gl::ContextCapability cap) const
 		{
 			glDisable(utils::value(cap));
 		}
 
+		/**
+		 * Enables an indexed context capability.
+		 */
 		template <gl::ContextCapability CTCap, std::enable_if_t<utils::isOneOf(CTCap, gl::ContextCapability::ClipDistance,
 			gl::ContextCapability::Blend, gl::ContextCapability::ScissorTest),
 			int> = 0>
-		void enable(int index)
+		void enable(int index) const
 		{
 			if constexpr (CTCap == gl::ContextCapability::ClipDistance)
 				glEnable(utils::value(CTCap) + index);
@@ -165,10 +178,13 @@ namespace render
 				glEnablei(utils::value(CTCap), i);
 		}
 
+		/**
+		 * Disables an indexed context capability.
+		 */
 		template <gl::ContextCapability CTCap, std::enable_if_t<utils::isOneOf(CTCap, gl::ContextCapability::ClipDistance,
 			gl::ContextCapability::Blend, gl::ContextCapability::ScissorTest),
 			int> = 0>
-		void disable(int index)
+		void disable(int index) const
 		{
 			if constexpr (CTCap == gl::ContextCapability::ClipDistance)
 				glDisable(utils::value(CTCap) + index);
@@ -178,14 +194,14 @@ namespace render
 
 #define DEF_STATE_VAR_ACCESSORS(type, Type, func) \
 		template <gl::ContextStateVar CTVar, std::enable_if_t<gl::isStateVarNonIndexed(CTVar) && gl::isStateVar##Type##Valued(CTVar), int> = 0> \
-		type getStateVar() \
+		type getStateVar() const \
 		{ \
 			type v; \
 			func##v(utils::value(CTVar), &v); \
 			return v; \
 		} \
 		template <gl::ContextStateVar CTVar, std::enable_if_t<gl::isStateVarIndexed(CTVar) && gl::isStateVar##Type##Valued(CTVar), int> = 0> \
-		type getStateVar(int index) \
+		type getStateVar(int index) const \
 		{ \
 			type v; \
 			func##i_v(utils::value(CTVar), index, &v); \

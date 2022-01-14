@@ -63,7 +63,7 @@ private:
     static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {}
 };
 
-void printGLerror(DebugMessageSource source, DebugMessageType type, DebugMessageSeverity severity, int id, const std::string& msg, const void*)
+void printGLerror(DebugMessageSource source, DebugMessageType type, DebugMessageSeverity severity, int, const std::string& msg, const void*)
 {
     std::cerr << utils::name(source) << " reported " << utils::name(type) << " (severity " << utils::name(severity) << ") : " << msg << std::endl;
 }
@@ -73,6 +73,8 @@ int _main(int, char* argv[])
     GLFWContext context("Empty sample program", 1280, 720);
     
     // Bit of debug things ye
+    context.enable(ContextCapability::DebugOutput);
+    context.enable(ContextCapability::DebugOutputSynchronous);
     context.debugMessageCallback(printGLerror, nullptr);
     context.debugMessageControl(DebugMessageSource::DontCare, DebugMessageType::DontCare, DebugMessageSeverity::DontCare, true);
 
@@ -105,7 +107,8 @@ int _main(int, char* argv[])
 
         // Create stuff for off-screen rendering
         Framebuffer fb;
-        fb.attachTexture<FramebufferAttachment::Color>(0, fbtex, 0);
+        // Attach texture to color attachment #2 why not (careful to enable it later down the line)
+        fb.attachTexture<FramebufferAttachment::Color>(2, fbtex, 0);
         Renderbuffer rb;
         rb.setStorage(RenderbufferFormat::Depth, imgW, imgH);
         fb.attachRenderbuffer<FramebufferAttachment::Depth>(rb);
@@ -132,6 +135,8 @@ int _main(int, char* argv[])
         va.attachVertexBuffer(pointsBuf, vs);
 
         context.bind(va);
+        // Remember when we attached a texture on color attachment #2 ?
+        fb.enableColorAttachments(2);
         context.setFramebuffer(fb, FramebufferTarget::Draw, imgW, imgH);
         context.setShaderProgram(fbprog);
         // The texture was not auto-bound, thus we bind it ourselves
@@ -158,7 +163,7 @@ int _main(int, char* argv[])
         computeProg.attachFile(ShaderType::Compute, "Compute.glsl");
         computeProg.build();
         computeProg.registerTexture("uProcTex", proceduralMask, false);
-        computeProg.uniform("uResolution", 2u);
+        computeProg.uniform("uResolution", 4u);
         context.setShaderProgram(computeProg);
         context.bind(proceduralMask.getLevel(0), 0, AccessPolicy::WriteOnly, TextureFormat::Red8ui);
         context.dispatchCompute(64, 64, 1);

@@ -107,13 +107,11 @@ namespace render::gl
 		/**
 		 * Select color attachments for rendering.
 		 */
-		void enableColorAttachments(const std::vector<int>& attachments)
+		template <typename ... T>
+		void enableColorAttachments(T ... attachment)
 		{
-			std::vector<GLenum> a;
-			a.reserve(attachments.size());
-			for (int i : attachments)
-				a.push_back(GL_COLOR_ATTACHMENT0 + i);
-			glNamedFramebufferDrawBuffers(*_id, a.size(), a.data());
+			GLenum attachments[] = { static_cast<GLenum>(GL_COLOR_ATTACHMENT0 + attachment)... };
+			glNamedFramebufferDrawBuffers(*_id, sizeof...(attachment), attachments);
 		}
 
 		/**

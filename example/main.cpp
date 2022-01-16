@@ -70,6 +70,21 @@ void printGLerror(DebugMessageSource source, DebugMessageType type, DebugMessage
 
 int _main(int, char* argv[])
 {
+    // Coordinate swizzling fun to check that it works
+    math::vec2 hihi(1, 2);
+    math::vec3 haha(3, 4, 5);
+    math::vec4 huhu(6, 7, 8, 9);
+
+    haha.xz() = hihi.yx();
+    huhu.zyw() = haha.xyy();
+    // huhu.xx() = hihi; // rightfully doesn't compile
+
+    TRACE(hihi);
+    TRACE(haha);
+    TRACE(huhu);
+
+    // It works :)
+
     GLFWContext context("Empty sample program", 1280, 720);
     
     // Bit of debug things ye
@@ -187,7 +202,7 @@ int _main(int, char* argv[])
 
     {
         BufferMapping mapping = mesh.vertexBuffer.map(AccessPolicy::ReadOnly);
-        std::cout << "First position is " << mapping.get<math::vec3>(0) << std::endl;
+        TRACE("First position is " << mapping.get<math::vec3>(0));
     }
 
     ShaderProgram program;

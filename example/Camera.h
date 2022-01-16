@@ -12,10 +12,10 @@ struct Camera
 
 	Camera(float fov, float ratio, float near, float far) : m(math::mat4::Identity()), p(math::mat4::Identity()) { utils::perspective(p, fov, ratio, near, far); }
 
-	math::vec3 getPosition() const { return m.column(3).xyz; }
+	math::vec3 getPosition() const { return m.column(3).xyz(); }
 	void setPosition(float x, float y, float z) { m(0, 3) = x; m(1, 3) = y; m(2, 3) = z; }
 
-	void translate(const math::vec3& v) { m.column(3).xyz += (m * math::vec4(v, 0)).xyz; }
+	void translate(const math::vec3& v) { m.column(3).xyz() += (m * math::vec4(v, 0)).xyz(); }
 
 	void processInput(bool forward, bool back, bool up, bool down, bool left, bool right, float mouseDX, float mouseDY)
 	{

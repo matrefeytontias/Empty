@@ -4,6 +4,10 @@
 
 namespace math
 {
+    template <typename T> struct _vec2;
+    template <typename T> struct _vec3;
+    template <typename T> struct _vec4;
+
 // Array accessors and pointer casts are the same for vectors with any amount of components
 #define DEFINE_ACCESSORS T operator()(int k) const { return (&x)[k]; } \
     T& operator()(int k) { return (&x)[k]; } \
@@ -22,9 +26,7 @@ namespace math
         union
         {
             struct { T x; T y; };
-
             struct { T r; T g; };
-
             struct { T s; T t; };
         };
         
@@ -35,7 +37,7 @@ namespace math
         _vec2(U x, U y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
         
         template <typename U>
-        _vec2(const _vec2<U>& v) : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)) {}
+        _vec2(const _vec2<U>& v) { this->xy() = v; }
         
         // Access
         DEFINE_ACCESSORS;
@@ -51,6 +53,10 @@ namespace math
         OP(/);
 #undef OP
 
+    private:
+#include "vecref.inl"
+    public:
+#include "swizzling.inl"
     };
 
     template <typename T>
@@ -66,16 +72,8 @@ namespace math
         union
         {
             struct { T x; T y; T z; };
-            struct { _vec2<T> xy; T z; };
-            struct { T x; _vec2<T> yz; };
-
             struct { T r; T g; T b; };
-            struct { _vec2<T> rg; T b; };
-            struct { T r; _vec2<T> gb; };
-
             struct { T s; T t; T p; };
-            struct { _vec2<T> st; T p; };
-            struct { T s; _vec2<T> tp; };
         };
 
         // Constructors
@@ -85,13 +83,13 @@ namespace math
         _vec3(U x, U y, U z) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)) {}
         
         template <typename U>
-        _vec3(const _vec2<U>& xy, U z) : xy(xy), z(static_cast<T>(z)) {}
+        _vec3(const _vec2<U>& xy, U z) : z(static_cast<T>(z)) { this->xy() = xy; }
         
         template <typename U>
-        _vec3(U x, const _vec2<U>& yz) : x(static_cast<T>(x)), yz(yz) {}
+        _vec3(U x, const _vec2<U>& yz) : x(static_cast<T>(x)) { this->yz() = yz; }
         
         template <typename U>
-        _vec3(const _vec3<U>& v) : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)), z(static_cast<T>(v.z)) {}
+        _vec3(const _vec3<U>& v) { this->xyz() = v; }
         
         // Access
         DEFINE_ACCESSORS;
@@ -110,6 +108,13 @@ namespace math
         static _vec3<T> right;
         static _vec3<T> up;
         static _vec3<T> forward;
+
+    private:
+#include "vecref.inl"
+    public:
+#define VEC_HAS_Z
+#include "swizzling.inl"
+#undef VEC_HAS_Z
     };
 
     template <typename T>
@@ -132,22 +137,8 @@ namespace math
         union
         {
             struct { T x; T y; T z; T w; };
-            struct { _vec2<T> xy; _vec2<T> zw; };
-            struct { T x; _vec2<T> yz; T w; };
-            struct { T x; _vec3<T> yzw; };
-            struct { _vec3<T> xyz; T w; };
-
             struct { T r; T g; T b; T a; };
-            struct { _vec2<T> rg; _vec2<T> ba; };
-            struct { T r; _vec2<T> gb; T a; };
-            struct { T r; _vec3<T> gba; };
-            struct { _vec3<T> rgb; T a; };
-
             struct { T s; T t; T p; T q; };
-            struct { _vec2<T> st; _vec2<T> pq; };
-            struct { T s; _vec2<T> tp; T q; };
-            struct { T s; _vec3<T> tpq; };
-            struct { _vec3<T> stp; T q; };
         };
 
         // Constructors
@@ -157,22 +148,25 @@ namespace math
         _vec4(U x, U y, U z, U w) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
 
         template <typename U>
-        _vec4(const _vec2<U>& xy, U z, U w) : xy(xy), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
+        _vec4(const _vec2<U>& xy, U z, U w) : z(static_cast<T>(z)), w(static_cast<T>(w)) { this->xy() = xy; }
 
         template <typename U>
-        _vec4(U x, const _vec2<U>& yz, U w) : x(static_cast<T>(x)), yz(yz), w(static_cast<T>(w)) {}
+        _vec4(U x, const _vec2<U>& yz, U w) : x(static_cast<T>(x)), w(static_cast<T>(w)) { this->yz() = yz; }
 
         template <typename U>
-        _vec4(U x, U y, const _vec2<U>& zw) : x(static_cast<T>(x)), y(static_cast<T>(y)), zw(zw) {}
+        _vec4(U x, U y, const _vec2<U>& zw) : x(static_cast<T>(x)), y(static_cast<T>(y)) { this->zw() = zw; }
 
         template <typename U>
-        _vec4(const _vec2<U>& xy, const _vec2<U>& zw) : xy(xy), zw(zw) {}
+        _vec4(const _vec2<U>& xy, const _vec2<U>& zw) { this->xy() = xy; this->zw() = zw; }
 
         template <typename U, typename V>
-        _vec4(const _vec3<U>& xyz, V w) : xyz(xyz), w(static_cast<T>(w)) {}
+        _vec4(const _vec3<U>& xyz, V w) : w(static_cast<T>(w)) { this->xyz() = xyz; }
 
         template <typename U, typename V>
-        _vec4(U x, const _vec3<U>& yzw) : x(static_cast<T>(x)), yzw(yzw) {}
+        _vec4(U x, const _vec3<U>& yzw) : x(static_cast<T>(x)) { this->yzw() = yzw; }
+
+        template <typename U>
+        _vec4(const _vec4<U>& v) { this->xyzw() = v; }
         
         // Access
         DEFINE_ACCESSORS;
@@ -191,6 +185,15 @@ namespace math
         static _vec4<T> right;
         static _vec4<T> up;
         static _vec4<T> forward;
+
+    private:
+#include "vecref.inl"
+    public:
+#define VEC_HAS_Z
+#define VEC_HAS_W
+#include "swizzling.inl"
+#undef VEC_HAS_W
+#undef VEC_HAS_Z
     };
 
     template <typename T>

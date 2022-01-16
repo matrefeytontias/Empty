@@ -37,7 +37,9 @@ set(SOURCES
 	src/Empty/math/mat.h
 	src/Empty/math/mathutils.cpp
 	src/Empty/math/mathutils.hpp
+	src/Empty/math/swizzling.inl
 	src/Empty/math/vec.h
+	src/Empty/math/vecref.inl
 	src/Empty/render/Context.cpp
 	src/Empty/render/Context.hpp
 	src/Empty/render/gl/Buffer.h

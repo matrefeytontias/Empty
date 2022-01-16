@@ -10,8 +10,10 @@ struct _vec2ref
     template <typename Type = T, std::enable_if_t<!std::is_const_v<Type>, int> = 0>
     _vec2ref& operator=(const _vec2<T>& a)
     {
-        x = a.x;
-        y = a.y;
+        // Avoid aliasing
+        T x = a.x, y = a.y;
+        this->x = x;
+        this->y = y;
         return *this;
     }
 
@@ -42,9 +44,11 @@ struct _vec3ref
     template <typename Type = T, std::enable_if_t<!std::is_const_v<Type>, int> = 0>
     _vec3ref& operator=(const _vec3<T>& a)
     {
-        x = a.x;
-        y = a.y;
-        z = a.z;
+        // Avoid aliasing
+        T x = a.x, y = a.y, z = a.z;
+        this->x = x;
+        this->y = y;
+        this->z = z;
         return *this;
     }
 
@@ -76,10 +80,12 @@ struct _vec4ref
     template <typename Type = T, std::enable_if_t<!std::is_const_v<Type>, int> = 0>
     _vec4ref& operator=(const _vec4<T>& a)
     {
-        x = a.x;
-        y = a.y;
-        z = a.z;
-        w = a.w;
+        // Avoid aliasing
+        T x = a.x, y = a.y, z = a.z, w = a.w;
+        this->x = x;
+        this->y = y;
+        this->z = z;
+        this->w = w;
         return *this;
     }
 

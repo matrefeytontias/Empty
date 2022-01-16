@@ -75,8 +75,9 @@ int _main(int, char* argv[])
     math::vec3 haha(3, 4, 5);
     math::vec4 huhu(6, 7, 8, 9);
 
-    haha.xz() = hihi.yx();
-    huhu.zyw() = haha.xyy();
+    hihi.yx() = hihi;
+    haha.xz() = hihi.yy();
+    huhu.zyw() = haha.xzy();
     // huhu.xx() = hihi; // rightfully doesn't compile
 
     TRACE(hihi);

@@ -86,6 +86,11 @@ int _main(int, char* argv[])
 
     // It works :)
 
+    // Try our math functions for a bit
+    TRACE(math::normalize(hihi) << ", " << math::normalize(haha.yx()) << ", " << math::normalize(huhu));
+    // TODO : not have to explicitely provide the template parameter with mutable coordinate swizzling
+    TRACE(math::min<float>(hihi.xyy(), haha.zyx()) << ", " << math::max(huhu, haha.zzyx()) << ", " << math::clamp(huhu, 2.f, 5.f));
+
     GLFWContext context("Empty sample program", 1280, 720);
     
     // Bit of debug things ye

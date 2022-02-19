@@ -44,10 +44,10 @@ with open("swizzling.inl", "w") as f:
             permuts = sorted(permut)
             for indices in permuts:
                 for letters in [[coords[i][int(k)] for k in indices] for i in range(len(coords))]:
-                    if hasDuplicates(indices):
-                        f.write("_vec" + str(k) + "ref<const T> " + "".join(letters) +
-                                "() const { return _vec" + str(k) + "ref(" + ",".join(letters) + "); }\n")
-                    else:
-                        f.write("_vec" + str(k) + "ref<T> " + "".join(letters) +
-                                "() { return _vec" + str(k) + "ref(" + ",".join(letters) + "); }\n")
+                    # always write the immutable swizzling, and write the mutable one when available
+                    f.write("const auto " + "".join(letters) +
+                            "() const { return _vec" + str(k) + "<concrete_elem>(" + ",".join(letters) + "); }\n")
+                    if not hasDuplicates(indices):
+                        f.write("auto " + "".join(letters) +
+                                "() { return _vec" + str(k) + "<ref_elem>(" + ",".join(letters) + "); }\n")
     f.write("#endif\n#endif\n")

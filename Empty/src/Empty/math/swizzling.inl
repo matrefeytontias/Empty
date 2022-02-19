@@ -1,1014 +1,1194 @@
 // This file is auto-generated. Do not edit !
 
-_vec2ref<const T> xx() const { return _vec2ref(x,x); }
-_vec2ref<const T> rr() const { return _vec2ref(r,r); }
-_vec2ref<const T> ss() const { return _vec2ref(s,s); }
-_vec2ref<T> xy() { return _vec2ref(x,y); }
-_vec2ref<T> rg() { return _vec2ref(r,g); }
-_vec2ref<T> st() { return _vec2ref(s,t); }
-_vec2ref<T> yx() { return _vec2ref(y,x); }
-_vec2ref<T> gr() { return _vec2ref(g,r); }
-_vec2ref<T> ts() { return _vec2ref(t,s); }
-_vec2ref<const T> yy() const { return _vec2ref(y,y); }
-_vec2ref<const T> gg() const { return _vec2ref(g,g); }
-_vec2ref<const T> tt() const { return _vec2ref(t,t); }
-_vec3ref<const T> xxx() const { return _vec3ref(x,x,x); }
-_vec3ref<const T> rrr() const { return _vec3ref(r,r,r); }
-_vec3ref<const T> sss() const { return _vec3ref(s,s,s); }
-_vec3ref<const T> xxy() const { return _vec3ref(x,x,y); }
-_vec3ref<const T> rrg() const { return _vec3ref(r,r,g); }
-_vec3ref<const T> sst() const { return _vec3ref(s,s,t); }
-_vec3ref<const T> xyx() const { return _vec3ref(x,y,x); }
-_vec3ref<const T> rgr() const { return _vec3ref(r,g,r); }
-_vec3ref<const T> sts() const { return _vec3ref(s,t,s); }
-_vec3ref<const T> xyy() const { return _vec3ref(x,y,y); }
-_vec3ref<const T> rgg() const { return _vec3ref(r,g,g); }
-_vec3ref<const T> stt() const { return _vec3ref(s,t,t); }
-_vec3ref<const T> yxx() const { return _vec3ref(y,x,x); }
-_vec3ref<const T> grr() const { return _vec3ref(g,r,r); }
-_vec3ref<const T> tss() const { return _vec3ref(t,s,s); }
-_vec3ref<const T> yxy() const { return _vec3ref(y,x,y); }
-_vec3ref<const T> grg() const { return _vec3ref(g,r,g); }
-_vec3ref<const T> tst() const { return _vec3ref(t,s,t); }
-_vec3ref<const T> yyx() const { return _vec3ref(y,y,x); }
-_vec3ref<const T> ggr() const { return _vec3ref(g,g,r); }
-_vec3ref<const T> tts() const { return _vec3ref(t,t,s); }
-_vec3ref<const T> yyy() const { return _vec3ref(y,y,y); }
-_vec3ref<const T> ggg() const { return _vec3ref(g,g,g); }
-_vec3ref<const T> ttt() const { return _vec3ref(t,t,t); }
-_vec4ref<const T> xxxx() const { return _vec4ref(x,x,x,x); }
-_vec4ref<const T> rrrr() const { return _vec4ref(r,r,r,r); }
-_vec4ref<const T> ssss() const { return _vec4ref(s,s,s,s); }
-_vec4ref<const T> xxxy() const { return _vec4ref(x,x,x,y); }
-_vec4ref<const T> rrrg() const { return _vec4ref(r,r,r,g); }
-_vec4ref<const T> ssst() const { return _vec4ref(s,s,s,t); }
-_vec4ref<const T> xxyx() const { return _vec4ref(x,x,y,x); }
-_vec4ref<const T> rrgr() const { return _vec4ref(r,r,g,r); }
-_vec4ref<const T> ssts() const { return _vec4ref(s,s,t,s); }
-_vec4ref<const T> xxyy() const { return _vec4ref(x,x,y,y); }
-_vec4ref<const T> rrgg() const { return _vec4ref(r,r,g,g); }
-_vec4ref<const T> sstt() const { return _vec4ref(s,s,t,t); }
-_vec4ref<const T> xyxx() const { return _vec4ref(x,y,x,x); }
-_vec4ref<const T> rgrr() const { return _vec4ref(r,g,r,r); }
-_vec4ref<const T> stss() const { return _vec4ref(s,t,s,s); }
-_vec4ref<const T> xyxy() const { return _vec4ref(x,y,x,y); }
-_vec4ref<const T> rgrg() const { return _vec4ref(r,g,r,g); }
-_vec4ref<const T> stst() const { return _vec4ref(s,t,s,t); }
-_vec4ref<const T> xyyx() const { return _vec4ref(x,y,y,x); }
-_vec4ref<const T> rggr() const { return _vec4ref(r,g,g,r); }
-_vec4ref<const T> stts() const { return _vec4ref(s,t,t,s); }
-_vec4ref<const T> xyyy() const { return _vec4ref(x,y,y,y); }
-_vec4ref<const T> rggg() const { return _vec4ref(r,g,g,g); }
-_vec4ref<const T> sttt() const { return _vec4ref(s,t,t,t); }
-_vec4ref<const T> yxxx() const { return _vec4ref(y,x,x,x); }
-_vec4ref<const T> grrr() const { return _vec4ref(g,r,r,r); }
-_vec4ref<const T> tsss() const { return _vec4ref(t,s,s,s); }
-_vec4ref<const T> yxxy() const { return _vec4ref(y,x,x,y); }
-_vec4ref<const T> grrg() const { return _vec4ref(g,r,r,g); }
-_vec4ref<const T> tsst() const { return _vec4ref(t,s,s,t); }
-_vec4ref<const T> yxyx() const { return _vec4ref(y,x,y,x); }
-_vec4ref<const T> grgr() const { return _vec4ref(g,r,g,r); }
-_vec4ref<const T> tsts() const { return _vec4ref(t,s,t,s); }
-_vec4ref<const T> yxyy() const { return _vec4ref(y,x,y,y); }
-_vec4ref<const T> grgg() const { return _vec4ref(g,r,g,g); }
-_vec4ref<const T> tstt() const { return _vec4ref(t,s,t,t); }
-_vec4ref<const T> yyxx() const { return _vec4ref(y,y,x,x); }
-_vec4ref<const T> ggrr() const { return _vec4ref(g,g,r,r); }
-_vec4ref<const T> ttss() const { return _vec4ref(t,t,s,s); }
-_vec4ref<const T> yyxy() const { return _vec4ref(y,y,x,y); }
-_vec4ref<const T> ggrg() const { return _vec4ref(g,g,r,g); }
-_vec4ref<const T> ttst() const { return _vec4ref(t,t,s,t); }
-_vec4ref<const T> yyyx() const { return _vec4ref(y,y,y,x); }
-_vec4ref<const T> gggr() const { return _vec4ref(g,g,g,r); }
-_vec4ref<const T> ttts() const { return _vec4ref(t,t,t,s); }
-_vec4ref<const T> yyyy() const { return _vec4ref(y,y,y,y); }
-_vec4ref<const T> gggg() const { return _vec4ref(g,g,g,g); }
-_vec4ref<const T> tttt() const { return _vec4ref(t,t,t,t); }
+const auto xx() const { return _vec2<concrete_elem>(x,x); }
+const auto rr() const { return _vec2<concrete_elem>(r,r); }
+const auto ss() const { return _vec2<concrete_elem>(s,s); }
+const auto xy() const { return _vec2<concrete_elem>(x,y); }
+auto xy() { return _vec2<ref_elem>(x,y); }
+const auto rg() const { return _vec2<concrete_elem>(r,g); }
+auto rg() { return _vec2<ref_elem>(r,g); }
+const auto st() const { return _vec2<concrete_elem>(s,t); }
+auto st() { return _vec2<ref_elem>(s,t); }
+const auto yx() const { return _vec2<concrete_elem>(y,x); }
+auto yx() { return _vec2<ref_elem>(y,x); }
+const auto gr() const { return _vec2<concrete_elem>(g,r); }
+auto gr() { return _vec2<ref_elem>(g,r); }
+const auto ts() const { return _vec2<concrete_elem>(t,s); }
+auto ts() { return _vec2<ref_elem>(t,s); }
+const auto yy() const { return _vec2<concrete_elem>(y,y); }
+const auto gg() const { return _vec2<concrete_elem>(g,g); }
+const auto tt() const { return _vec2<concrete_elem>(t,t); }
+const auto xxx() const { return _vec3<concrete_elem>(x,x,x); }
+const auto rrr() const { return _vec3<concrete_elem>(r,r,r); }
+const auto sss() const { return _vec3<concrete_elem>(s,s,s); }
+const auto xxy() const { return _vec3<concrete_elem>(x,x,y); }
+const auto rrg() const { return _vec3<concrete_elem>(r,r,g); }
+const auto sst() const { return _vec3<concrete_elem>(s,s,t); }
+const auto xyx() const { return _vec3<concrete_elem>(x,y,x); }
+const auto rgr() const { return _vec3<concrete_elem>(r,g,r); }
+const auto sts() const { return _vec3<concrete_elem>(s,t,s); }
+const auto xyy() const { return _vec3<concrete_elem>(x,y,y); }
+const auto rgg() const { return _vec3<concrete_elem>(r,g,g); }
+const auto stt() const { return _vec3<concrete_elem>(s,t,t); }
+const auto yxx() const { return _vec3<concrete_elem>(y,x,x); }
+const auto grr() const { return _vec3<concrete_elem>(g,r,r); }
+const auto tss() const { return _vec3<concrete_elem>(t,s,s); }
+const auto yxy() const { return _vec3<concrete_elem>(y,x,y); }
+const auto grg() const { return _vec3<concrete_elem>(g,r,g); }
+const auto tst() const { return _vec3<concrete_elem>(t,s,t); }
+const auto yyx() const { return _vec3<concrete_elem>(y,y,x); }
+const auto ggr() const { return _vec3<concrete_elem>(g,g,r); }
+const auto tts() const { return _vec3<concrete_elem>(t,t,s); }
+const auto yyy() const { return _vec3<concrete_elem>(y,y,y); }
+const auto ggg() const { return _vec3<concrete_elem>(g,g,g); }
+const auto ttt() const { return _vec3<concrete_elem>(t,t,t); }
+const auto xxxx() const { return _vec4<concrete_elem>(x,x,x,x); }
+const auto rrrr() const { return _vec4<concrete_elem>(r,r,r,r); }
+const auto ssss() const { return _vec4<concrete_elem>(s,s,s,s); }
+const auto xxxy() const { return _vec4<concrete_elem>(x,x,x,y); }
+const auto rrrg() const { return _vec4<concrete_elem>(r,r,r,g); }
+const auto ssst() const { return _vec4<concrete_elem>(s,s,s,t); }
+const auto xxyx() const { return _vec4<concrete_elem>(x,x,y,x); }
+const auto rrgr() const { return _vec4<concrete_elem>(r,r,g,r); }
+const auto ssts() const { return _vec4<concrete_elem>(s,s,t,s); }
+const auto xxyy() const { return _vec4<concrete_elem>(x,x,y,y); }
+const auto rrgg() const { return _vec4<concrete_elem>(r,r,g,g); }
+const auto sstt() const { return _vec4<concrete_elem>(s,s,t,t); }
+const auto xyxx() const { return _vec4<concrete_elem>(x,y,x,x); }
+const auto rgrr() const { return _vec4<concrete_elem>(r,g,r,r); }
+const auto stss() const { return _vec4<concrete_elem>(s,t,s,s); }
+const auto xyxy() const { return _vec4<concrete_elem>(x,y,x,y); }
+const auto rgrg() const { return _vec4<concrete_elem>(r,g,r,g); }
+const auto stst() const { return _vec4<concrete_elem>(s,t,s,t); }
+const auto xyyx() const { return _vec4<concrete_elem>(x,y,y,x); }
+const auto rggr() const { return _vec4<concrete_elem>(r,g,g,r); }
+const auto stts() const { return _vec4<concrete_elem>(s,t,t,s); }
+const auto xyyy() const { return _vec4<concrete_elem>(x,y,y,y); }
+const auto rggg() const { return _vec4<concrete_elem>(r,g,g,g); }
+const auto sttt() const { return _vec4<concrete_elem>(s,t,t,t); }
+const auto yxxx() const { return _vec4<concrete_elem>(y,x,x,x); }
+const auto grrr() const { return _vec4<concrete_elem>(g,r,r,r); }
+const auto tsss() const { return _vec4<concrete_elem>(t,s,s,s); }
+const auto yxxy() const { return _vec4<concrete_elem>(y,x,x,y); }
+const auto grrg() const { return _vec4<concrete_elem>(g,r,r,g); }
+const auto tsst() const { return _vec4<concrete_elem>(t,s,s,t); }
+const auto yxyx() const { return _vec4<concrete_elem>(y,x,y,x); }
+const auto grgr() const { return _vec4<concrete_elem>(g,r,g,r); }
+const auto tsts() const { return _vec4<concrete_elem>(t,s,t,s); }
+const auto yxyy() const { return _vec4<concrete_elem>(y,x,y,y); }
+const auto grgg() const { return _vec4<concrete_elem>(g,r,g,g); }
+const auto tstt() const { return _vec4<concrete_elem>(t,s,t,t); }
+const auto yyxx() const { return _vec4<concrete_elem>(y,y,x,x); }
+const auto ggrr() const { return _vec4<concrete_elem>(g,g,r,r); }
+const auto ttss() const { return _vec4<concrete_elem>(t,t,s,s); }
+const auto yyxy() const { return _vec4<concrete_elem>(y,y,x,y); }
+const auto ggrg() const { return _vec4<concrete_elem>(g,g,r,g); }
+const auto ttst() const { return _vec4<concrete_elem>(t,t,s,t); }
+const auto yyyx() const { return _vec4<concrete_elem>(y,y,y,x); }
+const auto gggr() const { return _vec4<concrete_elem>(g,g,g,r); }
+const auto ttts() const { return _vec4<concrete_elem>(t,t,t,s); }
+const auto yyyy() const { return _vec4<concrete_elem>(y,y,y,y); }
+const auto gggg() const { return _vec4<concrete_elem>(g,g,g,g); }
+const auto tttt() const { return _vec4<concrete_elem>(t,t,t,t); }
 #ifdef VEC_HAS_Z
-_vec2ref<T> xz() { return _vec2ref(x,z); }
-_vec2ref<T> rb() { return _vec2ref(r,b); }
-_vec2ref<T> sp() { return _vec2ref(s,p); }
-_vec2ref<T> yz() { return _vec2ref(y,z); }
-_vec2ref<T> gb() { return _vec2ref(g,b); }
-_vec2ref<T> tp() { return _vec2ref(t,p); }
-_vec2ref<T> zx() { return _vec2ref(z,x); }
-_vec2ref<T> br() { return _vec2ref(b,r); }
-_vec2ref<T> ps() { return _vec2ref(p,s); }
-_vec2ref<T> zy() { return _vec2ref(z,y); }
-_vec2ref<T> bg() { return _vec2ref(b,g); }
-_vec2ref<T> pt() { return _vec2ref(p,t); }
-_vec2ref<const T> zz() const { return _vec2ref(z,z); }
-_vec2ref<const T> bb() const { return _vec2ref(b,b); }
-_vec2ref<const T> pp() const { return _vec2ref(p,p); }
-_vec3ref<const T> xxz() const { return _vec3ref(x,x,z); }
-_vec3ref<const T> rrb() const { return _vec3ref(r,r,b); }
-_vec3ref<const T> ssp() const { return _vec3ref(s,s,p); }
-_vec3ref<T> xyz() { return _vec3ref(x,y,z); }
-_vec3ref<T> rgb() { return _vec3ref(r,g,b); }
-_vec3ref<T> stp() { return _vec3ref(s,t,p); }
-_vec3ref<const T> xzx() const { return _vec3ref(x,z,x); }
-_vec3ref<const T> rbr() const { return _vec3ref(r,b,r); }
-_vec3ref<const T> sps() const { return _vec3ref(s,p,s); }
-_vec3ref<T> xzy() { return _vec3ref(x,z,y); }
-_vec3ref<T> rbg() { return _vec3ref(r,b,g); }
-_vec3ref<T> spt() { return _vec3ref(s,p,t); }
-_vec3ref<const T> xzz() const { return _vec3ref(x,z,z); }
-_vec3ref<const T> rbb() const { return _vec3ref(r,b,b); }
-_vec3ref<const T> spp() const { return _vec3ref(s,p,p); }
-_vec3ref<T> yxz() { return _vec3ref(y,x,z); }
-_vec3ref<T> grb() { return _vec3ref(g,r,b); }
-_vec3ref<T> tsp() { return _vec3ref(t,s,p); }
-_vec3ref<const T> yyz() const { return _vec3ref(y,y,z); }
-_vec3ref<const T> ggb() const { return _vec3ref(g,g,b); }
-_vec3ref<const T> ttp() const { return _vec3ref(t,t,p); }
-_vec3ref<T> yzx() { return _vec3ref(y,z,x); }
-_vec3ref<T> gbr() { return _vec3ref(g,b,r); }
-_vec3ref<T> tps() { return _vec3ref(t,p,s); }
-_vec3ref<const T> yzy() const { return _vec3ref(y,z,y); }
-_vec3ref<const T> gbg() const { return _vec3ref(g,b,g); }
-_vec3ref<const T> tpt() const { return _vec3ref(t,p,t); }
-_vec3ref<const T> yzz() const { return _vec3ref(y,z,z); }
-_vec3ref<const T> gbb() const { return _vec3ref(g,b,b); }
-_vec3ref<const T> tpp() const { return _vec3ref(t,p,p); }
-_vec3ref<const T> zxx() const { return _vec3ref(z,x,x); }
-_vec3ref<const T> brr() const { return _vec3ref(b,r,r); }
-_vec3ref<const T> pss() const { return _vec3ref(p,s,s); }
-_vec3ref<T> zxy() { return _vec3ref(z,x,y); }
-_vec3ref<T> brg() { return _vec3ref(b,r,g); }
-_vec3ref<T> pst() { return _vec3ref(p,s,t); }
-_vec3ref<const T> zxz() const { return _vec3ref(z,x,z); }
-_vec3ref<const T> brb() const { return _vec3ref(b,r,b); }
-_vec3ref<const T> psp() const { return _vec3ref(p,s,p); }
-_vec3ref<T> zyx() { return _vec3ref(z,y,x); }
-_vec3ref<T> bgr() { return _vec3ref(b,g,r); }
-_vec3ref<T> pts() { return _vec3ref(p,t,s); }
-_vec3ref<const T> zyy() const { return _vec3ref(z,y,y); }
-_vec3ref<const T> bgg() const { return _vec3ref(b,g,g); }
-_vec3ref<const T> ptt() const { return _vec3ref(p,t,t); }
-_vec3ref<const T> zyz() const { return _vec3ref(z,y,z); }
-_vec3ref<const T> bgb() const { return _vec3ref(b,g,b); }
-_vec3ref<const T> ptp() const { return _vec3ref(p,t,p); }
-_vec3ref<const T> zzx() const { return _vec3ref(z,z,x); }
-_vec3ref<const T> bbr() const { return _vec3ref(b,b,r); }
-_vec3ref<const T> pps() const { return _vec3ref(p,p,s); }
-_vec3ref<const T> zzy() const { return _vec3ref(z,z,y); }
-_vec3ref<const T> bbg() const { return _vec3ref(b,b,g); }
-_vec3ref<const T> ppt() const { return _vec3ref(p,p,t); }
-_vec3ref<const T> zzz() const { return _vec3ref(z,z,z); }
-_vec3ref<const T> bbb() const { return _vec3ref(b,b,b); }
-_vec3ref<const T> ppp() const { return _vec3ref(p,p,p); }
-_vec4ref<const T> xxxz() const { return _vec4ref(x,x,x,z); }
-_vec4ref<const T> rrrb() const { return _vec4ref(r,r,r,b); }
-_vec4ref<const T> sssp() const { return _vec4ref(s,s,s,p); }
-_vec4ref<const T> xxyz() const { return _vec4ref(x,x,y,z); }
-_vec4ref<const T> rrgb() const { return _vec4ref(r,r,g,b); }
-_vec4ref<const T> sstp() const { return _vec4ref(s,s,t,p); }
-_vec4ref<const T> xxzx() const { return _vec4ref(x,x,z,x); }
-_vec4ref<const T> rrbr() const { return _vec4ref(r,r,b,r); }
-_vec4ref<const T> ssps() const { return _vec4ref(s,s,p,s); }
-_vec4ref<const T> xxzy() const { return _vec4ref(x,x,z,y); }
-_vec4ref<const T> rrbg() const { return _vec4ref(r,r,b,g); }
-_vec4ref<const T> sspt() const { return _vec4ref(s,s,p,t); }
-_vec4ref<const T> xxzz() const { return _vec4ref(x,x,z,z); }
-_vec4ref<const T> rrbb() const { return _vec4ref(r,r,b,b); }
-_vec4ref<const T> sspp() const { return _vec4ref(s,s,p,p); }
-_vec4ref<const T> xyxz() const { return _vec4ref(x,y,x,z); }
-_vec4ref<const T> rgrb() const { return _vec4ref(r,g,r,b); }
-_vec4ref<const T> stsp() const { return _vec4ref(s,t,s,p); }
-_vec4ref<const T> xyyz() const { return _vec4ref(x,y,y,z); }
-_vec4ref<const T> rggb() const { return _vec4ref(r,g,g,b); }
-_vec4ref<const T> sttp() const { return _vec4ref(s,t,t,p); }
-_vec4ref<const T> xyzx() const { return _vec4ref(x,y,z,x); }
-_vec4ref<const T> rgbr() const { return _vec4ref(r,g,b,r); }
-_vec4ref<const T> stps() const { return _vec4ref(s,t,p,s); }
-_vec4ref<const T> xyzy() const { return _vec4ref(x,y,z,y); }
-_vec4ref<const T> rgbg() const { return _vec4ref(r,g,b,g); }
-_vec4ref<const T> stpt() const { return _vec4ref(s,t,p,t); }
-_vec4ref<const T> xyzz() const { return _vec4ref(x,y,z,z); }
-_vec4ref<const T> rgbb() const { return _vec4ref(r,g,b,b); }
-_vec4ref<const T> stpp() const { return _vec4ref(s,t,p,p); }
-_vec4ref<const T> xzxx() const { return _vec4ref(x,z,x,x); }
-_vec4ref<const T> rbrr() const { return _vec4ref(r,b,r,r); }
-_vec4ref<const T> spss() const { return _vec4ref(s,p,s,s); }
-_vec4ref<const T> xzxy() const { return _vec4ref(x,z,x,y); }
-_vec4ref<const T> rbrg() const { return _vec4ref(r,b,r,g); }
-_vec4ref<const T> spst() const { return _vec4ref(s,p,s,t); }
-_vec4ref<const T> xzxz() const { return _vec4ref(x,z,x,z); }
-_vec4ref<const T> rbrb() const { return _vec4ref(r,b,r,b); }
-_vec4ref<const T> spsp() const { return _vec4ref(s,p,s,p); }
-_vec4ref<const T> xzyx() const { return _vec4ref(x,z,y,x); }
-_vec4ref<const T> rbgr() const { return _vec4ref(r,b,g,r); }
-_vec4ref<const T> spts() const { return _vec4ref(s,p,t,s); }
-_vec4ref<const T> xzyy() const { return _vec4ref(x,z,y,y); }
-_vec4ref<const T> rbgg() const { return _vec4ref(r,b,g,g); }
-_vec4ref<const T> sptt() const { return _vec4ref(s,p,t,t); }
-_vec4ref<const T> xzyz() const { return _vec4ref(x,z,y,z); }
-_vec4ref<const T> rbgb() const { return _vec4ref(r,b,g,b); }
-_vec4ref<const T> sptp() const { return _vec4ref(s,p,t,p); }
-_vec4ref<const T> xzzx() const { return _vec4ref(x,z,z,x); }
-_vec4ref<const T> rbbr() const { return _vec4ref(r,b,b,r); }
-_vec4ref<const T> spps() const { return _vec4ref(s,p,p,s); }
-_vec4ref<const T> xzzy() const { return _vec4ref(x,z,z,y); }
-_vec4ref<const T> rbbg() const { return _vec4ref(r,b,b,g); }
-_vec4ref<const T> sppt() const { return _vec4ref(s,p,p,t); }
-_vec4ref<const T> xzzz() const { return _vec4ref(x,z,z,z); }
-_vec4ref<const T> rbbb() const { return _vec4ref(r,b,b,b); }
-_vec4ref<const T> sppp() const { return _vec4ref(s,p,p,p); }
-_vec4ref<const T> yxxz() const { return _vec4ref(y,x,x,z); }
-_vec4ref<const T> grrb() const { return _vec4ref(g,r,r,b); }
-_vec4ref<const T> tssp() const { return _vec4ref(t,s,s,p); }
-_vec4ref<const T> yxyz() const { return _vec4ref(y,x,y,z); }
-_vec4ref<const T> grgb() const { return _vec4ref(g,r,g,b); }
-_vec4ref<const T> tstp() const { return _vec4ref(t,s,t,p); }
-_vec4ref<const T> yxzx() const { return _vec4ref(y,x,z,x); }
-_vec4ref<const T> grbr() const { return _vec4ref(g,r,b,r); }
-_vec4ref<const T> tsps() const { return _vec4ref(t,s,p,s); }
-_vec4ref<const T> yxzy() const { return _vec4ref(y,x,z,y); }
-_vec4ref<const T> grbg() const { return _vec4ref(g,r,b,g); }
-_vec4ref<const T> tspt() const { return _vec4ref(t,s,p,t); }
-_vec4ref<const T> yxzz() const { return _vec4ref(y,x,z,z); }
-_vec4ref<const T> grbb() const { return _vec4ref(g,r,b,b); }
-_vec4ref<const T> tspp() const { return _vec4ref(t,s,p,p); }
-_vec4ref<const T> yyxz() const { return _vec4ref(y,y,x,z); }
-_vec4ref<const T> ggrb() const { return _vec4ref(g,g,r,b); }
-_vec4ref<const T> ttsp() const { return _vec4ref(t,t,s,p); }
-_vec4ref<const T> yyyz() const { return _vec4ref(y,y,y,z); }
-_vec4ref<const T> gggb() const { return _vec4ref(g,g,g,b); }
-_vec4ref<const T> tttp() const { return _vec4ref(t,t,t,p); }
-_vec4ref<const T> yyzx() const { return _vec4ref(y,y,z,x); }
-_vec4ref<const T> ggbr() const { return _vec4ref(g,g,b,r); }
-_vec4ref<const T> ttps() const { return _vec4ref(t,t,p,s); }
-_vec4ref<const T> yyzy() const { return _vec4ref(y,y,z,y); }
-_vec4ref<const T> ggbg() const { return _vec4ref(g,g,b,g); }
-_vec4ref<const T> ttpt() const { return _vec4ref(t,t,p,t); }
-_vec4ref<const T> yyzz() const { return _vec4ref(y,y,z,z); }
-_vec4ref<const T> ggbb() const { return _vec4ref(g,g,b,b); }
-_vec4ref<const T> ttpp() const { return _vec4ref(t,t,p,p); }
-_vec4ref<const T> yzxx() const { return _vec4ref(y,z,x,x); }
-_vec4ref<const T> gbrr() const { return _vec4ref(g,b,r,r); }
-_vec4ref<const T> tpss() const { return _vec4ref(t,p,s,s); }
-_vec4ref<const T> yzxy() const { return _vec4ref(y,z,x,y); }
-_vec4ref<const T> gbrg() const { return _vec4ref(g,b,r,g); }
-_vec4ref<const T> tpst() const { return _vec4ref(t,p,s,t); }
-_vec4ref<const T> yzxz() const { return _vec4ref(y,z,x,z); }
-_vec4ref<const T> gbrb() const { return _vec4ref(g,b,r,b); }
-_vec4ref<const T> tpsp() const { return _vec4ref(t,p,s,p); }
-_vec4ref<const T> yzyx() const { return _vec4ref(y,z,y,x); }
-_vec4ref<const T> gbgr() const { return _vec4ref(g,b,g,r); }
-_vec4ref<const T> tpts() const { return _vec4ref(t,p,t,s); }
-_vec4ref<const T> yzyy() const { return _vec4ref(y,z,y,y); }
-_vec4ref<const T> gbgg() const { return _vec4ref(g,b,g,g); }
-_vec4ref<const T> tptt() const { return _vec4ref(t,p,t,t); }
-_vec4ref<const T> yzyz() const { return _vec4ref(y,z,y,z); }
-_vec4ref<const T> gbgb() const { return _vec4ref(g,b,g,b); }
-_vec4ref<const T> tptp() const { return _vec4ref(t,p,t,p); }
-_vec4ref<const T> yzzx() const { return _vec4ref(y,z,z,x); }
-_vec4ref<const T> gbbr() const { return _vec4ref(g,b,b,r); }
-_vec4ref<const T> tpps() const { return _vec4ref(t,p,p,s); }
-_vec4ref<const T> yzzy() const { return _vec4ref(y,z,z,y); }
-_vec4ref<const T> gbbg() const { return _vec4ref(g,b,b,g); }
-_vec4ref<const T> tppt() const { return _vec4ref(t,p,p,t); }
-_vec4ref<const T> yzzz() const { return _vec4ref(y,z,z,z); }
-_vec4ref<const T> gbbb() const { return _vec4ref(g,b,b,b); }
-_vec4ref<const T> tppp() const { return _vec4ref(t,p,p,p); }
-_vec4ref<const T> zxxx() const { return _vec4ref(z,x,x,x); }
-_vec4ref<const T> brrr() const { return _vec4ref(b,r,r,r); }
-_vec4ref<const T> psss() const { return _vec4ref(p,s,s,s); }
-_vec4ref<const T> zxxy() const { return _vec4ref(z,x,x,y); }
-_vec4ref<const T> brrg() const { return _vec4ref(b,r,r,g); }
-_vec4ref<const T> psst() const { return _vec4ref(p,s,s,t); }
-_vec4ref<const T> zxxz() const { return _vec4ref(z,x,x,z); }
-_vec4ref<const T> brrb() const { return _vec4ref(b,r,r,b); }
-_vec4ref<const T> pssp() const { return _vec4ref(p,s,s,p); }
-_vec4ref<const T> zxyx() const { return _vec4ref(z,x,y,x); }
-_vec4ref<const T> brgr() const { return _vec4ref(b,r,g,r); }
-_vec4ref<const T> psts() const { return _vec4ref(p,s,t,s); }
-_vec4ref<const T> zxyy() const { return _vec4ref(z,x,y,y); }
-_vec4ref<const T> brgg() const { return _vec4ref(b,r,g,g); }
-_vec4ref<const T> pstt() const { return _vec4ref(p,s,t,t); }
-_vec4ref<const T> zxyz() const { return _vec4ref(z,x,y,z); }
-_vec4ref<const T> brgb() const { return _vec4ref(b,r,g,b); }
-_vec4ref<const T> pstp() const { return _vec4ref(p,s,t,p); }
-_vec4ref<const T> zxzx() const { return _vec4ref(z,x,z,x); }
-_vec4ref<const T> brbr() const { return _vec4ref(b,r,b,r); }
-_vec4ref<const T> psps() const { return _vec4ref(p,s,p,s); }
-_vec4ref<const T> zxzy() const { return _vec4ref(z,x,z,y); }
-_vec4ref<const T> brbg() const { return _vec4ref(b,r,b,g); }
-_vec4ref<const T> pspt() const { return _vec4ref(p,s,p,t); }
-_vec4ref<const T> zxzz() const { return _vec4ref(z,x,z,z); }
-_vec4ref<const T> brbb() const { return _vec4ref(b,r,b,b); }
-_vec4ref<const T> pspp() const { return _vec4ref(p,s,p,p); }
-_vec4ref<const T> zyxx() const { return _vec4ref(z,y,x,x); }
-_vec4ref<const T> bgrr() const { return _vec4ref(b,g,r,r); }
-_vec4ref<const T> ptss() const { return _vec4ref(p,t,s,s); }
-_vec4ref<const T> zyxy() const { return _vec4ref(z,y,x,y); }
-_vec4ref<const T> bgrg() const { return _vec4ref(b,g,r,g); }
-_vec4ref<const T> ptst() const { return _vec4ref(p,t,s,t); }
-_vec4ref<const T> zyxz() const { return _vec4ref(z,y,x,z); }
-_vec4ref<const T> bgrb() const { return _vec4ref(b,g,r,b); }
-_vec4ref<const T> ptsp() const { return _vec4ref(p,t,s,p); }
-_vec4ref<const T> zyyx() const { return _vec4ref(z,y,y,x); }
-_vec4ref<const T> bggr() const { return _vec4ref(b,g,g,r); }
-_vec4ref<const T> ptts() const { return _vec4ref(p,t,t,s); }
-_vec4ref<const T> zyyy() const { return _vec4ref(z,y,y,y); }
-_vec4ref<const T> bggg() const { return _vec4ref(b,g,g,g); }
-_vec4ref<const T> pttt() const { return _vec4ref(p,t,t,t); }
-_vec4ref<const T> zyyz() const { return _vec4ref(z,y,y,z); }
-_vec4ref<const T> bggb() const { return _vec4ref(b,g,g,b); }
-_vec4ref<const T> pttp() const { return _vec4ref(p,t,t,p); }
-_vec4ref<const T> zyzx() const { return _vec4ref(z,y,z,x); }
-_vec4ref<const T> bgbr() const { return _vec4ref(b,g,b,r); }
-_vec4ref<const T> ptps() const { return _vec4ref(p,t,p,s); }
-_vec4ref<const T> zyzy() const { return _vec4ref(z,y,z,y); }
-_vec4ref<const T> bgbg() const { return _vec4ref(b,g,b,g); }
-_vec4ref<const T> ptpt() const { return _vec4ref(p,t,p,t); }
-_vec4ref<const T> zyzz() const { return _vec4ref(z,y,z,z); }
-_vec4ref<const T> bgbb() const { return _vec4ref(b,g,b,b); }
-_vec4ref<const T> ptpp() const { return _vec4ref(p,t,p,p); }
-_vec4ref<const T> zzxx() const { return _vec4ref(z,z,x,x); }
-_vec4ref<const T> bbrr() const { return _vec4ref(b,b,r,r); }
-_vec4ref<const T> ppss() const { return _vec4ref(p,p,s,s); }
-_vec4ref<const T> zzxy() const { return _vec4ref(z,z,x,y); }
-_vec4ref<const T> bbrg() const { return _vec4ref(b,b,r,g); }
-_vec4ref<const T> ppst() const { return _vec4ref(p,p,s,t); }
-_vec4ref<const T> zzxz() const { return _vec4ref(z,z,x,z); }
-_vec4ref<const T> bbrb() const { return _vec4ref(b,b,r,b); }
-_vec4ref<const T> ppsp() const { return _vec4ref(p,p,s,p); }
-_vec4ref<const T> zzyx() const { return _vec4ref(z,z,y,x); }
-_vec4ref<const T> bbgr() const { return _vec4ref(b,b,g,r); }
-_vec4ref<const T> ppts() const { return _vec4ref(p,p,t,s); }
-_vec4ref<const T> zzyy() const { return _vec4ref(z,z,y,y); }
-_vec4ref<const T> bbgg() const { return _vec4ref(b,b,g,g); }
-_vec4ref<const T> pptt() const { return _vec4ref(p,p,t,t); }
-_vec4ref<const T> zzyz() const { return _vec4ref(z,z,y,z); }
-_vec4ref<const T> bbgb() const { return _vec4ref(b,b,g,b); }
-_vec4ref<const T> pptp() const { return _vec4ref(p,p,t,p); }
-_vec4ref<const T> zzzx() const { return _vec4ref(z,z,z,x); }
-_vec4ref<const T> bbbr() const { return _vec4ref(b,b,b,r); }
-_vec4ref<const T> ppps() const { return _vec4ref(p,p,p,s); }
-_vec4ref<const T> zzzy() const { return _vec4ref(z,z,z,y); }
-_vec4ref<const T> bbbg() const { return _vec4ref(b,b,b,g); }
-_vec4ref<const T> pppt() const { return _vec4ref(p,p,p,t); }
-_vec4ref<const T> zzzz() const { return _vec4ref(z,z,z,z); }
-_vec4ref<const T> bbbb() const { return _vec4ref(b,b,b,b); }
-_vec4ref<const T> pppp() const { return _vec4ref(p,p,p,p); }
+const auto xz() const { return _vec2<concrete_elem>(x,z); }
+auto xz() { return _vec2<ref_elem>(x,z); }
+const auto rb() const { return _vec2<concrete_elem>(r,b); }
+auto rb() { return _vec2<ref_elem>(r,b); }
+const auto sp() const { return _vec2<concrete_elem>(s,p); }
+auto sp() { return _vec2<ref_elem>(s,p); }
+const auto yz() const { return _vec2<concrete_elem>(y,z); }
+auto yz() { return _vec2<ref_elem>(y,z); }
+const auto gb() const { return _vec2<concrete_elem>(g,b); }
+auto gb() { return _vec2<ref_elem>(g,b); }
+const auto tp() const { return _vec2<concrete_elem>(t,p); }
+auto tp() { return _vec2<ref_elem>(t,p); }
+const auto zx() const { return _vec2<concrete_elem>(z,x); }
+auto zx() { return _vec2<ref_elem>(z,x); }
+const auto br() const { return _vec2<concrete_elem>(b,r); }
+auto br() { return _vec2<ref_elem>(b,r); }
+const auto ps() const { return _vec2<concrete_elem>(p,s); }
+auto ps() { return _vec2<ref_elem>(p,s); }
+const auto zy() const { return _vec2<concrete_elem>(z,y); }
+auto zy() { return _vec2<ref_elem>(z,y); }
+const auto bg() const { return _vec2<concrete_elem>(b,g); }
+auto bg() { return _vec2<ref_elem>(b,g); }
+const auto pt() const { return _vec2<concrete_elem>(p,t); }
+auto pt() { return _vec2<ref_elem>(p,t); }
+const auto zz() const { return _vec2<concrete_elem>(z,z); }
+const auto bb() const { return _vec2<concrete_elem>(b,b); }
+const auto pp() const { return _vec2<concrete_elem>(p,p); }
+const auto xxz() const { return _vec3<concrete_elem>(x,x,z); }
+const auto rrb() const { return _vec3<concrete_elem>(r,r,b); }
+const auto ssp() const { return _vec3<concrete_elem>(s,s,p); }
+const auto xyz() const { return _vec3<concrete_elem>(x,y,z); }
+auto xyz() { return _vec3<ref_elem>(x,y,z); }
+const auto rgb() const { return _vec3<concrete_elem>(r,g,b); }
+auto rgb() { return _vec3<ref_elem>(r,g,b); }
+const auto stp() const { return _vec3<concrete_elem>(s,t,p); }
+auto stp() { return _vec3<ref_elem>(s,t,p); }
+const auto xzx() const { return _vec3<concrete_elem>(x,z,x); }
+const auto rbr() const { return _vec3<concrete_elem>(r,b,r); }
+const auto sps() const { return _vec3<concrete_elem>(s,p,s); }
+const auto xzy() const { return _vec3<concrete_elem>(x,z,y); }
+auto xzy() { return _vec3<ref_elem>(x,z,y); }
+const auto rbg() const { return _vec3<concrete_elem>(r,b,g); }
+auto rbg() { return _vec3<ref_elem>(r,b,g); }
+const auto spt() const { return _vec3<concrete_elem>(s,p,t); }
+auto spt() { return _vec3<ref_elem>(s,p,t); }
+const auto xzz() const { return _vec3<concrete_elem>(x,z,z); }
+const auto rbb() const { return _vec3<concrete_elem>(r,b,b); }
+const auto spp() const { return _vec3<concrete_elem>(s,p,p); }
+const auto yxz() const { return _vec3<concrete_elem>(y,x,z); }
+auto yxz() { return _vec3<ref_elem>(y,x,z); }
+const auto grb() const { return _vec3<concrete_elem>(g,r,b); }
+auto grb() { return _vec3<ref_elem>(g,r,b); }
+const auto tsp() const { return _vec3<concrete_elem>(t,s,p); }
+auto tsp() { return _vec3<ref_elem>(t,s,p); }
+const auto yyz() const { return _vec3<concrete_elem>(y,y,z); }
+const auto ggb() const { return _vec3<concrete_elem>(g,g,b); }
+const auto ttp() const { return _vec3<concrete_elem>(t,t,p); }
+const auto yzx() const { return _vec3<concrete_elem>(y,z,x); }
+auto yzx() { return _vec3<ref_elem>(y,z,x); }
+const auto gbr() const { return _vec3<concrete_elem>(g,b,r); }
+auto gbr() { return _vec3<ref_elem>(g,b,r); }
+const auto tps() const { return _vec3<concrete_elem>(t,p,s); }
+auto tps() { return _vec3<ref_elem>(t,p,s); }
+const auto yzy() const { return _vec3<concrete_elem>(y,z,y); }
+const auto gbg() const { return _vec3<concrete_elem>(g,b,g); }
+const auto tpt() const { return _vec3<concrete_elem>(t,p,t); }
+const auto yzz() const { return _vec3<concrete_elem>(y,z,z); }
+const auto gbb() const { return _vec3<concrete_elem>(g,b,b); }
+const auto tpp() const { return _vec3<concrete_elem>(t,p,p); }
+const auto zxx() const { return _vec3<concrete_elem>(z,x,x); }
+const auto brr() const { return _vec3<concrete_elem>(b,r,r); }
+const auto pss() const { return _vec3<concrete_elem>(p,s,s); }
+const auto zxy() const { return _vec3<concrete_elem>(z,x,y); }
+auto zxy() { return _vec3<ref_elem>(z,x,y); }
+const auto brg() const { return _vec3<concrete_elem>(b,r,g); }
+auto brg() { return _vec3<ref_elem>(b,r,g); }
+const auto pst() const { return _vec3<concrete_elem>(p,s,t); }
+auto pst() { return _vec3<ref_elem>(p,s,t); }
+const auto zxz() const { return _vec3<concrete_elem>(z,x,z); }
+const auto brb() const { return _vec3<concrete_elem>(b,r,b); }
+const auto psp() const { return _vec3<concrete_elem>(p,s,p); }
+const auto zyx() const { return _vec3<concrete_elem>(z,y,x); }
+auto zyx() { return _vec3<ref_elem>(z,y,x); }
+const auto bgr() const { return _vec3<concrete_elem>(b,g,r); }
+auto bgr() { return _vec3<ref_elem>(b,g,r); }
+const auto pts() const { return _vec3<concrete_elem>(p,t,s); }
+auto pts() { return _vec3<ref_elem>(p,t,s); }
+const auto zyy() const { return _vec3<concrete_elem>(z,y,y); }
+const auto bgg() const { return _vec3<concrete_elem>(b,g,g); }
+const auto ptt() const { return _vec3<concrete_elem>(p,t,t); }
+const auto zyz() const { return _vec3<concrete_elem>(z,y,z); }
+const auto bgb() const { return _vec3<concrete_elem>(b,g,b); }
+const auto ptp() const { return _vec3<concrete_elem>(p,t,p); }
+const auto zzx() const { return _vec3<concrete_elem>(z,z,x); }
+const auto bbr() const { return _vec3<concrete_elem>(b,b,r); }
+const auto pps() const { return _vec3<concrete_elem>(p,p,s); }
+const auto zzy() const { return _vec3<concrete_elem>(z,z,y); }
+const auto bbg() const { return _vec3<concrete_elem>(b,b,g); }
+const auto ppt() const { return _vec3<concrete_elem>(p,p,t); }
+const auto zzz() const { return _vec3<concrete_elem>(z,z,z); }
+const auto bbb() const { return _vec3<concrete_elem>(b,b,b); }
+const auto ppp() const { return _vec3<concrete_elem>(p,p,p); }
+const auto xxxz() const { return _vec4<concrete_elem>(x,x,x,z); }
+const auto rrrb() const { return _vec4<concrete_elem>(r,r,r,b); }
+const auto sssp() const { return _vec4<concrete_elem>(s,s,s,p); }
+const auto xxyz() const { return _vec4<concrete_elem>(x,x,y,z); }
+const auto rrgb() const { return _vec4<concrete_elem>(r,r,g,b); }
+const auto sstp() const { return _vec4<concrete_elem>(s,s,t,p); }
+const auto xxzx() const { return _vec4<concrete_elem>(x,x,z,x); }
+const auto rrbr() const { return _vec4<concrete_elem>(r,r,b,r); }
+const auto ssps() const { return _vec4<concrete_elem>(s,s,p,s); }
+const auto xxzy() const { return _vec4<concrete_elem>(x,x,z,y); }
+const auto rrbg() const { return _vec4<concrete_elem>(r,r,b,g); }
+const auto sspt() const { return _vec4<concrete_elem>(s,s,p,t); }
+const auto xxzz() const { return _vec4<concrete_elem>(x,x,z,z); }
+const auto rrbb() const { return _vec4<concrete_elem>(r,r,b,b); }
+const auto sspp() const { return _vec4<concrete_elem>(s,s,p,p); }
+const auto xyxz() const { return _vec4<concrete_elem>(x,y,x,z); }
+const auto rgrb() const { return _vec4<concrete_elem>(r,g,r,b); }
+const auto stsp() const { return _vec4<concrete_elem>(s,t,s,p); }
+const auto xyyz() const { return _vec4<concrete_elem>(x,y,y,z); }
+const auto rggb() const { return _vec4<concrete_elem>(r,g,g,b); }
+const auto sttp() const { return _vec4<concrete_elem>(s,t,t,p); }
+const auto xyzx() const { return _vec4<concrete_elem>(x,y,z,x); }
+const auto rgbr() const { return _vec4<concrete_elem>(r,g,b,r); }
+const auto stps() const { return _vec4<concrete_elem>(s,t,p,s); }
+const auto xyzy() const { return _vec4<concrete_elem>(x,y,z,y); }
+const auto rgbg() const { return _vec4<concrete_elem>(r,g,b,g); }
+const auto stpt() const { return _vec4<concrete_elem>(s,t,p,t); }
+const auto xyzz() const { return _vec4<concrete_elem>(x,y,z,z); }
+const auto rgbb() const { return _vec4<concrete_elem>(r,g,b,b); }
+const auto stpp() const { return _vec4<concrete_elem>(s,t,p,p); }
+const auto xzxx() const { return _vec4<concrete_elem>(x,z,x,x); }
+const auto rbrr() const { return _vec4<concrete_elem>(r,b,r,r); }
+const auto spss() const { return _vec4<concrete_elem>(s,p,s,s); }
+const auto xzxy() const { return _vec4<concrete_elem>(x,z,x,y); }
+const auto rbrg() const { return _vec4<concrete_elem>(r,b,r,g); }
+const auto spst() const { return _vec4<concrete_elem>(s,p,s,t); }
+const auto xzxz() const { return _vec4<concrete_elem>(x,z,x,z); }
+const auto rbrb() const { return _vec4<concrete_elem>(r,b,r,b); }
+const auto spsp() const { return _vec4<concrete_elem>(s,p,s,p); }
+const auto xzyx() const { return _vec4<concrete_elem>(x,z,y,x); }
+const auto rbgr() const { return _vec4<concrete_elem>(r,b,g,r); }
+const auto spts() const { return _vec4<concrete_elem>(s,p,t,s); }
+const auto xzyy() const { return _vec4<concrete_elem>(x,z,y,y); }
+const auto rbgg() const { return _vec4<concrete_elem>(r,b,g,g); }
+const auto sptt() const { return _vec4<concrete_elem>(s,p,t,t); }
+const auto xzyz() const { return _vec4<concrete_elem>(x,z,y,z); }
+const auto rbgb() const { return _vec4<concrete_elem>(r,b,g,b); }
+const auto sptp() const { return _vec4<concrete_elem>(s,p,t,p); }
+const auto xzzx() const { return _vec4<concrete_elem>(x,z,z,x); }
+const auto rbbr() const { return _vec4<concrete_elem>(r,b,b,r); }
+const auto spps() const { return _vec4<concrete_elem>(s,p,p,s); }
+const auto xzzy() const { return _vec4<concrete_elem>(x,z,z,y); }
+const auto rbbg() const { return _vec4<concrete_elem>(r,b,b,g); }
+const auto sppt() const { return _vec4<concrete_elem>(s,p,p,t); }
+const auto xzzz() const { return _vec4<concrete_elem>(x,z,z,z); }
+const auto rbbb() const { return _vec4<concrete_elem>(r,b,b,b); }
+const auto sppp() const { return _vec4<concrete_elem>(s,p,p,p); }
+const auto yxxz() const { return _vec4<concrete_elem>(y,x,x,z); }
+const auto grrb() const { return _vec4<concrete_elem>(g,r,r,b); }
+const auto tssp() const { return _vec4<concrete_elem>(t,s,s,p); }
+const auto yxyz() const { return _vec4<concrete_elem>(y,x,y,z); }
+const auto grgb() const { return _vec4<concrete_elem>(g,r,g,b); }
+const auto tstp() const { return _vec4<concrete_elem>(t,s,t,p); }
+const auto yxzx() const { return _vec4<concrete_elem>(y,x,z,x); }
+const auto grbr() const { return _vec4<concrete_elem>(g,r,b,r); }
+const auto tsps() const { return _vec4<concrete_elem>(t,s,p,s); }
+const auto yxzy() const { return _vec4<concrete_elem>(y,x,z,y); }
+const auto grbg() const { return _vec4<concrete_elem>(g,r,b,g); }
+const auto tspt() const { return _vec4<concrete_elem>(t,s,p,t); }
+const auto yxzz() const { return _vec4<concrete_elem>(y,x,z,z); }
+const auto grbb() const { return _vec4<concrete_elem>(g,r,b,b); }
+const auto tspp() const { return _vec4<concrete_elem>(t,s,p,p); }
+const auto yyxz() const { return _vec4<concrete_elem>(y,y,x,z); }
+const auto ggrb() const { return _vec4<concrete_elem>(g,g,r,b); }
+const auto ttsp() const { return _vec4<concrete_elem>(t,t,s,p); }
+const auto yyyz() const { return _vec4<concrete_elem>(y,y,y,z); }
+const auto gggb() const { return _vec4<concrete_elem>(g,g,g,b); }
+const auto tttp() const { return _vec4<concrete_elem>(t,t,t,p); }
+const auto yyzx() const { return _vec4<concrete_elem>(y,y,z,x); }
+const auto ggbr() const { return _vec4<concrete_elem>(g,g,b,r); }
+const auto ttps() const { return _vec4<concrete_elem>(t,t,p,s); }
+const auto yyzy() const { return _vec4<concrete_elem>(y,y,z,y); }
+const auto ggbg() const { return _vec4<concrete_elem>(g,g,b,g); }
+const auto ttpt() const { return _vec4<concrete_elem>(t,t,p,t); }
+const auto yyzz() const { return _vec4<concrete_elem>(y,y,z,z); }
+const auto ggbb() const { return _vec4<concrete_elem>(g,g,b,b); }
+const auto ttpp() const { return _vec4<concrete_elem>(t,t,p,p); }
+const auto yzxx() const { return _vec4<concrete_elem>(y,z,x,x); }
+const auto gbrr() const { return _vec4<concrete_elem>(g,b,r,r); }
+const auto tpss() const { return _vec4<concrete_elem>(t,p,s,s); }
+const auto yzxy() const { return _vec4<concrete_elem>(y,z,x,y); }
+const auto gbrg() const { return _vec4<concrete_elem>(g,b,r,g); }
+const auto tpst() const { return _vec4<concrete_elem>(t,p,s,t); }
+const auto yzxz() const { return _vec4<concrete_elem>(y,z,x,z); }
+const auto gbrb() const { return _vec4<concrete_elem>(g,b,r,b); }
+const auto tpsp() const { return _vec4<concrete_elem>(t,p,s,p); }
+const auto yzyx() const { return _vec4<concrete_elem>(y,z,y,x); }
+const auto gbgr() const { return _vec4<concrete_elem>(g,b,g,r); }
+const auto tpts() const { return _vec4<concrete_elem>(t,p,t,s); }
+const auto yzyy() const { return _vec4<concrete_elem>(y,z,y,y); }
+const auto gbgg() const { return _vec4<concrete_elem>(g,b,g,g); }
+const auto tptt() const { return _vec4<concrete_elem>(t,p,t,t); }
+const auto yzyz() const { return _vec4<concrete_elem>(y,z,y,z); }
+const auto gbgb() const { return _vec4<concrete_elem>(g,b,g,b); }
+const auto tptp() const { return _vec4<concrete_elem>(t,p,t,p); }
+const auto yzzx() const { return _vec4<concrete_elem>(y,z,z,x); }
+const auto gbbr() const { return _vec4<concrete_elem>(g,b,b,r); }
+const auto tpps() const { return _vec4<concrete_elem>(t,p,p,s); }
+const auto yzzy() const { return _vec4<concrete_elem>(y,z,z,y); }
+const auto gbbg() const { return _vec4<concrete_elem>(g,b,b,g); }
+const auto tppt() const { return _vec4<concrete_elem>(t,p,p,t); }
+const auto yzzz() const { return _vec4<concrete_elem>(y,z,z,z); }
+const auto gbbb() const { return _vec4<concrete_elem>(g,b,b,b); }
+const auto tppp() const { return _vec4<concrete_elem>(t,p,p,p); }
+const auto zxxx() const { return _vec4<concrete_elem>(z,x,x,x); }
+const auto brrr() const { return _vec4<concrete_elem>(b,r,r,r); }
+const auto psss() const { return _vec4<concrete_elem>(p,s,s,s); }
+const auto zxxy() const { return _vec4<concrete_elem>(z,x,x,y); }
+const auto brrg() const { return _vec4<concrete_elem>(b,r,r,g); }
+const auto psst() const { return _vec4<concrete_elem>(p,s,s,t); }
+const auto zxxz() const { return _vec4<concrete_elem>(z,x,x,z); }
+const auto brrb() const { return _vec4<concrete_elem>(b,r,r,b); }
+const auto pssp() const { return _vec4<concrete_elem>(p,s,s,p); }
+const auto zxyx() const { return _vec4<concrete_elem>(z,x,y,x); }
+const auto brgr() const { return _vec4<concrete_elem>(b,r,g,r); }
+const auto psts() const { return _vec4<concrete_elem>(p,s,t,s); }
+const auto zxyy() const { return _vec4<concrete_elem>(z,x,y,y); }
+const auto brgg() const { return _vec4<concrete_elem>(b,r,g,g); }
+const auto pstt() const { return _vec4<concrete_elem>(p,s,t,t); }
+const auto zxyz() const { return _vec4<concrete_elem>(z,x,y,z); }
+const auto brgb() const { return _vec4<concrete_elem>(b,r,g,b); }
+const auto pstp() const { return _vec4<concrete_elem>(p,s,t,p); }
+const auto zxzx() const { return _vec4<concrete_elem>(z,x,z,x); }
+const auto brbr() const { return _vec4<concrete_elem>(b,r,b,r); }
+const auto psps() const { return _vec4<concrete_elem>(p,s,p,s); }
+const auto zxzy() const { return _vec4<concrete_elem>(z,x,z,y); }
+const auto brbg() const { return _vec4<concrete_elem>(b,r,b,g); }
+const auto pspt() const { return _vec4<concrete_elem>(p,s,p,t); }
+const auto zxzz() const { return _vec4<concrete_elem>(z,x,z,z); }
+const auto brbb() const { return _vec4<concrete_elem>(b,r,b,b); }
+const auto pspp() const { return _vec4<concrete_elem>(p,s,p,p); }
+const auto zyxx() const { return _vec4<concrete_elem>(z,y,x,x); }
+const auto bgrr() const { return _vec4<concrete_elem>(b,g,r,r); }
+const auto ptss() const { return _vec4<concrete_elem>(p,t,s,s); }
+const auto zyxy() const { return _vec4<concrete_elem>(z,y,x,y); }
+const auto bgrg() const { return _vec4<concrete_elem>(b,g,r,g); }
+const auto ptst() const { return _vec4<concrete_elem>(p,t,s,t); }
+const auto zyxz() const { return _vec4<concrete_elem>(z,y,x,z); }
+const auto bgrb() const { return _vec4<concrete_elem>(b,g,r,b); }
+const auto ptsp() const { return _vec4<concrete_elem>(p,t,s,p); }
+const auto zyyx() const { return _vec4<concrete_elem>(z,y,y,x); }
+const auto bggr() const { return _vec4<concrete_elem>(b,g,g,r); }
+const auto ptts() const { return _vec4<concrete_elem>(p,t,t,s); }
+const auto zyyy() const { return _vec4<concrete_elem>(z,y,y,y); }
+const auto bggg() const { return _vec4<concrete_elem>(b,g,g,g); }
+const auto pttt() const { return _vec4<concrete_elem>(p,t,t,t); }
+const auto zyyz() const { return _vec4<concrete_elem>(z,y,y,z); }
+const auto bggb() const { return _vec4<concrete_elem>(b,g,g,b); }
+const auto pttp() const { return _vec4<concrete_elem>(p,t,t,p); }
+const auto zyzx() const { return _vec4<concrete_elem>(z,y,z,x); }
+const auto bgbr() const { return _vec4<concrete_elem>(b,g,b,r); }
+const auto ptps() const { return _vec4<concrete_elem>(p,t,p,s); }
+const auto zyzy() const { return _vec4<concrete_elem>(z,y,z,y); }
+const auto bgbg() const { return _vec4<concrete_elem>(b,g,b,g); }
+const auto ptpt() const { return _vec4<concrete_elem>(p,t,p,t); }
+const auto zyzz() const { return _vec4<concrete_elem>(z,y,z,z); }
+const auto bgbb() const { return _vec4<concrete_elem>(b,g,b,b); }
+const auto ptpp() const { return _vec4<concrete_elem>(p,t,p,p); }
+const auto zzxx() const { return _vec4<concrete_elem>(z,z,x,x); }
+const auto bbrr() const { return _vec4<concrete_elem>(b,b,r,r); }
+const auto ppss() const { return _vec4<concrete_elem>(p,p,s,s); }
+const auto zzxy() const { return _vec4<concrete_elem>(z,z,x,y); }
+const auto bbrg() const { return _vec4<concrete_elem>(b,b,r,g); }
+const auto ppst() const { return _vec4<concrete_elem>(p,p,s,t); }
+const auto zzxz() const { return _vec4<concrete_elem>(z,z,x,z); }
+const auto bbrb() const { return _vec4<concrete_elem>(b,b,r,b); }
+const auto ppsp() const { return _vec4<concrete_elem>(p,p,s,p); }
+const auto zzyx() const { return _vec4<concrete_elem>(z,z,y,x); }
+const auto bbgr() const { return _vec4<concrete_elem>(b,b,g,r); }
+const auto ppts() const { return _vec4<concrete_elem>(p,p,t,s); }
+const auto zzyy() const { return _vec4<concrete_elem>(z,z,y,y); }
+const auto bbgg() const { return _vec4<concrete_elem>(b,b,g,g); }
+const auto pptt() const { return _vec4<concrete_elem>(p,p,t,t); }
+const auto zzyz() const { return _vec4<concrete_elem>(z,z,y,z); }
+const auto bbgb() const { return _vec4<concrete_elem>(b,b,g,b); }
+const auto pptp() const { return _vec4<concrete_elem>(p,p,t,p); }
+const auto zzzx() const { return _vec4<concrete_elem>(z,z,z,x); }
+const auto bbbr() const { return _vec4<concrete_elem>(b,b,b,r); }
+const auto ppps() const { return _vec4<concrete_elem>(p,p,p,s); }
+const auto zzzy() const { return _vec4<concrete_elem>(z,z,z,y); }
+const auto bbbg() const { return _vec4<concrete_elem>(b,b,b,g); }
+const auto pppt() const { return _vec4<concrete_elem>(p,p,p,t); }
+const auto zzzz() const { return _vec4<concrete_elem>(z,z,z,z); }
+const auto bbbb() const { return _vec4<concrete_elem>(b,b,b,b); }
+const auto pppp() const { return _vec4<concrete_elem>(p,p,p,p); }
 #ifdef VEC_HAS_W
-_vec2ref<T> xw() { return _vec2ref(x,w); }
-_vec2ref<T> ra() { return _vec2ref(r,a); }
-_vec2ref<T> sq() { return _vec2ref(s,q); }
-_vec2ref<T> yw() { return _vec2ref(y,w); }
-_vec2ref<T> ga() { return _vec2ref(g,a); }
-_vec2ref<T> tq() { return _vec2ref(t,q); }
-_vec2ref<T> zw() { return _vec2ref(z,w); }
-_vec2ref<T> ba() { return _vec2ref(b,a); }
-_vec2ref<T> pq() { return _vec2ref(p,q); }
-_vec2ref<T> wx() { return _vec2ref(w,x); }
-_vec2ref<T> ar() { return _vec2ref(a,r); }
-_vec2ref<T> qs() { return _vec2ref(q,s); }
-_vec2ref<T> wy() { return _vec2ref(w,y); }
-_vec2ref<T> ag() { return _vec2ref(a,g); }
-_vec2ref<T> qt() { return _vec2ref(q,t); }
-_vec2ref<T> wz() { return _vec2ref(w,z); }
-_vec2ref<T> ab() { return _vec2ref(a,b); }
-_vec2ref<T> qp() { return _vec2ref(q,p); }
-_vec2ref<const T> ww() const { return _vec2ref(w,w); }
-_vec2ref<const T> aa() const { return _vec2ref(a,a); }
-_vec2ref<const T> qq() const { return _vec2ref(q,q); }
-_vec3ref<const T> xxw() const { return _vec3ref(x,x,w); }
-_vec3ref<const T> rra() const { return _vec3ref(r,r,a); }
-_vec3ref<const T> ssq() const { return _vec3ref(s,s,q); }
-_vec3ref<T> xyw() { return _vec3ref(x,y,w); }
-_vec3ref<T> rga() { return _vec3ref(r,g,a); }
-_vec3ref<T> stq() { return _vec3ref(s,t,q); }
-_vec3ref<T> xzw() { return _vec3ref(x,z,w); }
-_vec3ref<T> rba() { return _vec3ref(r,b,a); }
-_vec3ref<T> spq() { return _vec3ref(s,p,q); }
-_vec3ref<const T> xwx() const { return _vec3ref(x,w,x); }
-_vec3ref<const T> rar() const { return _vec3ref(r,a,r); }
-_vec3ref<const T> sqs() const { return _vec3ref(s,q,s); }
-_vec3ref<T> xwy() { return _vec3ref(x,w,y); }
-_vec3ref<T> rag() { return _vec3ref(r,a,g); }
-_vec3ref<T> sqt() { return _vec3ref(s,q,t); }
-_vec3ref<T> xwz() { return _vec3ref(x,w,z); }
-_vec3ref<T> rab() { return _vec3ref(r,a,b); }
-_vec3ref<T> sqp() { return _vec3ref(s,q,p); }
-_vec3ref<const T> xww() const { return _vec3ref(x,w,w); }
-_vec3ref<const T> raa() const { return _vec3ref(r,a,a); }
-_vec3ref<const T> sqq() const { return _vec3ref(s,q,q); }
-_vec3ref<T> yxw() { return _vec3ref(y,x,w); }
-_vec3ref<T> gra() { return _vec3ref(g,r,a); }
-_vec3ref<T> tsq() { return _vec3ref(t,s,q); }
-_vec3ref<const T> yyw() const { return _vec3ref(y,y,w); }
-_vec3ref<const T> gga() const { return _vec3ref(g,g,a); }
-_vec3ref<const T> ttq() const { return _vec3ref(t,t,q); }
-_vec3ref<T> yzw() { return _vec3ref(y,z,w); }
-_vec3ref<T> gba() { return _vec3ref(g,b,a); }
-_vec3ref<T> tpq() { return _vec3ref(t,p,q); }
-_vec3ref<T> ywx() { return _vec3ref(y,w,x); }
-_vec3ref<T> gar() { return _vec3ref(g,a,r); }
-_vec3ref<T> tqs() { return _vec3ref(t,q,s); }
-_vec3ref<const T> ywy() const { return _vec3ref(y,w,y); }
-_vec3ref<const T> gag() const { return _vec3ref(g,a,g); }
-_vec3ref<const T> tqt() const { return _vec3ref(t,q,t); }
-_vec3ref<T> ywz() { return _vec3ref(y,w,z); }
-_vec3ref<T> gab() { return _vec3ref(g,a,b); }
-_vec3ref<T> tqp() { return _vec3ref(t,q,p); }
-_vec3ref<const T> yww() const { return _vec3ref(y,w,w); }
-_vec3ref<const T> gaa() const { return _vec3ref(g,a,a); }
-_vec3ref<const T> tqq() const { return _vec3ref(t,q,q); }
-_vec3ref<T> zxw() { return _vec3ref(z,x,w); }
-_vec3ref<T> bra() { return _vec3ref(b,r,a); }
-_vec3ref<T> psq() { return _vec3ref(p,s,q); }
-_vec3ref<T> zyw() { return _vec3ref(z,y,w); }
-_vec3ref<T> bga() { return _vec3ref(b,g,a); }
-_vec3ref<T> ptq() { return _vec3ref(p,t,q); }
-_vec3ref<const T> zzw() const { return _vec3ref(z,z,w); }
-_vec3ref<const T> bba() const { return _vec3ref(b,b,a); }
-_vec3ref<const T> ppq() const { return _vec3ref(p,p,q); }
-_vec3ref<T> zwx() { return _vec3ref(z,w,x); }
-_vec3ref<T> bar() { return _vec3ref(b,a,r); }
-_vec3ref<T> pqs() { return _vec3ref(p,q,s); }
-_vec3ref<T> zwy() { return _vec3ref(z,w,y); }
-_vec3ref<T> bag() { return _vec3ref(b,a,g); }
-_vec3ref<T> pqt() { return _vec3ref(p,q,t); }
-_vec3ref<const T> zwz() const { return _vec3ref(z,w,z); }
-_vec3ref<const T> bab() const { return _vec3ref(b,a,b); }
-_vec3ref<const T> pqp() const { return _vec3ref(p,q,p); }
-_vec3ref<const T> zww() const { return _vec3ref(z,w,w); }
-_vec3ref<const T> baa() const { return _vec3ref(b,a,a); }
-_vec3ref<const T> pqq() const { return _vec3ref(p,q,q); }
-_vec3ref<const T> wxx() const { return _vec3ref(w,x,x); }
-_vec3ref<const T> arr() const { return _vec3ref(a,r,r); }
-_vec3ref<const T> qss() const { return _vec3ref(q,s,s); }
-_vec3ref<T> wxy() { return _vec3ref(w,x,y); }
-_vec3ref<T> arg() { return _vec3ref(a,r,g); }
-_vec3ref<T> qst() { return _vec3ref(q,s,t); }
-_vec3ref<T> wxz() { return _vec3ref(w,x,z); }
-_vec3ref<T> arb() { return _vec3ref(a,r,b); }
-_vec3ref<T> qsp() { return _vec3ref(q,s,p); }
-_vec3ref<const T> wxw() const { return _vec3ref(w,x,w); }
-_vec3ref<const T> ara() const { return _vec3ref(a,r,a); }
-_vec3ref<const T> qsq() const { return _vec3ref(q,s,q); }
-_vec3ref<T> wyx() { return _vec3ref(w,y,x); }
-_vec3ref<T> agr() { return _vec3ref(a,g,r); }
-_vec3ref<T> qts() { return _vec3ref(q,t,s); }
-_vec3ref<const T> wyy() const { return _vec3ref(w,y,y); }
-_vec3ref<const T> agg() const { return _vec3ref(a,g,g); }
-_vec3ref<const T> qtt() const { return _vec3ref(q,t,t); }
-_vec3ref<T> wyz() { return _vec3ref(w,y,z); }
-_vec3ref<T> agb() { return _vec3ref(a,g,b); }
-_vec3ref<T> qtp() { return _vec3ref(q,t,p); }
-_vec3ref<const T> wyw() const { return _vec3ref(w,y,w); }
-_vec3ref<const T> aga() const { return _vec3ref(a,g,a); }
-_vec3ref<const T> qtq() const { return _vec3ref(q,t,q); }
-_vec3ref<T> wzx() { return _vec3ref(w,z,x); }
-_vec3ref<T> abr() { return _vec3ref(a,b,r); }
-_vec3ref<T> qps() { return _vec3ref(q,p,s); }
-_vec3ref<T> wzy() { return _vec3ref(w,z,y); }
-_vec3ref<T> abg() { return _vec3ref(a,b,g); }
-_vec3ref<T> qpt() { return _vec3ref(q,p,t); }
-_vec3ref<const T> wzz() const { return _vec3ref(w,z,z); }
-_vec3ref<const T> abb() const { return _vec3ref(a,b,b); }
-_vec3ref<const T> qpp() const { return _vec3ref(q,p,p); }
-_vec3ref<const T> wzw() const { return _vec3ref(w,z,w); }
-_vec3ref<const T> aba() const { return _vec3ref(a,b,a); }
-_vec3ref<const T> qpq() const { return _vec3ref(q,p,q); }
-_vec3ref<const T> wwx() const { return _vec3ref(w,w,x); }
-_vec3ref<const T> aar() const { return _vec3ref(a,a,r); }
-_vec3ref<const T> qqs() const { return _vec3ref(q,q,s); }
-_vec3ref<const T> wwy() const { return _vec3ref(w,w,y); }
-_vec3ref<const T> aag() const { return _vec3ref(a,a,g); }
-_vec3ref<const T> qqt() const { return _vec3ref(q,q,t); }
-_vec3ref<const T> wwz() const { return _vec3ref(w,w,z); }
-_vec3ref<const T> aab() const { return _vec3ref(a,a,b); }
-_vec3ref<const T> qqp() const { return _vec3ref(q,q,p); }
-_vec3ref<const T> www() const { return _vec3ref(w,w,w); }
-_vec3ref<const T> aaa() const { return _vec3ref(a,a,a); }
-_vec3ref<const T> qqq() const { return _vec3ref(q,q,q); }
-_vec4ref<const T> xxxw() const { return _vec4ref(x,x,x,w); }
-_vec4ref<const T> rrra() const { return _vec4ref(r,r,r,a); }
-_vec4ref<const T> sssq() const { return _vec4ref(s,s,s,q); }
-_vec4ref<const T> xxyw() const { return _vec4ref(x,x,y,w); }
-_vec4ref<const T> rrga() const { return _vec4ref(r,r,g,a); }
-_vec4ref<const T> sstq() const { return _vec4ref(s,s,t,q); }
-_vec4ref<const T> xxzw() const { return _vec4ref(x,x,z,w); }
-_vec4ref<const T> rrba() const { return _vec4ref(r,r,b,a); }
-_vec4ref<const T> sspq() const { return _vec4ref(s,s,p,q); }
-_vec4ref<const T> xxwx() const { return _vec4ref(x,x,w,x); }
-_vec4ref<const T> rrar() const { return _vec4ref(r,r,a,r); }
-_vec4ref<const T> ssqs() const { return _vec4ref(s,s,q,s); }
-_vec4ref<const T> xxwy() const { return _vec4ref(x,x,w,y); }
-_vec4ref<const T> rrag() const { return _vec4ref(r,r,a,g); }
-_vec4ref<const T> ssqt() const { return _vec4ref(s,s,q,t); }
-_vec4ref<const T> xxwz() const { return _vec4ref(x,x,w,z); }
-_vec4ref<const T> rrab() const { return _vec4ref(r,r,a,b); }
-_vec4ref<const T> ssqp() const { return _vec4ref(s,s,q,p); }
-_vec4ref<const T> xxww() const { return _vec4ref(x,x,w,w); }
-_vec4ref<const T> rraa() const { return _vec4ref(r,r,a,a); }
-_vec4ref<const T> ssqq() const { return _vec4ref(s,s,q,q); }
-_vec4ref<const T> xyxw() const { return _vec4ref(x,y,x,w); }
-_vec4ref<const T> rgra() const { return _vec4ref(r,g,r,a); }
-_vec4ref<const T> stsq() const { return _vec4ref(s,t,s,q); }
-_vec4ref<const T> xyyw() const { return _vec4ref(x,y,y,w); }
-_vec4ref<const T> rgga() const { return _vec4ref(r,g,g,a); }
-_vec4ref<const T> sttq() const { return _vec4ref(s,t,t,q); }
-_vec4ref<T> xyzw() { return _vec4ref(x,y,z,w); }
-_vec4ref<T> rgba() { return _vec4ref(r,g,b,a); }
-_vec4ref<T> stpq() { return _vec4ref(s,t,p,q); }
-_vec4ref<const T> xywx() const { return _vec4ref(x,y,w,x); }
-_vec4ref<const T> rgar() const { return _vec4ref(r,g,a,r); }
-_vec4ref<const T> stqs() const { return _vec4ref(s,t,q,s); }
-_vec4ref<const T> xywy() const { return _vec4ref(x,y,w,y); }
-_vec4ref<const T> rgag() const { return _vec4ref(r,g,a,g); }
-_vec4ref<const T> stqt() const { return _vec4ref(s,t,q,t); }
-_vec4ref<T> xywz() { return _vec4ref(x,y,w,z); }
-_vec4ref<T> rgab() { return _vec4ref(r,g,a,b); }
-_vec4ref<T> stqp() { return _vec4ref(s,t,q,p); }
-_vec4ref<const T> xyww() const { return _vec4ref(x,y,w,w); }
-_vec4ref<const T> rgaa() const { return _vec4ref(r,g,a,a); }
-_vec4ref<const T> stqq() const { return _vec4ref(s,t,q,q); }
-_vec4ref<const T> xzxw() const { return _vec4ref(x,z,x,w); }
-_vec4ref<const T> rbra() const { return _vec4ref(r,b,r,a); }
-_vec4ref<const T> spsq() const { return _vec4ref(s,p,s,q); }
-_vec4ref<T> xzyw() { return _vec4ref(x,z,y,w); }
-_vec4ref<T> rbga() { return _vec4ref(r,b,g,a); }
-_vec4ref<T> sptq() { return _vec4ref(s,p,t,q); }
-_vec4ref<const T> xzzw() const { return _vec4ref(x,z,z,w); }
-_vec4ref<const T> rbba() const { return _vec4ref(r,b,b,a); }
-_vec4ref<const T> sppq() const { return _vec4ref(s,p,p,q); }
-_vec4ref<const T> xzwx() const { return _vec4ref(x,z,w,x); }
-_vec4ref<const T> rbar() const { return _vec4ref(r,b,a,r); }
-_vec4ref<const T> spqs() const { return _vec4ref(s,p,q,s); }
-_vec4ref<T> xzwy() { return _vec4ref(x,z,w,y); }
-_vec4ref<T> rbag() { return _vec4ref(r,b,a,g); }
-_vec4ref<T> spqt() { return _vec4ref(s,p,q,t); }
-_vec4ref<const T> xzwz() const { return _vec4ref(x,z,w,z); }
-_vec4ref<const T> rbab() const { return _vec4ref(r,b,a,b); }
-_vec4ref<const T> spqp() const { return _vec4ref(s,p,q,p); }
-_vec4ref<const T> xzww() const { return _vec4ref(x,z,w,w); }
-_vec4ref<const T> rbaa() const { return _vec4ref(r,b,a,a); }
-_vec4ref<const T> spqq() const { return _vec4ref(s,p,q,q); }
-_vec4ref<const T> xwxx() const { return _vec4ref(x,w,x,x); }
-_vec4ref<const T> rarr() const { return _vec4ref(r,a,r,r); }
-_vec4ref<const T> sqss() const { return _vec4ref(s,q,s,s); }
-_vec4ref<const T> xwxy() const { return _vec4ref(x,w,x,y); }
-_vec4ref<const T> rarg() const { return _vec4ref(r,a,r,g); }
-_vec4ref<const T> sqst() const { return _vec4ref(s,q,s,t); }
-_vec4ref<const T> xwxz() const { return _vec4ref(x,w,x,z); }
-_vec4ref<const T> rarb() const { return _vec4ref(r,a,r,b); }
-_vec4ref<const T> sqsp() const { return _vec4ref(s,q,s,p); }
-_vec4ref<const T> xwxw() const { return _vec4ref(x,w,x,w); }
-_vec4ref<const T> rara() const { return _vec4ref(r,a,r,a); }
-_vec4ref<const T> sqsq() const { return _vec4ref(s,q,s,q); }
-_vec4ref<const T> xwyx() const { return _vec4ref(x,w,y,x); }
-_vec4ref<const T> ragr() const { return _vec4ref(r,a,g,r); }
-_vec4ref<const T> sqts() const { return _vec4ref(s,q,t,s); }
-_vec4ref<const T> xwyy() const { return _vec4ref(x,w,y,y); }
-_vec4ref<const T> ragg() const { return _vec4ref(r,a,g,g); }
-_vec4ref<const T> sqtt() const { return _vec4ref(s,q,t,t); }
-_vec4ref<T> xwyz() { return _vec4ref(x,w,y,z); }
-_vec4ref<T> ragb() { return _vec4ref(r,a,g,b); }
-_vec4ref<T> sqtp() { return _vec4ref(s,q,t,p); }
-_vec4ref<const T> xwyw() const { return _vec4ref(x,w,y,w); }
-_vec4ref<const T> raga() const { return _vec4ref(r,a,g,a); }
-_vec4ref<const T> sqtq() const { return _vec4ref(s,q,t,q); }
-_vec4ref<const T> xwzx() const { return _vec4ref(x,w,z,x); }
-_vec4ref<const T> rabr() const { return _vec4ref(r,a,b,r); }
-_vec4ref<const T> sqps() const { return _vec4ref(s,q,p,s); }
-_vec4ref<T> xwzy() { return _vec4ref(x,w,z,y); }
-_vec4ref<T> rabg() { return _vec4ref(r,a,b,g); }
-_vec4ref<T> sqpt() { return _vec4ref(s,q,p,t); }
-_vec4ref<const T> xwzz() const { return _vec4ref(x,w,z,z); }
-_vec4ref<const T> rabb() const { return _vec4ref(r,a,b,b); }
-_vec4ref<const T> sqpp() const { return _vec4ref(s,q,p,p); }
-_vec4ref<const T> xwzw() const { return _vec4ref(x,w,z,w); }
-_vec4ref<const T> raba() const { return _vec4ref(r,a,b,a); }
-_vec4ref<const T> sqpq() const { return _vec4ref(s,q,p,q); }
-_vec4ref<const T> xwwx() const { return _vec4ref(x,w,w,x); }
-_vec4ref<const T> raar() const { return _vec4ref(r,a,a,r); }
-_vec4ref<const T> sqqs() const { return _vec4ref(s,q,q,s); }
-_vec4ref<const T> xwwy() const { return _vec4ref(x,w,w,y); }
-_vec4ref<const T> raag() const { return _vec4ref(r,a,a,g); }
-_vec4ref<const T> sqqt() const { return _vec4ref(s,q,q,t); }
-_vec4ref<const T> xwwz() const { return _vec4ref(x,w,w,z); }
-_vec4ref<const T> raab() const { return _vec4ref(r,a,a,b); }
-_vec4ref<const T> sqqp() const { return _vec4ref(s,q,q,p); }
-_vec4ref<const T> xwww() const { return _vec4ref(x,w,w,w); }
-_vec4ref<const T> raaa() const { return _vec4ref(r,a,a,a); }
-_vec4ref<const T> sqqq() const { return _vec4ref(s,q,q,q); }
-_vec4ref<const T> yxxw() const { return _vec4ref(y,x,x,w); }
-_vec4ref<const T> grra() const { return _vec4ref(g,r,r,a); }
-_vec4ref<const T> tssq() const { return _vec4ref(t,s,s,q); }
-_vec4ref<const T> yxyw() const { return _vec4ref(y,x,y,w); }
-_vec4ref<const T> grga() const { return _vec4ref(g,r,g,a); }
-_vec4ref<const T> tstq() const { return _vec4ref(t,s,t,q); }
-_vec4ref<T> yxzw() { return _vec4ref(y,x,z,w); }
-_vec4ref<T> grba() { return _vec4ref(g,r,b,a); }
-_vec4ref<T> tspq() { return _vec4ref(t,s,p,q); }
-_vec4ref<const T> yxwx() const { return _vec4ref(y,x,w,x); }
-_vec4ref<const T> grar() const { return _vec4ref(g,r,a,r); }
-_vec4ref<const T> tsqs() const { return _vec4ref(t,s,q,s); }
-_vec4ref<const T> yxwy() const { return _vec4ref(y,x,w,y); }
-_vec4ref<const T> grag() const { return _vec4ref(g,r,a,g); }
-_vec4ref<const T> tsqt() const { return _vec4ref(t,s,q,t); }
-_vec4ref<T> yxwz() { return _vec4ref(y,x,w,z); }
-_vec4ref<T> grab() { return _vec4ref(g,r,a,b); }
-_vec4ref<T> tsqp() { return _vec4ref(t,s,q,p); }
-_vec4ref<const T> yxww() const { return _vec4ref(y,x,w,w); }
-_vec4ref<const T> graa() const { return _vec4ref(g,r,a,a); }
-_vec4ref<const T> tsqq() const { return _vec4ref(t,s,q,q); }
-_vec4ref<const T> yyxw() const { return _vec4ref(y,y,x,w); }
-_vec4ref<const T> ggra() const { return _vec4ref(g,g,r,a); }
-_vec4ref<const T> ttsq() const { return _vec4ref(t,t,s,q); }
-_vec4ref<const T> yyyw() const { return _vec4ref(y,y,y,w); }
-_vec4ref<const T> ggga() const { return _vec4ref(g,g,g,a); }
-_vec4ref<const T> tttq() const { return _vec4ref(t,t,t,q); }
-_vec4ref<const T> yyzw() const { return _vec4ref(y,y,z,w); }
-_vec4ref<const T> ggba() const { return _vec4ref(g,g,b,a); }
-_vec4ref<const T> ttpq() const { return _vec4ref(t,t,p,q); }
-_vec4ref<const T> yywx() const { return _vec4ref(y,y,w,x); }
-_vec4ref<const T> ggar() const { return _vec4ref(g,g,a,r); }
-_vec4ref<const T> ttqs() const { return _vec4ref(t,t,q,s); }
-_vec4ref<const T> yywy() const { return _vec4ref(y,y,w,y); }
-_vec4ref<const T> ggag() const { return _vec4ref(g,g,a,g); }
-_vec4ref<const T> ttqt() const { return _vec4ref(t,t,q,t); }
-_vec4ref<const T> yywz() const { return _vec4ref(y,y,w,z); }
-_vec4ref<const T> ggab() const { return _vec4ref(g,g,a,b); }
-_vec4ref<const T> ttqp() const { return _vec4ref(t,t,q,p); }
-_vec4ref<const T> yyww() const { return _vec4ref(y,y,w,w); }
-_vec4ref<const T> ggaa() const { return _vec4ref(g,g,a,a); }
-_vec4ref<const T> ttqq() const { return _vec4ref(t,t,q,q); }
-_vec4ref<T> yzxw() { return _vec4ref(y,z,x,w); }
-_vec4ref<T> gbra() { return _vec4ref(g,b,r,a); }
-_vec4ref<T> tpsq() { return _vec4ref(t,p,s,q); }
-_vec4ref<const T> yzyw() const { return _vec4ref(y,z,y,w); }
-_vec4ref<const T> gbga() const { return _vec4ref(g,b,g,a); }
-_vec4ref<const T> tptq() const { return _vec4ref(t,p,t,q); }
-_vec4ref<const T> yzzw() const { return _vec4ref(y,z,z,w); }
-_vec4ref<const T> gbba() const { return _vec4ref(g,b,b,a); }
-_vec4ref<const T> tppq() const { return _vec4ref(t,p,p,q); }
-_vec4ref<T> yzwx() { return _vec4ref(y,z,w,x); }
-_vec4ref<T> gbar() { return _vec4ref(g,b,a,r); }
-_vec4ref<T> tpqs() { return _vec4ref(t,p,q,s); }
-_vec4ref<const T> yzwy() const { return _vec4ref(y,z,w,y); }
-_vec4ref<const T> gbag() const { return _vec4ref(g,b,a,g); }
-_vec4ref<const T> tpqt() const { return _vec4ref(t,p,q,t); }
-_vec4ref<const T> yzwz() const { return _vec4ref(y,z,w,z); }
-_vec4ref<const T> gbab() const { return _vec4ref(g,b,a,b); }
-_vec4ref<const T> tpqp() const { return _vec4ref(t,p,q,p); }
-_vec4ref<const T> yzww() const { return _vec4ref(y,z,w,w); }
-_vec4ref<const T> gbaa() const { return _vec4ref(g,b,a,a); }
-_vec4ref<const T> tpqq() const { return _vec4ref(t,p,q,q); }
-_vec4ref<const T> ywxx() const { return _vec4ref(y,w,x,x); }
-_vec4ref<const T> garr() const { return _vec4ref(g,a,r,r); }
-_vec4ref<const T> tqss() const { return _vec4ref(t,q,s,s); }
-_vec4ref<const T> ywxy() const { return _vec4ref(y,w,x,y); }
-_vec4ref<const T> garg() const { return _vec4ref(g,a,r,g); }
-_vec4ref<const T> tqst() const { return _vec4ref(t,q,s,t); }
-_vec4ref<T> ywxz() { return _vec4ref(y,w,x,z); }
-_vec4ref<T> garb() { return _vec4ref(g,a,r,b); }
-_vec4ref<T> tqsp() { return _vec4ref(t,q,s,p); }
-_vec4ref<const T> ywxw() const { return _vec4ref(y,w,x,w); }
-_vec4ref<const T> gara() const { return _vec4ref(g,a,r,a); }
-_vec4ref<const T> tqsq() const { return _vec4ref(t,q,s,q); }
-_vec4ref<const T> ywyx() const { return _vec4ref(y,w,y,x); }
-_vec4ref<const T> gagr() const { return _vec4ref(g,a,g,r); }
-_vec4ref<const T> tqts() const { return _vec4ref(t,q,t,s); }
-_vec4ref<const T> ywyy() const { return _vec4ref(y,w,y,y); }
-_vec4ref<const T> gagg() const { return _vec4ref(g,a,g,g); }
-_vec4ref<const T> tqtt() const { return _vec4ref(t,q,t,t); }
-_vec4ref<const T> ywyz() const { return _vec4ref(y,w,y,z); }
-_vec4ref<const T> gagb() const { return _vec4ref(g,a,g,b); }
-_vec4ref<const T> tqtp() const { return _vec4ref(t,q,t,p); }
-_vec4ref<const T> ywyw() const { return _vec4ref(y,w,y,w); }
-_vec4ref<const T> gaga() const { return _vec4ref(g,a,g,a); }
-_vec4ref<const T> tqtq() const { return _vec4ref(t,q,t,q); }
-_vec4ref<T> ywzx() { return _vec4ref(y,w,z,x); }
-_vec4ref<T> gabr() { return _vec4ref(g,a,b,r); }
-_vec4ref<T> tqps() { return _vec4ref(t,q,p,s); }
-_vec4ref<const T> ywzy() const { return _vec4ref(y,w,z,y); }
-_vec4ref<const T> gabg() const { return _vec4ref(g,a,b,g); }
-_vec4ref<const T> tqpt() const { return _vec4ref(t,q,p,t); }
-_vec4ref<const T> ywzz() const { return _vec4ref(y,w,z,z); }
-_vec4ref<const T> gabb() const { return _vec4ref(g,a,b,b); }
-_vec4ref<const T> tqpp() const { return _vec4ref(t,q,p,p); }
-_vec4ref<const T> ywzw() const { return _vec4ref(y,w,z,w); }
-_vec4ref<const T> gaba() const { return _vec4ref(g,a,b,a); }
-_vec4ref<const T> tqpq() const { return _vec4ref(t,q,p,q); }
-_vec4ref<const T> ywwx() const { return _vec4ref(y,w,w,x); }
-_vec4ref<const T> gaar() const { return _vec4ref(g,a,a,r); }
-_vec4ref<const T> tqqs() const { return _vec4ref(t,q,q,s); }
-_vec4ref<const T> ywwy() const { return _vec4ref(y,w,w,y); }
-_vec4ref<const T> gaag() const { return _vec4ref(g,a,a,g); }
-_vec4ref<const T> tqqt() const { return _vec4ref(t,q,q,t); }
-_vec4ref<const T> ywwz() const { return _vec4ref(y,w,w,z); }
-_vec4ref<const T> gaab() const { return _vec4ref(g,a,a,b); }
-_vec4ref<const T> tqqp() const { return _vec4ref(t,q,q,p); }
-_vec4ref<const T> ywww() const { return _vec4ref(y,w,w,w); }
-_vec4ref<const T> gaaa() const { return _vec4ref(g,a,a,a); }
-_vec4ref<const T> tqqq() const { return _vec4ref(t,q,q,q); }
-_vec4ref<const T> zxxw() const { return _vec4ref(z,x,x,w); }
-_vec4ref<const T> brra() const { return _vec4ref(b,r,r,a); }
-_vec4ref<const T> pssq() const { return _vec4ref(p,s,s,q); }
-_vec4ref<T> zxyw() { return _vec4ref(z,x,y,w); }
-_vec4ref<T> brga() { return _vec4ref(b,r,g,a); }
-_vec4ref<T> pstq() { return _vec4ref(p,s,t,q); }
-_vec4ref<const T> zxzw() const { return _vec4ref(z,x,z,w); }
-_vec4ref<const T> brba() const { return _vec4ref(b,r,b,a); }
-_vec4ref<const T> pspq() const { return _vec4ref(p,s,p,q); }
-_vec4ref<const T> zxwx() const { return _vec4ref(z,x,w,x); }
-_vec4ref<const T> brar() const { return _vec4ref(b,r,a,r); }
-_vec4ref<const T> psqs() const { return _vec4ref(p,s,q,s); }
-_vec4ref<T> zxwy() { return _vec4ref(z,x,w,y); }
-_vec4ref<T> brag() { return _vec4ref(b,r,a,g); }
-_vec4ref<T> psqt() { return _vec4ref(p,s,q,t); }
-_vec4ref<const T> zxwz() const { return _vec4ref(z,x,w,z); }
-_vec4ref<const T> brab() const { return _vec4ref(b,r,a,b); }
-_vec4ref<const T> psqp() const { return _vec4ref(p,s,q,p); }
-_vec4ref<const T> zxww() const { return _vec4ref(z,x,w,w); }
-_vec4ref<const T> braa() const { return _vec4ref(b,r,a,a); }
-_vec4ref<const T> psqq() const { return _vec4ref(p,s,q,q); }
-_vec4ref<T> zyxw() { return _vec4ref(z,y,x,w); }
-_vec4ref<T> bgra() { return _vec4ref(b,g,r,a); }
-_vec4ref<T> ptsq() { return _vec4ref(p,t,s,q); }
-_vec4ref<const T> zyyw() const { return _vec4ref(z,y,y,w); }
-_vec4ref<const T> bgga() const { return _vec4ref(b,g,g,a); }
-_vec4ref<const T> pttq() const { return _vec4ref(p,t,t,q); }
-_vec4ref<const T> zyzw() const { return _vec4ref(z,y,z,w); }
-_vec4ref<const T> bgba() const { return _vec4ref(b,g,b,a); }
-_vec4ref<const T> ptpq() const { return _vec4ref(p,t,p,q); }
-_vec4ref<T> zywx() { return _vec4ref(z,y,w,x); }
-_vec4ref<T> bgar() { return _vec4ref(b,g,a,r); }
-_vec4ref<T> ptqs() { return _vec4ref(p,t,q,s); }
-_vec4ref<const T> zywy() const { return _vec4ref(z,y,w,y); }
-_vec4ref<const T> bgag() const { return _vec4ref(b,g,a,g); }
-_vec4ref<const T> ptqt() const { return _vec4ref(p,t,q,t); }
-_vec4ref<const T> zywz() const { return _vec4ref(z,y,w,z); }
-_vec4ref<const T> bgab() const { return _vec4ref(b,g,a,b); }
-_vec4ref<const T> ptqp() const { return _vec4ref(p,t,q,p); }
-_vec4ref<const T> zyww() const { return _vec4ref(z,y,w,w); }
-_vec4ref<const T> bgaa() const { return _vec4ref(b,g,a,a); }
-_vec4ref<const T> ptqq() const { return _vec4ref(p,t,q,q); }
-_vec4ref<const T> zzxw() const { return _vec4ref(z,z,x,w); }
-_vec4ref<const T> bbra() const { return _vec4ref(b,b,r,a); }
-_vec4ref<const T> ppsq() const { return _vec4ref(p,p,s,q); }
-_vec4ref<const T> zzyw() const { return _vec4ref(z,z,y,w); }
-_vec4ref<const T> bbga() const { return _vec4ref(b,b,g,a); }
-_vec4ref<const T> pptq() const { return _vec4ref(p,p,t,q); }
-_vec4ref<const T> zzzw() const { return _vec4ref(z,z,z,w); }
-_vec4ref<const T> bbba() const { return _vec4ref(b,b,b,a); }
-_vec4ref<const T> pppq() const { return _vec4ref(p,p,p,q); }
-_vec4ref<const T> zzwx() const { return _vec4ref(z,z,w,x); }
-_vec4ref<const T> bbar() const { return _vec4ref(b,b,a,r); }
-_vec4ref<const T> ppqs() const { return _vec4ref(p,p,q,s); }
-_vec4ref<const T> zzwy() const { return _vec4ref(z,z,w,y); }
-_vec4ref<const T> bbag() const { return _vec4ref(b,b,a,g); }
-_vec4ref<const T> ppqt() const { return _vec4ref(p,p,q,t); }
-_vec4ref<const T> zzwz() const { return _vec4ref(z,z,w,z); }
-_vec4ref<const T> bbab() const { return _vec4ref(b,b,a,b); }
-_vec4ref<const T> ppqp() const { return _vec4ref(p,p,q,p); }
-_vec4ref<const T> zzww() const { return _vec4ref(z,z,w,w); }
-_vec4ref<const T> bbaa() const { return _vec4ref(b,b,a,a); }
-_vec4ref<const T> ppqq() const { return _vec4ref(p,p,q,q); }
-_vec4ref<const T> zwxx() const { return _vec4ref(z,w,x,x); }
-_vec4ref<const T> barr() const { return _vec4ref(b,a,r,r); }
-_vec4ref<const T> pqss() const { return _vec4ref(p,q,s,s); }
-_vec4ref<T> zwxy() { return _vec4ref(z,w,x,y); }
-_vec4ref<T> barg() { return _vec4ref(b,a,r,g); }
-_vec4ref<T> pqst() { return _vec4ref(p,q,s,t); }
-_vec4ref<const T> zwxz() const { return _vec4ref(z,w,x,z); }
-_vec4ref<const T> barb() const { return _vec4ref(b,a,r,b); }
-_vec4ref<const T> pqsp() const { return _vec4ref(p,q,s,p); }
-_vec4ref<const T> zwxw() const { return _vec4ref(z,w,x,w); }
-_vec4ref<const T> bara() const { return _vec4ref(b,a,r,a); }
-_vec4ref<const T> pqsq() const { return _vec4ref(p,q,s,q); }
-_vec4ref<T> zwyx() { return _vec4ref(z,w,y,x); }
-_vec4ref<T> bagr() { return _vec4ref(b,a,g,r); }
-_vec4ref<T> pqts() { return _vec4ref(p,q,t,s); }
-_vec4ref<const T> zwyy() const { return _vec4ref(z,w,y,y); }
-_vec4ref<const T> bagg() const { return _vec4ref(b,a,g,g); }
-_vec4ref<const T> pqtt() const { return _vec4ref(p,q,t,t); }
-_vec4ref<const T> zwyz() const { return _vec4ref(z,w,y,z); }
-_vec4ref<const T> bagb() const { return _vec4ref(b,a,g,b); }
-_vec4ref<const T> pqtp() const { return _vec4ref(p,q,t,p); }
-_vec4ref<const T> zwyw() const { return _vec4ref(z,w,y,w); }
-_vec4ref<const T> baga() const { return _vec4ref(b,a,g,a); }
-_vec4ref<const T> pqtq() const { return _vec4ref(p,q,t,q); }
-_vec4ref<const T> zwzx() const { return _vec4ref(z,w,z,x); }
-_vec4ref<const T> babr() const { return _vec4ref(b,a,b,r); }
-_vec4ref<const T> pqps() const { return _vec4ref(p,q,p,s); }
-_vec4ref<const T> zwzy() const { return _vec4ref(z,w,z,y); }
-_vec4ref<const T> babg() const { return _vec4ref(b,a,b,g); }
-_vec4ref<const T> pqpt() const { return _vec4ref(p,q,p,t); }
-_vec4ref<const T> zwzz() const { return _vec4ref(z,w,z,z); }
-_vec4ref<const T> babb() const { return _vec4ref(b,a,b,b); }
-_vec4ref<const T> pqpp() const { return _vec4ref(p,q,p,p); }
-_vec4ref<const T> zwzw() const { return _vec4ref(z,w,z,w); }
-_vec4ref<const T> baba() const { return _vec4ref(b,a,b,a); }
-_vec4ref<const T> pqpq() const { return _vec4ref(p,q,p,q); }
-_vec4ref<const T> zwwx() const { return _vec4ref(z,w,w,x); }
-_vec4ref<const T> baar() const { return _vec4ref(b,a,a,r); }
-_vec4ref<const T> pqqs() const { return _vec4ref(p,q,q,s); }
-_vec4ref<const T> zwwy() const { return _vec4ref(z,w,w,y); }
-_vec4ref<const T> baag() const { return _vec4ref(b,a,a,g); }
-_vec4ref<const T> pqqt() const { return _vec4ref(p,q,q,t); }
-_vec4ref<const T> zwwz() const { return _vec4ref(z,w,w,z); }
-_vec4ref<const T> baab() const { return _vec4ref(b,a,a,b); }
-_vec4ref<const T> pqqp() const { return _vec4ref(p,q,q,p); }
-_vec4ref<const T> zwww() const { return _vec4ref(z,w,w,w); }
-_vec4ref<const T> baaa() const { return _vec4ref(b,a,a,a); }
-_vec4ref<const T> pqqq() const { return _vec4ref(p,q,q,q); }
-_vec4ref<const T> wxxx() const { return _vec4ref(w,x,x,x); }
-_vec4ref<const T> arrr() const { return _vec4ref(a,r,r,r); }
-_vec4ref<const T> qsss() const { return _vec4ref(q,s,s,s); }
-_vec4ref<const T> wxxy() const { return _vec4ref(w,x,x,y); }
-_vec4ref<const T> arrg() const { return _vec4ref(a,r,r,g); }
-_vec4ref<const T> qsst() const { return _vec4ref(q,s,s,t); }
-_vec4ref<const T> wxxz() const { return _vec4ref(w,x,x,z); }
-_vec4ref<const T> arrb() const { return _vec4ref(a,r,r,b); }
-_vec4ref<const T> qssp() const { return _vec4ref(q,s,s,p); }
-_vec4ref<const T> wxxw() const { return _vec4ref(w,x,x,w); }
-_vec4ref<const T> arra() const { return _vec4ref(a,r,r,a); }
-_vec4ref<const T> qssq() const { return _vec4ref(q,s,s,q); }
-_vec4ref<const T> wxyx() const { return _vec4ref(w,x,y,x); }
-_vec4ref<const T> argr() const { return _vec4ref(a,r,g,r); }
-_vec4ref<const T> qsts() const { return _vec4ref(q,s,t,s); }
-_vec4ref<const T> wxyy() const { return _vec4ref(w,x,y,y); }
-_vec4ref<const T> argg() const { return _vec4ref(a,r,g,g); }
-_vec4ref<const T> qstt() const { return _vec4ref(q,s,t,t); }
-_vec4ref<T> wxyz() { return _vec4ref(w,x,y,z); }
-_vec4ref<T> argb() { return _vec4ref(a,r,g,b); }
-_vec4ref<T> qstp() { return _vec4ref(q,s,t,p); }
-_vec4ref<const T> wxyw() const { return _vec4ref(w,x,y,w); }
-_vec4ref<const T> arga() const { return _vec4ref(a,r,g,a); }
-_vec4ref<const T> qstq() const { return _vec4ref(q,s,t,q); }
-_vec4ref<const T> wxzx() const { return _vec4ref(w,x,z,x); }
-_vec4ref<const T> arbr() const { return _vec4ref(a,r,b,r); }
-_vec4ref<const T> qsps() const { return _vec4ref(q,s,p,s); }
-_vec4ref<T> wxzy() { return _vec4ref(w,x,z,y); }
-_vec4ref<T> arbg() { return _vec4ref(a,r,b,g); }
-_vec4ref<T> qspt() { return _vec4ref(q,s,p,t); }
-_vec4ref<const T> wxzz() const { return _vec4ref(w,x,z,z); }
-_vec4ref<const T> arbb() const { return _vec4ref(a,r,b,b); }
-_vec4ref<const T> qspp() const { return _vec4ref(q,s,p,p); }
-_vec4ref<const T> wxzw() const { return _vec4ref(w,x,z,w); }
-_vec4ref<const T> arba() const { return _vec4ref(a,r,b,a); }
-_vec4ref<const T> qspq() const { return _vec4ref(q,s,p,q); }
-_vec4ref<const T> wxwx() const { return _vec4ref(w,x,w,x); }
-_vec4ref<const T> arar() const { return _vec4ref(a,r,a,r); }
-_vec4ref<const T> qsqs() const { return _vec4ref(q,s,q,s); }
-_vec4ref<const T> wxwy() const { return _vec4ref(w,x,w,y); }
-_vec4ref<const T> arag() const { return _vec4ref(a,r,a,g); }
-_vec4ref<const T> qsqt() const { return _vec4ref(q,s,q,t); }
-_vec4ref<const T> wxwz() const { return _vec4ref(w,x,w,z); }
-_vec4ref<const T> arab() const { return _vec4ref(a,r,a,b); }
-_vec4ref<const T> qsqp() const { return _vec4ref(q,s,q,p); }
-_vec4ref<const T> wxww() const { return _vec4ref(w,x,w,w); }
-_vec4ref<const T> araa() const { return _vec4ref(a,r,a,a); }
-_vec4ref<const T> qsqq() const { return _vec4ref(q,s,q,q); }
-_vec4ref<const T> wyxx() const { return _vec4ref(w,y,x,x); }
-_vec4ref<const T> agrr() const { return _vec4ref(a,g,r,r); }
-_vec4ref<const T> qtss() const { return _vec4ref(q,t,s,s); }
-_vec4ref<const T> wyxy() const { return _vec4ref(w,y,x,y); }
-_vec4ref<const T> agrg() const { return _vec4ref(a,g,r,g); }
-_vec4ref<const T> qtst() const { return _vec4ref(q,t,s,t); }
-_vec4ref<T> wyxz() { return _vec4ref(w,y,x,z); }
-_vec4ref<T> agrb() { return _vec4ref(a,g,r,b); }
-_vec4ref<T> qtsp() { return _vec4ref(q,t,s,p); }
-_vec4ref<const T> wyxw() const { return _vec4ref(w,y,x,w); }
-_vec4ref<const T> agra() const { return _vec4ref(a,g,r,a); }
-_vec4ref<const T> qtsq() const { return _vec4ref(q,t,s,q); }
-_vec4ref<const T> wyyx() const { return _vec4ref(w,y,y,x); }
-_vec4ref<const T> aggr() const { return _vec4ref(a,g,g,r); }
-_vec4ref<const T> qtts() const { return _vec4ref(q,t,t,s); }
-_vec4ref<const T> wyyy() const { return _vec4ref(w,y,y,y); }
-_vec4ref<const T> aggg() const { return _vec4ref(a,g,g,g); }
-_vec4ref<const T> qttt() const { return _vec4ref(q,t,t,t); }
-_vec4ref<const T> wyyz() const { return _vec4ref(w,y,y,z); }
-_vec4ref<const T> aggb() const { return _vec4ref(a,g,g,b); }
-_vec4ref<const T> qttp() const { return _vec4ref(q,t,t,p); }
-_vec4ref<const T> wyyw() const { return _vec4ref(w,y,y,w); }
-_vec4ref<const T> agga() const { return _vec4ref(a,g,g,a); }
-_vec4ref<const T> qttq() const { return _vec4ref(q,t,t,q); }
-_vec4ref<T> wyzx() { return _vec4ref(w,y,z,x); }
-_vec4ref<T> agbr() { return _vec4ref(a,g,b,r); }
-_vec4ref<T> qtps() { return _vec4ref(q,t,p,s); }
-_vec4ref<const T> wyzy() const { return _vec4ref(w,y,z,y); }
-_vec4ref<const T> agbg() const { return _vec4ref(a,g,b,g); }
-_vec4ref<const T> qtpt() const { return _vec4ref(q,t,p,t); }
-_vec4ref<const T> wyzz() const { return _vec4ref(w,y,z,z); }
-_vec4ref<const T> agbb() const { return _vec4ref(a,g,b,b); }
-_vec4ref<const T> qtpp() const { return _vec4ref(q,t,p,p); }
-_vec4ref<const T> wyzw() const { return _vec4ref(w,y,z,w); }
-_vec4ref<const T> agba() const { return _vec4ref(a,g,b,a); }
-_vec4ref<const T> qtpq() const { return _vec4ref(q,t,p,q); }
-_vec4ref<const T> wywx() const { return _vec4ref(w,y,w,x); }
-_vec4ref<const T> agar() const { return _vec4ref(a,g,a,r); }
-_vec4ref<const T> qtqs() const { return _vec4ref(q,t,q,s); }
-_vec4ref<const T> wywy() const { return _vec4ref(w,y,w,y); }
-_vec4ref<const T> agag() const { return _vec4ref(a,g,a,g); }
-_vec4ref<const T> qtqt() const { return _vec4ref(q,t,q,t); }
-_vec4ref<const T> wywz() const { return _vec4ref(w,y,w,z); }
-_vec4ref<const T> agab() const { return _vec4ref(a,g,a,b); }
-_vec4ref<const T> qtqp() const { return _vec4ref(q,t,q,p); }
-_vec4ref<const T> wyww() const { return _vec4ref(w,y,w,w); }
-_vec4ref<const T> agaa() const { return _vec4ref(a,g,a,a); }
-_vec4ref<const T> qtqq() const { return _vec4ref(q,t,q,q); }
-_vec4ref<const T> wzxx() const { return _vec4ref(w,z,x,x); }
-_vec4ref<const T> abrr() const { return _vec4ref(a,b,r,r); }
-_vec4ref<const T> qpss() const { return _vec4ref(q,p,s,s); }
-_vec4ref<T> wzxy() { return _vec4ref(w,z,x,y); }
-_vec4ref<T> abrg() { return _vec4ref(a,b,r,g); }
-_vec4ref<T> qpst() { return _vec4ref(q,p,s,t); }
-_vec4ref<const T> wzxz() const { return _vec4ref(w,z,x,z); }
-_vec4ref<const T> abrb() const { return _vec4ref(a,b,r,b); }
-_vec4ref<const T> qpsp() const { return _vec4ref(q,p,s,p); }
-_vec4ref<const T> wzxw() const { return _vec4ref(w,z,x,w); }
-_vec4ref<const T> abra() const { return _vec4ref(a,b,r,a); }
-_vec4ref<const T> qpsq() const { return _vec4ref(q,p,s,q); }
-_vec4ref<T> wzyx() { return _vec4ref(w,z,y,x); }
-_vec4ref<T> abgr() { return _vec4ref(a,b,g,r); }
-_vec4ref<T> qpts() { return _vec4ref(q,p,t,s); }
-_vec4ref<const T> wzyy() const { return _vec4ref(w,z,y,y); }
-_vec4ref<const T> abgg() const { return _vec4ref(a,b,g,g); }
-_vec4ref<const T> qptt() const { return _vec4ref(q,p,t,t); }
-_vec4ref<const T> wzyz() const { return _vec4ref(w,z,y,z); }
-_vec4ref<const T> abgb() const { return _vec4ref(a,b,g,b); }
-_vec4ref<const T> qptp() const { return _vec4ref(q,p,t,p); }
-_vec4ref<const T> wzyw() const { return _vec4ref(w,z,y,w); }
-_vec4ref<const T> abga() const { return _vec4ref(a,b,g,a); }
-_vec4ref<const T> qptq() const { return _vec4ref(q,p,t,q); }
-_vec4ref<const T> wzzx() const { return _vec4ref(w,z,z,x); }
-_vec4ref<const T> abbr() const { return _vec4ref(a,b,b,r); }
-_vec4ref<const T> qpps() const { return _vec4ref(q,p,p,s); }
-_vec4ref<const T> wzzy() const { return _vec4ref(w,z,z,y); }
-_vec4ref<const T> abbg() const { return _vec4ref(a,b,b,g); }
-_vec4ref<const T> qppt() const { return _vec4ref(q,p,p,t); }
-_vec4ref<const T> wzzz() const { return _vec4ref(w,z,z,z); }
-_vec4ref<const T> abbb() const { return _vec4ref(a,b,b,b); }
-_vec4ref<const T> qppp() const { return _vec4ref(q,p,p,p); }
-_vec4ref<const T> wzzw() const { return _vec4ref(w,z,z,w); }
-_vec4ref<const T> abba() const { return _vec4ref(a,b,b,a); }
-_vec4ref<const T> qppq() const { return _vec4ref(q,p,p,q); }
-_vec4ref<const T> wzwx() const { return _vec4ref(w,z,w,x); }
-_vec4ref<const T> abar() const { return _vec4ref(a,b,a,r); }
-_vec4ref<const T> qpqs() const { return _vec4ref(q,p,q,s); }
-_vec4ref<const T> wzwy() const { return _vec4ref(w,z,w,y); }
-_vec4ref<const T> abag() const { return _vec4ref(a,b,a,g); }
-_vec4ref<const T> qpqt() const { return _vec4ref(q,p,q,t); }
-_vec4ref<const T> wzwz() const { return _vec4ref(w,z,w,z); }
-_vec4ref<const T> abab() const { return _vec4ref(a,b,a,b); }
-_vec4ref<const T> qpqp() const { return _vec4ref(q,p,q,p); }
-_vec4ref<const T> wzww() const { return _vec4ref(w,z,w,w); }
-_vec4ref<const T> abaa() const { return _vec4ref(a,b,a,a); }
-_vec4ref<const T> qpqq() const { return _vec4ref(q,p,q,q); }
-_vec4ref<const T> wwxx() const { return _vec4ref(w,w,x,x); }
-_vec4ref<const T> aarr() const { return _vec4ref(a,a,r,r); }
-_vec4ref<const T> qqss() const { return _vec4ref(q,q,s,s); }
-_vec4ref<const T> wwxy() const { return _vec4ref(w,w,x,y); }
-_vec4ref<const T> aarg() const { return _vec4ref(a,a,r,g); }
-_vec4ref<const T> qqst() const { return _vec4ref(q,q,s,t); }
-_vec4ref<const T> wwxz() const { return _vec4ref(w,w,x,z); }
-_vec4ref<const T> aarb() const { return _vec4ref(a,a,r,b); }
-_vec4ref<const T> qqsp() const { return _vec4ref(q,q,s,p); }
-_vec4ref<const T> wwxw() const { return _vec4ref(w,w,x,w); }
-_vec4ref<const T> aara() const { return _vec4ref(a,a,r,a); }
-_vec4ref<const T> qqsq() const { return _vec4ref(q,q,s,q); }
-_vec4ref<const T> wwyx() const { return _vec4ref(w,w,y,x); }
-_vec4ref<const T> aagr() const { return _vec4ref(a,a,g,r); }
-_vec4ref<const T> qqts() const { return _vec4ref(q,q,t,s); }
-_vec4ref<const T> wwyy() const { return _vec4ref(w,w,y,y); }
-_vec4ref<const T> aagg() const { return _vec4ref(a,a,g,g); }
-_vec4ref<const T> qqtt() const { return _vec4ref(q,q,t,t); }
-_vec4ref<const T> wwyz() const { return _vec4ref(w,w,y,z); }
-_vec4ref<const T> aagb() const { return _vec4ref(a,a,g,b); }
-_vec4ref<const T> qqtp() const { return _vec4ref(q,q,t,p); }
-_vec4ref<const T> wwyw() const { return _vec4ref(w,w,y,w); }
-_vec4ref<const T> aaga() const { return _vec4ref(a,a,g,a); }
-_vec4ref<const T> qqtq() const { return _vec4ref(q,q,t,q); }
-_vec4ref<const T> wwzx() const { return _vec4ref(w,w,z,x); }
-_vec4ref<const T> aabr() const { return _vec4ref(a,a,b,r); }
-_vec4ref<const T> qqps() const { return _vec4ref(q,q,p,s); }
-_vec4ref<const T> wwzy() const { return _vec4ref(w,w,z,y); }
-_vec4ref<const T> aabg() const { return _vec4ref(a,a,b,g); }
-_vec4ref<const T> qqpt() const { return _vec4ref(q,q,p,t); }
-_vec4ref<const T> wwzz() const { return _vec4ref(w,w,z,z); }
-_vec4ref<const T> aabb() const { return _vec4ref(a,a,b,b); }
-_vec4ref<const T> qqpp() const { return _vec4ref(q,q,p,p); }
-_vec4ref<const T> wwzw() const { return _vec4ref(w,w,z,w); }
-_vec4ref<const T> aaba() const { return _vec4ref(a,a,b,a); }
-_vec4ref<const T> qqpq() const { return _vec4ref(q,q,p,q); }
-_vec4ref<const T> wwwx() const { return _vec4ref(w,w,w,x); }
-_vec4ref<const T> aaar() const { return _vec4ref(a,a,a,r); }
-_vec4ref<const T> qqqs() const { return _vec4ref(q,q,q,s); }
-_vec4ref<const T> wwwy() const { return _vec4ref(w,w,w,y); }
-_vec4ref<const T> aaag() const { return _vec4ref(a,a,a,g); }
-_vec4ref<const T> qqqt() const { return _vec4ref(q,q,q,t); }
-_vec4ref<const T> wwwz() const { return _vec4ref(w,w,w,z); }
-_vec4ref<const T> aaab() const { return _vec4ref(a,a,a,b); }
-_vec4ref<const T> qqqp() const { return _vec4ref(q,q,q,p); }
-_vec4ref<const T> wwww() const { return _vec4ref(w,w,w,w); }
-_vec4ref<const T> aaaa() const { return _vec4ref(a,a,a,a); }
-_vec4ref<const T> qqqq() const { return _vec4ref(q,q,q,q); }
+const auto xw() const { return _vec2<concrete_elem>(x,w); }
+auto xw() { return _vec2<ref_elem>(x,w); }
+const auto ra() const { return _vec2<concrete_elem>(r,a); }
+auto ra() { return _vec2<ref_elem>(r,a); }
+const auto sq() const { return _vec2<concrete_elem>(s,q); }
+auto sq() { return _vec2<ref_elem>(s,q); }
+const auto yw() const { return _vec2<concrete_elem>(y,w); }
+auto yw() { return _vec2<ref_elem>(y,w); }
+const auto ga() const { return _vec2<concrete_elem>(g,a); }
+auto ga() { return _vec2<ref_elem>(g,a); }
+const auto tq() const { return _vec2<concrete_elem>(t,q); }
+auto tq() { return _vec2<ref_elem>(t,q); }
+const auto zw() const { return _vec2<concrete_elem>(z,w); }
+auto zw() { return _vec2<ref_elem>(z,w); }
+const auto ba() const { return _vec2<concrete_elem>(b,a); }
+auto ba() { return _vec2<ref_elem>(b,a); }
+const auto pq() const { return _vec2<concrete_elem>(p,q); }
+auto pq() { return _vec2<ref_elem>(p,q); }
+const auto wx() const { return _vec2<concrete_elem>(w,x); }
+auto wx() { return _vec2<ref_elem>(w,x); }
+const auto ar() const { return _vec2<concrete_elem>(a,r); }
+auto ar() { return _vec2<ref_elem>(a,r); }
+const auto qs() const { return _vec2<concrete_elem>(q,s); }
+auto qs() { return _vec2<ref_elem>(q,s); }
+const auto wy() const { return _vec2<concrete_elem>(w,y); }
+auto wy() { return _vec2<ref_elem>(w,y); }
+const auto ag() const { return _vec2<concrete_elem>(a,g); }
+auto ag() { return _vec2<ref_elem>(a,g); }
+const auto qt() const { return _vec2<concrete_elem>(q,t); }
+auto qt() { return _vec2<ref_elem>(q,t); }
+const auto wz() const { return _vec2<concrete_elem>(w,z); }
+auto wz() { return _vec2<ref_elem>(w,z); }
+const auto ab() const { return _vec2<concrete_elem>(a,b); }
+auto ab() { return _vec2<ref_elem>(a,b); }
+const auto qp() const { return _vec2<concrete_elem>(q,p); }
+auto qp() { return _vec2<ref_elem>(q,p); }
+const auto ww() const { return _vec2<concrete_elem>(w,w); }
+const auto aa() const { return _vec2<concrete_elem>(a,a); }
+const auto qq() const { return _vec2<concrete_elem>(q,q); }
+const auto xxw() const { return _vec3<concrete_elem>(x,x,w); }
+const auto rra() const { return _vec3<concrete_elem>(r,r,a); }
+const auto ssq() const { return _vec3<concrete_elem>(s,s,q); }
+const auto xyw() const { return _vec3<concrete_elem>(x,y,w); }
+auto xyw() { return _vec3<ref_elem>(x,y,w); }
+const auto rga() const { return _vec3<concrete_elem>(r,g,a); }
+auto rga() { return _vec3<ref_elem>(r,g,a); }
+const auto stq() const { return _vec3<concrete_elem>(s,t,q); }
+auto stq() { return _vec3<ref_elem>(s,t,q); }
+const auto xzw() const { return _vec3<concrete_elem>(x,z,w); }
+auto xzw() { return _vec3<ref_elem>(x,z,w); }
+const auto rba() const { return _vec3<concrete_elem>(r,b,a); }
+auto rba() { return _vec3<ref_elem>(r,b,a); }
+const auto spq() const { return _vec3<concrete_elem>(s,p,q); }
+auto spq() { return _vec3<ref_elem>(s,p,q); }
+const auto xwx() const { return _vec3<concrete_elem>(x,w,x); }
+const auto rar() const { return _vec3<concrete_elem>(r,a,r); }
+const auto sqs() const { return _vec3<concrete_elem>(s,q,s); }
+const auto xwy() const { return _vec3<concrete_elem>(x,w,y); }
+auto xwy() { return _vec3<ref_elem>(x,w,y); }
+const auto rag() const { return _vec3<concrete_elem>(r,a,g); }
+auto rag() { return _vec3<ref_elem>(r,a,g); }
+const auto sqt() const { return _vec3<concrete_elem>(s,q,t); }
+auto sqt() { return _vec3<ref_elem>(s,q,t); }
+const auto xwz() const { return _vec3<concrete_elem>(x,w,z); }
+auto xwz() { return _vec3<ref_elem>(x,w,z); }
+const auto rab() const { return _vec3<concrete_elem>(r,a,b); }
+auto rab() { return _vec3<ref_elem>(r,a,b); }
+const auto sqp() const { return _vec3<concrete_elem>(s,q,p); }
+auto sqp() { return _vec3<ref_elem>(s,q,p); }
+const auto xww() const { return _vec3<concrete_elem>(x,w,w); }
+const auto raa() const { return _vec3<concrete_elem>(r,a,a); }
+const auto sqq() const { return _vec3<concrete_elem>(s,q,q); }
+const auto yxw() const { return _vec3<concrete_elem>(y,x,w); }
+auto yxw() { return _vec3<ref_elem>(y,x,w); }
+const auto gra() const { return _vec3<concrete_elem>(g,r,a); }
+auto gra() { return _vec3<ref_elem>(g,r,a); }
+const auto tsq() const { return _vec3<concrete_elem>(t,s,q); }
+auto tsq() { return _vec3<ref_elem>(t,s,q); }
+const auto yyw() const { return _vec3<concrete_elem>(y,y,w); }
+const auto gga() const { return _vec3<concrete_elem>(g,g,a); }
+const auto ttq() const { return _vec3<concrete_elem>(t,t,q); }
+const auto yzw() const { return _vec3<concrete_elem>(y,z,w); }
+auto yzw() { return _vec3<ref_elem>(y,z,w); }
+const auto gba() const { return _vec3<concrete_elem>(g,b,a); }
+auto gba() { return _vec3<ref_elem>(g,b,a); }
+const auto tpq() const { return _vec3<concrete_elem>(t,p,q); }
+auto tpq() { return _vec3<ref_elem>(t,p,q); }
+const auto ywx() const { return _vec3<concrete_elem>(y,w,x); }
+auto ywx() { return _vec3<ref_elem>(y,w,x); }
+const auto gar() const { return _vec3<concrete_elem>(g,a,r); }
+auto gar() { return _vec3<ref_elem>(g,a,r); }
+const auto tqs() const { return _vec3<concrete_elem>(t,q,s); }
+auto tqs() { return _vec3<ref_elem>(t,q,s); }
+const auto ywy() const { return _vec3<concrete_elem>(y,w,y); }
+const auto gag() const { return _vec3<concrete_elem>(g,a,g); }
+const auto tqt() const { return _vec3<concrete_elem>(t,q,t); }
+const auto ywz() const { return _vec3<concrete_elem>(y,w,z); }
+auto ywz() { return _vec3<ref_elem>(y,w,z); }
+const auto gab() const { return _vec3<concrete_elem>(g,a,b); }
+auto gab() { return _vec3<ref_elem>(g,a,b); }
+const auto tqp() const { return _vec3<concrete_elem>(t,q,p); }
+auto tqp() { return _vec3<ref_elem>(t,q,p); }
+const auto yww() const { return _vec3<concrete_elem>(y,w,w); }
+const auto gaa() const { return _vec3<concrete_elem>(g,a,a); }
+const auto tqq() const { return _vec3<concrete_elem>(t,q,q); }
+const auto zxw() const { return _vec3<concrete_elem>(z,x,w); }
+auto zxw() { return _vec3<ref_elem>(z,x,w); }
+const auto bra() const { return _vec3<concrete_elem>(b,r,a); }
+auto bra() { return _vec3<ref_elem>(b,r,a); }
+const auto psq() const { return _vec3<concrete_elem>(p,s,q); }
+auto psq() { return _vec3<ref_elem>(p,s,q); }
+const auto zyw() const { return _vec3<concrete_elem>(z,y,w); }
+auto zyw() { return _vec3<ref_elem>(z,y,w); }
+const auto bga() const { return _vec3<concrete_elem>(b,g,a); }
+auto bga() { return _vec3<ref_elem>(b,g,a); }
+const auto ptq() const { return _vec3<concrete_elem>(p,t,q); }
+auto ptq() { return _vec3<ref_elem>(p,t,q); }
+const auto zzw() const { return _vec3<concrete_elem>(z,z,w); }
+const auto bba() const { return _vec3<concrete_elem>(b,b,a); }
+const auto ppq() const { return _vec3<concrete_elem>(p,p,q); }
+const auto zwx() const { return _vec3<concrete_elem>(z,w,x); }
+auto zwx() { return _vec3<ref_elem>(z,w,x); }
+const auto bar() const { return _vec3<concrete_elem>(b,a,r); }
+auto bar() { return _vec3<ref_elem>(b,a,r); }
+const auto pqs() const { return _vec3<concrete_elem>(p,q,s); }
+auto pqs() { return _vec3<ref_elem>(p,q,s); }
+const auto zwy() const { return _vec3<concrete_elem>(z,w,y); }
+auto zwy() { return _vec3<ref_elem>(z,w,y); }
+const auto bag() const { return _vec3<concrete_elem>(b,a,g); }
+auto bag() { return _vec3<ref_elem>(b,a,g); }
+const auto pqt() const { return _vec3<concrete_elem>(p,q,t); }
+auto pqt() { return _vec3<ref_elem>(p,q,t); }
+const auto zwz() const { return _vec3<concrete_elem>(z,w,z); }
+const auto bab() const { return _vec3<concrete_elem>(b,a,b); }
+const auto pqp() const { return _vec3<concrete_elem>(p,q,p); }
+const auto zww() const { return _vec3<concrete_elem>(z,w,w); }
+const auto baa() const { return _vec3<concrete_elem>(b,a,a); }
+const auto pqq() const { return _vec3<concrete_elem>(p,q,q); }
+const auto wxx() const { return _vec3<concrete_elem>(w,x,x); }
+const auto arr() const { return _vec3<concrete_elem>(a,r,r); }
+const auto qss() const { return _vec3<concrete_elem>(q,s,s); }
+const auto wxy() const { return _vec3<concrete_elem>(w,x,y); }
+auto wxy() { return _vec3<ref_elem>(w,x,y); }
+const auto arg() const { return _vec3<concrete_elem>(a,r,g); }
+auto arg() { return _vec3<ref_elem>(a,r,g); }
+const auto qst() const { return _vec3<concrete_elem>(q,s,t); }
+auto qst() { return _vec3<ref_elem>(q,s,t); }
+const auto wxz() const { return _vec3<concrete_elem>(w,x,z); }
+auto wxz() { return _vec3<ref_elem>(w,x,z); }
+const auto arb() const { return _vec3<concrete_elem>(a,r,b); }
+auto arb() { return _vec3<ref_elem>(a,r,b); }
+const auto qsp() const { return _vec3<concrete_elem>(q,s,p); }
+auto qsp() { return _vec3<ref_elem>(q,s,p); }
+const auto wxw() const { return _vec3<concrete_elem>(w,x,w); }
+const auto ara() const { return _vec3<concrete_elem>(a,r,a); }
+const auto qsq() const { return _vec3<concrete_elem>(q,s,q); }
+const auto wyx() const { return _vec3<concrete_elem>(w,y,x); }
+auto wyx() { return _vec3<ref_elem>(w,y,x); }
+const auto agr() const { return _vec3<concrete_elem>(a,g,r); }
+auto agr() { return _vec3<ref_elem>(a,g,r); }
+const auto qts() const { return _vec3<concrete_elem>(q,t,s); }
+auto qts() { return _vec3<ref_elem>(q,t,s); }
+const auto wyy() const { return _vec3<concrete_elem>(w,y,y); }
+const auto agg() const { return _vec3<concrete_elem>(a,g,g); }
+const auto qtt() const { return _vec3<concrete_elem>(q,t,t); }
+const auto wyz() const { return _vec3<concrete_elem>(w,y,z); }
+auto wyz() { return _vec3<ref_elem>(w,y,z); }
+const auto agb() const { return _vec3<concrete_elem>(a,g,b); }
+auto agb() { return _vec3<ref_elem>(a,g,b); }
+const auto qtp() const { return _vec3<concrete_elem>(q,t,p); }
+auto qtp() { return _vec3<ref_elem>(q,t,p); }
+const auto wyw() const { return _vec3<concrete_elem>(w,y,w); }
+const auto aga() const { return _vec3<concrete_elem>(a,g,a); }
+const auto qtq() const { return _vec3<concrete_elem>(q,t,q); }
+const auto wzx() const { return _vec3<concrete_elem>(w,z,x); }
+auto wzx() { return _vec3<ref_elem>(w,z,x); }
+const auto abr() const { return _vec3<concrete_elem>(a,b,r); }
+auto abr() { return _vec3<ref_elem>(a,b,r); }
+const auto qps() const { return _vec3<concrete_elem>(q,p,s); }
+auto qps() { return _vec3<ref_elem>(q,p,s); }
+const auto wzy() const { return _vec3<concrete_elem>(w,z,y); }
+auto wzy() { return _vec3<ref_elem>(w,z,y); }
+const auto abg() const { return _vec3<concrete_elem>(a,b,g); }
+auto abg() { return _vec3<ref_elem>(a,b,g); }
+const auto qpt() const { return _vec3<concrete_elem>(q,p,t); }
+auto qpt() { return _vec3<ref_elem>(q,p,t); }
+const auto wzz() const { return _vec3<concrete_elem>(w,z,z); }
+const auto abb() const { return _vec3<concrete_elem>(a,b,b); }
+const auto qpp() const { return _vec3<concrete_elem>(q,p,p); }
+const auto wzw() const { return _vec3<concrete_elem>(w,z,w); }
+const auto aba() const { return _vec3<concrete_elem>(a,b,a); }
+const auto qpq() const { return _vec3<concrete_elem>(q,p,q); }
+const auto wwx() const { return _vec3<concrete_elem>(w,w,x); }
+const auto aar() const { return _vec3<concrete_elem>(a,a,r); }
+const auto qqs() const { return _vec3<concrete_elem>(q,q,s); }
+const auto wwy() const { return _vec3<concrete_elem>(w,w,y); }
+const auto aag() const { return _vec3<concrete_elem>(a,a,g); }
+const auto qqt() const { return _vec3<concrete_elem>(q,q,t); }
+const auto wwz() const { return _vec3<concrete_elem>(w,w,z); }
+const auto aab() const { return _vec3<concrete_elem>(a,a,b); }
+const auto qqp() const { return _vec3<concrete_elem>(q,q,p); }
+const auto www() const { return _vec3<concrete_elem>(w,w,w); }
+const auto aaa() const { return _vec3<concrete_elem>(a,a,a); }
+const auto qqq() const { return _vec3<concrete_elem>(q,q,q); }
+const auto xxxw() const { return _vec4<concrete_elem>(x,x,x,w); }
+const auto rrra() const { return _vec4<concrete_elem>(r,r,r,a); }
+const auto sssq() const { return _vec4<concrete_elem>(s,s,s,q); }
+const auto xxyw() const { return _vec4<concrete_elem>(x,x,y,w); }
+const auto rrga() const { return _vec4<concrete_elem>(r,r,g,a); }
+const auto sstq() const { return _vec4<concrete_elem>(s,s,t,q); }
+const auto xxzw() const { return _vec4<concrete_elem>(x,x,z,w); }
+const auto rrba() const { return _vec4<concrete_elem>(r,r,b,a); }
+const auto sspq() const { return _vec4<concrete_elem>(s,s,p,q); }
+const auto xxwx() const { return _vec4<concrete_elem>(x,x,w,x); }
+const auto rrar() const { return _vec4<concrete_elem>(r,r,a,r); }
+const auto ssqs() const { return _vec4<concrete_elem>(s,s,q,s); }
+const auto xxwy() const { return _vec4<concrete_elem>(x,x,w,y); }
+const auto rrag() const { return _vec4<concrete_elem>(r,r,a,g); }
+const auto ssqt() const { return _vec4<concrete_elem>(s,s,q,t); }
+const auto xxwz() const { return _vec4<concrete_elem>(x,x,w,z); }
+const auto rrab() const { return _vec4<concrete_elem>(r,r,a,b); }
+const auto ssqp() const { return _vec4<concrete_elem>(s,s,q,p); }
+const auto xxww() const { return _vec4<concrete_elem>(x,x,w,w); }
+const auto rraa() const { return _vec4<concrete_elem>(r,r,a,a); }
+const auto ssqq() const { return _vec4<concrete_elem>(s,s,q,q); }
+const auto xyxw() const { return _vec4<concrete_elem>(x,y,x,w); }
+const auto rgra() const { return _vec4<concrete_elem>(r,g,r,a); }
+const auto stsq() const { return _vec4<concrete_elem>(s,t,s,q); }
+const auto xyyw() const { return _vec4<concrete_elem>(x,y,y,w); }
+const auto rgga() const { return _vec4<concrete_elem>(r,g,g,a); }
+const auto sttq() const { return _vec4<concrete_elem>(s,t,t,q); }
+const auto xyzw() const { return _vec4<concrete_elem>(x,y,z,w); }
+auto xyzw() { return _vec4<ref_elem>(x,y,z,w); }
+const auto rgba() const { return _vec4<concrete_elem>(r,g,b,a); }
+auto rgba() { return _vec4<ref_elem>(r,g,b,a); }
+const auto stpq() const { return _vec4<concrete_elem>(s,t,p,q); }
+auto stpq() { return _vec4<ref_elem>(s,t,p,q); }
+const auto xywx() const { return _vec4<concrete_elem>(x,y,w,x); }
+const auto rgar() const { return _vec4<concrete_elem>(r,g,a,r); }
+const auto stqs() const { return _vec4<concrete_elem>(s,t,q,s); }
+const auto xywy() const { return _vec4<concrete_elem>(x,y,w,y); }
+const auto rgag() const { return _vec4<concrete_elem>(r,g,a,g); }
+const auto stqt() const { return _vec4<concrete_elem>(s,t,q,t); }
+const auto xywz() const { return _vec4<concrete_elem>(x,y,w,z); }
+auto xywz() { return _vec4<ref_elem>(x,y,w,z); }
+const auto rgab() const { return _vec4<concrete_elem>(r,g,a,b); }
+auto rgab() { return _vec4<ref_elem>(r,g,a,b); }
+const auto stqp() const { return _vec4<concrete_elem>(s,t,q,p); }
+auto stqp() { return _vec4<ref_elem>(s,t,q,p); }
+const auto xyww() const { return _vec4<concrete_elem>(x,y,w,w); }
+const auto rgaa() const { return _vec4<concrete_elem>(r,g,a,a); }
+const auto stqq() const { return _vec4<concrete_elem>(s,t,q,q); }
+const auto xzxw() const { return _vec4<concrete_elem>(x,z,x,w); }
+const auto rbra() const { return _vec4<concrete_elem>(r,b,r,a); }
+const auto spsq() const { return _vec4<concrete_elem>(s,p,s,q); }
+const auto xzyw() const { return _vec4<concrete_elem>(x,z,y,w); }
+auto xzyw() { return _vec4<ref_elem>(x,z,y,w); }
+const auto rbga() const { return _vec4<concrete_elem>(r,b,g,a); }
+auto rbga() { return _vec4<ref_elem>(r,b,g,a); }
+const auto sptq() const { return _vec4<concrete_elem>(s,p,t,q); }
+auto sptq() { return _vec4<ref_elem>(s,p,t,q); }
+const auto xzzw() const { return _vec4<concrete_elem>(x,z,z,w); }
+const auto rbba() const { return _vec4<concrete_elem>(r,b,b,a); }
+const auto sppq() const { return _vec4<concrete_elem>(s,p,p,q); }
+const auto xzwx() const { return _vec4<concrete_elem>(x,z,w,x); }
+const auto rbar() const { return _vec4<concrete_elem>(r,b,a,r); }
+const auto spqs() const { return _vec4<concrete_elem>(s,p,q,s); }
+const auto xzwy() const { return _vec4<concrete_elem>(x,z,w,y); }
+auto xzwy() { return _vec4<ref_elem>(x,z,w,y); }
+const auto rbag() const { return _vec4<concrete_elem>(r,b,a,g); }
+auto rbag() { return _vec4<ref_elem>(r,b,a,g); }
+const auto spqt() const { return _vec4<concrete_elem>(s,p,q,t); }
+auto spqt() { return _vec4<ref_elem>(s,p,q,t); }
+const auto xzwz() const { return _vec4<concrete_elem>(x,z,w,z); }
+const auto rbab() const { return _vec4<concrete_elem>(r,b,a,b); }
+const auto spqp() const { return _vec4<concrete_elem>(s,p,q,p); }
+const auto xzww() const { return _vec4<concrete_elem>(x,z,w,w); }
+const auto rbaa() const { return _vec4<concrete_elem>(r,b,a,a); }
+const auto spqq() const { return _vec4<concrete_elem>(s,p,q,q); }
+const auto xwxx() const { return _vec4<concrete_elem>(x,w,x,x); }
+const auto rarr() const { return _vec4<concrete_elem>(r,a,r,r); }
+const auto sqss() const { return _vec4<concrete_elem>(s,q,s,s); }
+const auto xwxy() const { return _vec4<concrete_elem>(x,w,x,y); }
+const auto rarg() const { return _vec4<concrete_elem>(r,a,r,g); }
+const auto sqst() const { return _vec4<concrete_elem>(s,q,s,t); }
+const auto xwxz() const { return _vec4<concrete_elem>(x,w,x,z); }
+const auto rarb() const { return _vec4<concrete_elem>(r,a,r,b); }
+const auto sqsp() const { return _vec4<concrete_elem>(s,q,s,p); }
+const auto xwxw() const { return _vec4<concrete_elem>(x,w,x,w); }
+const auto rara() const { return _vec4<concrete_elem>(r,a,r,a); }
+const auto sqsq() const { return _vec4<concrete_elem>(s,q,s,q); }
+const auto xwyx() const { return _vec4<concrete_elem>(x,w,y,x); }
+const auto ragr() const { return _vec4<concrete_elem>(r,a,g,r); }
+const auto sqts() const { return _vec4<concrete_elem>(s,q,t,s); }
+const auto xwyy() const { return _vec4<concrete_elem>(x,w,y,y); }
+const auto ragg() const { return _vec4<concrete_elem>(r,a,g,g); }
+const auto sqtt() const { return _vec4<concrete_elem>(s,q,t,t); }
+const auto xwyz() const { return _vec4<concrete_elem>(x,w,y,z); }
+auto xwyz() { return _vec4<ref_elem>(x,w,y,z); }
+const auto ragb() const { return _vec4<concrete_elem>(r,a,g,b); }
+auto ragb() { return _vec4<ref_elem>(r,a,g,b); }
+const auto sqtp() const { return _vec4<concrete_elem>(s,q,t,p); }
+auto sqtp() { return _vec4<ref_elem>(s,q,t,p); }
+const auto xwyw() const { return _vec4<concrete_elem>(x,w,y,w); }
+const auto raga() const { return _vec4<concrete_elem>(r,a,g,a); }
+const auto sqtq() const { return _vec4<concrete_elem>(s,q,t,q); }
+const auto xwzx() const { return _vec4<concrete_elem>(x,w,z,x); }
+const auto rabr() const { return _vec4<concrete_elem>(r,a,b,r); }
+const auto sqps() const { return _vec4<concrete_elem>(s,q,p,s); }
+const auto xwzy() const { return _vec4<concrete_elem>(x,w,z,y); }
+auto xwzy() { return _vec4<ref_elem>(x,w,z,y); }
+const auto rabg() const { return _vec4<concrete_elem>(r,a,b,g); }
+auto rabg() { return _vec4<ref_elem>(r,a,b,g); }
+const auto sqpt() const { return _vec4<concrete_elem>(s,q,p,t); }
+auto sqpt() { return _vec4<ref_elem>(s,q,p,t); }
+const auto xwzz() const { return _vec4<concrete_elem>(x,w,z,z); }
+const auto rabb() const { return _vec4<concrete_elem>(r,a,b,b); }
+const auto sqpp() const { return _vec4<concrete_elem>(s,q,p,p); }
+const auto xwzw() const { return _vec4<concrete_elem>(x,w,z,w); }
+const auto raba() const { return _vec4<concrete_elem>(r,a,b,a); }
+const auto sqpq() const { return _vec4<concrete_elem>(s,q,p,q); }
+const auto xwwx() const { return _vec4<concrete_elem>(x,w,w,x); }
+const auto raar() const { return _vec4<concrete_elem>(r,a,a,r); }
+const auto sqqs() const { return _vec4<concrete_elem>(s,q,q,s); }
+const auto xwwy() const { return _vec4<concrete_elem>(x,w,w,y); }
+const auto raag() const { return _vec4<concrete_elem>(r,a,a,g); }
+const auto sqqt() const { return _vec4<concrete_elem>(s,q,q,t); }
+const auto xwwz() const { return _vec4<concrete_elem>(x,w,w,z); }
+const auto raab() const { return _vec4<concrete_elem>(r,a,a,b); }
+const auto sqqp() const { return _vec4<concrete_elem>(s,q,q,p); }
+const auto xwww() const { return _vec4<concrete_elem>(x,w,w,w); }
+const auto raaa() const { return _vec4<concrete_elem>(r,a,a,a); }
+const auto sqqq() const { return _vec4<concrete_elem>(s,q,q,q); }
+const auto yxxw() const { return _vec4<concrete_elem>(y,x,x,w); }
+const auto grra() const { return _vec4<concrete_elem>(g,r,r,a); }
+const auto tssq() const { return _vec4<concrete_elem>(t,s,s,q); }
+const auto yxyw() const { return _vec4<concrete_elem>(y,x,y,w); }
+const auto grga() const { return _vec4<concrete_elem>(g,r,g,a); }
+const auto tstq() const { return _vec4<concrete_elem>(t,s,t,q); }
+const auto yxzw() const { return _vec4<concrete_elem>(y,x,z,w); }
+auto yxzw() { return _vec4<ref_elem>(y,x,z,w); }
+const auto grba() const { return _vec4<concrete_elem>(g,r,b,a); }
+auto grba() { return _vec4<ref_elem>(g,r,b,a); }
+const auto tspq() const { return _vec4<concrete_elem>(t,s,p,q); }
+auto tspq() { return _vec4<ref_elem>(t,s,p,q); }
+const auto yxwx() const { return _vec4<concrete_elem>(y,x,w,x); }
+const auto grar() const { return _vec4<concrete_elem>(g,r,a,r); }
+const auto tsqs() const { return _vec4<concrete_elem>(t,s,q,s); }
+const auto yxwy() const { return _vec4<concrete_elem>(y,x,w,y); }
+const auto grag() const { return _vec4<concrete_elem>(g,r,a,g); }
+const auto tsqt() const { return _vec4<concrete_elem>(t,s,q,t); }
+const auto yxwz() const { return _vec4<concrete_elem>(y,x,w,z); }
+auto yxwz() { return _vec4<ref_elem>(y,x,w,z); }
+const auto grab() const { return _vec4<concrete_elem>(g,r,a,b); }
+auto grab() { return _vec4<ref_elem>(g,r,a,b); }
+const auto tsqp() const { return _vec4<concrete_elem>(t,s,q,p); }
+auto tsqp() { return _vec4<ref_elem>(t,s,q,p); }
+const auto yxww() const { return _vec4<concrete_elem>(y,x,w,w); }
+const auto graa() const { return _vec4<concrete_elem>(g,r,a,a); }
+const auto tsqq() const { return _vec4<concrete_elem>(t,s,q,q); }
+const auto yyxw() const { return _vec4<concrete_elem>(y,y,x,w); }
+const auto ggra() const { return _vec4<concrete_elem>(g,g,r,a); }
+const auto ttsq() const { return _vec4<concrete_elem>(t,t,s,q); }
+const auto yyyw() const { return _vec4<concrete_elem>(y,y,y,w); }
+const auto ggga() const { return _vec4<concrete_elem>(g,g,g,a); }
+const auto tttq() const { return _vec4<concrete_elem>(t,t,t,q); }
+const auto yyzw() const { return _vec4<concrete_elem>(y,y,z,w); }
+const auto ggba() const { return _vec4<concrete_elem>(g,g,b,a); }
+const auto ttpq() const { return _vec4<concrete_elem>(t,t,p,q); }
+const auto yywx() const { return _vec4<concrete_elem>(y,y,w,x); }
+const auto ggar() const { return _vec4<concrete_elem>(g,g,a,r); }
+const auto ttqs() const { return _vec4<concrete_elem>(t,t,q,s); }
+const auto yywy() const { return _vec4<concrete_elem>(y,y,w,y); }
+const auto ggag() const { return _vec4<concrete_elem>(g,g,a,g); }
+const auto ttqt() const { return _vec4<concrete_elem>(t,t,q,t); }
+const auto yywz() const { return _vec4<concrete_elem>(y,y,w,z); }
+const auto ggab() const { return _vec4<concrete_elem>(g,g,a,b); }
+const auto ttqp() const { return _vec4<concrete_elem>(t,t,q,p); }
+const auto yyww() const { return _vec4<concrete_elem>(y,y,w,w); }
+const auto ggaa() const { return _vec4<concrete_elem>(g,g,a,a); }
+const auto ttqq() const { return _vec4<concrete_elem>(t,t,q,q); }
+const auto yzxw() const { return _vec4<concrete_elem>(y,z,x,w); }
+auto yzxw() { return _vec4<ref_elem>(y,z,x,w); }
+const auto gbra() const { return _vec4<concrete_elem>(g,b,r,a); }
+auto gbra() { return _vec4<ref_elem>(g,b,r,a); }
+const auto tpsq() const { return _vec4<concrete_elem>(t,p,s,q); }
+auto tpsq() { return _vec4<ref_elem>(t,p,s,q); }
+const auto yzyw() const { return _vec4<concrete_elem>(y,z,y,w); }
+const auto gbga() const { return _vec4<concrete_elem>(g,b,g,a); }
+const auto tptq() const { return _vec4<concrete_elem>(t,p,t,q); }
+const auto yzzw() const { return _vec4<concrete_elem>(y,z,z,w); }
+const auto gbba() const { return _vec4<concrete_elem>(g,b,b,a); }
+const auto tppq() const { return _vec4<concrete_elem>(t,p,p,q); }
+const auto yzwx() const { return _vec4<concrete_elem>(y,z,w,x); }
+auto yzwx() { return _vec4<ref_elem>(y,z,w,x); }
+const auto gbar() const { return _vec4<concrete_elem>(g,b,a,r); }
+auto gbar() { return _vec4<ref_elem>(g,b,a,r); }
+const auto tpqs() const { return _vec4<concrete_elem>(t,p,q,s); }
+auto tpqs() { return _vec4<ref_elem>(t,p,q,s); }
+const auto yzwy() const { return _vec4<concrete_elem>(y,z,w,y); }
+const auto gbag() const { return _vec4<concrete_elem>(g,b,a,g); }
+const auto tpqt() const { return _vec4<concrete_elem>(t,p,q,t); }
+const auto yzwz() const { return _vec4<concrete_elem>(y,z,w,z); }
+const auto gbab() const { return _vec4<concrete_elem>(g,b,a,b); }
+const auto tpqp() const { return _vec4<concrete_elem>(t,p,q,p); }
+const auto yzww() const { return _vec4<concrete_elem>(y,z,w,w); }
+const auto gbaa() const { return _vec4<concrete_elem>(g,b,a,a); }
+const auto tpqq() const { return _vec4<concrete_elem>(t,p,q,q); }
+const auto ywxx() const { return _vec4<concrete_elem>(y,w,x,x); }
+const auto garr() const { return _vec4<concrete_elem>(g,a,r,r); }
+const auto tqss() const { return _vec4<concrete_elem>(t,q,s,s); }
+const auto ywxy() const { return _vec4<concrete_elem>(y,w,x,y); }
+const auto garg() const { return _vec4<concrete_elem>(g,a,r,g); }
+const auto tqst() const { return _vec4<concrete_elem>(t,q,s,t); }
+const auto ywxz() const { return _vec4<concrete_elem>(y,w,x,z); }
+auto ywxz() { return _vec4<ref_elem>(y,w,x,z); }
+const auto garb() const { return _vec4<concrete_elem>(g,a,r,b); }
+auto garb() { return _vec4<ref_elem>(g,a,r,b); }
+const auto tqsp() const { return _vec4<concrete_elem>(t,q,s,p); }
+auto tqsp() { return _vec4<ref_elem>(t,q,s,p); }
+const auto ywxw() const { return _vec4<concrete_elem>(y,w,x,w); }
+const auto gara() const { return _vec4<concrete_elem>(g,a,r,a); }
+const auto tqsq() const { return _vec4<concrete_elem>(t,q,s,q); }
+const auto ywyx() const { return _vec4<concrete_elem>(y,w,y,x); }
+const auto gagr() const { return _vec4<concrete_elem>(g,a,g,r); }
+const auto tqts() const { return _vec4<concrete_elem>(t,q,t,s); }
+const auto ywyy() const { return _vec4<concrete_elem>(y,w,y,y); }
+const auto gagg() const { return _vec4<concrete_elem>(g,a,g,g); }
+const auto tqtt() const { return _vec4<concrete_elem>(t,q,t,t); }
+const auto ywyz() const { return _vec4<concrete_elem>(y,w,y,z); }
+const auto gagb() const { return _vec4<concrete_elem>(g,a,g,b); }
+const auto tqtp() const { return _vec4<concrete_elem>(t,q,t,p); }
+const auto ywyw() const { return _vec4<concrete_elem>(y,w,y,w); }
+const auto gaga() const { return _vec4<concrete_elem>(g,a,g,a); }
+const auto tqtq() const { return _vec4<concrete_elem>(t,q,t,q); }
+const auto ywzx() const { return _vec4<concrete_elem>(y,w,z,x); }
+auto ywzx() { return _vec4<ref_elem>(y,w,z,x); }
+const auto gabr() const { return _vec4<concrete_elem>(g,a,b,r); }
+auto gabr() { return _vec4<ref_elem>(g,a,b,r); }
+const auto tqps() const { return _vec4<concrete_elem>(t,q,p,s); }
+auto tqps() { return _vec4<ref_elem>(t,q,p,s); }
+const auto ywzy() const { return _vec4<concrete_elem>(y,w,z,y); }
+const auto gabg() const { return _vec4<concrete_elem>(g,a,b,g); }
+const auto tqpt() const { return _vec4<concrete_elem>(t,q,p,t); }
+const auto ywzz() const { return _vec4<concrete_elem>(y,w,z,z); }
+const auto gabb() const { return _vec4<concrete_elem>(g,a,b,b); }
+const auto tqpp() const { return _vec4<concrete_elem>(t,q,p,p); }
+const auto ywzw() const { return _vec4<concrete_elem>(y,w,z,w); }
+const auto gaba() const { return _vec4<concrete_elem>(g,a,b,a); }
+const auto tqpq() const { return _vec4<concrete_elem>(t,q,p,q); }
+const auto ywwx() const { return _vec4<concrete_elem>(y,w,w,x); }
+const auto gaar() const { return _vec4<concrete_elem>(g,a,a,r); }
+const auto tqqs() const { return _vec4<concrete_elem>(t,q,q,s); }
+const auto ywwy() const { return _vec4<concrete_elem>(y,w,w,y); }
+const auto gaag() const { return _vec4<concrete_elem>(g,a,a,g); }
+const auto tqqt() const { return _vec4<concrete_elem>(t,q,q,t); }
+const auto ywwz() const { return _vec4<concrete_elem>(y,w,w,z); }
+const auto gaab() const { return _vec4<concrete_elem>(g,a,a,b); }
+const auto tqqp() const { return _vec4<concrete_elem>(t,q,q,p); }
+const auto ywww() const { return _vec4<concrete_elem>(y,w,w,w); }
+const auto gaaa() const { return _vec4<concrete_elem>(g,a,a,a); }
+const auto tqqq() const { return _vec4<concrete_elem>(t,q,q,q); }
+const auto zxxw() const { return _vec4<concrete_elem>(z,x,x,w); }
+const auto brra() const { return _vec4<concrete_elem>(b,r,r,a); }
+const auto pssq() const { return _vec4<concrete_elem>(p,s,s,q); }
+const auto zxyw() const { return _vec4<concrete_elem>(z,x,y,w); }
+auto zxyw() { return _vec4<ref_elem>(z,x,y,w); }
+const auto brga() const { return _vec4<concrete_elem>(b,r,g,a); }
+auto brga() { return _vec4<ref_elem>(b,r,g,a); }
+const auto pstq() const { return _vec4<concrete_elem>(p,s,t,q); }
+auto pstq() { return _vec4<ref_elem>(p,s,t,q); }
+const auto zxzw() const { return _vec4<concrete_elem>(z,x,z,w); }
+const auto brba() const { return _vec4<concrete_elem>(b,r,b,a); }
+const auto pspq() const { return _vec4<concrete_elem>(p,s,p,q); }
+const auto zxwx() const { return _vec4<concrete_elem>(z,x,w,x); }
+const auto brar() const { return _vec4<concrete_elem>(b,r,a,r); }
+const auto psqs() const { return _vec4<concrete_elem>(p,s,q,s); }
+const auto zxwy() const { return _vec4<concrete_elem>(z,x,w,y); }
+auto zxwy() { return _vec4<ref_elem>(z,x,w,y); }
+const auto brag() const { return _vec4<concrete_elem>(b,r,a,g); }
+auto brag() { return _vec4<ref_elem>(b,r,a,g); }
+const auto psqt() const { return _vec4<concrete_elem>(p,s,q,t); }
+auto psqt() { return _vec4<ref_elem>(p,s,q,t); }
+const auto zxwz() const { return _vec4<concrete_elem>(z,x,w,z); }
+const auto brab() const { return _vec4<concrete_elem>(b,r,a,b); }
+const auto psqp() const { return _vec4<concrete_elem>(p,s,q,p); }
+const auto zxww() const { return _vec4<concrete_elem>(z,x,w,w); }
+const auto braa() const { return _vec4<concrete_elem>(b,r,a,a); }
+const auto psqq() const { return _vec4<concrete_elem>(p,s,q,q); }
+const auto zyxw() const { return _vec4<concrete_elem>(z,y,x,w); }
+auto zyxw() { return _vec4<ref_elem>(z,y,x,w); }
+const auto bgra() const { return _vec4<concrete_elem>(b,g,r,a); }
+auto bgra() { return _vec4<ref_elem>(b,g,r,a); }
+const auto ptsq() const { return _vec4<concrete_elem>(p,t,s,q); }
+auto ptsq() { return _vec4<ref_elem>(p,t,s,q); }
+const auto zyyw() const { return _vec4<concrete_elem>(z,y,y,w); }
+const auto bgga() const { return _vec4<concrete_elem>(b,g,g,a); }
+const auto pttq() const { return _vec4<concrete_elem>(p,t,t,q); }
+const auto zyzw() const { return _vec4<concrete_elem>(z,y,z,w); }
+const auto bgba() const { return _vec4<concrete_elem>(b,g,b,a); }
+const auto ptpq() const { return _vec4<concrete_elem>(p,t,p,q); }
+const auto zywx() const { return _vec4<concrete_elem>(z,y,w,x); }
+auto zywx() { return _vec4<ref_elem>(z,y,w,x); }
+const auto bgar() const { return _vec4<concrete_elem>(b,g,a,r); }
+auto bgar() { return _vec4<ref_elem>(b,g,a,r); }
+const auto ptqs() const { return _vec4<concrete_elem>(p,t,q,s); }
+auto ptqs() { return _vec4<ref_elem>(p,t,q,s); }
+const auto zywy() const { return _vec4<concrete_elem>(z,y,w,y); }
+const auto bgag() const { return _vec4<concrete_elem>(b,g,a,g); }
+const auto ptqt() const { return _vec4<concrete_elem>(p,t,q,t); }
+const auto zywz() const { return _vec4<concrete_elem>(z,y,w,z); }
+const auto bgab() const { return _vec4<concrete_elem>(b,g,a,b); }
+const auto ptqp() const { return _vec4<concrete_elem>(p,t,q,p); }
+const auto zyww() const { return _vec4<concrete_elem>(z,y,w,w); }
+const auto bgaa() const { return _vec4<concrete_elem>(b,g,a,a); }
+const auto ptqq() const { return _vec4<concrete_elem>(p,t,q,q); }
+const auto zzxw() const { return _vec4<concrete_elem>(z,z,x,w); }
+const auto bbra() const { return _vec4<concrete_elem>(b,b,r,a); }
+const auto ppsq() const { return _vec4<concrete_elem>(p,p,s,q); }
+const auto zzyw() const { return _vec4<concrete_elem>(z,z,y,w); }
+const auto bbga() const { return _vec4<concrete_elem>(b,b,g,a); }
+const auto pptq() const { return _vec4<concrete_elem>(p,p,t,q); }
+const auto zzzw() const { return _vec4<concrete_elem>(z,z,z,w); }
+const auto bbba() const { return _vec4<concrete_elem>(b,b,b,a); }
+const auto pppq() const { return _vec4<concrete_elem>(p,p,p,q); }
+const auto zzwx() const { return _vec4<concrete_elem>(z,z,w,x); }
+const auto bbar() const { return _vec4<concrete_elem>(b,b,a,r); }
+const auto ppqs() const { return _vec4<concrete_elem>(p,p,q,s); }
+const auto zzwy() const { return _vec4<concrete_elem>(z,z,w,y); }
+const auto bbag() const { return _vec4<concrete_elem>(b,b,a,g); }
+const auto ppqt() const { return _vec4<concrete_elem>(p,p,q,t); }
+const auto zzwz() const { return _vec4<concrete_elem>(z,z,w,z); }
+const auto bbab() const { return _vec4<concrete_elem>(b,b,a,b); }
+const auto ppqp() const { return _vec4<concrete_elem>(p,p,q,p); }
+const auto zzww() const { return _vec4<concrete_elem>(z,z,w,w); }
+const auto bbaa() const { return _vec4<concrete_elem>(b,b,a,a); }
+const auto ppqq() const { return _vec4<concrete_elem>(p,p,q,q); }
+const auto zwxx() const { return _vec4<concrete_elem>(z,w,x,x); }
+const auto barr() const { return _vec4<concrete_elem>(b,a,r,r); }
+const auto pqss() const { return _vec4<concrete_elem>(p,q,s,s); }
+const auto zwxy() const { return _vec4<concrete_elem>(z,w,x,y); }
+auto zwxy() { return _vec4<ref_elem>(z,w,x,y); }
+const auto barg() const { return _vec4<concrete_elem>(b,a,r,g); }
+auto barg() { return _vec4<ref_elem>(b,a,r,g); }
+const auto pqst() const { return _vec4<concrete_elem>(p,q,s,t); }
+auto pqst() { return _vec4<ref_elem>(p,q,s,t); }
+const auto zwxz() const { return _vec4<concrete_elem>(z,w,x,z); }
+const auto barb() const { return _vec4<concrete_elem>(b,a,r,b); }
+const auto pqsp() const { return _vec4<concrete_elem>(p,q,s,p); }
+const auto zwxw() const { return _vec4<concrete_elem>(z,w,x,w); }
+const auto bara() const { return _vec4<concrete_elem>(b,a,r,a); }
+const auto pqsq() const { return _vec4<concrete_elem>(p,q,s,q); }
+const auto zwyx() const { return _vec4<concrete_elem>(z,w,y,x); }
+auto zwyx() { return _vec4<ref_elem>(z,w,y,x); }
+const auto bagr() const { return _vec4<concrete_elem>(b,a,g,r); }
+auto bagr() { return _vec4<ref_elem>(b,a,g,r); }
+const auto pqts() const { return _vec4<concrete_elem>(p,q,t,s); }
+auto pqts() { return _vec4<ref_elem>(p,q,t,s); }
+const auto zwyy() const { return _vec4<concrete_elem>(z,w,y,y); }
+const auto bagg() const { return _vec4<concrete_elem>(b,a,g,g); }
+const auto pqtt() const { return _vec4<concrete_elem>(p,q,t,t); }
+const auto zwyz() const { return _vec4<concrete_elem>(z,w,y,z); }
+const auto bagb() const { return _vec4<concrete_elem>(b,a,g,b); }
+const auto pqtp() const { return _vec4<concrete_elem>(p,q,t,p); }
+const auto zwyw() const { return _vec4<concrete_elem>(z,w,y,w); }
+const auto baga() const { return _vec4<concrete_elem>(b,a,g,a); }
+const auto pqtq() const { return _vec4<concrete_elem>(p,q,t,q); }
+const auto zwzx() const { return _vec4<concrete_elem>(z,w,z,x); }
+const auto babr() const { return _vec4<concrete_elem>(b,a,b,r); }
+const auto pqps() const { return _vec4<concrete_elem>(p,q,p,s); }
+const auto zwzy() const { return _vec4<concrete_elem>(z,w,z,y); }
+const auto babg() const { return _vec4<concrete_elem>(b,a,b,g); }
+const auto pqpt() const { return _vec4<concrete_elem>(p,q,p,t); }
+const auto zwzz() const { return _vec4<concrete_elem>(z,w,z,z); }
+const auto babb() const { return _vec4<concrete_elem>(b,a,b,b); }
+const auto pqpp() const { return _vec4<concrete_elem>(p,q,p,p); }
+const auto zwzw() const { return _vec4<concrete_elem>(z,w,z,w); }
+const auto baba() const { return _vec4<concrete_elem>(b,a,b,a); }
+const auto pqpq() const { return _vec4<concrete_elem>(p,q,p,q); }
+const auto zwwx() const { return _vec4<concrete_elem>(z,w,w,x); }
+const auto baar() const { return _vec4<concrete_elem>(b,a,a,r); }
+const auto pqqs() const { return _vec4<concrete_elem>(p,q,q,s); }
+const auto zwwy() const { return _vec4<concrete_elem>(z,w,w,y); }
+const auto baag() const { return _vec4<concrete_elem>(b,a,a,g); }
+const auto pqqt() const { return _vec4<concrete_elem>(p,q,q,t); }
+const auto zwwz() const { return _vec4<concrete_elem>(z,w,w,z); }
+const auto baab() const { return _vec4<concrete_elem>(b,a,a,b); }
+const auto pqqp() const { return _vec4<concrete_elem>(p,q,q,p); }
+const auto zwww() const { return _vec4<concrete_elem>(z,w,w,w); }
+const auto baaa() const { return _vec4<concrete_elem>(b,a,a,a); }
+const auto pqqq() const { return _vec4<concrete_elem>(p,q,q,q); }
+const auto wxxx() const { return _vec4<concrete_elem>(w,x,x,x); }
+const auto arrr() const { return _vec4<concrete_elem>(a,r,r,r); }
+const auto qsss() const { return _vec4<concrete_elem>(q,s,s,s); }
+const auto wxxy() const { return _vec4<concrete_elem>(w,x,x,y); }
+const auto arrg() const { return _vec4<concrete_elem>(a,r,r,g); }
+const auto qsst() const { return _vec4<concrete_elem>(q,s,s,t); }
+const auto wxxz() const { return _vec4<concrete_elem>(w,x,x,z); }
+const auto arrb() const { return _vec4<concrete_elem>(a,r,r,b); }
+const auto qssp() const { return _vec4<concrete_elem>(q,s,s,p); }
+const auto wxxw() const { return _vec4<concrete_elem>(w,x,x,w); }
+const auto arra() const { return _vec4<concrete_elem>(a,r,r,a); }
+const auto qssq() const { return _vec4<concrete_elem>(q,s,s,q); }
+const auto wxyx() const { return _vec4<concrete_elem>(w,x,y,x); }
+const auto argr() const { return _vec4<concrete_elem>(a,r,g,r); }
+const auto qsts() const { return _vec4<concrete_elem>(q,s,t,s); }
+const auto wxyy() const { return _vec4<concrete_elem>(w,x,y,y); }
+const auto argg() const { return _vec4<concrete_elem>(a,r,g,g); }
+const auto qstt() const { return _vec4<concrete_elem>(q,s,t,t); }
+const auto wxyz() const { return _vec4<concrete_elem>(w,x,y,z); }
+auto wxyz() { return _vec4<ref_elem>(w,x,y,z); }
+const auto argb() const { return _vec4<concrete_elem>(a,r,g,b); }
+auto argb() { return _vec4<ref_elem>(a,r,g,b); }
+const auto qstp() const { return _vec4<concrete_elem>(q,s,t,p); }
+auto qstp() { return _vec4<ref_elem>(q,s,t,p); }
+const auto wxyw() const { return _vec4<concrete_elem>(w,x,y,w); }
+const auto arga() const { return _vec4<concrete_elem>(a,r,g,a); }
+const auto qstq() const { return _vec4<concrete_elem>(q,s,t,q); }
+const auto wxzx() const { return _vec4<concrete_elem>(w,x,z,x); }
+const auto arbr() const { return _vec4<concrete_elem>(a,r,b,r); }
+const auto qsps() const { return _vec4<concrete_elem>(q,s,p,s); }
+const auto wxzy() const { return _vec4<concrete_elem>(w,x,z,y); }
+auto wxzy() { return _vec4<ref_elem>(w,x,z,y); }
+const auto arbg() const { return _vec4<concrete_elem>(a,r,b,g); }
+auto arbg() { return _vec4<ref_elem>(a,r,b,g); }
+const auto qspt() const { return _vec4<concrete_elem>(q,s,p,t); }
+auto qspt() { return _vec4<ref_elem>(q,s,p,t); }
+const auto wxzz() const { return _vec4<concrete_elem>(w,x,z,z); }
+const auto arbb() const { return _vec4<concrete_elem>(a,r,b,b); }
+const auto qspp() const { return _vec4<concrete_elem>(q,s,p,p); }
+const auto wxzw() const { return _vec4<concrete_elem>(w,x,z,w); }
+const auto arba() const { return _vec4<concrete_elem>(a,r,b,a); }
+const auto qspq() const { return _vec4<concrete_elem>(q,s,p,q); }
+const auto wxwx() const { return _vec4<concrete_elem>(w,x,w,x); }
+const auto arar() const { return _vec4<concrete_elem>(a,r,a,r); }
+const auto qsqs() const { return _vec4<concrete_elem>(q,s,q,s); }
+const auto wxwy() const { return _vec4<concrete_elem>(w,x,w,y); }
+const auto arag() const { return _vec4<concrete_elem>(a,r,a,g); }
+const auto qsqt() const { return _vec4<concrete_elem>(q,s,q,t); }
+const auto wxwz() const { return _vec4<concrete_elem>(w,x,w,z); }
+const auto arab() const { return _vec4<concrete_elem>(a,r,a,b); }
+const auto qsqp() const { return _vec4<concrete_elem>(q,s,q,p); }
+const auto wxww() const { return _vec4<concrete_elem>(w,x,w,w); }
+const auto araa() const { return _vec4<concrete_elem>(a,r,a,a); }
+const auto qsqq() const { return _vec4<concrete_elem>(q,s,q,q); }
+const auto wyxx() const { return _vec4<concrete_elem>(w,y,x,x); }
+const auto agrr() const { return _vec4<concrete_elem>(a,g,r,r); }
+const auto qtss() const { return _vec4<concrete_elem>(q,t,s,s); }
+const auto wyxy() const { return _vec4<concrete_elem>(w,y,x,y); }
+const auto agrg() const { return _vec4<concrete_elem>(a,g,r,g); }
+const auto qtst() const { return _vec4<concrete_elem>(q,t,s,t); }
+const auto wyxz() const { return _vec4<concrete_elem>(w,y,x,z); }
+auto wyxz() { return _vec4<ref_elem>(w,y,x,z); }
+const auto agrb() const { return _vec4<concrete_elem>(a,g,r,b); }
+auto agrb() { return _vec4<ref_elem>(a,g,r,b); }
+const auto qtsp() const { return _vec4<concrete_elem>(q,t,s,p); }
+auto qtsp() { return _vec4<ref_elem>(q,t,s,p); }
+const auto wyxw() const { return _vec4<concrete_elem>(w,y,x,w); }
+const auto agra() const { return _vec4<concrete_elem>(a,g,r,a); }
+const auto qtsq() const { return _vec4<concrete_elem>(q,t,s,q); }
+const auto wyyx() const { return _vec4<concrete_elem>(w,y,y,x); }
+const auto aggr() const { return _vec4<concrete_elem>(a,g,g,r); }
+const auto qtts() const { return _vec4<concrete_elem>(q,t,t,s); }
+const auto wyyy() const { return _vec4<concrete_elem>(w,y,y,y); }
+const auto aggg() const { return _vec4<concrete_elem>(a,g,g,g); }
+const auto qttt() const { return _vec4<concrete_elem>(q,t,t,t); }
+const auto wyyz() const { return _vec4<concrete_elem>(w,y,y,z); }
+const auto aggb() const { return _vec4<concrete_elem>(a,g,g,b); }
+const auto qttp() const { return _vec4<concrete_elem>(q,t,t,p); }
+const auto wyyw() const { return _vec4<concrete_elem>(w,y,y,w); }
+const auto agga() const { return _vec4<concrete_elem>(a,g,g,a); }
+const auto qttq() const { return _vec4<concrete_elem>(q,t,t,q); }
+const auto wyzx() const { return _vec4<concrete_elem>(w,y,z,x); }
+auto wyzx() { return _vec4<ref_elem>(w,y,z,x); }
+const auto agbr() const { return _vec4<concrete_elem>(a,g,b,r); }
+auto agbr() { return _vec4<ref_elem>(a,g,b,r); }
+const auto qtps() const { return _vec4<concrete_elem>(q,t,p,s); }
+auto qtps() { return _vec4<ref_elem>(q,t,p,s); }
+const auto wyzy() const { return _vec4<concrete_elem>(w,y,z,y); }
+const auto agbg() const { return _vec4<concrete_elem>(a,g,b,g); }
+const auto qtpt() const { return _vec4<concrete_elem>(q,t,p,t); }
+const auto wyzz() const { return _vec4<concrete_elem>(w,y,z,z); }
+const auto agbb() const { return _vec4<concrete_elem>(a,g,b,b); }
+const auto qtpp() const { return _vec4<concrete_elem>(q,t,p,p); }
+const auto wyzw() const { return _vec4<concrete_elem>(w,y,z,w); }
+const auto agba() const { return _vec4<concrete_elem>(a,g,b,a); }
+const auto qtpq() const { return _vec4<concrete_elem>(q,t,p,q); }
+const auto wywx() const { return _vec4<concrete_elem>(w,y,w,x); }
+const auto agar() const { return _vec4<concrete_elem>(a,g,a,r); }
+const auto qtqs() const { return _vec4<concrete_elem>(q,t,q,s); }
+const auto wywy() const { return _vec4<concrete_elem>(w,y,w,y); }
+const auto agag() const { return _vec4<concrete_elem>(a,g,a,g); }
+const auto qtqt() const { return _vec4<concrete_elem>(q,t,q,t); }
+const auto wywz() const { return _vec4<concrete_elem>(w,y,w,z); }
+const auto agab() const { return _vec4<concrete_elem>(a,g,a,b); }
+const auto qtqp() const { return _vec4<concrete_elem>(q,t,q,p); }
+const auto wyww() const { return _vec4<concrete_elem>(w,y,w,w); }
+const auto agaa() const { return _vec4<concrete_elem>(a,g,a,a); }
+const auto qtqq() const { return _vec4<concrete_elem>(q,t,q,q); }
+const auto wzxx() const { return _vec4<concrete_elem>(w,z,x,x); }
+const auto abrr() const { return _vec4<concrete_elem>(a,b,r,r); }
+const auto qpss() const { return _vec4<concrete_elem>(q,p,s,s); }
+const auto wzxy() const { return _vec4<concrete_elem>(w,z,x,y); }
+auto wzxy() { return _vec4<ref_elem>(w,z,x,y); }
+const auto abrg() const { return _vec4<concrete_elem>(a,b,r,g); }
+auto abrg() { return _vec4<ref_elem>(a,b,r,g); }
+const auto qpst() const { return _vec4<concrete_elem>(q,p,s,t); }
+auto qpst() { return _vec4<ref_elem>(q,p,s,t); }
+const auto wzxz() const { return _vec4<concrete_elem>(w,z,x,z); }
+const auto abrb() const { return _vec4<concrete_elem>(a,b,r,b); }
+const auto qpsp() const { return _vec4<concrete_elem>(q,p,s,p); }
+const auto wzxw() const { return _vec4<concrete_elem>(w,z,x,w); }
+const auto abra() const { return _vec4<concrete_elem>(a,b,r,a); }
+const auto qpsq() const { return _vec4<concrete_elem>(q,p,s,q); }
+const auto wzyx() const { return _vec4<concrete_elem>(w,z,y,x); }
+auto wzyx() { return _vec4<ref_elem>(w,z,y,x); }
+const auto abgr() const { return _vec4<concrete_elem>(a,b,g,r); }
+auto abgr() { return _vec4<ref_elem>(a,b,g,r); }
+const auto qpts() const { return _vec4<concrete_elem>(q,p,t,s); }
+auto qpts() { return _vec4<ref_elem>(q,p,t,s); }
+const auto wzyy() const { return _vec4<concrete_elem>(w,z,y,y); }
+const auto abgg() const { return _vec4<concrete_elem>(a,b,g,g); }
+const auto qptt() const { return _vec4<concrete_elem>(q,p,t,t); }
+const auto wzyz() const { return _vec4<concrete_elem>(w,z,y,z); }
+const auto abgb() const { return _vec4<concrete_elem>(a,b,g,b); }
+const auto qptp() const { return _vec4<concrete_elem>(q,p,t,p); }
+const auto wzyw() const { return _vec4<concrete_elem>(w,z,y,w); }
+const auto abga() const { return _vec4<concrete_elem>(a,b,g,a); }
+const auto qptq() const { return _vec4<concrete_elem>(q,p,t,q); }
+const auto wzzx() const { return _vec4<concrete_elem>(w,z,z,x); }
+const auto abbr() const { return _vec4<concrete_elem>(a,b,b,r); }
+const auto qpps() const { return _vec4<concrete_elem>(q,p,p,s); }
+const auto wzzy() const { return _vec4<concrete_elem>(w,z,z,y); }
+const auto abbg() const { return _vec4<concrete_elem>(a,b,b,g); }
+const auto qppt() const { return _vec4<concrete_elem>(q,p,p,t); }
+const auto wzzz() const { return _vec4<concrete_elem>(w,z,z,z); }
+const auto abbb() const { return _vec4<concrete_elem>(a,b,b,b); }
+const auto qppp() const { return _vec4<concrete_elem>(q,p,p,p); }
+const auto wzzw() const { return _vec4<concrete_elem>(w,z,z,w); }
+const auto abba() const { return _vec4<concrete_elem>(a,b,b,a); }
+const auto qppq() const { return _vec4<concrete_elem>(q,p,p,q); }
+const auto wzwx() const { return _vec4<concrete_elem>(w,z,w,x); }
+const auto abar() const { return _vec4<concrete_elem>(a,b,a,r); }
+const auto qpqs() const { return _vec4<concrete_elem>(q,p,q,s); }
+const auto wzwy() const { return _vec4<concrete_elem>(w,z,w,y); }
+const auto abag() const { return _vec4<concrete_elem>(a,b,a,g); }
+const auto qpqt() const { return _vec4<concrete_elem>(q,p,q,t); }
+const auto wzwz() const { return _vec4<concrete_elem>(w,z,w,z); }
+const auto abab() const { return _vec4<concrete_elem>(a,b,a,b); }
+const auto qpqp() const { return _vec4<concrete_elem>(q,p,q,p); }
+const auto wzww() const { return _vec4<concrete_elem>(w,z,w,w); }
+const auto abaa() const { return _vec4<concrete_elem>(a,b,a,a); }
+const auto qpqq() const { return _vec4<concrete_elem>(q,p,q,q); }
+const auto wwxx() const { return _vec4<concrete_elem>(w,w,x,x); }
+const auto aarr() const { return _vec4<concrete_elem>(a,a,r,r); }
+const auto qqss() const { return _vec4<concrete_elem>(q,q,s,s); }
+const auto wwxy() const { return _vec4<concrete_elem>(w,w,x,y); }
+const auto aarg() const { return _vec4<concrete_elem>(a,a,r,g); }
+const auto qqst() const { return _vec4<concrete_elem>(q,q,s,t); }
+const auto wwxz() const { return _vec4<concrete_elem>(w,w,x,z); }
+const auto aarb() const { return _vec4<concrete_elem>(a,a,r,b); }
+const auto qqsp() const { return _vec4<concrete_elem>(q,q,s,p); }
+const auto wwxw() const { return _vec4<concrete_elem>(w,w,x,w); }
+const auto aara() const { return _vec4<concrete_elem>(a,a,r,a); }
+const auto qqsq() const { return _vec4<concrete_elem>(q,q,s,q); }
+const auto wwyx() const { return _vec4<concrete_elem>(w,w,y,x); }
+const auto aagr() const { return _vec4<concrete_elem>(a,a,g,r); }
+const auto qqts() const { return _vec4<concrete_elem>(q,q,t,s); }
+const auto wwyy() const { return _vec4<concrete_elem>(w,w,y,y); }
+const auto aagg() const { return _vec4<concrete_elem>(a,a,g,g); }
+const auto qqtt() const { return _vec4<concrete_elem>(q,q,t,t); }
+const auto wwyz() const { return _vec4<concrete_elem>(w,w,y,z); }
+const auto aagb() const { return _vec4<concrete_elem>(a,a,g,b); }
+const auto qqtp() const { return _vec4<concrete_elem>(q,q,t,p); }
+const auto wwyw() const { return _vec4<concrete_elem>(w,w,y,w); }
+const auto aaga() const { return _vec4<concrete_elem>(a,a,g,a); }
+const auto qqtq() const { return _vec4<concrete_elem>(q,q,t,q); }
+const auto wwzx() const { return _vec4<concrete_elem>(w,w,z,x); }
+const auto aabr() const { return _vec4<concrete_elem>(a,a,b,r); }
+const auto qqps() const { return _vec4<concrete_elem>(q,q,p,s); }
+const auto wwzy() const { return _vec4<concrete_elem>(w,w,z,y); }
+const auto aabg() const { return _vec4<concrete_elem>(a,a,b,g); }
+const auto qqpt() const { return _vec4<concrete_elem>(q,q,p,t); }
+const auto wwzz() const { return _vec4<concrete_elem>(w,w,z,z); }
+const auto aabb() const { return _vec4<concrete_elem>(a,a,b,b); }
+const auto qqpp() const { return _vec4<concrete_elem>(q,q,p,p); }
+const auto wwzw() const { return _vec4<concrete_elem>(w,w,z,w); }
+const auto aaba() const { return _vec4<concrete_elem>(a,a,b,a); }
+const auto qqpq() const { return _vec4<concrete_elem>(q,q,p,q); }
+const auto wwwx() const { return _vec4<concrete_elem>(w,w,w,x); }
+const auto aaar() const { return _vec4<concrete_elem>(a,a,a,r); }
+const auto qqqs() const { return _vec4<concrete_elem>(q,q,q,s); }
+const auto wwwy() const { return _vec4<concrete_elem>(w,w,w,y); }
+const auto aaag() const { return _vec4<concrete_elem>(a,a,a,g); }
+const auto qqqt() const { return _vec4<concrete_elem>(q,q,q,t); }
+const auto wwwz() const { return _vec4<concrete_elem>(w,w,w,z); }
+const auto aaab() const { return _vec4<concrete_elem>(a,a,a,b); }
+const auto qqqp() const { return _vec4<concrete_elem>(q,q,q,p); }
+const auto wwww() const { return _vec4<concrete_elem>(w,w,w,w); }
+const auto aaaa() const { return _vec4<concrete_elem>(a,a,a,a); }
+const auto qqqq() const { return _vec4<concrete_elem>(q,q,q,q); }
 #endif
 #endif

@@ -1,6 +1,5 @@
-#pragma once
+﻿#pragma once
 
-#include "Empty/math/funcs.h"
 #include "Empty/math/vec.h"
 
 namespace math
@@ -34,7 +33,7 @@ namespace math
             r[k] = _data[k] op var##subscript; \
         return r; \
     }
-#define SCALAR_OP_ASSIGN(n, op, type, var, subscript) _mat##n& operator##op(const type var)\
+#define SCALAR_OP_ASSIGN(n, op, type, var, subscript) _mat##n& operator##op##=(const type var)\
     { \
         for (int k = 0; k < n * n; k++) \
             _data[k] op##= var##subscript; \
@@ -75,6 +74,14 @@ namespace math
         SCALAR_OP(2, -, _mat2&, a, [k]);
         SCALAR_OP(2, *, T, v, );
         SCALAR_OP(2, /, T, v, );
+
+        _mat2 operator-() const
+        {
+            _mat2 r;
+            for (int k = 0; k < 4; k++)
+                r(k) = -_data[k];
+            return r;
+        }
 
         MATRIX_MULT(2);
         VECTOR_MULT(2);
@@ -120,6 +127,14 @@ namespace math
         SCALAR_OP(3, *, T, v, );
         SCALAR_OP(3, / , T, v, );
 
+        _mat3 operator-() const
+        {
+            _mat3 r;
+            for (int k = 0; k < 9; k++)
+                r(k) = -_data[k];
+            return r;
+        }
+
         MATRIX_MULT(3);
         VECTOR_MULT(3);
 
@@ -164,6 +179,14 @@ namespace math
         SCALAR_OP(4, *, T, v, );
         SCALAR_OP(4, / , T, v, );
 
+        _mat4 operator-() const
+        {
+            _mat4 r;
+            for (int k = 0; k < 16; k++)
+                r(k) = -_data[k];
+            return r;
+        }
+
         MATRIX_MULT(4);
         VECTOR_MULT(4);
 
@@ -197,9 +220,9 @@ namespace math
     { \
         for (int i = 0; i < n; i++) \
         { \
-            s << "("; \
+            s << (i ? (i == n - 1 ? "\xc0 " : "\xb3 ") : "\xda "); \
             for (int j = 0; j < n; j++) \
-                s << m(i, j) << (j == n - 1 ? ")" : ", "); \
+                s << m(i, j) << (j == n - 1 ? (i == n - 1 ? " \xd9" : (i ? " \xb3" : " \xbf")) : " "); \
             s << std::endl; \
         } \
         return s; \

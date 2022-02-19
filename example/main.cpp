@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "Empty/math/funcs.h"
 #include "Empty/render/Context.hpp"
 #include "Empty/render/gl/Framebuffer.h"
 #include "Empty/render/gl/Renderbuffer.h"
@@ -90,6 +91,25 @@ int _main(int, char* argv[])
     TRACE(math::normalize(hihi) << ", " << math::normalize(haha.yx()) << ", " << math::normalize(huhu));
     // TODO : not have to explicitely provide the template parameter with mutable coordinate swizzling
     TRACE(math::min<float>(hihi.xyy(), haha.zyx()) << ", " << math::max(huhu, haha.zzyx()) << ", " << math::clamp(huhu, 2.f, 5.f));
+
+    math::mat2 blah;
+    for (int k = 0; k < 4; k++)
+        blah[k] = k + 1;
+
+    math::dmat3 bleh;
+    for (int k = 0; k < 9; k++)
+        bleh[k] = k + 1;
+    bleh[7] = 9; // not invertible otherwise
+
+    math::mat4 bloo;
+    for (int k = 0; k < 16; k++)
+        bloo[k] = k + 1;
+    bloo[9] = 12; // likewise
+    bloo[14] = 16;
+
+    std::cout << blah << " * " << math::inverse(blah) << " = " << blah * math::inverse(blah) << std::endl;
+    TRACE(bleh << " * " << math::inverse(bleh) << " = " << bleh * math::inverse(bleh));
+    TRACE(bloo << " * " << math::inverse(bloo) << " = " << bloo * math::inverse(bloo));
 
     GLFWContext context("Empty sample program", 1280, 720);
     

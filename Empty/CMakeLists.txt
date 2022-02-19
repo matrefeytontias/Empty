@@ -33,6 +33,7 @@ set(SOURCES
 	src/glad/glad.h
 	src/KHR/khrplatform.h
 	# Empty source
+	src/Empty/math/funcs.cpp
 	src/Empty/math/funcs.h
 	src/Empty/math/mat.h
 	src/Empty/math/mathutils.cpp

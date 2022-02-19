@@ -15,6 +15,13 @@ namespace math
 	template <typename T> T max(T a, T b) { return a < b ? b : a; }
 	template <typename T> T clamp(T x, T a, T b) { return max(a, min(b, x)); }
 
+	mat2 inverse(const mat2& m);
+	dmat2 inverse(const dmat2& m);
+	mat3 inverse(const mat3& m);
+	dmat3 inverse(const dmat3& m);
+	mat4 inverse(const mat4& m);
+	dmat4 inverse(const dmat4& m);
+
 #define VEC_FUNC(n) template <typename T> typename _vec##n<T>::concrete_vec
 #define SCALAR_FUNC(n) template <typename T> typename _vec##n<T>::concrete_elem
 

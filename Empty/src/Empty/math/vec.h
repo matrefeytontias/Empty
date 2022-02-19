@@ -15,9 +15,6 @@ namespace math
     operator const T* () const { return &x; } \
     operator T* () { return &x; }
 
-    /**
-    * 2-component vector
-    */
     template <typename T>
     struct _vec2
     {
@@ -67,6 +64,9 @@ namespace math
         OP(/);
         _vec2 operator-() const { return _vec2(-x, -y); }
 #undef OP
+
+        static _vec2<T> zero;
+        static _vec2<T> one;
 
 #include "swizzling.inl"
     };
@@ -127,6 +127,8 @@ namespace math
         _vec3 operator-() const { return _vec3(-x, -y, -z); }
 #undef OP
 
+        static _vec3<T> zero;
+        static _vec3<T> one;
         static _vec3<T> right;
         static _vec3<T> up;
         static _vec3<T> forward;
@@ -135,13 +137,6 @@ namespace math
 #include "swizzling.inl"
 #undef VEC_HAS_Z
     };
-
-    template <typename T>
-    _vec3<T> _vec3<T>::right = _vec3<T>(1, 0, 0);
-    template <typename T>
-    _vec3<T> _vec3<T>::up = _vec3<T>(0, 1, 0);
-    template <typename T>
-    _vec3<T> _vec3<T>::forward = _vec3<T>(0, 0, 1);
 
     template <typename T>
     struct _vec4
@@ -213,6 +208,8 @@ namespace math
         _vec4 operator-() const { return _vec4(-x, -y, -z, -w); }
 #undef OP
 
+        static _vec4<T> zero;
+        static _vec4<T> one;
         static _vec4<T> right;
         static _vec4<T> up;
         static _vec4<T> forward;
@@ -224,6 +221,26 @@ namespace math
 #undef VEC_HAS_Z
     };
 
+    template <typename T>
+    _vec2<T> _vec2<T>::zero = _vec2<T>(0, 0);
+    template <typename T>
+    _vec2<T> _vec2<T>::one = _vec2<T>(1, 1);
+
+    template <typename T>
+    _vec3<T> _vec3<T>::zero = _vec3<T>(0, 0, 0);
+    template <typename T>
+    _vec3<T> _vec3<T>::one = _vec3<T>(1, 1, 1);
+    template <typename T>
+    _vec3<T> _vec3<T>::right = _vec3<T>(1, 0, 0);
+    template <typename T>
+    _vec3<T> _vec3<T>::up = _vec3<T>(0, 1, 0);
+    template <typename T>
+    _vec3<T> _vec3<T>::forward = _vec3<T>(0, 0, 1);
+
+    template <typename T>
+    _vec4<T> _vec4<T>::zero = _vec4<T>(0, 0, 0, 0);
+    template <typename T>
+    _vec4<T> _vec4<T>::one = _vec4<T>(1, 1, 1, 1);
     template <typename T>
     _vec4<T> _vec4<T>::right = _vec4<T>(1, 0, 0, 0);
     template <typename T>
@@ -279,9 +296,6 @@ namespace math
     // Specializations for coordinate swizzling
     //
 
-    /**
-    * 2-component vector
-    */
     template <typename T>
     struct _vec2<std::reference_wrapper<T>>
     {

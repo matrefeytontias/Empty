@@ -1,6 +1,6 @@
 #include "Empty/math/funcs.h"
 
-auto math::inverse(const mat2& m) -> mat2
+auto Empty::math::inverse(const mat2& m) -> mat2
 {
 	mat2 r;
 	float d = 1.f / (m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0));
@@ -11,7 +11,7 @@ auto math::inverse(const mat2& m) -> mat2
 	return r;
 }
 
-auto math::inverse(const dmat2& m) -> dmat2
+auto Empty::math::inverse(const dmat2& m) -> dmat2
 {
 	dmat2 r;
 	double d = 1. / (m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0));
@@ -23,7 +23,7 @@ auto math::inverse(const dmat2& m) -> dmat2
 }
 
 #define cofactor(i, j) m((i + 1) % 3, (j + 1) % 3) * m((i + 2) % 3, (j + 2) % 3) - m((i + 2) % 3, (j + 1) % 3) * m((i + 1) % 3, (j + 2) % 3)
-auto math::inverse(const mat3& m) -> mat3
+auto Empty::math::inverse(const mat3& m) -> mat3
 {
     mat3 r;
     for (int k = 0; k < 9; k++)
@@ -32,7 +32,7 @@ auto math::inverse(const mat3& m) -> mat3
 	return r;
 }
 
-auto math::inverse(const dmat3& m) -> dmat3
+auto Empty::math::inverse(const dmat3& m) -> dmat3
 {
     dmat3 r;
     for (int k = 0; k < 9; k++)
@@ -42,7 +42,7 @@ auto math::inverse(const dmat3& m) -> dmat3
 }
 #undef cofactor
 
-auto math::inverse(const mat4& m) -> mat4
+auto Empty::math::inverse(const mat4& m) -> mat4
 {
     mat4 r;
     // Sourced from GLU
@@ -146,7 +146,7 @@ auto math::inverse(const mat4& m) -> mat4
     return r;
 }
 
-auto math::inverse(const dmat4& m) -> dmat4
+auto Empty::math::inverse(const dmat4& m) -> dmat4
 {
 	dmat4 r;
     // Sourced from GLU

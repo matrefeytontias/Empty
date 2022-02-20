@@ -6,7 +6,7 @@
  * Various mathematical utility functions.
  */
 
-namespace math
+namespace Empty::math
 {
 	/**
 	 * Returns a matrix representing a rotation of a given angle around the X axis.

@@ -7,22 +7,22 @@
 struct Camera
 {
 	float movementSpeed = .05f, angularSpeed = 0.002f;
-	math::mat4 m;
-	math::mat4 p;
+	Empty::math::mat4 m;
+	Empty::math::mat4 p;
 
-	Camera(float fov, float ratio, float near, float far) : m(math::mat4::Identity()), p(math::mat4::Identity()) { utils::perspective(p, fov, ratio, near, far); }
+	Camera(float fov, float ratio, float near, float far) : m(Empty::math::mat4::Identity()), p(Empty::math::mat4::Identity()) { Empty::utils::perspective(p, fov, ratio, near, far); }
 
-	math::vec3 getPosition() const { return m.column(3).xyz(); }
+	Empty::math::vec3 getPosition() const { return m.column(3).xyz(); }
 	void setPosition(float x, float y, float z) { m(0, 3) = x; m(1, 3) = y; m(2, 3) = z; }
 
-	void translate(const math::vec3& v) { m.column(3).xyz() += (m * math::vec4(v, 0)).xyz(); }
+	void translate(const Empty::math::vec3& v) { m.column(3).xyz() += (m * Empty::math::vec4(v, 0)).xyz(); }
 
 	void processInput(bool forward, bool back, bool up, bool down, bool left, bool right, float mouseDX, float mouseDY)
 	{
-		math::vec3 dir;
-		dir.x = utils::select(movementSpeed, right) - utils::select(movementSpeed, left);
-		dir.y = utils::select(movementSpeed, up) - utils::select(movementSpeed, down);
-		dir.z = utils::select(movementSpeed, back) - utils::select(movementSpeed, forward);
+		Empty::math::vec3 dir;
+		dir.x = Empty::utils::select(movementSpeed, right) - Empty::utils::select(movementSpeed, left);
+		dir.y = Empty::utils::select(movementSpeed, up) - Empty::utils::select(movementSpeed, down);
+		dir.z = Empty::utils::select(movementSpeed, back) - Empty::utils::select(movementSpeed, forward);
 
 		translate(dir);
 
@@ -30,9 +30,9 @@ struct Camera
 		{
 			_xz -= mouseDX * angularSpeed;
 			_yz += mouseDY * angularSpeed;
-			math::vec3 look(sinf(_xz) * cosf(_yz), sinf(_yz), cosf(_xz) * cosf(_yz));
+			Empty::math::vec3 look(sinf(_xz) * cosf(_yz), sinf(_yz), cosf(_xz) * cosf(_yz));
 			auto p = getPosition();
-			m = math::lookAt(look, math::vec3::up);
+			m = Empty::math::lookAt(look, Empty::math::vec3::up);
 			setPosition(p.x, p.y, p.z);
 		}
 	}

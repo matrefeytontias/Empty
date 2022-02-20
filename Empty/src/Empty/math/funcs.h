@@ -8,7 +8,7 @@
  * This file implements mathematical functions in a fashion consistent with GLSL.
  */
 
-namespace math
+namespace Empty::math
 {
 	/// Scalar operators
 

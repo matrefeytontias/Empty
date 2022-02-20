@@ -1,6 +1,6 @@
 #pragma once
 
-namespace utils
+namespace Empty::utils
 {
     struct noncopyable
     {

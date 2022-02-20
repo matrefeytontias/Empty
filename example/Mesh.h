@@ -11,7 +11,8 @@
 #include "Empty/utils/utils.hpp"
 
 
-using namespace render::gl;
+using namespace Empty;
+using namespace Empty::render::gl;
 
 /**
 * Structure to load vertices and faces from a OFF or OBJ file.

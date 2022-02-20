@@ -6,7 +6,7 @@
 #include "Empty/render/gl/Texture.h"
 #include "Empty/utils/macros.h"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a Framebuffer. Useful in case

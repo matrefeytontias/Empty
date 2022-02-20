@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace utils
+namespace Empty::utils
 {
 	
 	template <typename T> struct unwrapped_ref

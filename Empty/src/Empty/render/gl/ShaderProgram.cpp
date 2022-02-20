@@ -4,7 +4,7 @@
 #include "Empty/render/gl/ShaderProgram.hpp"
 #include "Empty/utils/utils.hpp"
 
-using namespace render::gl;
+using namespace Empty::render::gl;
 
 ShaderProgram::~ShaderProgram()
 {

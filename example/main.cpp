@@ -20,9 +20,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-using namespace render::gl;
+using namespace Empty::render::gl;
 
-struct GLFWContext : public render::Context
+struct GLFWContext : public Empty::render::Context
 {
     GLFWwindow* window;
 

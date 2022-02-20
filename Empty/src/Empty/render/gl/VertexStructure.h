@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 #include "Empty/render/gl/GLEnums.hpp"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	/**
 	 * Tells how many bytes a single element of a given type occupies.

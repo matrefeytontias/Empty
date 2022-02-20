@@ -6,7 +6,7 @@
 #include "Empty/render/gl/GLEnumsUtils.h"
 #include "Empty/utils/macros.h"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a Buffer. Useful in case

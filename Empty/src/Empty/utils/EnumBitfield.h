@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace utils
+namespace Empty::utils
 {
 #define CONDITION std::enable_if_t<std::is_integral_v<std::underlying_type_t<E>>, int> = 0
 	/**

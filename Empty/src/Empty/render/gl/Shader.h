@@ -6,7 +6,7 @@
 #include "Empty/render/gl/GLObject.h"
 #include "Empty/utils/utils.hpp"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	/**
 	 * General-purpose shader object class. Does not map one-to-one with OpenGL shader objects, but holds a shared reference

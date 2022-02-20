@@ -8,7 +8,7 @@
 #include "Empty/render/gl/VertexStructure.h"
 #include "Empty/utils/utils.hpp"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a VertexArray. Useful in case

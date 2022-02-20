@@ -14,12 +14,12 @@
 #undef far
 #endif
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	enum struct CubemapFace : GLenum;
 }
 
-namespace utils
+namespace Empty::utils
 {
 	/**
 	 * Tells if a value is contained in a set of test values.
@@ -111,7 +111,7 @@ namespace utils
 	/**
 	 * Utility function to get the enum value corresponding to a cubemap face index.
 	 */
-	render::gl::CubemapFace getCubeMapFaceFromIndex(int i);
+	Empty::render::gl::CubemapFace getCubeMapFaceFromIndex(int i);
 
 	/**
 	 * Returns whether a string finishes with a given suffix.

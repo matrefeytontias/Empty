@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace math
+namespace Empty::math
 {
     template <typename T> struct _vec3;
     template <typename T> struct _vec4;

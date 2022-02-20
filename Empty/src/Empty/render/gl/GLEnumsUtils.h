@@ -3,7 +3,7 @@
 #include "Empty/render/gl/GLEnums.hpp"
 #include "Empty/utils/utils.hpp"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	// ########################
 	// # General enum structs #

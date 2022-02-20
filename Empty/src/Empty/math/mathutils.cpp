@@ -1,7 +1,7 @@
 #include "Empty/math/funcs.h"
 #include "Empty/math/mathutils.hpp"
 
-auto math::rotateX(float a) -> mat4
+auto Empty::math::rotateX(float a) -> mat4
 {
 	mat4 r = mat4::Identity();
 	float c = cosf(a), s = sinf(a);
@@ -10,7 +10,7 @@ auto math::rotateX(float a) -> mat4
 	return r;
 }
 
-auto math::rotateY(float a) -> mat4
+auto Empty::math::rotateY(float a) -> mat4
 {
 	mat4 r = mat4::Identity();
 	float c = cosf(a), s = sinf(a);
@@ -19,7 +19,7 @@ auto math::rotateY(float a) -> mat4
 	return r;
 }
 
-auto math::rotateZ(float a) -> mat4
+auto Empty::math::rotateZ(float a) -> mat4
 {
 	mat4 r = mat4::Identity();
 	float c = cosf(a), s = sinf(a);
@@ -28,7 +28,7 @@ auto math::rotateZ(float a) -> mat4
 	return r;
 }
 
-auto math::lookAt(vec3 forward, vec3 up) -> mat4
+auto Empty::math::lookAt(vec3 forward, vec3 up) -> mat4
 {
 	vec3 x = normalize(cross(up, forward)),
 		y = normalize(cross(forward, x));
@@ -40,7 +40,7 @@ auto math::lookAt(vec3 forward, vec3 up) -> mat4
 	return r;
 }
 
-auto math::lookAt(vec3 origin, vec3 target, vec3 up) -> mat4
+auto Empty::math::lookAt(vec3 origin, vec3 target, vec3 up) -> mat4
 {
 	vec3 z = normalize(target - origin),
 		x = normalize(cross(up, z)),

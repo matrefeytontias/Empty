@@ -18,11 +18,11 @@ foreach(ENUM ${ENUM_STRUCTS})
 	# Add the command so the files are regenerated when the *.def files are modified
 	add_custom_command(OUTPUT ${ENUM_CPP} ${ENUM_HPP}
 		DEPENDS ${ENUM}
-		COMMAND ${Python3_EXECUTABLE} autogen.py ${CMAKE_CURRENT_SOURCE_DIR}/src ${ENUM} utils
+		COMMAND ${Python3_EXECUTABLE} autogen.py ${CMAKE_CURRENT_SOURCE_DIR}/src ${ENUM} Empty::utils
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	)
 	# Run it once so the files show up before the first build
-	execute_process(COMMAND ${Python3_EXECUTABLE} autogen.py ${CMAKE_CURRENT_SOURCE_DIR}/src ${ENUM} utils
+	execute_process(COMMAND ${Python3_EXECUTABLE} autogen.py ${CMAKE_CURRENT_SOURCE_DIR}/src ${ENUM} Empty::utils
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endforeach()
 

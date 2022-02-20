@@ -24,7 +24,7 @@
 
 static constexpr const float M_PI = 3.14159258536f;
 
-void utils::setwd(char **argv)
+void Empty::utils::setwd(char **argv)
 {
     std::string buf(argv[0]);
     // Handle both possible separators
@@ -38,7 +38,7 @@ void utils::setwd(char **argv)
     }
 }
 
-std::string utils::getFileContents(const std::string &path)
+std::string Empty::utils::getFileContents(const std::string &path)
 {
     std::ifstream ifs;
     ifs.open(path, std::ios_base::in | std::ios_base::binary);
@@ -48,7 +48,7 @@ std::string utils::getFileContents(const std::string &path)
     return contents;
 }
 
-std::vector<std::string> utils::split(const std::string &s, const std::string &delim)
+std::vector<std::string> Empty::utils::split(const std::string &s, const std::string &delim)
 {
     std::vector<std::string> r;
     size_t index = 0;
@@ -69,7 +69,7 @@ std::vector<std::string> utils::split(const std::string &s, const std::string &d
     return r;
 }
 
-void utils::checkGLerror(const char *file, int line)
+void Empty::utils::checkGLerror(const char *file, int line)
 {
     GLenum erro = glGetError();
     std::cerr << file << ":" << line << " : 0x" << std::hex;
@@ -81,7 +81,7 @@ void utils::checkGLerror(const char *file, int line)
 }
 
 // Expects an identity matrix as input
-void utils::perspective(math::mat4 &p, float fov, float ratio, float near, float far)
+void Empty::utils::perspective(math::mat4 &p, float fov, float ratio, float near, float far)
 {
     float d = 1 / tan(fov * M_PI / 180 / 2);
     float ir = 1.f / (near - far);
@@ -94,14 +94,14 @@ void utils::perspective(math::mat4 &p, float fov, float ratio, float near, float
     p(2, 3) = 2 * near * far * ir;
 }
 
-void utils::setAspectRatio(math::mat4 &p, float ratio)
+void Empty::utils::setAspectRatio(math::mat4 &p, float ratio)
 {
     p(1, 1) = -p(0, 0) * ratio;
 }
 
-render::gl::CubemapFace utils::getCubeMapFaceFromIndex(int i)
+Empty::render::gl::CubemapFace Empty::utils::getCubeMapFaceFromIndex(int i)
 {
-    using namespace render::gl;
+    using namespace Empty::render::gl;
     static constexpr const CubemapFace faces[6] = {
         CubemapFace::PlusX,
         CubemapFace::MinusX,
@@ -114,7 +114,7 @@ render::gl::CubemapFace utils::getCubeMapFaceFromIndex(int i)
     return faces[i];
 }
 
-bool utils::endsWith(const std::string& str, const std::string& suffix)
+bool Empty::utils::endsWith(const std::string& str, const std::string& suffix)
 {
     return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }

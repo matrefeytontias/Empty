@@ -7,7 +7,7 @@
 #include "Empty/math/vec.h"
 #include "Empty/render/gl/ShaderProgram.hpp"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	struct UniformBase
 	{

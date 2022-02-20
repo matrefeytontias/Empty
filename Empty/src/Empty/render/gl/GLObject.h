@@ -7,7 +7,7 @@
 #include "Empty/utils/noncopyable.h"
 #include "Empty/utils/utils.hpp"
 
-namespace render::gl
+namespace Empty::render::gl
 {
     using location = GLint;
 

@@ -2,7 +2,7 @@
 
 #include "Empty/math/vec.h"
 
-namespace math
+namespace Empty::math
 {
 #define DEFINE_FIELDS(n) _mat##n() = default;                      \
     static _mat##n Constant(T v)                                   \

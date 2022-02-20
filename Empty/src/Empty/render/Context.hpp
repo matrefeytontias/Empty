@@ -7,7 +7,7 @@
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
-namespace render
+namespace Empty::render
 {
 
 	namespace gl

@@ -1,6 +1,6 @@
 #include "glad/glad.h"
 
-namespace render::gl
+namespace Empty::render::gl
 {
 	// ########################
 	// # General enum structs #

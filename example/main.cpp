@@ -106,7 +106,8 @@ int _main(int, char* argv[])
     bloo[9] = 12.f; // likewise
     bloo[14] = 16.f;
 
-    std::cout << blah << " * " << math::inverse(blah) << " = " << blah * math::inverse(blah) << std::endl;
+    TRACE("bloo =\n" << bloo << "\ntranspose(bloo) =\n" << math::transpose(bloo));
+    TRACE(blah << " * " << math::inverse(blah) << " = " << blah * math::inverse(blah));
     TRACE(bleh << " * " << math::inverse(bleh) << " = " << bleh * math::inverse(bleh));
     TRACE(bloo << " * " << math::inverse(bloo) << " = " << bloo * math::inverse(bloo));
 

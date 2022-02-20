@@ -78,6 +78,36 @@ namespace math
 	mat4 inverse(const mat4& m);
 	dmat4 inverse(const dmat4& m);
 
+	template <typename T>
+	_mat2<T> transpose(const _mat2<T>& m)
+	{
+		_mat2<T> r;
+		r.column(0) = m.row(0);
+		r.column(1) = m.row(1);
+		return r;
+	}
+
+	template <typename T>
+	_mat3<T> transpose(const _mat3<T>& m)
+	{
+		_mat3<T> r;
+		r.column(0) = m.row(0);
+		r.column(1) = m.row(1);
+		r.column(2) = m.row(2);
+		return r;
+	}
+
+	template <typename T>
+	_mat4<T> transpose(const _mat4<T>& m)
+	{
+		_mat4<T> r;
+		r.column(0) = m.row(0);
+		r.column(1) = m.row(1);
+		r.column(2) = m.row(2);
+		r.column(3) = m.row(3);
+		return r;
+	}
+
 #undef SCALAR_FUNC
 #undef VEC_FUNC
 }

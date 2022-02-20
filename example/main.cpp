@@ -89,23 +89,22 @@ int _main(int, char* argv[])
 
     // Try our math functions for a bit
     TRACE(math::normalize(hihi) << ", " << math::normalize(haha.yx()) << ", " << math::normalize(huhu));
-    // TODO : not have to explicitely provide the template parameter with mutable coordinate swizzling
-    TRACE(math::min<float>(hihi.xyy(), haha.zyx()) << ", " << math::max(huhu, haha.zzyx()) << ", " << math::clamp(huhu, 2.f, 5.f));
+    TRACE(math::min(hihi.xyy(), haha.zyx()) << ", " << math::max(huhu, haha.zzyx()) << ", " << math::clamp(huhu, 2.f, 5.f));
 
     math::mat2 blah;
     for (int k = 0; k < 4; k++)
-        blah[k] = k + 1;
+        blah[k] = k + 1.f;
 
     math::dmat3 bleh;
     for (int k = 0; k < 9; k++)
-        bleh[k] = k + 1;
+        bleh[k] = k + 1.;
     bleh[7] = 9; // not invertible otherwise
 
     math::mat4 bloo;
     for (int k = 0; k < 16; k++)
-        bloo[k] = k + 1;
-    bloo[9] = 12; // likewise
-    bloo[14] = 16;
+        bloo[k] = k + 1.f;
+    bloo[9] = 12.f; // likewise
+    bloo[14] = 16.f;
 
     std::cout << blah << " * " << math::inverse(blah) << " = " << blah * math::inverse(blah) << std::endl;
     TRACE(bleh << " * " << math::inverse(bleh) << " = " << bleh * math::inverse(bleh));

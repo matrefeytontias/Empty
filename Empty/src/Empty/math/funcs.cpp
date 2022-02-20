@@ -22,12 +22,13 @@ auto math::inverse(const dmat2& m) -> dmat2
 	return r;
 }
 
+#define cofactor(i, j) m((i + 1) % 3, (j + 1) % 3) * m((i + 2) % 3, (j + 2) % 3) - m((i + 2) % 3, (j + 1) % 3) * m((i + 1) % 3, (j + 2) % 3)
 auto math::inverse(const mat3& m) -> mat3
 {
-	mat3 r;
-	for (int k = 0; k < 9; k++)
-		r[k] = m[(k + 4) % 9] * m[(k + 8) % 9] - m[(k + 5) % 9] * m[(k + 7) % 9];
-	r *= 1.f / (m(0, 0) * r(0, 0) + m(0, 1) * r(1, 0) + m(0, 2) * r(2, 0));
+    mat3 r;
+    for (int k = 0; k < 9; k++)
+        r[k] = cofactor(k / 3, k % 3);
+	r *= 1.f / (m[0] * r[0] + m[1] * r[3] + m[2] * r[6]);
 	return r;
 }
 
@@ -35,10 +36,11 @@ auto math::inverse(const dmat3& m) -> dmat3
 {
     dmat3 r;
     for (int k = 0; k < 9; k++)
-        r[k] = m[(k + 4) % 9] * m[(k + 8) % 9] - m[(k + 5) % 9] * m[(k + 7) % 9];
-    r *= 1. / (m(0, 0) * r(0, 0) + m(0, 1) * r(1, 0) + m(0, 2) * r(2, 0));
+        r[k] = cofactor(k / 3, k % 3);
+    r *= 1.f / (m[0] * r[0] + m[1] * r[3] + m[2] * r[6]);
     return r;
 }
+#undef cofactor
 
 auto math::inverse(const mat4& m) -> mat4
 {

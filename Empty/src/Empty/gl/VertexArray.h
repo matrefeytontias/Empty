@@ -2,13 +2,13 @@
 
 #include <string>
 
-#include "Empty/render/gl/Buffer.h"
-#include "Empty/render/gl/GLObject.h"
-#include "Empty/render/gl/ShaderProgram.hpp"
-#include "Empty/render/gl/VertexStructure.h"
+#include "Empty/gl/Buffer.h"
+#include "Empty/gl/GLObject.h"
+#include "Empty/gl/ShaderProgram.hpp"
+#include "Empty/gl/VertexStructure.h"
 #include "Empty/utils/utils.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a VertexArray. Useful in case

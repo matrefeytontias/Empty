@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/gl/GLEnums.hpp"
 #include "Empty/utils/utils.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	// ########################
 	// # General enum structs #

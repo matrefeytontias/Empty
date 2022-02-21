@@ -1,12 +1,12 @@
 #pragma once
 
 #include "glad/glad.h"
-#include "Empty/render/gl/GLEnums.hpp"
-#include "Empty/render/gl/GLObject.h"
-#include "Empty/render/gl/GLEnumsUtils.h"
+#include "Empty/gl/GLEnums.hpp"
+#include "Empty/gl/GLObject.h"
+#include "Empty/gl/GLEnumsUtils.h"
 #include "Empty/utils/macros.h"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a Buffer. Useful in case

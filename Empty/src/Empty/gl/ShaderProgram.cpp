@@ -1,10 +1,10 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "Empty/render/gl/ShaderProgram.hpp"
+#include "Empty/gl/ShaderProgram.hpp"
 #include "Empty/utils/utils.hpp"
 
-using namespace Empty::render::gl;
+using namespace Empty::gl;
 
 ShaderProgram::~ShaderProgram()
 {

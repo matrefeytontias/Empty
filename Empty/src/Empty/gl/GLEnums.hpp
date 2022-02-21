@@ -1,6 +1,10 @@
+// This file is auto-generated. Do not edit !
+
+#pragma once
+
 #include "glad/glad.h"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	// ########################
 	// # General enum structs #
@@ -1052,4 +1056,46 @@ namespace Empty::render::gl
 		DepthSize = GL_RENDERBUFFER_DEPTH_SIZE,
 		StencilSize = GL_RENDERBUFFER_STENCIL_SIZE,
 	};
+}
+
+namespace Empty::utils
+{
+	/**
+	 * Extract the name of a scoped enum value.
+	 */
+	template <typename Enum> const char* name(Enum e);
+	template <> const char* name<Empty::gl::ContextCapability>(Empty::gl::ContextCapability e);
+	template <> const char* name<Empty::gl::ContextStateVar>(Empty::gl::ContextStateVar e);
+	template <> const char* name<Empty::gl::DataFormat>(Empty::gl::DataFormat e);
+	template <> const char* name<Empty::gl::DataType>(Empty::gl::DataType e);
+	template <> const char* name<Empty::gl::AccessPolicy>(Empty::gl::AccessPolicy e);
+	template <> const char* name<Empty::gl::PrimitiveType>(Empty::gl::PrimitiveType e);
+	template <> const char* name<Empty::gl::ElementType>(Empty::gl::ElementType e);
+	template <> const char* name<Empty::gl::MemoryBarrierType>(Empty::gl::MemoryBarrierType e);
+	template <> const char* name<Empty::gl::DebugMessageSource>(Empty::gl::DebugMessageSource e);
+	template <> const char* name<Empty::gl::DebugMessageType>(Empty::gl::DebugMessageType e);
+	template <> const char* name<Empty::gl::DebugMessageSeverity>(Empty::gl::DebugMessageSeverity e);
+	template <> const char* name<Empty::gl::VertexAttribType>(Empty::gl::VertexAttribType e);
+	template <> const char* name<Empty::gl::BufferTarget>(Empty::gl::BufferTarget e);
+	template <> const char* name<Empty::gl::IndexedBufferTarget>(Empty::gl::IndexedBufferTarget e);
+	template <> const char* name<Empty::gl::BufferUsage>(Empty::gl::BufferUsage e);
+	template <> const char* name<Empty::gl::BufferDataFormat>(Empty::gl::BufferDataFormat e);
+	template <> const char* name<Empty::gl::BufferParam>(Empty::gl::BufferParam e);
+	template <> const char* name<Empty::gl::TextureTarget>(Empty::gl::TextureTarget e);
+	template <> const char* name<Empty::gl::TextureFormat>(Empty::gl::TextureFormat e);
+	template <> const char* name<Empty::gl::CubemapFace>(Empty::gl::CubemapFace e);
+	template <> const char* name<Empty::gl::TextureParam>(Empty::gl::TextureParam e);
+	template <> const char* name<Empty::gl::TextureParamValue>(Empty::gl::TextureParamValue e);
+	template <> const char* name<Empty::gl::TextureLevelParam>(Empty::gl::TextureLevelParam e);
+	template <> const char* name<Empty::gl::TextureComponentType>(Empty::gl::TextureComponentType e);
+	template <> const char* name<Empty::gl::ShaderType>(Empty::gl::ShaderType e);
+	template <> const char* name<Empty::gl::ShaderParam>(Empty::gl::ShaderParam e);
+	template <> const char* name<Empty::gl::ProgramParam>(Empty::gl::ProgramParam e);
+	template <> const char* name<Empty::gl::DrawBufferType>(Empty::gl::DrawBufferType e);
+	template <> const char* name<Empty::gl::FramebufferAttachment>(Empty::gl::FramebufferAttachment e);
+	template <> const char* name<Empty::gl::FramebufferTarget>(Empty::gl::FramebufferTarget e);
+	template <> const char* name<Empty::gl::FramebufferParam>(Empty::gl::FramebufferParam e);
+	template <> const char* name<Empty::gl::FramebufferStatus>(Empty::gl::FramebufferStatus e);
+	template <> const char* name<Empty::gl::RenderbufferFormat>(Empty::gl::RenderbufferFormat e);
+	template <> const char* name<Empty::gl::RenderbufferParam>(Empty::gl::RenderbufferParam e);
 }

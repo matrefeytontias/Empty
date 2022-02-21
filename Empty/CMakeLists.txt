@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.12)
 find_package(Python3 REQUIRED)
 
 set(ENUM_STRUCTS
-	src/Empty/render/gl/GLEnums.def
+	src/Empty/gl/GLEnums.def
 )
 
 foreach(ENUM ${ENUM_STRUCTS})
@@ -40,20 +40,20 @@ set(SOURCES
 	src/Empty/math/mathutils.hpp
 	src/Empty/math/swizzling.inl
 	src/Empty/math/vec.h
-	src/Empty/render/Context.cpp
-	src/Empty/render/Context.hpp
-	src/Empty/render/gl/Buffer.h
-	src/Empty/render/gl/Framebuffer.h
-	src/Empty/render/gl/GLEnumsUtils.h
-	src/Empty/render/gl/GLObject.h
-	src/Empty/render/gl/Renderbuffer.h
-	src/Empty/render/gl/Shader.h
-	src/Empty/render/gl/ShaderProgram.cpp
-	src/Empty/render/gl/ShaderProgram.hpp
-	src/Empty/render/gl/Texture.h
-	src/Empty/render/gl/Uniform.h
-	src/Empty/render/gl/VertexArray.h
-	src/Empty/render/gl/VertexStructure.h
+	src/Empty/Context.cpp
+	src/Empty/Context.hpp
+	src/Empty/gl/Buffer.h
+	src/Empty/gl/Framebuffer.h
+	src/Empty/gl/GLEnumsUtils.h
+	src/Empty/gl/GLObject.h
+	src/Empty/gl/Renderbuffer.h
+	src/Empty/gl/Shader.h
+	src/Empty/gl/ShaderProgram.cpp
+	src/Empty/gl/ShaderProgram.hpp
+	src/Empty/gl/Texture.h
+	src/Empty/gl/Uniform.h
+	src/Empty/gl/VertexArray.h
+	src/Empty/gl/VertexStructure.h
 	src/Empty/utils/EnumBitfield.h
 	src/Empty/utils/macros.h
 	src/Empty/utils/noncopyable.h

@@ -3,10 +3,10 @@
 #include <string>
 #include <type_traits>
 
-#include "Empty/render/gl/GLObject.h"
+#include "Empty/gl/GLObject.h"
 #include "Empty/utils/utils.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * General-purpose shader object class. Does not map one-to-one with OpenGL shader objects, but holds a shared reference

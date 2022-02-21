@@ -3,11 +3,11 @@
 #include <memory>
 
 #include "glad/glad.h"
-#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/gl/GLEnums.hpp"
 #include "Empty/utils/noncopyable.h"
 #include "Empty/utils/utils.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
     using location = GLint;
 

@@ -1,12 +1,12 @@
-#include "Empty/render/Context.hpp"
+#include "Empty/Context.hpp"
 
-#include "Empty/render/gl/Buffer.h"
-#include "Empty/render/gl/Framebuffer.h"
-#include "Empty/render/gl/ShaderProgram.hpp"
-#include "Empty/render/gl/Texture.h"
-#include "Empty/render/gl/VertexArray.h"
+#include "Empty/gl/Buffer.h"
+#include "Empty/gl/Framebuffer.h"
+#include "Empty/gl/ShaderProgram.hpp"
+#include "Empty/gl/Texture.h"
+#include "Empty/gl/VertexArray.h"
 
-namespace Empty::render
+namespace Empty
 {
 	void Context::debugMessageCallback(DebugCallback callback, const void* userData)
 	{

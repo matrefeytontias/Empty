@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Empty/render/gl/GLObject.h"
-#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/gl/GLObject.h"
+#include "Empty/gl/GLEnums.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a Renderbuffer. Useful in case

@@ -7,14 +7,14 @@
 #include <type_traits>
 
 #include "Empty/math/vec.h"
-#include "Empty/render/gl/GLObject.h"
-#include "Empty/render/gl/Shader.h"
-#include "Empty/render/gl/Texture.h"
-#include "Empty/render/gl/Uniform.h"
-#include "Empty/render/gl/VertexStructure.h"
+#include "Empty/gl/GLObject.h"
+#include "Empty/gl/Shader.h"
+#include "Empty/gl/Texture.h"
+#include "Empty/gl/Uniform.h"
+#include "Empty/gl/VertexStructure.h"
 #include "Empty/utils/utils.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a ShaderProgram. Useful in case

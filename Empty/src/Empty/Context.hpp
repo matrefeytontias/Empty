@@ -2,12 +2,12 @@
 
 #include "glad/glad.h"
 
-#include "Empty/render/gl/GLEnumsUtils.h"
+#include "Empty/gl/GLEnumsUtils.h"
 #include "Empty/utils/EnumBitfield.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
-namespace Empty::render
+namespace Empty
 {
 
 	namespace gl
@@ -235,8 +235,8 @@ namespace Empty::render
 			auto* p = (DebugCallbackPayload*)userData;
 
 			if(p->callback)
-				p->callback(static_cast<render::gl::DebugMessageSource>(source), static_cast<render::gl::DebugMessageType>(type),
-							static_cast<render::gl::DebugMessageSeverity>(severity), id, std::string(message), p->userData);
+				p->callback(static_cast<gl::DebugMessageSource>(source), static_cast<gl::DebugMessageType>(type),
+							static_cast<gl::DebugMessageSeverity>(severity), id, std::string(message), p->userData);
 		}
 
 	};

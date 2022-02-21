@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Empty/render/gl/GLObject.h"
-#include "Empty/render/gl/GLEnums.hpp"
-#include "Empty/render/gl/Renderbuffer.h"
-#include "Empty/render/gl/Texture.h"
+#include "Empty/gl/GLObject.h"
+#include "Empty/gl/GLEnums.hpp"
+#include "Empty/gl/Renderbuffer.h"
+#include "Empty/gl/Texture.h"
 #include "Empty/utils/macros.h"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a Framebuffer. Useful in case

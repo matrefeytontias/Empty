@@ -19,7 +19,7 @@
 
 #include "Empty/math/mat.h"
 #include "Empty/math/vec.h"
-#include "Empty/render/gl/Texture.h"
+#include "Empty/gl/Texture.h"
 #include "Empty/utils/macros.h"
 
 static constexpr const float M_PI = 3.14159258536f;
@@ -99,9 +99,9 @@ void Empty::utils::setAspectRatio(math::mat4 &p, float ratio)
     p(1, 1) = -p(0, 0) * ratio;
 }
 
-Empty::render::gl::CubemapFace Empty::utils::getCubeMapFaceFromIndex(int i)
+Empty::gl::CubemapFace Empty::utils::getCubeMapFaceFromIndex(int i)
 {
-    using namespace Empty::render::gl;
+    using namespace Empty::gl;
     static constexpr const CubemapFace faces[6] = {
         CubemapFace::PlusX,
         CubemapFace::MinusX,

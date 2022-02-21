@@ -3,12 +3,12 @@
 #include <string>
 
 #include "Empty/math/funcs.h"
-#include "Empty/render/Context.hpp"
-#include "Empty/render/gl/Framebuffer.h"
-#include "Empty/render/gl/Renderbuffer.h"
-#include "Empty/render/gl/ShaderProgram.hpp"
-#include "Empty/render/gl/Texture.h"
-#include "Empty/render/gl/VertexArray.h"
+#include "Empty/Context.hpp"
+#include "Empty/gl/Framebuffer.h"
+#include "Empty/gl/Renderbuffer.h"
+#include "Empty/gl/ShaderProgram.hpp"
+#include "Empty/gl/Texture.h"
+#include "Empty/gl/VertexArray.h"
 #include "Empty/utils/EnumBitfield.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
@@ -20,9 +20,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-using namespace Empty::render::gl;
+using namespace Empty::gl;
 
-struct GLFWContext : public Empty::render::Context
+struct GLFWContext : public Empty::Context
 {
     GLFWwindow* window;
 

@@ -14,7 +14,7 @@
 #undef far
 #endif
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	enum struct CubemapFace : GLenum;
 }
@@ -111,7 +111,7 @@ namespace Empty::utils
 	/**
 	 * Utility function to get the enum value corresponding to a cubemap face index.
 	 */
-	Empty::render::gl::CubemapFace getCubeMapFaceFromIndex(int i);
+	Empty::gl::CubemapFace getCubeMapFaceFromIndex(int i);
 
 	/**
 	 * Returns whether a string finishes with a given suffix.

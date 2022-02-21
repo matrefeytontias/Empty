@@ -5,9 +5,9 @@
 #include "glad/glad.h"
 #include "Empty/math/mat.h"
 #include "Empty/math/vec.h"
-#include "Empty/render/gl/ShaderProgram.hpp"
+#include "Empty/gl/ShaderProgram.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	struct UniformBase
 	{

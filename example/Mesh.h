@@ -4,15 +4,15 @@
 #include <vector>
 
 #include "Empty/math/vec.h"
-#include "Empty/render/gl/Buffer.h"
-#include "Empty/render/gl/VertexArray.h"
-#include "Empty/render/gl/VertexStructure.h"
+#include "Empty/gl/Buffer.h"
+#include "Empty/gl/VertexArray.h"
+#include "Empty/gl/VertexStructure.h"
 #include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
 
 using namespace Empty;
-using namespace Empty::render::gl;
+using namespace Empty::gl;
 
 /**
 * Structure to load vertices and faces from a OFF or OBJ file.

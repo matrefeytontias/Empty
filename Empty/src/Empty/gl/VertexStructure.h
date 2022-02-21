@@ -1,9 +1,9 @@
 #pragma once
 
 #include "glad/glad.h"
-#include "Empty/render/gl/GLEnums.hpp"
+#include "Empty/gl/GLEnums.hpp"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * Tells how many bytes a single element of a given type occupies.

@@ -3,11 +3,11 @@
 #include <type_traits>
 
 #include "glad/glad.h"
-#include "Empty/render/gl/GLEnumsUtils.h"
-#include "Empty/render/gl/GLObject.h"
+#include "Empty/gl/GLEnumsUtils.h"
+#include "Empty/gl/GLObject.h"
 #include "Empty/utils/macros.h"
 
-namespace Empty::render::gl
+namespace Empty::gl
 {
 	/**
 	 * This struct holds everything one needs to bind a Texture. Useful in case

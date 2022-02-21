@@ -107,9 +107,9 @@ int _main(int, char* argv[])
     bloo[14] = 16.f;
 
     TRACE("bloo =\n" << bloo << "\ntranspose(bloo) =\n" << math::transpose(bloo));
-    TRACE(blah << " * " << math::inverse(blah) << " = " << blah * math::inverse(blah));
-    TRACE(bleh << " * " << math::inverse(bleh) << " = " << bleh * math::inverse(bleh));
-    TRACE(bloo << " * " << math::inverse(bloo) << " = " << bloo * math::inverse(bloo));
+    TRACE("\n" << blah << "*\n" << math::inverse(blah) << "=\n" << blah * math::inverse(blah));
+    TRACE("\n" << bleh << "*\n" << math::inverse(bleh) << "=\n" << bleh * math::inverse(bleh));
+    TRACE("\n" << bloo << "*\n" << math::inverse(bloo) << "=\n" << bloo * math::inverse(bloo));
 
     GLFWContext context("Empty sample program", 1280, 720);
     

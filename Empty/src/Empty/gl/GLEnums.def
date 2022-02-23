@@ -72,6 +72,7 @@ namespace Empty::gl
 		MaxComputeWorkGroupInvocations = GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS,
 		MaxComputeWorkGroupCount = GL_MAX_COMPUTE_WORK_GROUP_COUNT,
 		MaxComputeWorkGroupSize = GL_MAX_COMPUTE_WORK_GROUP_SIZE,
+		MaxComputeSharedMemorySize = GL_MAX_COMPUTE_SHARED_MEMORY_SIZE,
 		DispatchIndirectBufferBinding = GL_DISPATCH_INDIRECT_BUFFER_BINDING,
 		MaxDebugGroupStackDepth = GL_MAX_DEBUG_GROUP_STACK_DEPTH,
 		DebugGroupStackDepth = GL_DEBUG_GROUP_STACK_DEPTH,

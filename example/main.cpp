@@ -24,9 +24,7 @@ using namespace Empty::gl;
 
 struct GLFWContext : public Empty::Context
 {
-    GLFWwindow* window;
-
-    GLFWContext(const char* title, int width, int height, int major = 4, int minor = 5) : Context(width, height, major, minor)
+    GLFWContext(const char* title, int width, int height, int major = 4, int minor = 5) : Context(), frameWidth(width), frameHeight(height)
     {
         ASSERT(major * 100 + minor >= 405);
         glfwSetErrorCallback(errorCallback);
@@ -38,7 +36,7 @@ struct GLFWContext : public Empty::Context
 #ifdef _DEBUG
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-        window = glfwCreateWindow(frameWidth, frameHeight, title, NULL, NULL);
+        window = glfwCreateWindow(width, height, title, NULL, NULL);
         glfwMakeContextCurrent(window);
         glfwSetKeyCallback(window, keyCallback);
         glfwSetMouseButtonCallback(window, mouseButtonCallback);
@@ -48,6 +46,9 @@ struct GLFWContext : public Empty::Context
     }
 
     void swap() const override final { glfwSwapBuffers(window); }
+
+    int frameWidth, frameHeight;
+    GLFWwindow* window;
 
 private:
     static void errorCallback(int error, const char* description)
@@ -189,7 +190,7 @@ int _main(int, char* argv[])
 
         fbtex.generateMipmaps();
 
-        context.resetViewport();
+        context.setViewport(context.frameWidth, context.frameHeight);
     }
 
     TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));

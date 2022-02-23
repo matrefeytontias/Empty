@@ -35,15 +35,14 @@ namespace Empty
 		 */
 		using DebugCallback = void(*)(gl::DebugMessageSource, gl::DebugMessageType, gl::DebugMessageSeverity, int, const std::string&, const void*);
 
-		const int frameWidth, frameHeight;
-		// Color to clear color buffers with. Defaults to (0, 0, 0, 1).
+		// Color to clear color buffers with. Defaults to (0, 0, 0, 0).
 		math::vec4 clearColor;
 		// Depth value to clear depth buffers with. Defaults to 0.f.
 		float clearDepth;
 		// Stencil value to clear stencil buffers with. Defaults to 0.
 		unsigned int clearStencil;
 
-		Context(int width, int height, int major = 4, int minor = 5) : frameWidth(width), frameHeight(height), clearColor(0, 0, 0, 1), clearDepth(0.f), clearStencil(0) { }
+		Context() : clearColor(0, 0, 0, 0), clearDepth(0.f), clearStencil(0) { }
 		virtual ~Context() = default;
 
 		/**
@@ -109,11 +108,6 @@ namespace Empty
 		 * Set the viewport dimensions.
 		 */
 		void setViewport(int width, int height, int x = 0, int y = 0) const { glViewport(x, y, width, height); }
-
-		/**
-		 * Reset the viewport dimensions to cover the entire default framebuffer.
-		 */
-		void resetViewport() const { glViewport(0, 0, frameWidth, frameHeight); }
 
 		/**
 		 * Draw a range of vertices from a bound VertexArray, arranged in successive primitives.

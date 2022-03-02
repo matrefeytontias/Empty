@@ -44,21 +44,17 @@ namespace Empty::gl
 	{
 #define COPY_CTPARAMS TextureTarget t = CTTarget, TextureFormat f = CTFormat
 
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
-			Texture(TextureTarget target, TextureFormat format) : GLObject(target), _target(target), _format(format) {}
+		template <COPY_CTPARAMS>
+		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureTarget> target, TextureFormat format) : GLObject(target), _target(target), _format(format) {}
 
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, int> = 0>
-			Texture(TextureFormat format) : GLObject(t), _target(t), _format(format) {}
+		template <COPY_CTPARAMS>
+		Texture(std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureFormat> format) : GLObject(t), _target(t), _format(format) {}
+		
+		template <COPY_CTPARAMS>
+		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, TextureTarget> target) : GLObject(target), _target(target), _format(f) {}
 
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
-			Texture(TextureTarget target) : GLObject(target), _target(target), _format(f) {}
-
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
-			Texture() : GLObject(t), _target(t), _format(f) {}
+		template <COPY_CTPARAMS, std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
+		Texture() : GLObject(t), _target(t), _format(f) {}
 
 #undef COPY_CTPARAMS
 
@@ -67,9 +63,8 @@ namespace Empty::gl
 		/**
 		 * Allocate storage for a 1-dimensional texture.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 1, int> = 0>
-			inline void setStorage(int levels, int width)
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 1> setStorage(int levels, int width)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 			glTextureStorage1D(*_id, levels, utils::value(_format), width);
@@ -80,9 +75,8 @@ namespace Empty::gl
 		 * Allocate storage for a 2-dimensional texture. For 1D array textures, `height` is the number
 		 * of layers.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 2, int> = 0>
-			inline void setStorage(int levels, int width, int height)
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 2> setStorage(int levels, int width, int height)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 			glTextureStorage2D(*_id, levels, utils::value(_format), width, height);
@@ -94,9 +88,8 @@ namespace Empty::gl
 		 * layers. For cubemap array textures, `depth` is also the number of layers and not layer-faces
 		 * (no need to multiply it by 6).
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 3, int> = 0>
-			inline void setStorage(int levels, int width, int height, int depth)
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 3> setStorage(int levels, int width, int height, int depth)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 			if constexpr (isTargetCubemap(t))
@@ -111,9 +104,8 @@ namespace Empty::gl
 		 * textures, `depth` is the number of layers and not layer-faces (no need to
 		 * multiply it by 6).
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			void setStorage(int levels, int width, int height = 1, int depth = 1)
+		template <COPY_CTPARAMS>
+		std::enable_if_t<t == TextureTarget::Dynamic> setStorage(int levels, int width, int height = 1, int depth = 1)
 		{
 			ASSERT(!_requirementsSet && "Storage requirements were already set for this Texture");
 
@@ -131,9 +123,8 @@ namespace Empty::gl
 		/**
 		 * Upload data to a 1-dimensional texture.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 1, int> = 0>
-			inline void uploadData(int level, int x, int w, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 1> uploadData(int level, int x, int w, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage1D(*_id, level, x, w, utils::value(format), utils::value(type), data);
@@ -142,9 +133,8 @@ namespace Empty::gl
 		/**
 		 * Upload data to a 2-dimensional texture that is not a cubemap.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubemap(t), int> = 0>
-			inline void uploadData(int level, int x, int y, int w, int h, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 2 && !isTargetCubemap(t)> uploadData(int level, int x, int y, int w, int h, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage2D(*_id, level, x, y, w, h, utils::value(format), utils::value(type), data);
@@ -153,9 +143,8 @@ namespace Empty::gl
 		/**
 		 * Upload data to a 3-dimensional texture that is not a cubemap array.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 3 && !isTargetCubemap(t), int> = 0>
-			inline void uploadData(int level, int x, int y, int z, int w, int h, int d, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 3 && !isTargetCubemap(t)> uploadData(int level, int x, int y, int z, int w, int h, int d, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, z, w, h, d, utils::value(format), utils::value(type), data);
@@ -165,9 +154,8 @@ namespace Empty::gl
 		 * Upload data to a cubemap texture. `face` is the starting face of the upload operation,
 		 * and `faces` how many should be filled.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 2 && isTargetCubemap(t), int> = 0>
-			inline void uploadData(CubemapFace face, int level, int x, int y, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 2 && isTargetCubemap(t)> uploadData(CubemapFace face, int level, int x, int y, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -180,9 +168,8 @@ namespace Empty::gl
 		 * on the cubemap of the next layer. For example, using `CubeMapFace::PositiveX`, `0` and `12`
 		 * respectively will fill all 6 faces of the first two cubemaps.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<dimensionsFromTarget(t) == 3 && isTargetCubemap(t), int> = 0>
-			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<dimensionsFromTarget(t) == 3 && isTargetCubemap(t)> uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			glTextureSubImage3D(*_id, level, x, y, layer * 6 + cubemapFaceIndex(face), w, h, faces, utils::value(format), utils::value(type), data);
@@ -192,9 +179,8 @@ namespace Empty::gl
 		 * Upload data to a non-cubemap texture with target unknown at compile-time. Parameters
 		 * that are not relevant to the actual texture target are ignored.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			void uploadData(int level, int x, int y, int z, int w, int h, int d, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		std::enable_if_t<t == TextureTarget::Dynamic> uploadData(int level, int x, int y, int z, int w, int h, int d, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			ASSERT(!isTargetCubemap(_target) && "cannot upload data directly to a cubemap ; use dedicated method instead");
@@ -212,9 +198,8 @@ namespace Empty::gl
 		 * Upload data to a cubemap or cubemap array texture with target unknown at compile-time. Parameters
 		 * that are not relevant to the actual texture target are ignored.
 		 */
-		template <COPY_CTPARAMS,
-			std::enable_if_t<t == TextureTarget::Dynamic, int> = 0>
-			inline void uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
+		template <COPY_CTPARAMS>
+		inline std::enable_if_t<t == TextureTarget::Dynamic> uploadData(CubemapFace face, int level, int x, int y, int layer, int w, int h, int faces, DataFormat format, DataType type, const void* data) const
 		{
 			ASSERT(_requirementsSet);
 			ASSERT(isTargetCubemap(_target) && "can only upload data to a cubemap ; use general-purpose method instead");
@@ -230,24 +215,21 @@ namespace Empty::gl
 		/**
 		 * Creates a rectangle texture view over a rectangle texture.
 		 */
-		template <TextureTarget CTNewTarget, TextureFormat CTNewFormat,
-			std::enable_if_t<
-				CTNewTarget == CTTarget && CTNewTarget == TextureTarget::TextureRectangle,
-				int> = 0
-		>
-		auto makeView()
+		template <TextureTarget CTNewTarget, TextureFormat CTNewFormat>
+		std::enable_if_t<CTNewTarget == CTTarget && CTNewTarget == TextureTarget::TextureRectangle, Texture<CTNewTarget, CTNewFormat>> makeView()
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, 0, 1, 0, 1);
 		}
 
-#define COPY_CTPARAMS(c) TextureTarget CTNewTarget, TextureFormat CTNewFormat, \
-			std::enable_if_t<!isTargetSpecial(CTNewTarget) && !isTargetSpecial(CTTarget) && !isTargetProxy(CTNewTarget) && !isTargetProxy(CTTarget) && (c), int> = 0
+#define SIGNATURE(c) template <TextureTarget CTNewTarget, TextureFormat CTNewFormat> \
+			std::enable_if_t<!isTargetSpecial(CTNewTarget) && !isTargetSpecial(CTTarget) && !isTargetProxy(CTNewTarget) && !isTargetProxy(CTTarget) && (c), \
+			Texture<CTNewTarget, CTNewFormat>>
 
 		/**
 		 * Creates a texture view (layered or not) over a non-layered texture.
 		 */
-		template <COPY_CTPARAMS(CTNewTarget == CTTarget && !isTargetLayered(CTNewTarget) || isTargetArrayOf(CTNewTarget, CTTarget))>
-		auto makeView(int minLevel, int numLevels)
+		SIGNATURE(CTNewTarget == CTTarget && !isTargetLayered(CTNewTarget) || isTargetArrayOf(CTNewTarget, CTTarget))
+		makeView(int minLevel, int numLevels)
 		{
 			if constexpr (CTTarget == TextureTarget::TextureCubemap)
 				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, 0, 6);
@@ -259,8 +241,8 @@ namespace Empty::gl
 		 * Creates a non-layered texture view over a layered texture. For cubemap
 		 * arrays, a single "layer" is an entire cubemap, not a layer-face.
 		 */
-		template <COPY_CTPARAMS(isTargetArrayOf(CTTarget, CTNewTarget))>
-		auto makeView(int minLevel, int numLevels, int layer)
+		SIGNATURE(isTargetArrayOf(CTTarget, CTNewTarget))
+		makeView(int minLevel, int numLevels, int layer)
 		{
 			if constexpr (CTTarget == TextureTarget::TextureCubemapArray)
 				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6, 6);
@@ -273,8 +255,8 @@ namespace Empty::gl
 		 * views over cubemap arrays, a single "layer" is an entire cubemap, not a
 		 * layer-face. In all other cases, a single "layer" is a layer-face.
 		 */
-		template <COPY_CTPARAMS(CTNewTarget == CTTarget && isTargetLayered(CTNewTarget) || CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemapArray)>
-		auto makeView(int minLevel, int numLevels, int minLayer, int numLayers)
+		SIGNATURE(CTNewTarget == CTTarget && isTargetLayered(CTNewTarget) || CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemapArray)
+		makeView(int minLevel, int numLevels, int minLayer, int numLayers)
 		{
 			if constexpr (CTNewTarget == TextureTarget::TextureCubemapArray)
 				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, minLayer * 6, numLayers * 6);
@@ -285,8 +267,8 @@ namespace Empty::gl
 		/**
 		 * Creates a 2D texture view over a cubemap.
 		 */
-		template <COPY_CTPARAMS(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemap)>
-		auto makeView(int minLevel, int numLevels, CubemapFace face)
+		SIGNATURE(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemap)
+		makeView(int minLevel, int numLevels, CubemapFace face)
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(face), 1);
 		}
@@ -295,8 +277,8 @@ namespace Empty::gl
 		 * Creates a 2D texture view over a cubemap array. A single "layer" is an
 		 * entire cubemap.
 		 */
-		template <COPY_CTPARAMS(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemapArray)>
-		auto makeView(int minLevel, int numLevels, int layer, CubemapFace face)
+		SIGNATURE(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemapArray)
+		makeView(int minLevel, int numLevels, int layer, CubemapFace face)
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6 + cubemapFaceIndex(face), 1);
 		}
@@ -304,17 +286,17 @@ namespace Empty::gl
 		/**
 		 * Creates a 2D array texture view over a cubemap.
 		 */
-		template <COPY_CTPARAMS(CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemap)>
-		auto makeView(int minLevel, int numLevels, CubemapFace startFace, int faces)
+		SIGNATURE(CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemap)
+		makeView(int minLevel, int numLevels, CubemapFace startFace, int faces)
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(startFace), faces);
 		}
-#undef COPY_CTPARAMS
+#undef SIGNATURE
 
 		/**
 		 * Populate the texture's levels with mipmaps. Only usable on texture targets that do have mipmaps.
 		 */
-		template <std::enable_if_t<!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) && !isTargetProxy(CTTarget), int> = 0>
+		template <typename = std::enable_if_t<!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) && !isTargetProxy(CTTarget)>>
 		void generateMipmaps()
 		{
 			glGenerateTextureMipmap(*_id);
@@ -325,8 +307,8 @@ namespace Empty::gl
 		/**
 		 * Get information about one of a non-layered texture's levels.
 		 */
-		template <COPY_CTPARAMS, std::enable_if_t<!isTargetLayered(t), int> = 0>
-		TextureLevelInfo getLevel(int level)
+		template <COPY_CTPARAMS>
+		std::enable_if_t<!isTargetLayered(t), TextureLevelInfo> getLevel(int level)
 		{
 			ASSERT(_requirementsSet);
 			return TextureLevelInfo{ _id, level, false, 0 };
@@ -336,8 +318,8 @@ namespace Empty::gl
 		 * Get information about one of a layered texture's levels. The whole
 		 * level is selected as opposed to a single layer of it.
 		 */
-		template <COPY_CTPARAMS, std::enable_if_t<isTargetLayered(t), int> = 0>
-		TextureLevelInfo getLevel(int level)
+		template <COPY_CTPARAMS>
+		std::enable_if_t<isTargetLayered(t), TextureLevelInfo> getLevel(int level)
 		{
 			ASSERT(_requirementsSet);
 			return TextureLevelInfo{ _id, level, true, -1 };
@@ -346,8 +328,8 @@ namespace Empty::gl
 		/**
 		 * Get information about one layer of a layered texture's levels.
 		 */
-		template <COPY_CTPARAMS, std::enable_if_t<isTargetLayered(t), int> = 0>
-		TextureLevelInfo getLevel(int level, int layer)
+		template <COPY_CTPARAMS>
+		std::enable_if_t<isTargetLayered(t), TextureLevelInfo> getLevel(int level, int layer)
 		{
 			ASSERT(_requirementsSet);
 			return TextureLevelInfo{ _id, level, false, layer };
@@ -355,143 +337,122 @@ namespace Empty::gl
 
 #undef COPY_CTPARAMS
 
-		template <TextureParam CTParam, std::enable_if_t<
-			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
-			|| CTParam == TextureParam::ViewMinLayer || CTParam == TextureParam::ViewNumLayers
-			|| CTParam == TextureParam::ViewMinLevel || CTParam == TextureParam::ViewNumLevels
-			|| CTParam == TextureParam::ViewImmutableLevels || CTParam == TextureParam::HasImmutableFormat
-			, int> = 0>
-			int getParameter() const
+		template <TextureParam CTParam>
+		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::BaseLevel, TextureParam::MaxLevel, TextureParam::ViewMinLayer, TextureParam::ViewNumLayers,
+			TextureParam::ViewMinLevel, TextureParam::ViewNumLevels, TextureParam::ViewImmutableLevels, TextureParam::HasImmutableFormat)
+			, int> getParameter() const
 		{
 			int p;
 			glGetTextureParameteriv(*_id, utils::value(CTParam), &p);
 			return p;
 		}
 
-		template <TextureParam CTParam, std::enable_if_t<
-			CTParam == TextureParam::DepthStencilMode
-			|| CTParam == TextureParam::CompareFunc || CTParam == TextureParam::CompareMode
-			|| CTParam == TextureParam::MinFilter || CTParam == TextureParam::MagFilter
-			|| CTParam == TextureParam::SwizzleR || CTParam == TextureParam::SwizzleG
-			|| CTParam == TextureParam::SwizzleB || CTParam == TextureParam::SwizzleA
-			|| CTParam == TextureParam::WrapS || CTParam == TextureParam::WrapT
-			|| CTParam == TextureParam::WrapR || CTParam == TextureParam::ImageFormatCompatibilityType
-			, int> = 0>
-			TextureParamValue getParameter() const
+		template <TextureParam CTParam>
+		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::DepthStencilMode, TextureParam::CompareFunc, TextureParam::CompareMode,
+			TextureParam::MinFilter, TextureParam::MagFilter, TextureParam::SwizzleR, TextureParam::SwizzleG,
+			TextureParam::SwizzleB, TextureParam::SwizzleA, TextureParam::WrapS,
+			TextureParam::WrapT, TextureParam::WrapR, TextureParam::ImageFormatCompatibilityType)
+			, TextureParamValue> getParameter() const
 		{
 			int p;
 			glGetTextureParameteriv(*_id, utils::value(CTParam), &p);
 			return static_cast<TextureParamValue>(p);
 		}
 
-		template <TextureParam CTParam, std::enable_if_t<
-			CTParam == TextureParam::LODBias
-			|| CTParam == TextureParam::MinLOD || CTParam == TextureParam::MaxLOD
-			, int> = 0>
-			float getParameter() const
+		template <TextureParam CTParam>
+		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::LODBias, TextureParam::MinLOD, TextureParam::MaxLOD)
+			, float> getParameter() const
 		{
 			float v;
 			glGetTextureParameterfv(*_id, utils::value(CTParam), &v);
 			return v;
 		}
 
-		template <TextureParam CTParam, std::enable_if_t<
-			CTParam == TextureParam::BaseLevel || CTParam == TextureParam::MaxLevel
-			, int> = 0>
-			void setParameter(int v) const { glTextureParameteri(*_id, utils::value(CTParam), v); }
+		template <TextureParam CTParam>
+		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::BaseLevel, TextureParam::MaxLevel)>
+		setParameter(int v) const { glTextureParameteri(*_id, utils::value(CTParam), v); }
 
-		template <TextureParam CTParam, std::enable_if_t<
-			CTParam == TextureParam::LODBias
-			|| CTParam == TextureParam::MinLOD || CTParam == TextureParam::MaxLOD
-			, int> = 0>
-			void setParameter(float v) const { glTextureParameterf(*_id, utils::value(CTParam), v); }
+		template <TextureParam CTParam>
+		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::LODBias, TextureParam::MinLOD, TextureParam::MaxLOD)>
+		setParameter(float v) const { glTextureParameterf(*_id, utils::value(CTParam), v); }
 
-		template <TextureParam CTParam, std::enable_if_t<
-			CTParam == TextureParam::DepthStencilMode
-			|| CTParam == TextureParam::CompareFunc || CTParam == TextureParam::CompareMode
-			|| CTParam == TextureParam::MinFilter || CTParam == TextureParam::MagFilter
-			|| CTParam == TextureParam::SwizzleR || CTParam == TextureParam::SwizzleG
-			|| CTParam == TextureParam::SwizzleB || CTParam == TextureParam::SwizzleA
-			|| CTParam == TextureParam::WrapS || CTParam == TextureParam::WrapT
-			|| CTParam == TextureParam::WrapR
-			, int> = 0>
-			void setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
+		template <TextureParam CTParam>
+		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::DepthStencilMode, TextureParam::CompareFunc, TextureParam::CompareMode,
+			TextureParam::MinFilter, TextureParam::MagFilter, TextureParam::SwizzleR,
+			TextureParam::SwizzleG, TextureParam::SwizzleB, TextureParam::SwizzleA,
+			TextureParam::WrapS, TextureParam::WrapT, TextureParam::WrapR)>
+		setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
 
-		template <TextureLevelParam CTParam, std::enable_if_t<
+		template <TextureLevelParam CTParam>
+			std::enable_if_t<
 			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
-			(CTParam == TextureLevelParam::RedType || CTParam == TextureLevelParam::GreenType
-			 || CTParam == TextureLevelParam::BlueType || CTParam == TextureLevelParam::AlphaType
-			 || CTParam == TextureLevelParam::DepthType)
-			, int> = 0>
-			TextureComponentType getLevelParameter(int level) const
+				utils::isOneOf(CTParam, TextureLevelParam::RedType, TextureLevelParam::GreenType,
+					TextureLevelParam::BlueType, TextureLevelParam::AlphaType, TextureLevelParam::DepthType)
+			, TextureComponentType> getLevelParameter(int level) const
 		{
 			int v;
 			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
 			return static_cast<TextureComponentType>(v);
 		}
 
-		template <TextureLevelParam CTParam, std::enable_if_t<
+		template <TextureLevelParam CTParam>
+		std::enable_if_t<
 			(isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
-			(CTParam == TextureLevelParam::RedType || CTParam == TextureLevelParam::GreenType
-			 || CTParam == TextureLevelParam::BlueType || CTParam == TextureLevelParam::AlphaType
-			 || CTParam == TextureLevelParam::DepthType)
-			, int> = 0>
-			TextureComponentType getLevelParameter() const
+			utils::isOneOf(CTParam, TextureLevelParam::RedType, TextureLevelParam::GreenType,
+				TextureLevelParam::BlueType, TextureLevelParam::AlphaType, TextureLevelParam::DepthType)
+			, TextureComponentType> getLevelParameter() const
 		{
 			int v;
 			glGetTextureLevelParameteriv(*_id, 0, utils::value(CTParam), &v);
 			return static_cast<TextureComponentType>(v);
 		}
 
-		template <TextureLevelParam CTParam, std::enable_if_t<
+		template <TextureLevelParam CTParam>
+		std::enable_if_t<
 			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
-			(CTParam == TextureLevelParam::Width || CTParam == TextureLevelParam::Height
-			 || CTParam == TextureLevelParam::Depth || CTParam == TextureLevelParam::RedSize
-			 || CTParam == TextureLevelParam::GreenSize || CTParam == TextureLevelParam::BlueSize
-			 || CTParam == TextureLevelParam::AlphaSize || CTParam == TextureLevelParam::DepthSize
-			 || CTParam == TextureLevelParam::CompressedSize)
-			, int> = 0>
-			int getLevelParameter(int level) const
+			utils::isOneOf(CTParam, TextureLevelParam::Width, TextureLevelParam::Height,
+				TextureLevelParam::Depth, TextureLevelParam::RedSize, TextureLevelParam::GreenSize,
+				TextureLevelParam::BlueSize, TextureLevelParam::AlphaSize, TextureLevelParam::DepthSize,
+				TextureLevelParam::CompressedSize)
+			, int> getLevelParameter(int level) const
 		{
 			int v;
 			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
 			return v;
 		}
 
-		template <TextureLevelParam CTParam, std::enable_if_t<
+		template <TextureLevelParam CTParam>
+		std::enable_if_t<
 			((isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
-			(CTParam == TextureLevelParam::Width || CTParam == TextureLevelParam::Height
-			 || CTParam == TextureLevelParam::Depth || CTParam == TextureLevelParam::RedSize
-			 || CTParam == TextureLevelParam::GreenSize || CTParam == TextureLevelParam::BlueSize
-			 || CTParam == TextureLevelParam::AlphaSize || CTParam == TextureLevelParam::DepthSize
-			 || CTParam == TextureLevelParam::CompressedSize))
+			 utils::isOneOf(CTParam, TextureLevelParam::Width, TextureLevelParam::Height,
+							TextureLevelParam::Depth, TextureLevelParam::RedSize, TextureLevelParam::GreenSize,
+							TextureLevelParam::BlueSize, TextureLevelParam::AlphaSize, TextureLevelParam::DepthSize,
+							TextureLevelParam::CompressedSize))
 			|| (CTTarget == TextureTarget::TextureBuffer &&
-				(CTParam == TextureLevelParam::BufferDataStoreBinding || CTParam == TextureLevelParam::BufferOffset
-				 || CTParam == TextureLevelParam::BufferSize))
-			, int> = 0>
-			int getLevelParameter() const
+				utils::isOneOf(CTParam, TextureLevelParam::BufferDataStoreBinding, TextureLevelParam::BufferOffset, TextureLevelParam::BufferSize))
+			, int> getLevelParameter() const
 		{
 			int v;
 			glGetTextureLevelParameteriv(*_id, 0, utils::value(CTParam), &v);
 			return v;
 		}
 
-		template <TextureLevelParam CTParam, std::enable_if_t<
+		template <TextureLevelParam CTParam>
+		std::enable_if_t<
 			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
 			CTParam == TextureLevelParam::Compressed
-			, int> = 0>
-		bool getLevelParameter(int level) const
+			, bool> getLevelParameter(int level) const
 		{
 			int v;
 			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);
 			return v;
 		}
 
-		template <TextureLevelParam CTParam, std::enable_if_t<
+		template <TextureLevelParam CTParam>
+		std::enable_if_t<
 			(isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
 			CTParam == TextureLevelParam::Compressed
-			, int> = 0>
-			bool getLevelParameter(int level) const
+			, bool> getLevelParameter(int level) const
 		{
 			int v;
 			glGetTextureLevelParameteriv(*_id, level, utils::value(CTParam), &v);

@@ -88,6 +88,8 @@ namespace Empty::gl
     struct FramebufferId : public utils::noncopyable
     {
         FramebufferId() { glCreateFramebuffers(1, &_id); }
+        // For existing resources
+        FramebufferId(GLuint id) { _id = id; }
         ~FramebufferId() { glDeleteFramebuffers(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const FramebufferId& a) const { return _id == a._id; }

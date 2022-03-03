@@ -23,6 +23,8 @@ namespace Empty::gl
 	 */
 	struct Framebuffer : public GLObject<FramebufferId>
 	{
+		Framebuffer() = default;
+
 #define COPY_CTPARAMS FramebufferAttachment CTAttachment, TextureTarget CTTarget, TextureFormat CTFormat
 #define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<CTAttachment != FramebufferAttachment::Color && !isTargetProxy(CTTarget) && (c), int> = 0
 		
@@ -132,6 +134,42 @@ namespace Empty::gl
 			glNamedFramebufferRenderbuffer(*_id, utils::value(CTAttachment), GL_RENDERBUFFER, *rb.id);
 		}
 
+		/**
+		 * Clears color attachments of a framebuffer.
+		 */
+		template <FramebufferAttachment CTAttachment>
+		std::enable_if_t<CTAttachment == FramebufferAttachment::Color> clearAttachment(int attachment, const math::vec4& clearColor) const
+		{
+			glClearNamedFramebufferfv(*_id, GL_COLOR, 0, clearColor);
+		}
+
+		/**
+		 * Clears the depth attachment of a framebuffer.
+		 */
+		template <FramebufferAttachment CTAttachment>
+		std::enable_if_t<CTAttachment == FramebufferAttachment::Depth> clearAttachment(float clearDepth) const
+		{
+			glClearNamedFramebufferfv(*_id, GL_DEPTH, 0, &clearDepth);
+		}
+
+		/**
+		 * Clears the stencil attachment of a framebuffer.
+		 */
+		template <FramebufferAttachment CTAttachment>
+		std::enable_if_t<CTAttachment == FramebufferAttachment::Stencil> clearAttachment(unsigned int clearStencil) const
+		{
+			glClearNamedFramebufferuiv(*_id, GL_STENCIL, 0, &clearStencil);
+		}
+
+		/**
+		 * Clears the depth and stencil attachments of a framebuffer.
+		 */
+		template <FramebufferAttachment CTAttachment>
+		std::enable_if_t<CTAttachment == FramebufferAttachment::DepthStencil> clearAttachment(float clearDepth, unsigned int clearStencil) const
+		{
+			glClearNamedFramebufferfi(*_id, GL_DEPTH_STENCIL, 0, clearDepth, clearStencil);
+		}
+
 		template <FramebufferParam CTParam, std::enable_if_t <
 			CTParam == FramebufferParam::DefaultFixedSampleLocations
 			, int> = 0>
@@ -158,5 +196,14 @@ namespace Empty::gl
 
 		operator const FramebufferInfo() const { return FramebufferInfo{ _id }; }
 		const FramebufferInfo getInfo() const { return FramebufferInfo{ _id }; }
+
+		/**
+		 * Default framebuffer.
+		 */
+		static Framebuffer dflt;
+
+	private:
+		// For the default framebuffer only
+		Framebuffer(GLuint id) : GLObject<FramebufferId>(0) {}
 	};
 }

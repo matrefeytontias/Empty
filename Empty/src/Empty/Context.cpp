@@ -68,16 +68,4 @@ namespace Empty
 			if (st.autobind)
 				bind(st.textureInfo, st.unit);
 	}
-
-	void Context::clearBuffer(gl::DrawBufferType buffer) const
-	{
-		if (buffer == gl::DrawBufferType::Color)
-			glClearNamedFramebufferfv(0, GL_COLOR, 0, clearColor);
-		else if (buffer == gl::DrawBufferType::Depth)
-			glClearNamedFramebufferfv(0, GL_DEPTH, 0, &clearDepth);
-		else if (buffer == gl::DrawBufferType::Stencil)
-			glClearNamedFramebufferuiv(0, GL_STENCIL, 0, &clearStencil);
-		else // if (buffer == gl::DrawBufferType::DepthStencil)
-			glClearNamedFramebufferfi(0, GL_DEPTH_STENCIL, 0, clearDepth, clearStencil);
-	}
 }

@@ -35,14 +35,7 @@ namespace Empty
 		 */
 		using DebugCallback = void(*)(gl::DebugMessageSource, gl::DebugMessageType, gl::DebugMessageSeverity, int, const std::string&, const void*);
 
-		// Color to clear color buffers with. Defaults to (0, 0, 0, 0).
-		math::vec4 clearColor;
-		// Depth value to clear depth buffers with. Defaults to 0.f.
-		float clearDepth;
-		// Stencil value to clear stencil buffers with. Defaults to 0.
-		unsigned int clearStencil;
-
-		Context() : clearColor(0, 0, 0, 0), clearDepth(0.f), clearStencil(0) { }
+		Context() = default;
 		virtual ~Context() = default;
 
 		/**
@@ -130,11 +123,6 @@ namespace Empty
 		{
 			glDispatchCompute(num_x, num_y, num_z);
 		}
-
-		/**
-		 * Clear a variety of drawing buffers with the corresponding colors.
-		 */
-		void clearBuffer(gl::DrawBufferType buffer) const;
 
 		/**
 		 * Sets up one or several memory barriers. The context will wait for operations of the given

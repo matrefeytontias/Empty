@@ -190,7 +190,7 @@ int _main(int, char* argv[])
 
         fbtex.generateMipmaps();
 
-        context.setViewport(context.frameWidth, context.frameHeight);
+        context.setFramebuffer(Framebuffer::dflt, FramebufferTarget::Draw, context.frameWidth, context.frameHeight);
     }
 
     TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));
@@ -257,9 +257,6 @@ int _main(int, char* argv[])
 
     context.bind(mesh.vao);
 
-    context.clearColor = math::vec4(0, 0, 0, 1);
-    context.clearDepth = 1;
-
     context.setShaderProgram(program);
 
     math::mat4 modelRotation;
@@ -281,8 +278,8 @@ int _main(int, char* argv[])
         program.uniform("uCamera", camera.m);
         program.uniform("uP", camera.p);
 
-        context.clearBuffer(DrawBufferType::Color);
-        context.clearBuffer(DrawBufferType::Depth);
+        Framebuffer::dflt.clearAttachment<FramebufferAttachment::Color>(0, math::vec4::zero);
+        Framebuffer::dflt.clearAttachment<FramebufferAttachment::Depth>(1.f);
 
         if (mesh.isIndexed())
             context.drawElements(PrimitiveType::Triangles, ElementType::Int, 0, 3 * (int)mesh.faces.size());

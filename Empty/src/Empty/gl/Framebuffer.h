@@ -15,6 +15,8 @@ namespace Empty::gl
 	struct FramebufferInfo
 	{
 		std::shared_ptr<FramebufferId> id;
+
+		operator GLuint() const { return *id; }
 	};
 
 	/**

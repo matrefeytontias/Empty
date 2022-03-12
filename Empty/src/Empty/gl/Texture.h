@@ -16,6 +16,8 @@ namespace Empty::gl
 	struct TextureInfo
 	{
 		std::shared_ptr<TextureId> id;
+
+		operator GLuint() const { return *id; }
 	};
 
 	struct TextureLevelInfo

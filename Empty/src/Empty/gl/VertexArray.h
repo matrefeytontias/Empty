@@ -17,6 +17,8 @@ namespace Empty::gl
 	struct VertexArrayInfo
 	{
 		std::shared_ptr<VertexArrayId> id;
+
+		operator GLuint() const { return *id; }
 	};
 
 	/**

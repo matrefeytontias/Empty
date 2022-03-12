@@ -15,6 +15,8 @@ namespace Empty::gl
 	struct BufferInfo
 	{
 		std::shared_ptr<BufferId> id;
+
+		operator GLuint() const { return *id; }
 	};
 
 	struct Buffer;

@@ -12,6 +12,8 @@ namespace Empty::gl
 	struct RenderbufferInfo
 	{
 		std::shared_ptr<RenderbufferId> id;
+
+		operator GLuint() const { return *id; }
 	};
 
 	/**

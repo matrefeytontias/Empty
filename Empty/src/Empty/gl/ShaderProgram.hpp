@@ -23,6 +23,8 @@ namespace Empty::gl
 	struct ShaderProgramInfo
 	{
 		std::shared_ptr<ProgramId> id;
+
+		operator GLuint() const { return *id; }
 	};
 
 	/**

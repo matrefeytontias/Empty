@@ -17,28 +17,28 @@ namespace Empty
 
 	void Context::bind(const gl::BufferInfo& b, gl::BufferTarget target) const
 	{
-		glBindBuffer(utils::value(target), *b.id);
+		glBindBuffer(utils::value(target), b);
 	}
 
 	void Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index) const
 	{
-		glBindBufferBase(utils::value(target), index, *b.id);
+		glBindBufferBase(utils::value(target), index, b);
 	}
 
 	void Context::bind(const gl::BufferInfo& b, gl::IndexedBufferTarget target, int index, size_t offset, size_t size) const
 	{
-		glBindBufferRange(utils::value(target), index, *b.id, offset, size);
+		glBindBufferRange(utils::value(target), index, b, offset, size);
 	}
 
 	void Context::setFramebuffer(const gl::FramebufferInfo& fb, gl::FramebufferTarget target, int width, int height, int x, int y) const
 	{
-		glBindFramebuffer(utils::value(target), *fb.id);
+		glBindFramebuffer(utils::value(target), fb);
 		glViewport(x, y, width, height);
 	}
 
 	void Context::bind(const gl::TextureInfo& t, int unit) const
 	{
-		glBindTextureUnit(unit, *t.id);
+		glBindTextureUnit(unit, t);
 	}
 
 	void Context::bind(const gl::TextureLevelInfo& t, int unit, gl::AccessPolicy access, gl::TextureFormat writeFormat) const
@@ -48,7 +48,7 @@ namespace Empty
 
 	void Context::bind(const gl::VertexArrayInfo& va) const
 	{
-		glBindVertexArray(*va.id);
+		glBindVertexArray(va);
 	}
 
 	void Context::setShaderProgram(const gl::ShaderProgram& sp)
@@ -58,7 +58,7 @@ namespace Empty
 		// Use program
 		if (_currentProgram.lock() != spi.id)
 		{
-			glUseProgram(*spi.id);
+			glUseProgram(spi);
 			_currentProgram = spi.id;
 		}
 

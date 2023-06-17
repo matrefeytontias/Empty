@@ -275,6 +275,24 @@ namespace Empty::gl
 	};
 
 	/**
+	 * List of namespaces for OpenGL objects.
+	 */
+	enum struct ObjectNamespace : GLenum
+	{
+		Buffer = GL_BUFFER,
+		Shader = GL_SHADER,
+		Program = GL_PROGRAM,
+		VertexArray = GL_VERTEX_ARRAY,
+		Query = GL_QUERY,
+		ProgramPipeline = GL_PROGRAM_PIPELINE,
+		TransformFeedback = GL_TRANSFORM_FEEDBACK,
+		Sampler = GL_SAMPLER,
+		Texture = GL_TEXTURE,
+		Renderbuffer = GL_RENDERBUFFER,
+		Framebuffer = GL_FRAMEBUFFER,
+	};
+
+	/**
 	 * Available data formats. Different from the objects' own
 	 * internal format. This is used in conjunction with the
 	 * `DataType` enum and serves to identify what components

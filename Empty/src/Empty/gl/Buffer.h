@@ -80,6 +80,8 @@ namespace Empty::gl
 	 */
 	struct Buffer : public GLObject<BufferId>
 	{
+		Buffer(const std::string& label) : GLObject(label) { }
+
 		/**
 		 * Maps the buffer to a pointer that contains the buffer's data. Returns a
 		 * BufferMapping object ; unmapping is performed when said object is destroyed,

@@ -35,6 +35,8 @@ struct Mesh
 	Buffer triBuffer;
 	VertexStructure vStruct;
 
+	Mesh(const std::string& label) : vao(label + "VAO"), vertexBuffer(label + "VBO"), triBuffer(label + "IBO") { }
+
 	inline bool isIndexed() const
 	{
 		return !faces.empty();

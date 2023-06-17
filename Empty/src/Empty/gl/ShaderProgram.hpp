@@ -56,7 +56,7 @@ namespace Empty::gl
 	struct ShaderProgram : public GLObject<ProgramId>
 	{
 	public:
-		ShaderProgram() {}
+		ShaderProgram(const std::string& label) : GLObject(label) { }
 		~ShaderProgram();
 
 		/**
@@ -64,14 +64,14 @@ namespace Empty::gl
 		 * setting its source string and compiling it, returning
 		 * whether it succeeded.
 		 */
-		bool attachSource(ShaderType type, const std::string& src);
+		bool attachSource(ShaderType type, const std::string& src, const std::string& label);
 		/**
 		 * Same as `attachSource` but fetches the source string from
 		 * a given file.
 		 */
-		inline bool attachFile(ShaderType type, const std::string& path)
+		inline bool attachFile(ShaderType type, const std::string& path, const std::string& label)
 		{
-			return attachSource(type, utils::getFileContents(path));
+			return attachSource(type, utils::getFileContents(path), label);
 		}
 
 		/**

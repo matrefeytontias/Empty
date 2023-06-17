@@ -12,9 +12,9 @@ ShaderProgram::~ShaderProgram()
         glDetachShader(*_id, shader);
 }
 
-bool ShaderProgram::attachSource(ShaderType type, const std::string& src)
+bool ShaderProgram::attachSource(ShaderType type, const std::string& src, const std::string& label)
 {
-    Shader shader(type);
+    Shader shader(type, label);
     
     if (!shader.setSource(src))
     {

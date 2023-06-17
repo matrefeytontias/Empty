@@ -22,6 +22,8 @@ namespace Empty::gl
 	 */
 	struct Renderbuffer : public GLObject<RenderbufferId>
 	{
+		Renderbuffer(const std::string& label) : GLObject(label) { }
+
 		/**
 		 * Allocate storage for a renderbuffer, possibly with multisampling. Leave `samples`
 		 * at 0 for a single-sampling renderbuffer.

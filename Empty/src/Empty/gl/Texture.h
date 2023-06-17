@@ -47,16 +47,16 @@ namespace Empty::gl
 #define COPY_CTPARAMS TextureTarget t = CTTarget, TextureFormat f = CTFormat
 
 		template <COPY_CTPARAMS>
-		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureTarget> target, TextureFormat format) : GLObject(target), _target(target), _format(format) {}
+		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureTarget> target, TextureFormat format, const std::string& label) : GLObject(target, label), _target(target), _format(format) {}
 
 		template <COPY_CTPARAMS>
-		Texture(std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureFormat> format) : GLObject(t), _target(t), _format(format) {}
+		Texture(std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureFormat> format, const std::string& label) : GLObject(t, label), _target(t), _format(format) {}
 		
 		template <COPY_CTPARAMS>
-		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, TextureTarget> target) : GLObject(target), _target(target), _format(f) {}
+		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, TextureTarget> target, const std::string& label) : GLObject(target, label), _target(target), _format(f) {}
 
 		template <COPY_CTPARAMS, std::enable_if_t<t != TextureTarget::Dynamic && f != TextureFormat::Dynamic, int> = 0>
-		Texture() : GLObject(t), _target(t), _format(f) {}
+		Texture(const std::string& label) : GLObject(t, label), _target(t), _format(f) {}
 
 #undef COPY_CTPARAMS
 
@@ -218,9 +218,9 @@ namespace Empty::gl
 		 * Creates a rectangle texture view over a rectangle texture.
 		 */
 		template <TextureTarget CTNewTarget, TextureFormat CTNewFormat>
-		std::enable_if_t<CTNewTarget == CTTarget && CTNewTarget == TextureTarget::TextureRectangle, Texture<CTNewTarget, CTNewFormat>> makeView()
+		std::enable_if_t<CTNewTarget == CTTarget && CTNewTarget == TextureTarget::TextureRectangle, Texture<CTNewTarget, CTNewFormat>> makeView(const std::string& label)
 		{
-			return Texture<CTNewTarget, CTNewFormat>(*this, 0, 1, 0, 1);
+			return Texture<CTNewTarget, CTNewFormat>(*this, 0, 1, 0, 1, label);
 		}
 
 #define SIGNATURE(c) template <TextureTarget CTNewTarget, TextureFormat CTNewFormat> \
@@ -231,12 +231,12 @@ namespace Empty::gl
 		 * Creates a texture view (layered or not) over a non-layered texture.
 		 */
 		SIGNATURE(CTNewTarget == CTTarget && !isTargetLayered(CTNewTarget) || isTargetArrayOf(CTNewTarget, CTTarget))
-		makeView(int minLevel, int numLevels)
+		makeView(int minLevel, int numLevels, const std::string& label)
 		{
 			if constexpr (CTTarget == TextureTarget::TextureCubemap)
-				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, 0, 6);
+				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, 0, 6, label);
 			// else
-			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, 0, 1);
+			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, 0, 1, label);
 		}
 
 		/**
@@ -244,12 +244,12 @@ namespace Empty::gl
 		 * arrays, a single "layer" is an entire cubemap, not a layer-face.
 		 */
 		SIGNATURE(isTargetArrayOf(CTTarget, CTNewTarget))
-		makeView(int minLevel, int numLevels, int layer)
+		makeView(int minLevel, int numLevels, int layer, const std::string& label)
 		{
 			if constexpr (CTTarget == TextureTarget::TextureCubemapArray)
-				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6, 6);
+				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6, 6, label);
 			// else
-			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer, 1);
+			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer, 1, label);
 		}
 
 		/**
@@ -258,21 +258,21 @@ namespace Empty::gl
 		 * layer-face. In all other cases, a single "layer" is a layer-face.
 		 */
 		SIGNATURE(CTNewTarget == CTTarget && isTargetLayered(CTNewTarget) || CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemapArray)
-		makeView(int minLevel, int numLevels, int minLayer, int numLayers)
+		makeView(int minLevel, int numLevels, int minLayer, int numLayers, const std::string& label)
 		{
 			if constexpr (CTNewTarget == TextureTarget::TextureCubemapArray)
-				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, minLayer * 6, numLayers * 6);
+				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, minLayer * 6, numLayers * 6, label);
 			// else
-			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, minLayer, numLayers);
+			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, minLayer, numLayers, label);
 		}
 
 		/**
 		 * Creates a 2D texture view over a cubemap.
 		 */
 		SIGNATURE(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemap)
-		makeView(int minLevel, int numLevels, CubemapFace face)
+		makeView(int minLevel, int numLevels, CubemapFace face, const std::string& label)
 		{
-			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(face), 1);
+			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(face), 1, label);
 		}
 
 		/**
@@ -280,18 +280,18 @@ namespace Empty::gl
 		 * entire cubemap.
 		 */
 		SIGNATURE(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemapArray)
-		makeView(int minLevel, int numLevels, int layer, CubemapFace face)
+		makeView(int minLevel, int numLevels, int layer, CubemapFace face, const std::string& label)
 		{
-			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6 + cubemapFaceIndex(face), 1);
+			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6 + cubemapFaceIndex(face), 1, label);
 		}
 
 		/**
 		 * Creates a 2D array texture view over a cubemap.
 		 */
 		SIGNATURE(CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemap)
-		makeView(int minLevel, int numLevels, CubemapFace startFace, int faces)
+		makeView(int minLevel, int numLevels, CubemapFace startFace, int faces, const std::string& label)
 		{
-			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(startFace), faces);
+			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(startFace), faces, label);
 		}
 #undef SIGNATURE
 
@@ -486,9 +486,10 @@ namespace Empty::gl
 		 * Create a texture view of a different texture.
 		 */
 		template <TextureTarget CTorigTarget, TextureFormat CTorigFormat>
-		Texture(const Texture<CTorigTarget, CTorigFormat>& origTex, int minLevel, int numLevels, int minLayer, int numLayers) : GLObject(), _target(CTTarget), _format(CTFormat)
+		Texture(const Texture<CTorigTarget, CTorigFormat>& origTex, int minLevel, int numLevels, int minLayer, int numLayers, const std::string& label) : GLObject(), _target(CTTarget), _format(CTFormat)
 		{
 			glTextureView(*_id, utils::value(_target), *origTex.getInfo().id, utils::value(_format), minLevel, numLevels, minLayer, numLayers);
+			glObjectLabel(utils::value(ObjectNamespace::Texture), *_id, -1, label.c_str());
 			DEBUG_ONLY(_requirementsSet = true);
 		}
 	};

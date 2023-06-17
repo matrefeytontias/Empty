@@ -17,7 +17,7 @@ namespace Empty::gl
 		/**
 		 * Constructs a shader object for a given shader stage.
 		 */
-		Shader(ShaderType type) : GLObject(type) {}
+		Shader(ShaderType type, const std::string& label) : GLObject(type, label) {}
 
 		/**
 		 * Sets the source string of a shader and attempts to compile it,

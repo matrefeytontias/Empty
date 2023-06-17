@@ -25,7 +25,7 @@ namespace Empty::gl
 	 */
 	struct Framebuffer : public GLObject<FramebufferId>
 	{
-		Framebuffer() = default;
+		Framebuffer(const std::string& label) : GLObject(label) { }
 
 #define COPY_CTPARAMS FramebufferAttachment CTAttachment, TextureTarget CTTarget, TextureFormat CTFormat
 #define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<CTAttachment != FramebufferAttachment::Color && !isTargetProxy(CTTarget) && (c), int> = 0

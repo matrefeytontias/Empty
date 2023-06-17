@@ -136,11 +136,11 @@ int _main(int, char* argv[])
     TRACE("Successfully loaded " << imgW << "x" << imgH << "x" << n << " image");
 
     // We will later use the second mipmap level of fbtex to demonstrate texture views
-    Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> fbtex;
+    Texture<TextureTarget::Texture2D, TextureFormat::RGBA8> fbtex("ProcessedEggTex");
     fbtex.setStorage(10, imgW, imgH);
     {
         // Upload image to texture
-        Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex;
+        Texture<TextureTarget::Texture2D, TextureFormat::SRGBA8> tex("EggTex");
         tex.setStorage(1, imgW, imgH);
         tex.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterLinear);
         TRACE("Texture default mag filter is " << utils::name(tex.getParameter<TextureParam::MagFilter>()));
@@ -148,17 +148,17 @@ int _main(int, char* argv[])
         stbi_image_free(img);
 
         // Create stuff for off-screen rendering
-        Framebuffer fb;
+        Framebuffer fb("EggProcessFb");
         // Attach texture to color attachment #2 why not (careful to enable it later down the line)
         fb.attachTexture<FramebufferAttachment::Color>(2, fbtex, 0);
-        Renderbuffer rb;
+        Renderbuffer rb("EggProcessRb");
         rb.setStorage(RenderbufferFormat::Depth, imgW, imgH);
         fb.attachRenderbuffer<FramebufferAttachment::Depth>(rb);
         TRACE("Framebuffer has status " << utils::name(fb.checkStatus(FramebufferTarget::Draw)));
 
-        ShaderProgram fbprog;
-        fbprog.attachFile(ShaderType::Vertex, "DeferredVertex.glsl");
-        fbprog.attachFile(ShaderType::Fragment, "DeferredFragment.glsl");
+        ShaderProgram fbprog("EggProcessProg");
+        fbprog.attachFile(ShaderType::Vertex, "DeferredVertex.glsl", "EggProcessVS");
+        fbprog.attachFile(ShaderType::Fragment, "DeferredFragment.glsl", "EggProcessFS");
         fbprog.build();
         // Don't use the auto-bind feature to show you don't have to
         fbprog.registerTexture("uTexture", tex, false);
@@ -170,10 +170,10 @@ int _main(int, char* argv[])
 
         static const math::vec2 points[6] = { {0, 0}, {1, 0}, {1, 1}, {0, 0}, {1, 1}, {0, 1} };
 
-        Buffer pointsBuf;
+        Buffer pointsBuf("EggProcessQuadBuf");
         pointsBuf.setStorage(sizeof(points), BufferUsage::StaticDraw, points);
 
-        VertexArray va;
+        VertexArray va("EggProcessVA");
         va.attachVertexBuffer(pointsBuf, vs);
 
         context.bind(va);
@@ -196,13 +196,13 @@ int _main(int, char* argv[])
     TRACE("5th mipmap has dimensions " << fbtex.getLevelParameter<TextureLevelParam::Width>(5) << "x" << fbtex.getLevelParameter<TextureLevelParam::Height>(5));
 
     // Generate a procedural mask texture with a compute shader, why not
-    Texture<TextureTarget::Texture2D, TextureFormat::Red8ui> proceduralMask;
+    Texture<TextureTarget::Texture2D, TextureFormat::Red8ui> proceduralMask("ProcMaskTex");
     {
         proceduralMask.setStorage(1, 256, 256);
         proceduralMask.setParameter<TextureParam::MagFilter>(TextureParamValue::FilterNearest);
         proceduralMask.setParameter<TextureParam::MinFilter>(TextureParamValue::FilterNearest);
-        ShaderProgram computeProg;
-        computeProg.attachFile(ShaderType::Compute, "Compute.glsl");
+        ShaderProgram computeProg("ProcMaskProgram");
+        computeProg.attachFile(ShaderType::Compute, "Compute.glsl", "ProcMaskCS");
         computeProg.build();
         computeProg.registerTexture("uProcTex", proceduralMask, false);
         computeProg.uniform("uResolution", 4u);
@@ -213,11 +213,11 @@ int _main(int, char* argv[])
     }
 
     // Set up a texture view because we can
-    auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(0, 10);
+    auto fbtexview = fbtex.makeView<TextureTarget::Texture2D, TextureFormat::RGBA8>(0, 10, "EggTexView");
 
     // Set up the actual scene
 
-    Mesh mesh;
+    Mesh mesh("CubeMesh");
     if (mesh.load("cube.obj"))
         TRACE("Loading successful: " << mesh.vertices.size() << " vertices and " << mesh.faces.size() << " faces");
 
@@ -232,9 +232,9 @@ int _main(int, char* argv[])
         TRACE("First position is " << mapping.get<math::vec3>(0));
     }
 
-    ShaderProgram program;
-    program.attachFile(ShaderType::Fragment, "Fragment.glsl");
-    program.attachFile(ShaderType::Vertex, "Vertex.glsl");
+    ShaderProgram program("MainProgram");
+    program.attachFile(ShaderType::Fragment, "Fragment.glsl", "MainFS");
+    program.attachFile(ShaderType::Vertex, "Vertex.glsl", "MainVS");
     program.build();
 
     program.locateAttributes(mesh.vStruct);

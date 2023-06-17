@@ -16,7 +16,11 @@ namespace Empty::gl
      */
     struct BufferId : public utils::noncopyable
     {
-        BufferId() { glCreateBuffers(1, &_id); }
+        BufferId(const std::string& label)
+        {
+            glCreateBuffers(1, &_id);
+            glObjectLabel(utils::value(ObjectNamespace::Buffer), _id, -1, label.c_str());
+        }
         ~BufferId() { glDeleteBuffers(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const BufferId& a) const { return _id == a._id; }
@@ -30,7 +34,11 @@ namespace Empty::gl
      */
     struct ProgramId : public utils::noncopyable
     {
-        ProgramId() { _id = glCreateProgram(); }
+        ProgramId(const std::string& label)
+        {
+            _id = glCreateProgram();
+            glObjectLabel(utils::value(ObjectNamespace::Program), _id, -1, label.c_str());
+        }
         ~ProgramId() { glDeleteProgram(_id); }
         operator GLuint() const { return _id; }
         bool operator==(const ProgramId& a) const { return _id == a._id; }
@@ -44,8 +52,15 @@ namespace Empty::gl
      */
     struct TextureId : public utils::noncopyable
     {
-        TextureId(TextureTarget t) { glCreateTextures(utils::value(t), 1, &_id); }
-        TextureId() { glGenTextures(1, &_id); }
+        TextureId(TextureTarget t, const std::string& label)
+        {
+            glCreateTextures(utils::value(t), 1, &_id);
+            glObjectLabel(utils::value(ObjectNamespace::Texture), _id, -1, label.c_str());
+        }
+        TextureId()
+        {
+            glGenTextures(1, &_id);
+        }
         ~TextureId() { glDeleteTextures(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const TextureId& a) const { return _id == a._id; }
@@ -59,7 +74,11 @@ namespace Empty::gl
      */
     struct VertexArrayId : public utils::noncopyable
     {
-        VertexArrayId() { glCreateVertexArrays(1, &_id); }
+        VertexArrayId(const std::string& label)
+        {
+            glCreateVertexArrays(1, &_id);
+            glObjectLabel(utils::value(ObjectNamespace::VertexArray), _id, -1, label.c_str());
+        }
         ~VertexArrayId() { glDeleteVertexArrays(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const VertexArrayId& a) const { return _id == a._id; }
@@ -73,7 +92,11 @@ namespace Empty::gl
      */
     struct ShaderId : public utils::noncopyable
     {
-        ShaderId(ShaderType type) { _id = glCreateShader(utils::value(type)); }
+        ShaderId(ShaderType type, const std::string& label)
+        {
+            _id = glCreateShader(utils::value(type));
+            glObjectLabel(utils::value(ObjectNamespace::Shader), _id, -1, label.c_str());
+        }
         ~ShaderId() { glDeleteShader(_id); }
         operator GLuint() const { return _id; }
         bool operator==(const ShaderId& a) { return _id == a._id; }
@@ -87,9 +110,16 @@ namespace Empty::gl
      */
     struct FramebufferId : public utils::noncopyable
     {
-        FramebufferId() { glCreateFramebuffers(1, &_id); }
+        FramebufferId(const std::string& label)
+        {
+            glCreateFramebuffers(1, &_id);
+            glObjectLabel(utils::value(ObjectNamespace::Framebuffer), _id, -1, label.c_str());
+        }
         // For existing resources
-        FramebufferId(GLuint id) { _id = id; }
+        FramebufferId(GLuint id)
+        {
+            _id = id;
+        }
         ~FramebufferId() { glDeleteFramebuffers(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const FramebufferId& a) const { return _id == a._id; }
@@ -103,7 +133,11 @@ namespace Empty::gl
      */
     struct RenderbufferId : public utils::noncopyable
     {
-        RenderbufferId() { glCreateRenderbuffers(1, &_id); }
+        RenderbufferId(const std::string& label)
+        {
+            glCreateRenderbuffers(1, &_id);
+            glObjectLabel(utils::value(ObjectNamespace::Renderbuffer), _id, -1, label.c_str());
+        }
         ~RenderbufferId() { glDeleteRenderbuffers(1, &_id); }
         operator GLuint() const { return _id; }
         bool operator==(const RenderbufferId& a) const { return _id == a._id; }

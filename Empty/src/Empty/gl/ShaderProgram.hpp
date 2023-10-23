@@ -133,9 +133,9 @@ namespace Empty::gl
 		std::vector<ProgramTextureInfo> dumpTextures() const;
 
 		/**
-		 * Registers a Texture to the shader pogram - this also creates a Uniform
-		 * for the sampler. Registered textures can be set to be automatically bound
-		 * when a shader program is set as active by the Context.
+		 * Registers a Texture to the shader pogram. The `autobind` parameter allows creating
+		 * a Uniform for the sampler, and being automatically bound when a shader program is
+		 * set as active by the Context.
 		 */
 		void registerTexture(const std::string& name, const TextureInfo& tex, bool autobind = true);
 		size_t getTexturesAmount() const { return _textures.size(); }

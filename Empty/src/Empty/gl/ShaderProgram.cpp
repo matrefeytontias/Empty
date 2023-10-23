@@ -64,7 +64,8 @@ void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& 
     ASSERT(_built);
 
     location unit = glGetUniformLocation(*_id, name.c_str());
-    uniform(name, unit);
+    if(autobind)
+        uniform(name, unit);
     _textures[name] = ProgramTextureInfo{ tex, unit, autobind };
 }
 

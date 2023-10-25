@@ -65,7 +65,7 @@ namespace Empty
 		// Bind autobind textures
 		auto shaderTextures = sp.dumpTextures();
 		for (const auto& st : shaderTextures)
-			if (st.autobind)
+			if (st.autobind && st.unit > -1)
 				bind(st.textureInfo, st.unit);
 	}
 }

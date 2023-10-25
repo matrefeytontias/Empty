@@ -125,6 +125,16 @@ namespace Empty
 		}
 
 		/**
+		 * Launches a number of work groups to be processed by the compute shader stage of the currently active program.
+		 * The arguments are that of `dispatchCompute`, but are provided by the buffer object currently bound to the
+		 * `BufferTarget::DispatchIndirect` target.
+		 */
+		void dispatchComputeIndirect(size_t offset = 0) const
+		{
+			glDispatchComputeIndirect(static_cast<GLintptr>(offset));
+		}
+
+		/**
 		 * Sets up one or several memory barriers. The context will wait for operations of the given
 		 * types to complete before submitting more commands.
 		 */

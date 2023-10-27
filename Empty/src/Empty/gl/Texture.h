@@ -5,6 +5,7 @@
 #include "glad/glad.h"
 #include "Empty/gl/GLEnumsUtils.h"
 #include "Empty/gl/GLObject.h"
+#include "Empty/math/mathutils.hpp"
 #include "Empty/utils/macros.h"
 
 namespace Empty::gl
@@ -33,7 +34,7 @@ namespace Empty::gl
 	 * to one. It is possible to instantiate textures with targets and formats both known and unknown at compile-time.
 	 * All textures are of immutable format ; while their content may be changed at will, their dimension and storage
 	 * requirements may only be set once.
-	 * 
+	 *
 	 * The class also exposes methods to generate texture views over textures or other texture views. Texture views
 	 * are identical to texture objects in all aspects, with the one quirk that instead of having their own data store,
 	 * they use that of an existing texture object, possibly reinterpreted in a different format (no conversion happens).
@@ -51,7 +52,7 @@ namespace Empty::gl
 
 		template <COPY_CTPARAMS>
 		Texture(std::enable_if_t<t != TextureTarget::Dynamic && f == TextureFormat::Dynamic, TextureFormat> format, const std::string& label) : GLObject(t, label), _target(t), _format(format) {}
-		
+
 		template <COPY_CTPARAMS>
 		Texture(std::enable_if_t<t == TextureTarget::Dynamic && f != TextureFormat::Dynamic, TextureTarget> target, const std::string& label) : GLObject(target, label), _target(target), _format(f) {}
 
@@ -215,6 +216,19 @@ namespace Empty::gl
 #undef COPY_CTPARAMS
 
 		/**
+		 * Fills a texture level with a value. The type of the value depends on what the texture target and format holds.
+		 * TODO: filter out the combinations of DataFormat, DataType and TextureFormat that end up in a GL error.
+		 */
+		template <DataFormat format, DataType type>
+		inline std::enable_if_t<CTTarget != TextureTarget::Dynamic && !isTargetProxy(CTTarget) && !isTargetSpecial(CTTarget)>
+			clearLevel(int level, typename Empty::math::FormVecType<BaseType<TextureFormat, CTFormat>, componentsInTextureFormat(CTFormat)> data) const
+		{
+			ASSERT(_requirementsSet);
+
+			glClearTexImage(*_id, level, utils::value(format), utils::value(type), &data);
+		}
+
+		/**
 		 * Creates a rectangle texture view over a rectangle texture.
 		 */
 		template <TextureTarget CTNewTarget, TextureFormat CTNewFormat>
@@ -231,7 +245,7 @@ namespace Empty::gl
 		 * Creates a texture view (layered or not) over a non-layered texture.
 		 */
 		SIGNATURE(CTNewTarget == CTTarget && !isTargetLayered(CTNewTarget) || isTargetArrayOf(CTNewTarget, CTTarget))
-		makeView(int minLevel, int numLevels, const std::string& label)
+			makeView(int minLevel, int numLevels, const std::string& label)
 		{
 			if constexpr (CTTarget == TextureTarget::TextureCubemap)
 				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, 0, 6, label);
@@ -244,7 +258,7 @@ namespace Empty::gl
 		 * arrays, a single "layer" is an entire cubemap, not a layer-face.
 		 */
 		SIGNATURE(isTargetArrayOf(CTTarget, CTNewTarget))
-		makeView(int minLevel, int numLevels, int layer, const std::string& label)
+			makeView(int minLevel, int numLevels, int layer, const std::string& label)
 		{
 			if constexpr (CTTarget == TextureTarget::TextureCubemapArray)
 				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6, 6, label);
@@ -258,7 +272,7 @@ namespace Empty::gl
 		 * layer-face. In all other cases, a single "layer" is a layer-face.
 		 */
 		SIGNATURE(CTNewTarget == CTTarget && isTargetLayered(CTNewTarget) || CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemapArray)
-		makeView(int minLevel, int numLevels, int minLayer, int numLayers, const std::string& label)
+			makeView(int minLevel, int numLevels, int minLayer, int numLayers, const std::string& label)
 		{
 			if constexpr (CTNewTarget == TextureTarget::TextureCubemapArray)
 				return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, minLayer * 6, numLayers * 6, label);
@@ -270,7 +284,7 @@ namespace Empty::gl
 		 * Creates a 2D texture view over a cubemap.
 		 */
 		SIGNATURE(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemap)
-		makeView(int minLevel, int numLevels, CubemapFace face, const std::string& label)
+			makeView(int minLevel, int numLevels, CubemapFace face, const std::string& label)
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(face), 1, label);
 		}
@@ -280,7 +294,7 @@ namespace Empty::gl
 		 * entire cubemap.
 		 */
 		SIGNATURE(CTNewTarget == TextureTarget::Texture2D && CTTarget == TextureTarget::TextureCubemapArray)
-		makeView(int minLevel, int numLevels, int layer, CubemapFace face, const std::string& label)
+			makeView(int minLevel, int numLevels, int layer, CubemapFace face, const std::string& label)
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, layer * 6 + cubemapFaceIndex(face), 1, label);
 		}
@@ -289,7 +303,7 @@ namespace Empty::gl
 		 * Creates a 2D array texture view over a cubemap.
 		 */
 		SIGNATURE(CTNewTarget == TextureTarget::Texture2DArray && CTTarget == TextureTarget::TextureCubemap)
-		makeView(int minLevel, int numLevels, CubemapFace startFace, int faces, const std::string& label)
+			makeView(int minLevel, int numLevels, CubemapFace startFace, int faces, const std::string& label)
 		{
 			return Texture<CTNewTarget, CTNewFormat>(*this, minLevel, numLevels, cubemapFaceIndex(startFace), faces, label);
 		}
@@ -372,24 +386,24 @@ namespace Empty::gl
 
 		template <TextureParam CTParam>
 		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::BaseLevel, TextureParam::MaxLevel)>
-		setParameter(int v) const { glTextureParameteri(*_id, utils::value(CTParam), v); }
+			setParameter(int v) const { glTextureParameteri(*_id, utils::value(CTParam), v); }
 
 		template <TextureParam CTParam>
 		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::LODBias, TextureParam::MinLOD, TextureParam::MaxLOD)>
-		setParameter(float v) const { glTextureParameterf(*_id, utils::value(CTParam), v); }
+			setParameter(float v) const { glTextureParameterf(*_id, utils::value(CTParam), v); }
 
 		template <TextureParam CTParam>
 		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::DepthStencilMode, TextureParam::CompareFunc, TextureParam::CompareMode,
 			TextureParam::MinFilter, TextureParam::MagFilter, TextureParam::SwizzleR,
 			TextureParam::SwizzleG, TextureParam::SwizzleB, TextureParam::SwizzleA,
 			TextureParam::WrapS, TextureParam::WrapT, TextureParam::WrapR)>
-		setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
+			setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
 
 		template <TextureLevelParam CTParam>
-			std::enable_if_t<
+		std::enable_if_t<
 			!isTargetSpecial(CTTarget) && !isTargetMultisampled(CTTarget) &&
-				utils::isOneOf(CTParam, TextureLevelParam::RedType, TextureLevelParam::GreenType,
-					TextureLevelParam::BlueType, TextureLevelParam::AlphaType, TextureLevelParam::DepthType)
+			utils::isOneOf(CTParam, TextureLevelParam::RedType, TextureLevelParam::GreenType,
+				TextureLevelParam::BlueType, TextureLevelParam::AlphaType, TextureLevelParam::DepthType)
 			, TextureComponentType> getLevelParameter(int level) const
 		{
 			int v;
@@ -426,10 +440,10 @@ namespace Empty::gl
 		template <TextureLevelParam CTParam>
 		std::enable_if_t<
 			((isTargetSpecial(CTTarget) || isTargetMultisampled(CTTarget)) &&
-			 utils::isOneOf(CTParam, TextureLevelParam::Width, TextureLevelParam::Height,
-							TextureLevelParam::Depth, TextureLevelParam::RedSize, TextureLevelParam::GreenSize,
-							TextureLevelParam::BlueSize, TextureLevelParam::AlphaSize, TextureLevelParam::DepthSize,
-							TextureLevelParam::CompressedSize))
+				utils::isOneOf(CTParam, TextureLevelParam::Width, TextureLevelParam::Height,
+					TextureLevelParam::Depth, TextureLevelParam::RedSize, TextureLevelParam::GreenSize,
+					TextureLevelParam::BlueSize, TextureLevelParam::AlphaSize, TextureLevelParam::DepthSize,
+					TextureLevelParam::CompressedSize))
 			|| (CTTarget == TextureTarget::TextureBuffer &&
 				utils::isOneOf(CTParam, TextureLevelParam::BufferDataStoreBinding, TextureLevelParam::BufferOffset, TextureLevelParam::BufferSize))
 			, int> getLevelParameter() const

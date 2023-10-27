@@ -8,6 +8,40 @@
 
 namespace Empty::math
 {
+	namespace internal
+	{
+		template <typename ElementType, int components>
+		struct _FormVecType {};
+
+		template <typename ElementType>
+		struct _FormVecType<ElementType, 1>
+		{
+			using Type = ElementType;
+		};
+
+		template <typename ElementType>
+		struct _FormVecType<ElementType, 2>
+		{
+			using Type = _vec2<ElementType>;
+		};
+		template <typename ElementType>
+		struct _FormVecType<ElementType, 3>
+		{
+			using Type = _vec3<ElementType>;
+		};
+		template <typename ElementType>
+		struct _FormVecType<ElementType, 4>
+		{
+			using Type = _vec4<ElementType>;
+		};
+	}
+	
+	/**
+	 * Form a type for a vector of the given element type with a given number of components.
+	 */
+	template <typename ElementType, int components>
+	using FormVecType = typename internal::_FormVecType<ElementType, components>::Type;
+
 	/**
 	 * Returns a matrix representing a rotation of a given angle around the X axis.
 	 */

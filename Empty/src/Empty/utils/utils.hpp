@@ -103,7 +103,7 @@ namespace Empty::utils
 	 * From https://stackoverflow.com/a/14589519/5446815
 	 */
 	template <typename Enum>
-	constexpr auto value(Enum e) -> typename std::underlying_type<Enum>::type
+	constexpr auto value(Enum e) -> typename std::underlying_type_t<Enum>
 	{
 		return static_cast<typename std::underlying_type<Enum>::type>(e);
 	}

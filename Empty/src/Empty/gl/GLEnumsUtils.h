@@ -9,46 +9,95 @@ namespace Empty::gl
 	// # General enum structs #
 	// ########################
 
-	template <DataType type>
-	struct _BaseType
+	namespace internal
 	{
-		typedef void Type;
-	};
+		template <typename T, T type>
+		struct _BaseType
+		{
+			using Type = void;
+		};
 
-#define DEFINE_TYPE(pt, t)\
-	template <>           \
-	struct _BaseType<pt>  \
-	{                     \
-		typedef t Type;   \
-	}
+#define DEFINE_TYPE(d, t)\
+		template <>           \
+		struct _BaseType<DataType, d>  \
+		{                     \
+			using Type = t;   \
+		}
 
-	DEFINE_TYPE(DataType::UByte, GLubyte);
-	DEFINE_TYPE(DataType::Byte, GLbyte);
-	DEFINE_TYPE(DataType::UShort, GLushort);
-	DEFINE_TYPE(DataType::Short, GLshort);
-	DEFINE_TYPE(DataType::UInt, GLuint);
-	DEFINE_TYPE(DataType::Int, GLint);
-	DEFINE_TYPE(DataType::Half, GLhalf);
-	DEFINE_TYPE(DataType::Float, GLfloat);
-	DEFINE_TYPE(DataType::UByte332, GLubyte);
-	DEFINE_TYPE(DataType::UByte332Rev, GLubyte);
-	DEFINE_TYPE(DataType::UShort565, GLushort);
-	DEFINE_TYPE(DataType::UShort565Rev, GLushort);
-	DEFINE_TYPE(DataType::UShort4, GLushort);
-	DEFINE_TYPE(DataType::UShort4Rev, GLushort);
-	DEFINE_TYPE(DataType::UShort5551, GLushort);
-	DEFINE_TYPE(DataType::UShort5551Rev, GLushort);
-	DEFINE_TYPE(DataType::UInt8, GLuint);
-	DEFINE_TYPE(DataType::UInt8Rev, GLuint);
-	DEFINE_TYPE(DataType::UIntAAA2, GLuint);
-	DEFINE_TYPE(DataType::UIntAAA2Rev, GLuint);
+		DEFINE_TYPE(DataType::UByte, GLubyte);
+		DEFINE_TYPE(DataType::Byte, GLbyte);
+		DEFINE_TYPE(DataType::UShort, GLushort);
+		DEFINE_TYPE(DataType::Short, GLshort);
+		DEFINE_TYPE(DataType::UInt, GLuint);
+		DEFINE_TYPE(DataType::Int, GLint);
+		DEFINE_TYPE(DataType::Half, GLhalf);
+		DEFINE_TYPE(DataType::Float, GLfloat);
+		DEFINE_TYPE(DataType::UByte332, GLubyte);
+		DEFINE_TYPE(DataType::UByte332Rev, GLubyte);
+		DEFINE_TYPE(DataType::UShort565, GLushort);
+		DEFINE_TYPE(DataType::UShort565Rev, GLushort);
+		DEFINE_TYPE(DataType::UShort4, GLushort);
+		DEFINE_TYPE(DataType::UShort4Rev, GLushort);
+		DEFINE_TYPE(DataType::UShort5551, GLushort);
+		DEFINE_TYPE(DataType::UShort5551Rev, GLushort);
+		DEFINE_TYPE(DataType::UInt8, GLuint);
+		DEFINE_TYPE(DataType::UInt8Rev, GLuint);
+		DEFINE_TYPE(DataType::UIntAAA2, GLuint);
+		DEFINE_TYPE(DataType::UIntAAA2Rev, GLuint);
 #undef DEFINE_TYPE
 
+		template <TextureFormat f>
+		struct _BaseType<
+			std::enable_if_t<Empty::utils::isOneOf(f,
+				TextureFormat::Depth, TextureFormat::Red16f, TextureFormat::RG16f, TextureFormat::RGB16f,
+				TextureFormat::RGBA16f, TextureFormat::Red32f, TextureFormat::RG32f, TextureFormat::RGB32f,
+				TextureFormat::RGBA32f, TextureFormat::R11G11B10f, TextureFormat::RGB9E5),
+			TextureFormat>
+			, f>
+		{
+			using Type = GLfloat;
+		};
+
+		template <TextureFormat f>
+		struct _BaseType<
+			std::enable_if_t<Empty::utils::isOneOf(f,
+				TextureFormat::Red, TextureFormat::RG, TextureFormat::RGB, TextureFormat::RGBA,
+				TextureFormat::DepthStencil, TextureFormat::Red8, TextureFormat::Red16, TextureFormat::RG8,
+				TextureFormat::RG16, TextureFormat::RGB332, TextureFormat::RGB4, TextureFormat::RGB5,
+				TextureFormat::RGB8, TextureFormat::RGB10, TextureFormat::RGB12, TextureFormat::RGBA2,
+				TextureFormat::RGBA4, TextureFormat::RGB5A1, TextureFormat::RGBA8, TextureFormat::RGB10A2,
+				TextureFormat::RGBA12, TextureFormat::RGBA16, TextureFormat::SRGB8, TextureFormat::SRGBA8,
+				TextureFormat::RGB10A2ui, TextureFormat::Red8ui, TextureFormat::Red16ui, TextureFormat::Red32ui,
+				TextureFormat::RG8ui, TextureFormat::RG16ui, TextureFormat::RG32ui, TextureFormat::RGB8ui,
+				TextureFormat::RGB16ui, TextureFormat::RGB32ui, TextureFormat::RGBA8ui, TextureFormat::RGBA16ui,
+				TextureFormat::RGBA32ui),
+			TextureFormat>
+			, f>
+		{
+			using Type = GLuint;
+		};
+
+		template <TextureFormat f>
+		struct _BaseType<
+			std::enable_if_t<Empty::utils::isOneOf(f,
+				TextureFormat::Red8s, TextureFormat::Red16s, TextureFormat::RG8s, TextureFormat::RG16s,
+				TextureFormat::RGB8s, TextureFormat::RGB16s, TextureFormat::RGBA8s,
+				TextureFormat::Red8i, TextureFormat::Red16i, TextureFormat::Red32i, TextureFormat::RG8i,
+				TextureFormat::RG16i, TextureFormat::RG32i, TextureFormat::RGB8i, TextureFormat::RGB16i,
+				TextureFormat::RGB32i, TextureFormat::RGBA8i, TextureFormat::RGBA16i, TextureFormat::RGBA32i),
+			TextureFormat>
+			, f>
+		{
+			using Type = GLint;
+		};
+	}
+
 	/**
-	 * Get the base data type corresponding to a DataType enum value.
+	 * Get the base data type corresponding to an enum value.
+	 * Example usage: `BaseType<DataType, DataType::UByte>`.
 	 */
-	template <DataType type>
-	using BaseType = typename _BaseType<type>::Type;
+	template <typename T, T t>
+	using BaseType = typename internal::_BaseType<T, t>::Type;
 
 	/**
 	 * Tells whether a state variable needs an index for its value to be queried.
@@ -171,13 +220,13 @@ namespace Empty::gl
 		if (target == TextureTarget::Dynamic)
 			return 0;
 		else if (utils::isOneOf(target, TextureTarget::Texture1D,
-				 TextureTarget::Proxy1D, TextureTarget::TextureBuffer))
+			TextureTarget::Proxy1D, TextureTarget::TextureBuffer))
 			return 1;
 		else if (utils::isOneOf(target, TextureTarget::Texture3D,
-				 TextureTarget::Texture2DArray, TextureTarget::Texture2DMultisampleArray,
-				 TextureTarget::TextureCubemapArray, TextureTarget::Proxy3D,
-				 TextureTarget::Proxy2DArray, TextureTarget::Proxy2DMultisampleArray,
-				 TextureTarget::ProxyCubemapArray))
+			TextureTarget::Texture2DArray, TextureTarget::Texture2DMultisampleArray,
+			TextureTarget::TextureCubemapArray, TextureTarget::Proxy3D,
+			TextureTarget::Proxy2DArray, TextureTarget::Proxy2DMultisampleArray,
+			TextureTarget::ProxyCubemapArray))
 			return 3;
 		else
 			return 2;
@@ -189,7 +238,7 @@ namespace Empty::gl
 	constexpr bool isTargetCubemap(TextureTarget target)
 	{
 		return utils::isOneOf(target, TextureTarget::TextureCubemap, TextureTarget::ProxyCubemap,
-			TextureTarget::TextureCubemapArray , TextureTarget::ProxyCubemapArray);
+			TextureTarget::TextureCubemapArray, TextureTarget::ProxyCubemapArray);
 	}
 
 	/**
@@ -254,5 +303,34 @@ namespace Empty::gl
 	constexpr int cubemapFaceIndex(CubemapFace face)
 	{
 		return static_cast<int>(utils::value(face)) - static_cast<int>(utils::value(CubemapFace::PlusX));
+	}
+
+	/**
+	 * Returns the number of components in a texture format.
+	 */
+	constexpr int componentsInTextureFormat(TextureFormat format)
+	{
+		if (format == TextureFormat::Dynamic)
+			return 0;
+		else if (utils::isOneOf(format, TextureFormat::Red, TextureFormat::Depth,
+			TextureFormat::Red, TextureFormat::Red8, TextureFormat::Red8s, TextureFormat::Red16,
+			TextureFormat::Red16s, TextureFormat::Red16f, TextureFormat::Red32f, TextureFormat::Red8i,
+			TextureFormat::Red8ui, TextureFormat::Red16i, TextureFormat::Red16ui, TextureFormat::Red32i,
+			TextureFormat::Red32ui, TextureFormat::RedComp))
+			return 1;
+		else if (utils::isOneOf(format, TextureFormat::RG, TextureFormat::DepthStencil,
+			TextureFormat::RG8, TextureFormat::RG8s, TextureFormat::RG16, TextureFormat::RG16s,
+			TextureFormat::RG16f, TextureFormat::RG32f, TextureFormat::RG8i, TextureFormat::RG8ui,
+			TextureFormat::RG16i, TextureFormat::RG16ui, TextureFormat::RG32i, TextureFormat::RG32ui))
+			return 2;
+		else if (utils::isOneOf(format, TextureFormat::RGBA, TextureFormat::RGBA2, TextureFormat::RGBA4,
+			TextureFormat::RGB5A1, TextureFormat::RGBA8, TextureFormat::RGBA8s, TextureFormat::RGB10A2,
+			TextureFormat::RGB10A2ui, TextureFormat::RGBA12, TextureFormat::RGBA16, TextureFormat::RGBA16f,
+			TextureFormat::RGBA32f, TextureFormat::RGBA8i, TextureFormat::RGBA8ui, TextureFormat::RGBA16i,
+			TextureFormat::RGBA16ui, TextureFormat::RGBA32i, TextureFormat::RGBA32ui, TextureFormat::RGBAComp,
+			TextureFormat::SRGBAComp))
+			return 4;
+		else
+			return 3;
 	}
 }

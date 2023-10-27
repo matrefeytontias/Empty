@@ -116,7 +116,7 @@ namespace Empty::gl
 		 * value depends on the provided DataType enum value.
 		 */
 		template <DataFormat CTFormat, DataType CTType>
-		inline void clearData(BufferDataFormat internalFormat, BaseType<CTType> value)
+		inline void clearData(BufferDataFormat internalFormat, typename BaseType<DataType, CTType> value)
 		{
 			glClearNamedBufferData(*_id, utils::value(internalFormat), utils::value(CTFormat), utils::value(CTType), &value);
 		}

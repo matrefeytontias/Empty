@@ -216,6 +216,28 @@ namespace Empty::gl
 #undef COPY_CTPARAMS
 
 		/**
+		 * Fills a texture level with zeroes.
+		 * TODO: filter out the combinations of DataFormat, DataType and TextureFormat that end up in a GL error.
+		 */
+		template <DataFormat format, DataType type>
+		inline std::enable_if_t<CTTarget != TextureTarget::Dynamic && !isTargetProxy(CTTarget) && !isTargetSpecial(CTTarget)>
+			clearLevel(int level) const
+		{
+			ASSERT(_requirementsSet);
+
+			static constexpr int dataComponents = componentsInTextureFormat(CTFormat);
+			using Data = typename Empty::math::FormVecType<BaseType<TextureFormat, CTFormat>, dataComponents>;
+
+			if constexpr (dataComponents == 1)
+			{
+				Data zero(0);
+				glClearTexImage(*_id, level, utils::value(format), utils::value(type), &zero);
+			}
+			else
+				glClearTexImage(*_id, level, utils::value(format), utils::value(type), Data::zero);
+		}
+		
+		/**
 		 * Fills a texture level with a value. The type of the value depends on what the texture target and format holds.
 		 * TODO: filter out the combinations of DataFormat, DataType and TextureFormat that end up in a GL error.
 		 */

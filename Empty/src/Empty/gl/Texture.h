@@ -45,6 +45,9 @@ namespace Empty::gl
 	template <TextureTarget CTTarget = TextureTarget::Dynamic, TextureFormat CTFormat = TextureFormat::Dynamic>
 	struct Texture : public GLObject<TextureId>
 	{
+		static constexpr TextureTarget Target = CTTarget;
+		static constexpr TextureFormat Format = CTFormat;
+
 #define COPY_CTPARAMS TextureTarget t = CTTarget, TextureFormat f = CTFormat
 
 		template <COPY_CTPARAMS>

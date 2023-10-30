@@ -60,9 +60,13 @@ namespace Empty::gl
 		~ShaderProgram();
 
 		/**
-		 * Shorthand for creating a Shader object of a given type,
-		 * setting its source string and compiling it, returning
-		 * whether it succeeded.
+		 * Attach a compiled shader to the shader program.
+		 */
+		void attachShader(Shader& shader);
+
+		/**
+		 * Shorthand for creating a Shader object of a given type, setting its source string,
+		 * compiling it and attaching it, returning whether that succeeded.
 		 */
 		bool attachSource(ShaderType type, const std::string& src, const std::string& label);
 		/**

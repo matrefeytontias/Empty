@@ -12,6 +12,14 @@ ShaderProgram::~ShaderProgram()
         glDetachShader(*_id, shader);
 }
 
+void ShaderProgram::attachShader(Shader& shader)
+{
+    glAttachShader(*_id, shader);
+    _shaders.push_back(shader);
+
+    DEBUG_ONLY(_built = false);
+}
+
 bool ShaderProgram::attachSource(ShaderType type, const std::string& src, const std::string& label)
 {
     Shader shader(type, label);
@@ -21,10 +29,8 @@ bool ShaderProgram::attachSource(ShaderType type, const std::string& src, const 
         TRACE("Attaching of " << utils::name(type) << " shader failed :\n" << shader.getLog());
         return false;
     }
-    glAttachShader(*_id, shader);
-    _shaders.push_back(shader);
-
-    DEBUG_ONLY(_built = false);
+    
+    attachShader(shader);
 
     return true;
 }

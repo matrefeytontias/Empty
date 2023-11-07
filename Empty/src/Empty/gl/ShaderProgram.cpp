@@ -69,9 +69,13 @@ void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& 
 {
     ASSERT(_built);
 
-    location unit = glGetUniformLocation(*_id, name.c_str());
-    if(unit > -1 && autobind)
-        uniform(name, unit);
+    location unit = -1;
+    if(autobind)
+    {
+        unit = findUniform(name);
+        if (unit > -1)
+            uniform(name, unit);
+    }
     _textures[name] = ProgramTextureInfo{ tex, unit, autobind };
 }
 
@@ -79,19 +83,23 @@ location ShaderProgram::findUniform(const std::string &name)
 {
     ASSERT(_built);
 
-    auto uniform = _uniforms.find(name);
-    if (uniform == _uniforms.end())
-        return -1;
-    else if(uniform->second.loc < 0)
-        return uniform->second.loc = glGetUniformLocation(*_id, name.c_str());
-    return uniform->second.loc;
+    auto it = _uniforms.find(name);
+    if (it != _uniforms.end())
+        return it->second.loc;
+
+    return glGetUniformLocation(*_id, name.c_str());
 }
 
 location ShaderProgram::findAttribute(const std::string &name)
 {
     ASSERT(_built);
 
-    if(_attributes.find(name) == _attributes.end())
-        _attributes[name] = glGetAttribLocation(*_id, name.c_str());
-    return _attributes[name];
+    auto it = _attributes.find(name);
+    if(it != _attributes.end())
+        return it->second;
+       
+    location loc = glGetAttribLocation(*_id, name.c_str());
+    if (loc > -1)
+        _attributes[name] = loc;
+    return loc;
 }

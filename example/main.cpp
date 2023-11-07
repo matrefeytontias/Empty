@@ -182,7 +182,8 @@ int _main(int, char* argv[])
         context.setFramebuffer(fb, FramebufferTarget::Draw, imgW, imgH);
         context.setShaderProgram(fbprog);
         // The texture was not auto-bound, thus we bind it ourselves
-        context.bind(tex, fbprog.findUniform("uTexture"));
+        fbprog.uniform("uTexture", 0);
+        context.bind(tex, 0);
 
         context.drawArrays(PrimitiveType::Triangles, 0, 6);
 

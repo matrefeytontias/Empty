@@ -110,13 +110,12 @@ namespace Empty::gl
 		{
 			ASSERT(_built);
 
-			// TODO : we don't need to look for the uniform in the map immediately after putting it there
-
 			auto entry = _uniforms.find(name);
 			if (entry == _uniforms.end())
 			{
-				auto& u = _uniforms[name] = ProgramUniform{ std::make_shared<Uniform<T>>(name, value), -1 };
-				u.uniform->upload(_id, findUniform(name));
+				location loc = findUniform(name);
+				auto& u = _uniforms[name] = ProgramUniform{ std::make_shared<Uniform<T>>(name, value), loc };
+				u.uniform->upload(_id, loc);
 			}
 			else if (auto v = dynamic_cast<Uniform<T>*>(entry->second.uniform.get()))
 			{

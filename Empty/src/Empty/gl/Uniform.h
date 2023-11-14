@@ -31,6 +31,10 @@ namespace Empty::gl
 		void upload(const std::shared_ptr<ProgramId>& id, location loc) override { exp; }                                                     \
 	}
 
+	GEN_UNIFORM_STRUCT(bool, glProgramUniform1i(*id, loc, value));
+	GEN_UNIFORM_STRUCT(math::bvec2, glProgramUniform2i(*id, loc, value.x, value.y));
+	GEN_UNIFORM_STRUCT(math::bvec3, glProgramUniform3i(*id, loc, value.x, value.y, value.z));
+	GEN_UNIFORM_STRUCT(math::bvec4, glProgramUniform4i(*id, loc, value.x, value.y, value.z, value.w));
 	GEN_UNIFORM_STRUCT(int, glProgramUniform1i(*id, loc, value));
 	GEN_UNIFORM_STRUCT(math::ivec2, glProgramUniform2i(*id, loc, value.x, value.y));
 	GEN_UNIFORM_STRUCT(math::ivec3, glProgramUniform3i(*id, loc, value.x, value.y, value.z));

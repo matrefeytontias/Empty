@@ -36,14 +36,14 @@ namespace Empty::math
         
         // Constructors
         _vec2() = default;
-
         _vec2(T x, T y) : x(x), y(y) {}
+        template <typename U>
+        _vec2(U x, U y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
         
         template <typename U>
-        _vec2(const _vec2<U>& xy) : x(xy.x), y(xy.y) {}
+        explicit _vec2(const _vec2<U>& xy) : x(static_cast<T>(xy.x)), y(static_cast<T>(xy.y)) {}
 
-        template <typename U>
-        _vec2& operator=(const _vec2<U>& v)
+        _vec2& operator=(const _vec2& v)
         {
             x = v.x;
             y = v.y;
@@ -93,18 +93,17 @@ namespace Empty::math
         // Constructors
         _vec3() = default;
         _vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+        template <typename U>
+        _vec3(U x, U y, U z) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)) {}
+        
+        _vec3(const _vec2<T>& xy, T z) : x(xy.x), y(xy.y), z(z) {}
+        
+        _vec3(T x, const _vec2<T>& yz) : x(x), y(yz.x), z(yz.y) {}
         
         template <typename U>
-        _vec3(const _vec2<U>& xy, T z) : x(xy.x), y(xy.y), z(z) {}
-        
-        template <typename U>
-        _vec3(T x, const _vec2<U>& yz) : x(x), y(yz.x), z(yz.y) {}
-        
-        template <typename U>
-        _vec3(const _vec3<U>& xyz) : x(xyz.x), y(xyz.y), z(xyz.z) {}
+        explicit _vec3(const _vec3<U>& xyz) : x(static_cast<T>(xyz.x)), y(static_cast<T>(xyz.y)), z(static_cast<T>(xyz.z)) {}
 
-        template <typename U>
-        _vec3& operator=(const _vec3<U>& v)
+        _vec3& operator=(const _vec3& v)
         {
             x = v.x;
             y = v.y;
@@ -159,32 +158,26 @@ namespace Empty::math
 
         // Constructors
         _vec4() = default;
-
         _vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+        template <typename U>
+        _vec4(U x, U y, U z, U w) : x(static_cast<T>(x)), y(static_cast<T>(y)), z(static_cast<T>(z)), w(static_cast<T>(w)) {}
+
+        _vec4(const _vec2<T>& xy, T z, T w) : x(xy.x), y(xy.y), z(z), w(w) {}
+
+        _vec4(T x, const _vec2<T>& yz, T w) : x(x), y(yz.x), z(yz.y), w(w) {}
+
+        _vec4(T x, T y, const _vec2<T>& zw) : x(x), y(y), z(zw.x), w(zw.y) {}
+
+        _vec4(const _vec2<T>& xy, const _vec2<T>& zw) : x(xy.x), y(xy.y), z(zw.x), w(zw.y) {}
+
+        _vec4(const _vec3<T>& xyz, T w) : x(xyz.x), y(xyz.y), z(xyz.z), w(w) {}
+
+        _vec4(T x, const _vec3<T>& yzw) : x(x), y(yzw.x), z(yzw.y), w(yzw.z) {}
 
         template <typename U>
-        _vec4(const _vec2<U>& xy, T z, T w) : x(xy.x), y(xy.y), z(z), w(w) {}
+        explicit _vec4(const _vec4<U>& xyzw) : x(static_cast<T>(xyzw.x)), y(static_cast<T>(xyzw.y)), z(static_cast<T>(xyzw.z)), w(static_cast<T>(xyzw.w)) {}
 
-        template <typename U>
-        _vec4(T x, const _vec2<U>& yz, T w) : x(x), y(yz.x), z(yz.y), w(w) {}
-
-        template <typename U>
-        _vec4(T x, T y, const _vec2<U>& zw) : x(x), y(y), z(zw.x), w(zw.y) {}
-
-        template <typename U>
-        _vec4(const _vec2<U>& xy, const _vec2<U>& zw) : x(xy.x), y(xy.y), z(zw.x), w(zw.y) {}
-
-        template <typename U>
-        _vec4(const _vec3<U>& xyz, T w) : x(xyz.x), y(xyz.y), z(xyz.z), w(w) {}
-
-        template <typename U>
-        _vec4(T x, const _vec3<U>& yzw) : x(x), y(yzw.x), z(yzw.y), w(yzw.z) {}
-
-        template <typename U>
-        _vec4(const _vec4<U>& xyzw) : x(xyzw.x), y(xyzw.y), z(xyzw.z), w(xyzw.w) {}
-
-        template <typename U>
-        _vec4& operator=(const _vec4<U>& v)
+        _vec4& operator=(const _vec4& v)
         {
             x = v.x;
             y = v.y;

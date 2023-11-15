@@ -363,7 +363,7 @@ namespace Empty::gl
 		std::enable_if_t<isTargetLayered(t), TextureLevelInfo> getLevel(int level)
 		{
 			ASSERT(_requirementsSet);
-			return TextureLevelInfo{ _id, level, true, -1 };
+			return TextureLevelInfo{ _id, level, true, 0 };
 		}
 
 		/**

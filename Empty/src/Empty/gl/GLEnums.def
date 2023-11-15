@@ -133,6 +133,7 @@ namespace Empty::gl
 		MaxGeometryTextureImageUnits = GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS,
 		MaxGeometryUniformBlocks = GL_MAX_GEOMETRY_UNIFORM_BLOCKS,
 		MaxGeometryUniformComponents = GL_MAX_GEOMETRY_UNIFORM_COMPONENTS,
+		MaxImageUnits = GL_MAX_IMAGE_UNITS,
 		MaxIntegerSamples = GL_MAX_INTEGER_SAMPLES,
 		MinMapBufferAlignment = GL_MIN_MAP_BUFFER_ALIGNMENT,
 		MaxLabelLength = GL_MAX_LABEL_LENGTH,

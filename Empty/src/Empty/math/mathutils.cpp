@@ -1,6 +1,26 @@
 #include "Empty/math/funcs.h"
 #include "Empty/math/mathutils.hpp"
 
+auto Empty::math::scale(float s) -> mat4
+{
+	mat4 m = mat4::Constant(0);
+	m(0, 0) = s;
+	m(1, 1) = s;
+	m(2, 2) = s;
+	m(3, 3) = 1.f;
+	return m;
+}
+
+auto Empty::math::scale(vec3 s) -> mat4
+{
+	mat4 m = mat4::Constant(0);
+	m(0, 0) = s.x;
+	m(1, 1) = s.y;
+	m(2, 2) = s.z;
+	m(3, 3) = 1.f;
+	return m;
+}
+
 auto Empty::math::rotateX(float a) -> mat4
 {
 	mat4 r = mat4::Identity();

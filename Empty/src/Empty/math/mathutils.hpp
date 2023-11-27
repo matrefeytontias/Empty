@@ -43,6 +43,16 @@ namespace Empty::math
 	using FormVecType = typename internal::_FormVecType<ElementType, components>::Type;
 
 	/**
+	 * Returns a matrix representating a scaling operation by a scalar.
+	 */
+	mat4 scale(float s);
+
+	/**
+	 * Returns a matrix representating a scaling operation by a vector.
+	 */
+	mat4 scale(vec3 s);
+
+	/**
 	 * Returns a matrix representing a rotation of a given angle around the X axis.
 	 */
 	mat4 rotateX(float a);

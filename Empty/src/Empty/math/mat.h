@@ -5,6 +5,12 @@
 namespace Empty::math
 {
 #define DEFINE_FIELDS(n) _mat##n() = default;                      \
+    _mat##n& operator=(const _mat##n& a)                           \
+    {                                                              \
+        for (int k = 0; k < n * n; k++)                            \
+            _data[k] = a._data[k];                                 \
+        return *this;                                              \
+    }                                                              \
     static _mat##n Constant(T v)                                   \
     {                                                              \
         _mat##n r;                                                 \

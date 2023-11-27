@@ -209,6 +209,16 @@ namespace Empty
 		DEF_STATE_VAR_ACCESSORS(bool, Bool, glGetBoolean);
 #undef DEF_STATE_VAR_ACCESSORS
 
+		void faceCullingMode(gl::FaceCullingMode mode)
+		{
+			glCullFace(utils::value(mode));
+		}
+
+		void depthTestFunction(gl::DepthTestFunction func)
+		{
+			glDepthFunc(utils::value(func));
+		}
+
 	private:
 		/// State keeping
 		

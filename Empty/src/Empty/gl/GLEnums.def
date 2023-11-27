@@ -1072,4 +1072,33 @@ namespace Empty::gl
 		DepthSize = GL_RENDERBUFFER_DEPTH_SIZE,
 		StencilSize = GL_RENDERBUFFER_STENCIL_SIZE,
 	};
+
+	// #############################################
+	// # Context capabilities-related enum structs #
+	// #############################################
+
+	/**
+	 * Face culling modes.
+	 */
+	enum struct FaceCullingMode : GLenum
+	{
+		Front = GL_FRONT,
+		Back = GL_BACK,
+		FrontAndBack = GL_FRONT_AND_BACK,
+	};
+
+	/**
+	 * Depth test functions.
+	 */
+	enum struct DepthTestFunction : GLenum
+	{
+		Never = GL_NEVER,
+		Equal = GL_EQUAL,
+		NotEqual = GL_NOTEQUAL,
+		Less = GL_LESS,
+		LessEqual = GL_LEQUAL,
+		Greater = GL_GREATER,
+		GreaterEqual = GL_GEQUAL,
+		Always = GL_ALWAYS,
+	};
 }

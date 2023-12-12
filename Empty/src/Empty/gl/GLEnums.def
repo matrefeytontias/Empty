@@ -1101,4 +1101,30 @@ namespace Empty::gl
 		GreaterEqual = GL_GEQUAL,
 		Always = GL_ALWAYS,
 	};
+
+	/**
+	 * Blend functions.
+	 */
+	enum struct BlendFunction : GLenum
+	{
+		Zero = GL_ZERO,
+		One = GL_ONE,
+		SourceColor = GL_SRC_COLOR,
+		OneMinusSourceColor = GL_ONE_MINUS_SRC_COLOR,
+		DestColor = GL_DST_COLOR,
+		OneMinusDestColor = GL_ONE_MINUS_DST_COLOR,
+		SourceAlpha = GL_SRC_ALPHA,
+		OneMinusSourceAlpha = GL_ONE_MINUS_SRC_ALPHA,
+		DestAlpha = GL_DST_ALPHA,
+		OneMinusDestAlpha = GL_ONE_MINUS_DST_ALPHA,
+		ConstantColor = GL_CONSTANT_COLOR,
+		OneMinusConstantColor = GL_ONE_MINUS_CONSTANT_COLOR,
+		ConstantAlpha = GL_CONSTANT_ALPHA,
+		OneMinusConstantAlpha = GL_ONE_MINUS_CONSTANT_ALPHA,
+		SourceAlphaSaturate = GL_SRC_ALPHA_SATURATE,
+		DualSourceColor = GL_SRC1_COLOR,
+		OneMinusDualSourceColor = GL_ONE_MINUS_SRC1_COLOR,
+		DualSourceAlpha = GL_SRC1_ALPHA,
+		OneMinusDualSourceAlpha = GL_ONE_MINUS_SRC1_ALPHA,
+	};
 }

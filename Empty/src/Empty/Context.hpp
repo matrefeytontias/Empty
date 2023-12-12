@@ -219,6 +219,11 @@ namespace Empty
 			glDepthFunc(utils::value(func));
 		}
 
+		void blendFunction(gl::BlendFunction sourceFactor, gl::BlendFunction destinationFactor)
+		{
+			glBlendFunc(utils::value(sourceFactor), utils::value(destinationFactor));
+		}
+
 	private:
 		/// State keeping
 		

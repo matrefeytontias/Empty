@@ -31,11 +31,6 @@ namespace Empty::gl
 			glCompileShader(*_id);
 			if (!getParameter<ShaderParam::CompileStatus>())
 			{
-				GLsizei size;
-				glGetObjectLabel(utils::value(ObjectNamespace::Shader), *_id, 0, &size, NULL);
-				std::string label;
-				label.resize(size);
-				glGetObjectLabel(utils::value(ObjectNamespace::Shader), *_id, size, NULL, label.data());
 				TRACE("Compilation of " << utils::name(getParameter<ShaderParam::Type>()) << " shader '" << label << "' failed :\n" << getLog() << std::endl);
 				return false;
 			}

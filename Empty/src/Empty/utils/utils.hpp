@@ -50,12 +50,12 @@ namespace Empty::utils
 	 * Returns the contents of a file as a string. Raises a runtime_error exception
 	 * upon failure.
 	 */
-	std::string getFileContents(const std::string& path);
+	std::string getFileContents(const std::string_view& path);
 	/**
 	 * Splits a string on delimiting characters. The delimiting string is a disjunction,
 	 * meaning the input string is split by either of the characters in the delimiter string.
 	 */
-	std::vector<std::string> split(const std::string& s, const std::string& delim);
+	std::vector<std::string_view> split(const std::string_view& s, const std::string_view& delim);
 
 	/**
 	 * Prints all available OpenGL error codes.
@@ -116,5 +116,5 @@ namespace Empty::utils
 	/**
 	 * Returns whether a string finishes with a given suffix.
 	 */
-	bool endsWith(const std::string& str, const std::string& suffix);
+	bool endsWith(const std::string_view& str, const std::string_view& suffix);
 }

@@ -38,19 +38,19 @@ void Empty::utils::setwd(char **argv)
     }
 }
 
-std::string Empty::utils::getFileContents(const std::string &path)
+std::string Empty::utils::getFileContents(const std::string_view &path)
 {
     std::ifstream ifs;
-    ifs.open(path, std::ios_base::in | std::ios_base::binary);
+    ifs.open(path.data(), std::ios_base::in | std::ios_base::binary);
     if(ifs.fail())
         FATAL("Could not open file " << path);
     std::string contents(std::istreambuf_iterator<char>{ifs}, std::istreambuf_iterator<char>{});
     return contents;
 }
 
-std::vector<std::string> Empty::utils::split(const std::string &s, const std::string &delim)
+std::vector<std::string_view> Empty::utils::split(const std::string_view &s, const std::string_view &delim)
 {
-    std::vector<std::string> r;
+    std::vector<std::string_view> r;
     size_t index = 0;
     while(index < s.size())
     {
@@ -65,7 +65,7 @@ std::vector<std::string> Empty::utils::split(const std::string &s, const std::st
         index = minSplitting + 1;
     }
     
-    (void)std::remove_if(r.begin(), r.end(), [](std::string &s) { return !s.size(); });
+    (void)std::remove_if(r.begin(), r.end(), [](std::string_view &s) { return !s.size(); });
     return r;
 }
 
@@ -114,7 +114,7 @@ Empty::gl::CubemapFace Empty::utils::getCubeMapFaceFromIndex(int i)
     return faces[i];
 }
 
-bool Empty::utils::endsWith(const std::string& str, const std::string& suffix)
+bool Empty::utils::endsWith(const std::string_view& str, const std::string_view& suffix)
 {
     return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }

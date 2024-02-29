@@ -27,7 +27,7 @@ namespace Empty::gl
 	 */
 	struct VertexAttribDescriptor
 	{
-		std::string name;
+		std::string_view name;
 		VertexAttribType type;
 		int elems;
 		size_t offset;
@@ -55,7 +55,7 @@ namespace Empty::gl
 		/**
 		 * Adds a new attribute to the structure.
 		 */
-		void add(const std::string& name, VertexAttribType type, int elems, location loc = -1)
+		void add(const std::string_view& name, VertexAttribType type, int elems, location loc = -1)
 		{
 			size_t offset = 0;
 

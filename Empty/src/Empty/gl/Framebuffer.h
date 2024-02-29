@@ -25,7 +25,7 @@ namespace Empty::gl
 	 */
 	struct Framebuffer : public GLObject<FramebufferId>
 	{
-		Framebuffer(const std::string& label) : GLObject(label) { }
+		Framebuffer(const std::string_view& label) : GLObject(label) { }
 
 #define COPY_CTPARAMS FramebufferAttachment CTAttachment, TextureTarget CTTarget, TextureFormat CTFormat
 #define CTCONDITION(c) COPY_CTPARAMS, std::enable_if_t<CTAttachment != FramebufferAttachment::Color && !isTargetProxy(CTTarget) && (c), int> = 0
@@ -202,10 +202,15 @@ namespace Empty::gl
 		/**
 		 * Default framebuffer.
 		 */
-		static Framebuffer dflt;
+		static std::unique_ptr<Framebuffer> dflt;
+
+		static void initDefaultFramebuffer()
+		{
+			dflt = std::unique_ptr<Framebuffer>(new Framebuffer(0));
+		}
 
 	private:
 		// For the default framebuffer only
-		Framebuffer(GLuint id) : GLObject<FramebufferId>(0) {}
+		Framebuffer(GLuint id) : GLObject<FramebufferId>("Default framebuffer", 0) {}
 	};
 }

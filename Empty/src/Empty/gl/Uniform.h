@@ -11,8 +11,8 @@ namespace Empty::gl
 {
 	struct UniformBase
 	{
-		std::string name;
-		UniformBase(const std::string& n) : name(n) {}
+		std::string_view name;
+		UniformBase(const std::string_view& n) : name(n) {}
 		virtual void upload(const std::shared_ptr<ProgramId>&, location) = 0;
 	};
 
@@ -26,7 +26,7 @@ namespace Empty::gl
 	// with a provided upload function call.
 #define GEN_UNIFORM_STRUCT(type, exp) template <> struct Uniform<type> : public UniformBase \
 	{                                                                                       \
-		Uniform(const std::string& n, const type& v) : UniformBase(n), value(v) {}          \
+		Uniform(const std::string_view& n, const type& v) : UniformBase(n), value(v) {}     \
 		type value;                                                                         \
 		void upload(const std::shared_ptr<ProgramId>& id, location loc) override { exp; }                                                     \
 	}

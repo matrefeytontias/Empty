@@ -4,6 +4,7 @@
 #include <type_traits>
 
 #include "Empty/gl/GLObject.h"
+#include "Empty/utils/macros.h"
 #include "Empty/utils/utils.hpp"
 
 namespace Empty::gl
@@ -17,25 +18,35 @@ namespace Empty::gl
 		/**
 		 * Constructs a shader object for a given shader stage.
 		 */
-		Shader(ShaderType type, const std::string& label) : GLObject(type, label) {}
+		Shader(ShaderType type, const std::string_view& label) : GLObject(label, type) {}
 
 		/**
 		 * Sets the source string of a shader and attempts to compile it,
 		 * returning whether it succeeded.
 		 */
-		inline bool setSource(const std::string& src) const
+		inline bool setSource(const std::string_view& src) const
 		{
-			auto ind = src.c_str();
+			auto ind = src.data();
 			glShaderSource(*_id, 1, &ind, NULL);
 			glCompileShader(*_id);
-			return getParameter<ShaderParam::CompileStatus>();
+			if (!getParameter<ShaderParam::CompileStatus>())
+			{
+				GLsizei size;
+				glGetObjectLabel(utils::value(ObjectNamespace::Shader), *_id, 0, &size, NULL);
+				std::string label;
+				label.resize(size);
+				glGetObjectLabel(utils::value(ObjectNamespace::Shader), *_id, size, NULL, label.data());
+				TRACE("Compilation of " << utils::name(getParameter<ShaderParam::Type>()) << " shader '" << label << "' failed :\n" << getLog() << std::endl);
+				return false;
+			}
+			return true;
 		}
 
 		/**
 		 * Same as `setSource`, but fetches the source string from
 		 * a given file.
 		 */
-		inline bool setSourceFromFile(const std::string& path) const
+		inline bool setSourceFromFile(const std::string_view& path) const
 		{
 			return setSource(utils::getFileContents(path));
 		}

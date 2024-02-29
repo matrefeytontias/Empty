@@ -27,7 +27,7 @@ namespace Empty::gl
 	 */
 	struct VertexArray : public GLObject<VertexArrayId>
 	{
-		VertexArray(const std::string& label) : GLObject(label) { }
+		VertexArray(const std::string_view& label) : GLObject(label) { }
 
 		/**
 		 * Enables a generic vertex attribute array.

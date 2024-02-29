@@ -80,7 +80,7 @@ namespace Empty::gl
 	 */
 	struct Buffer : public GLObject<BufferId>
 	{
-		Buffer(const std::string& label) : GLObject(label) { }
+		Buffer(const std::string_view& label) : GLObject(label) { }
 
 		/**
 		 * Maps the buffer to a pointer that contains the buffer's data. Returns a

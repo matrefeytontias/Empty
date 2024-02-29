@@ -20,15 +20,12 @@ void ShaderProgram::attachShader(Shader& shader)
     DEBUG_ONLY(_built = false);
 }
 
-bool ShaderProgram::attachSource(ShaderType type, const std::string& src, const std::string& label)
+bool ShaderProgram::attachSource(ShaderType type, const std::string_view& src, const std::string_view& label)
 {
     Shader shader(type, label);
     
     if (!shader.setSource(src))
-    {
-        TRACE("Attaching of " << utils::name(type) << " shader failed :\n" << shader.getLog());
         return false;
-    }
     
     attachShader(shader);
 
@@ -65,7 +62,7 @@ std::vector<ProgramTextureInfo> ShaderProgram::dumpTextures() const
     return r;
 }
 
-void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& tex, bool autobind)
+void ShaderProgram::registerTexture(const std::string_view &name, const TextureInfo& tex, bool autobind)
 {
     ASSERT(_built);
 
@@ -79,7 +76,7 @@ void ShaderProgram::registerTexture(const std::string &name, const TextureInfo& 
     _textures[name] = ProgramTextureInfo{ tex, unit, autobind };
 }
 
-location ShaderProgram::findUniform(const std::string &name)
+location ShaderProgram::findUniform(const std::string_view &name)
 {
     ASSERT(_built);
 
@@ -87,10 +84,10 @@ location ShaderProgram::findUniform(const std::string &name)
     if (it != _uniforms.end())
         return it->second.loc;
 
-    return glGetUniformLocation(*_id, name.c_str());
+    return glGetUniformLocation(*_id, name.data());
 }
 
-location ShaderProgram::findAttribute(const std::string &name)
+location ShaderProgram::findAttribute(const std::string_view &name)
 {
     ASSERT(_built);
 
@@ -98,7 +95,7 @@ location ShaderProgram::findAttribute(const std::string &name)
     if(it != _attributes.end())
         return it->second;
        
-    location loc = glGetAttribLocation(*_id, name.c_str());
+    location loc = glGetAttribLocation(*_id, name.data());
     if (loc > -1)
         _attributes[name] = loc;
     return loc;

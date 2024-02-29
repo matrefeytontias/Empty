@@ -12,14 +12,36 @@ namespace Empty::gl
     using location = GLint;
 
     /**
+     * Base class for GL objects ; just hold and construct an ID of a given type,
+     * and give it a label.
+     */
+    template <typename Id> struct GLObject
+    {
+        template <typename ...Ts>
+        GLObject(const std::string_view& label, const Ts& ...args)
+            : label(label)
+            , _id(std::make_shared<Id>(args...))
+        {
+            glObjectLabel(utils::value(Id::Namespace), *_id, -1, label.data());
+        }
+        bool operator==(const GLObject& a) { return *_id == *a._id; }
+        bool operator!=(const GLObject& a) { return *_id != *a._id; }
+        
+        const std::string_view label;
+
+    protected:
+        std::shared_ptr<Id> _id;
+    };
+
+    /**
      * Encapsulates the ID of an OpenGL buffer object.
      */
     struct BufferId : public utils::noncopyable
     {
-        BufferId(const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::Buffer;
+        BufferId()
         {
             glCreateBuffers(1, &_id);
-            glObjectLabel(utils::value(ObjectNamespace::Buffer), _id, -1, label.c_str());
         }
         ~BufferId() { glDeleteBuffers(1, &_id); }
         operator GLuint() const { return _id; }
@@ -34,10 +56,10 @@ namespace Empty::gl
      */
     struct ProgramId : public utils::noncopyable
     {
-        ProgramId(const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::Program;
+        ProgramId()
         {
             _id = glCreateProgram();
-            glObjectLabel(utils::value(ObjectNamespace::Program), _id, -1, label.c_str());
         }
         ~ProgramId() { glDeleteProgram(_id); }
         operator GLuint() const { return _id; }
@@ -52,10 +74,10 @@ namespace Empty::gl
      */
     struct TextureId : public utils::noncopyable
     {
-        TextureId(TextureTarget t, const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::Texture;
+        TextureId(TextureTarget t)
         {
             glCreateTextures(utils::value(t), 1, &_id);
-            glObjectLabel(utils::value(ObjectNamespace::Texture), _id, -1, label.c_str());
         }
         TextureId()
         {
@@ -74,10 +96,10 @@ namespace Empty::gl
      */
     struct VertexArrayId : public utils::noncopyable
     {
-        VertexArrayId(const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::VertexArray;
+        VertexArrayId()
         {
             glCreateVertexArrays(1, &_id);
-            glObjectLabel(utils::value(ObjectNamespace::VertexArray), _id, -1, label.c_str());
         }
         ~VertexArrayId() { glDeleteVertexArrays(1, &_id); }
         operator GLuint() const { return _id; }
@@ -92,10 +114,10 @@ namespace Empty::gl
      */
     struct ShaderId : public utils::noncopyable
     {
-        ShaderId(ShaderType type, const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::Shader;
+        ShaderId(ShaderType type)
         {
             _id = glCreateShader(utils::value(type));
-            glObjectLabel(utils::value(ObjectNamespace::Shader), _id, -1, label.c_str());
         }
         ~ShaderId() { glDeleteShader(_id); }
         operator GLuint() const { return _id; }
@@ -110,12 +132,12 @@ namespace Empty::gl
      */
     struct FramebufferId : public utils::noncopyable
     {
-        FramebufferId(const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::Framebuffer;
+        FramebufferId()
         {
             glCreateFramebuffers(1, &_id);
-            glObjectLabel(utils::value(ObjectNamespace::Framebuffer), _id, -1, label.c_str());
         }
-        // For existing resources
+        // For existing resources, mostly just the default framebuffer
         FramebufferId(GLuint id)
         {
             _id = id;
@@ -133,10 +155,10 @@ namespace Empty::gl
      */
     struct RenderbufferId : public utils::noncopyable
     {
-        RenderbufferId(const std::string& label)
+        inline static ObjectNamespace Namespace = ObjectNamespace::Renderbuffer;
+        RenderbufferId()
         {
             glCreateRenderbuffers(1, &_id);
-            glObjectLabel(utils::value(ObjectNamespace::Renderbuffer), _id, -1, label.c_str());
         }
         ~RenderbufferId() { glDeleteRenderbuffers(1, &_id); }
         operator GLuint() const { return _id; }
@@ -145,17 +167,4 @@ namespace Empty::gl
     private:
         GLuint _id;
     };
-
-	/**
-     * Base class for GL objects ; just hold and construct an ID of a given type.
-     */
-	template <typename Id> struct GLObject
-	{
-        template <typename ...Ts>
-		GLObject(const Ts& ...args) : _id(std::make_shared<Id>(args...)) {}
-		bool operator==(const GLObject& a) { return _id == a._id; }
-        bool operator!=(const GLObject& a) { return _id != a._id; }
-	protected:
-		std::shared_ptr<Id> _id;
-	};
 }

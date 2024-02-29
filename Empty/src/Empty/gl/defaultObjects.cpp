@@ -3,5 +3,5 @@
 
 namespace Empty::gl
 {
-	Framebuffer Framebuffer::dflt = Framebuffer(0);
+	std::unique_ptr<Framebuffer> Framebuffer::dflt;
 }

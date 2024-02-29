@@ -56,7 +56,7 @@ namespace Empty::gl
 	struct ShaderProgram : public GLObject<ProgramId>
 	{
 	public:
-		ShaderProgram(const std::string& label) : GLObject(label) { }
+		ShaderProgram(const std::string_view& label) : GLObject(label) { }
 		~ShaderProgram();
 
 		/**
@@ -68,12 +68,12 @@ namespace Empty::gl
 		 * Shorthand for creating a Shader object of a given type, setting its source string,
 		 * compiling it and attaching it, returning whether that succeeded.
 		 */
-		bool attachSource(ShaderType type, const std::string& src, const std::string& label);
+		bool attachSource(ShaderType type, const std::string_view& src, const std::string_view& label);
 		/**
 		 * Same as `attachSource` but fetches the source string from
 		 * a given file.
 		 */
-		inline bool attachFile(ShaderType type, const std::string& path, const std::string& label)
+		inline bool attachFile(ShaderType type, const std::string_view& path, const std::string_view& label)
 		{
 			return attachSource(type, utils::getFileContents(path), label);
 		}
@@ -95,18 +95,18 @@ namespace Empty::gl
 		/**
 		 * Looks up or computes and caches an attribute's location.
 		 */
-		location findAttribute(const std::string& name);
+		location findAttribute(const std::string_view& name);
 		/**
 		 * Looks up or computes and caches a uniform's location.
 		 */
-		location findUniform(const std::string& name);
+		location findUniform(const std::string_view& name);
 
 		/**
 		 * Sets a Uniform's value. The type is deduced from the value's
 		 * type or given explicitely through templating.
 		 */
 		template <typename T>
-		void uniform(const std::string& name, const T& value)
+		void uniform(const std::string_view& name, const T& value)
 		{
 			ASSERT(_built);
 
@@ -114,6 +114,7 @@ namespace Empty::gl
 			if (entry == _uniforms.end())
 			{
 				location loc = findUniform(name);
+				ASSERT(loc > -1);
 				auto& u = _uniforms[name] = ProgramUniform{ std::make_shared<Uniform<T>>(name, value), loc };
 				u.uniform->upload(_id, loc);
 			}
@@ -140,7 +141,7 @@ namespace Empty::gl
 		 * a Uniform for the sampler, and being automatically bound when a shader program is
 		 * set as active by the Context.
 		 */
-		void registerTexture(const std::string& name, const TextureInfo& tex, bool autobind = true);
+		void registerTexture(const std::string_view& name, const TextureInfo& tex, bool autobind = true);
 		size_t getTexturesAmount() const { return _textures.size(); }
 
 		template <ProgramParam CTParam,
@@ -189,9 +190,9 @@ namespace Empty::gl
 
 	protected:
 		std::vector<Shader> _shaders;
-		std::unordered_map<std::string, ProgramUniform> _uniforms;
-		std::unordered_map<std::string, location> _attributes;
-		std::unordered_map<std::string, ProgramTextureInfo> _textures;
+		std::unordered_map<std::string_view, ProgramUniform> _uniforms;
+		std::unordered_map<std::string_view, location> _attributes;
+		std::unordered_map<std::string_view, ProgramTextureInfo> _textures;
 
 		DEBUG_ONLY(bool _built = false);
 	};

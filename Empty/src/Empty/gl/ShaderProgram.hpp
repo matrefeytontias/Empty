@@ -114,7 +114,8 @@ namespace Empty::gl
 			if (entry == _uniforms.end())
 			{
 				location loc = findUniform(name);
-				ASSERT(loc > -1);
+				if (loc < 0)
+					FATAL("Tried to set non-existing uniform '" << name << "' in shader program '" << label << "'. Make sure the spelling is right and the program is linked.");
 				auto& u = _uniforms[name] = ProgramUniform{ std::make_shared<Uniform<T>>(name, value), loc };
 				u.uniform->upload(_id, loc);
 			}
@@ -143,6 +144,21 @@ namespace Empty::gl
 		 */
 		void registerTexture(const std::string_view& name, const TextureInfo& tex, bool autobind = true);
 		size_t getTexturesAmount() const { return _textures.size(); }
+
+		/**
+		 * Returns the current information log for this program.
+		 */
+		std::string getLog() const
+		{
+			int logSize = getParameter<ProgramParam::InfoLogLength>();
+			std::string log;
+			if (logSize > 0)
+			{
+				log.resize(logSize);
+				glGetProgramInfoLog(*_id, logSize, NULL, log.data());
+			}
+			return log;
+		}
 
 		template <ProgramParam CTParam,
 			std::enable_if_t<CTParam == ProgramParam::DeleteStatus || CTParam == ProgramParam::LinkStatus

@@ -410,6 +410,15 @@ namespace Empty::gl
 		}
 
 		template <TextureParam CTParam>
+		std::enable_if_t<CTParam == TextureParam::BorderColor
+			, Empty::math::vec4> getParameter() const
+		{
+			Empty::math::vec4 color;
+			glGetTextureParameterfv(*_id, utils::value(CTParam), color);
+			return color;
+		}
+
+		template <TextureParam CTParam>
 		std::enable_if_t<utils::isOneOf(CTParam, TextureParam::BaseLevel, TextureParam::MaxLevel)>
 			setParameter(int v) const { glTextureParameteri(*_id, utils::value(CTParam), v); }
 
@@ -423,6 +432,10 @@ namespace Empty::gl
 			TextureParam::SwizzleG, TextureParam::SwizzleB, TextureParam::SwizzleA,
 			TextureParam::WrapS, TextureParam::WrapT, TextureParam::WrapR)>
 			setParameter(TextureParamValue v) const { glTextureParameteri(*_id, utils::value(CTParam), utils::value(v)); }
+
+		template <TextureParam CTParam>
+		std::enable_if_t<CTParam == TextureParam::BorderColor>
+			setParameter(Empty::math::vec4 color) { glTextureParameterfv(*_id, utils::value(CTParam), color); }
 
 		template <TextureLevelParam CTParam>
 		std::enable_if_t<
